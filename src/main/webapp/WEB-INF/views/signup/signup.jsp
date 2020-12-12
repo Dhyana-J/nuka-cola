@@ -17,6 +17,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
@@ -103,29 +104,29 @@
             >입니다.
           </h1>
           <div class="form__container">
-            <form class="login__form initial__info">
+            <form class="login__form initial__info" action="insert.me" method="post">
               <div class="login__title">
                 <h2>SIGNUP</h2>
               </div>
               <div class="input__box">
                 <label for="">이메일</label>
-                <input type="text" />
+                <input type="text" name="email" />
               </div>
               <!-- <small id="alert_check_email" class="signup--check">중복된 아이디입니다.</small> -->
               <div class="input__box">
                 <label for="">비밀번호</label>
-                <input id="password" type="text" />
+                <input id="password" type="text" name="userPwd" />
               </div>
               <div class="input__box">
                 <label for="">비밀번호 확인</label>
-                <input id="password-check" type="text" />
+                <input id="password-check" type="text" name="checkPwd"/>
               </div>
               <small id="alert_check_pwd" class="signup-check"
                 >비밀번호를 확인해주세요</small
               >
               <div class="input__box">
                 <label for="">이름</label>
-                <input type="text" />
+                <input type="text" name="userName"/>
               </div>
               <div class="login__btn__wrapper">
                 <button class="btn">취소</button>
@@ -134,27 +135,29 @@
                 </button>
               </div>
             </form>
-
-            <form class="login__form more__info">
+            
+            
+            <form class="login__form more__info" action="insert.me" method="post">
               <div class="login__title">
                 <h2>추가정보</h2>
               </div>
               <div class="input__box">
                 <label for="">생년월일</label>
-                <input type="text" />
+                <input type="text" name="userBirth"/>
               </div>
               <!-- <small class="signup--check">중복된 아이디입니다.</small> -->
               <div class="input__box">
-                <label for="">POSITION</label>
-                <select name="are-u" id="">
-                  <option value="출신 초등학교 이름">개발자</option>
-                  <option value="어머니의 성함">기획자</option>
-                  <option value="나의 보물 1호">디자이너</option>
+                <label for="position">POSITION</label>
+                <!-- 기획자:0 / 개발자:1 / 디자이너:2 -->
+                <select name="userPosi" id="position">
+                  <option value="0">기획자</option>
+                  <option value="1">개발자</option>
+                  <option value="2">디자이너</option>
                 </select>
               </div>
               <div class="input__box">
-                <label for="">본인확인 질문</label>
-                <select name="are-u" id="">
+                <label for="certifyQ">본인확인 질문</label>
+                <select name="certifyQues" id="certifyQ">
                   <option value="출신 초등학교 이름">
                     출신 초등학교 이름은?
                   </option>
@@ -164,13 +167,13 @@
               </div>
               <div class="input__box">
                 <label for="">본인확인 응답</label>
-                <input type="text" />
+                <input type="text" name="certifyAns"/>
               </div>
               <div class="login__btn__wrapper">
                 <button type="button" id="sign-up-before" class="btn">
                   이전
                 </button>
-                <button class="btn btn-blue">회원가입</button>
+                <button class="btn btn-blue signupBtn" onclick="submitSignup();">회원가입</button>
               </div>
             </form>
           </div>
@@ -227,6 +230,16 @@
             document.querySelector("#alert_check_pwd").style.display = "none";
           }
         });
+      
+      //두개 폼 동시전송
+      $(function(){
+    	  $('.signupBtn').click(function(){
+			$('.login__form initial__info').serialize();
+    		  
+    	  })
+      })
+    
+
     </script>
   </body>
 </html>

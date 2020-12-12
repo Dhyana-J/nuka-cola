@@ -19,7 +19,7 @@ public class Member {
 	private String userPwd;
 	private String userName;
 	private String userBirth;
-	private int userPosi;
+	private String userPosi;
 	private int status;
 	private String userInfo;
 	private String userEdu;

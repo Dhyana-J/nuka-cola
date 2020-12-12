@@ -17,7 +17,6 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
@@ -104,7 +103,10 @@
             >입니다.
           </h1>
           <div class="form__container">
-            <form class="login__form initial__info" action="insert.me" method="post">
+          
+          <form action="insert.me" method="post">
+          
+            <div class="login__form initial__info">
               <div class="login__title">
                 <h2>SIGNUP</h2>
               </div>
@@ -134,10 +136,10 @@
                   다음
                 </button>
               </div>
-            </form>
+            </div>
             
             
-            <form class="login__form more__info" action="insert.me" method="post">
+            <div class="login__form more__info">
               <div class="login__title">
                 <h2>추가정보</h2>
               </div>
@@ -173,10 +175,13 @@
                 <button type="button" id="sign-up-before" class="btn">
                   이전
                 </button>
-                <button class="btn btn-blue signupBtn" onclick="submitSignup();">회원가입</button>
+                <button class="btn btn-blue">회원가입</button>
               </div>
-            </form>
-          </div>
+            </div>
+            
+           </form>
+            
+          </div><!-- form__container -->
         </section>
         <div class="section__banner">
           <div class="img__wrapper">
@@ -231,14 +236,6 @@
           }
         });
       
-      //두개 폼 동시전송
-      $(function(){
-    	  $('.signupBtn').click(function(){
-			$('.login__form initial__info').serialize();
-    		  
-    	  })
-      })
-    
 
     </script>
   </body>

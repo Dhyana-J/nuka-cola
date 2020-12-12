@@ -23,7 +23,7 @@
 	<insert id="insertMember"
 			parameterType="Member">
 		insert
-			into member
+			into users
 			(
 			   user_no
 			 , login_type
@@ -44,7 +44,7 @@
 			)
 			values
 			(
-			 , seq_user.nextval
+			   seq_user.nextval
 			 , default <!-- local -->  
 			 , #{email}
 			 , #{userPwd}

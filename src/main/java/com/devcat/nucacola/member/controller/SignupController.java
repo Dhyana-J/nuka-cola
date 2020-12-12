@@ -28,6 +28,7 @@ public class SignupController {
 		
 		// 회원가입 시 입력한 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		m.setUserPwd(encPwd);
 		
 		int result = mService.insertMember(m);
 		

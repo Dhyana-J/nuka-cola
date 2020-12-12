@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
-
+	<resultMap id="memberResultSet" type="Member">
+		<result column="user_no" property="userNo"/>
+		<result column="login_type" property="loginType"/>
+		<result column="user_email" property="email"/>
+		<result column="user_pwd" property="userPwd"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_birth" property="userBirth"/>
+		<result column="user_posi" property="userPosi"/>
+		<result column="user_status" property="status"/>
+		<result column="user_info" property="userInfo"/>
+		<result column="user_edu" property="userEdu"/>
+		<result column="user_avatar" property="userEdu"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
+		<result column="access_token" property="accessToken"/>
+		<result column="certify_ques" property="ceartifyQues"/>
+		<result column="certify_ans" property="certifyAns"/>
+	</resultMap>
 </mapper>

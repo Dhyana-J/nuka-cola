@@ -17,13 +17,20 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
   <body>
   	
-  	<!-- 메뉴바 -->
   	<jsp:include page="../common/mainMenu.jsp"/>
+  	
+  	<c:if test="${!empty alertMsg }">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
   
     <header>
       <div class="inner">

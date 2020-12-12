@@ -18,6 +18,7 @@
 		<result column="access_token" property="accessToken"/>
 		<result column="certify_ques" property="ceartifyQues"/>
 		<result column="certify_ans" property="certifyAns"/>
+		<result column="email_auth" property="emailAuth"/>
 	</resultMap>
 	
 	<insert id="insertMember"
@@ -41,6 +42,7 @@
 			 , access_token
 			 , certify_ques
 			 , certify_ans
+			 , email_auth
 			)
 			values
 			(
@@ -60,7 +62,25 @@
 			 , #{accessToken}
 			 , #{certifyQues}
 			 , #{certifyAns}
+			 , default
 			)
 	</insert>
+	
+	<!-- 이메일 인증용 키 세팅 -->
+	<update id="setAuthKey" parameterType="Member">
+		update users
+		    set
+		     email_auth = #{emailAuth}
+		    where user_email=#{email}
+		     and user_name=#{userName} <!-- 추후 userName이 아니라 userNo로 바꿔줘야 안정적 -->
+	</update>
+	
+	<update id="confirmEmail" parameterType="Member">
+		update users
+			set
+			 email_auth = 'Y'
+			where user_email=#{email}
+			 and email_auth=#{emailAuth}
+	</update>
 	
 </mapper>

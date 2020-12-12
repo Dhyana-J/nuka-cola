@@ -29,5 +29,16 @@ public class Member {
 	private String accessToken;
 	private String certifyQues;
 	private String certifyAns;
+	private String emailAuth;
+	
+	
+	//이메일 인증용 생성자
+	public Member(String email, String emailAuth) {
+		super();
+		this.email = email;
+		this.emailAuth = emailAuth;
+	}
+	
+	
 
 }

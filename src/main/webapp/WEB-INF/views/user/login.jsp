@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -16,15 +17,27 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/login.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="resources/css/common.css" />
+    <link rel="stylesheet" href="resources/css/login.css" />
   </head>
   <body>
+  
+  	<jsp:include page="../common/mainMenu.jsp"/>
+  	
+  	<c:if test="${!empty alertMsg }">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
+  	
+  	
     <header>
       <div class="inner">
         <div class="left__header">
           <div class="logo">
-            <img src="../../assets/logo.png" alt="logo" />
+            <img src="resources/assets/logo.png" alt="logo" />
           </div>
           <ul class="header__nav">
             <li class="header__nav-item">PARTNER</li>
@@ -97,26 +110,26 @@
             당신의 파트너가 함께 하는&nbsp;곳 <br /><strong>누카콜라</strong
             >입니다.
           </h1>
-          <form action="login__form">
+          <form method="post" name="loginform">
             <div class="login__title">
               <h2>LOGIN</h2>
             </div>
             <div class="input__box">
               <label for="">이메일</label>
-              <input type="text" />
+              <input type="text" name="email"/>
             </div>
             <small class="forgot-email" id="find-email-btn"
               >이메일이 기억나지 않으세요?</small
             >
             <div class="input__box">
               <label for="">비밀번호</label>
-              <input type="text" />
+              <input type="text" name="userPwd" />
             </div>
             <div class="login__btn__wrapper">
               <button type="button" id="find-pwd-btn" class="btn">
                 비밀번호 찾기
               </button>
-              <button class="btn btn-blue">로그인</button>
+              <button class="btn btn-blue" onclick="javascript: form.action='login.me'">로그인</button>
               <button class="btn btn-facebook"></button>
               <button class="btn btn-katok"></button>
             </div>
@@ -124,18 +137,18 @@
         </section>
         <div class="section__banner">
           <div class="img__wrapper">
-            <img src="../../assets/loginImage.jpg" alt="" />
+            <img src="resources/assets/loginImage.jpg" alt="" />
           </div>
           <ul class="login__nav">
             <li>
               <span>회원이신가요?</span>
               <b>LOGIN</b>
             </li>
-            <li onClick='location.href="/views/login/signup.html"'>
+            <li onClick='location.href="signupForm.me"'>
               <span>처음방문이신가요?</span>
               <b>SIGNUP</b>
             </li>
-            <li onClick='location.href="/views/timeline/index.html"'>
+            <li onClick='location.href="/views/timeline/timeline.jsp"'>
               <span>돌러보기</span>
               <b>MORE</b>
             </li>

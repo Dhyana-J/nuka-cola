@@ -16,10 +16,36 @@
 		<result column="created_at" property="createdAt"/>
 		<result column="updated_at" property="updatedAt"/>
 		<result column="access_token" property="accessToken"/>
-		<result column="certify_ques" property="ceartifyQues"/>
+		<result column="certify_ques" property="certifyQues"/>
 		<result column="certify_ans" property="certifyAns"/>
 		<result column="email_auth" property="emailAuth"/>
 	</resultMap>
+	
+	<select id="loginMember"
+		    parameterType="Member"
+		    resultMap="memberResultSet">
+		select
+			   user_no
+			 , login_type
+			 , user_email
+			 , user_pwd
+			 , user_name
+			 , user_birth
+			 , user_posi
+			 , user_status
+			 , user_info
+			 , user_edu
+			 , user_avatar
+			 , created_at
+			 , updated_at
+			 , access_token
+			 , certify_ques
+			 , certify_ans
+			 , email_auth
+	      from users
+	     where user_status != 1
+           and user_email=#{email}
+	</select>
 	
 	<insert id="insertMember"
 			parameterType="Member">

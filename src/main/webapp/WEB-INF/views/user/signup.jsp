@@ -17,7 +17,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
@@ -195,7 +195,7 @@
             <img src="resources/assets/loginImage.jpg" alt="" />
           </div>
           <ul class="login__nav">
-            <li onClick='location.href="/views/login/login.html"'>
+            <li onClick='location.href="loginForm.me"'>
               <span>회원이신가요?</span>
               <b>LOGIN</b>
             </li>

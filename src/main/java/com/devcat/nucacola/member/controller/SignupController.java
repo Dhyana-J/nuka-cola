@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.service.MemberServiceImpl;
@@ -24,6 +25,51 @@ public class SignupController {
 	
 	@Autowired
 	private MemberServiceImpl mailsender;//이메일인증전용
+	
+	// 로그인 폼 화면 띄우기
+	@RequestMapping("loginForm.me")
+	public String loginForm() {
+		return "user/login";
+	}
+	
+	@RequestMapping("login.me")
+	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv, HttpServletRequest request) {
+		
+		Member loginUser = mService.loginMember(m);
+		
+		System.out.println("암호화 전 비번 : " + m.getUserPwd());
+		
+		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())
+				&& loginUser.getEmailAuth().equals("Y")) {
+			session.setAttribute("loginUser", loginUser);
+			mv.setViewName("timeline/timeline");
+			
+		}else if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
+			
+			mailsender.mailSendWithUserKey(m,request); // 이 부분 작동이 안되는 거 같음!?
+			session.setAttribute("alertMsg", "작성해주신 이메일로 회원가입 인증메일을 보냈습니다.\n인증을 완료해주세요!");
+			mv.setViewName("redirect:/");
+			
+		}else {
+			mv.addObject("errorMsg", "로그인 실패!");
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("logout.me")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "user/login";
+	}
+	
+	
+	//회원가입 폼 화면 띄우기
+	@RequestMapping("signupForm.me")
+	public String signupForm() {
+		return "user/signup";
+	}
 	
 	
 	@RequestMapping("insert.me")
@@ -74,6 +120,10 @@ public class SignupController {
 			return "common/errorPage";
 		}
 	}
+	
+
+	
+	
 	
 	
 }

@@ -23,12 +23,12 @@
           </ul>
         </div>
         <div class="menu__right">
-          <p>어서오세요 <b>가나다</b>님</p>
+          <p>어서오세요 <b>${ loginUser.userName }</b>님</p>
           <ul>
             <li>알림</li>
             <li>메시지</li>
             <li>PROFILE</li>
-            <li>LOGOUT</li>
+            <li onClick='location.href="logout.me"'>LOGOUT</li>
           </ul>
         </div>
       </div>

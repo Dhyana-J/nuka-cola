@@ -101,6 +101,7 @@
 		     and user_name=#{userName} <!-- 추후 userName이 아니라 userNo로 바꿔줘야 안정적 -->
 	</update>
 	
+	<!-- 이메일 인증링크 클릭 시 인증여부 Y로 업데이트 -->
 	<update id="confirmEmail" parameterType="Member">
 		update users
 			set
@@ -108,5 +109,17 @@
 			where user_email=#{email}
 			 and email_auth=#{emailAuth}
 	</update>
+	
+	<!-- 이메일 중복체크. 중복된 이메일 카운트 -->
+	<select id="checkEmail" 
+			parameterType="String"
+			resultType="String">
+		select
+			  count(*)
+		 from users
+		 where user_email=#{email}
+		   and login_type='local'
+		   and user_status in(0,2)
+	</select>
 	
 </mapper>

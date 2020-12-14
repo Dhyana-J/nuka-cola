@@ -19,4 +19,7 @@ public interface MemberService {
 	//4.유저정보 가져오기
 	HashMap<String, Object> getUserInfo (String access_Token);
 	
+	//5. 이메일 중복체크
+	String checkEmail(String email);
+	
 }

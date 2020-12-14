@@ -119,9 +119,10 @@
               </div>
               <div class="input__box">
                 <label for="">이메일</label>
-                <input type="text" name="email" />
+                <input type="text" name="email" id="email-check" />
               </div>
-              <!-- <small id="alert_check_email" class="signup--check">중복된 아이디입니다.</small> -->
+              <small id="alert_check_email" class="signup--check">올바른 이메일형식을 입력해주세요</small>
+              <small id="alert_dupcheck_email" class="signup--check">올바른 이메일형식을 입력해주세요</small>
               <div class="input__box">
                 <label for="">비밀번호</label>
                 <input id="password" type="text" name="userPwd" />
@@ -242,7 +243,26 @@
             document.querySelector("#alert_check_pwd").style.display = "none";
           }
         });
-      
+   	  // 아이디 체크
+      document
+        .querySelector("#email-check")
+        .addEventListener("input",(e)=>{
+          //정규표현식 출처 : https://emailregex.com/
+          let checkEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          
+          if(!checkEmail.test(e.target.value)){ // 이메일 형식이 올바르지 않은 경우
+
+            document.querySelector("#alert_check_email").style.display="block";
+            document.querySelector("#sign-up-next").disabled='true'; // 다음버튼 비활성화
+
+          }else{ // 이메일 형식이 올바른 경우
+
+            document.querySelector("#alert_check_email").style.display="none";
+            document.querySelector("#sign-up-next").removeAttribute('disabled'); //다음 버튼 활성화
+            //여기에 비동기식 이메일 중복체크 기술해줄까?
+            
+          }
+        });
 
     </script>
   </body>

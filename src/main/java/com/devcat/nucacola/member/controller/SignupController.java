@@ -1,5 +1,7 @@
 package com.devcat.nucacola.member.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.devcat.nucacola.member.model.service.MemberService;
@@ -60,6 +63,13 @@ public class SignupController {
 	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
+		
+		if(session.getAttribute("access_Token") != null) {
+			
+			session.removeAttribute("access_Token");	
+		}
+		
+		
 		session.invalidate();
 		return "user/login";
 	}
@@ -121,7 +131,42 @@ public class SignupController {
 		}
 	}
 	
-
+	
+	   //카카오 로그인 
+	@RequestMapping(value="kakaologin.me")
+	public String login(@RequestParam("code") String code, HttpSession session) {
+		  System.out.println("code : " + code);
+	      String access_Token = mService.getAccessToken(code);
+	      
+	      HashMap<String, Object> userInfo = mService.getUserInfo(access_Token);
+	      
+	      System.out.println("login Controller : " +  userInfo);
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      if (userInfo.get("email") != null) {
+	    	  
+	    	  session.setAttribute("kakoId", userInfo.get("email"));
+	    	  session.setAttribute("access_Token", access_Token);
+	    	  session.setAttribute("alertMsg", "카카오 로그인 성공!");
+	      }
+	      
+	      
+	      return "redirect:/";
+	      
+	   }
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

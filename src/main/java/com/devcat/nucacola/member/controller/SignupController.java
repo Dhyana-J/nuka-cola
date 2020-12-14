@@ -46,7 +46,7 @@ public class SignupController {
 			
 		}else if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			
-			mailsender.mailSendWithUserKey(m,request); // 이 부분 작동이 안되는 거 같음!?
+			mailsender.mailSendWithUserKey(loginUser,request); // 이 부분 작동이 안되는 거 같음!?
 			session.setAttribute("alertMsg", "작성해주신 이메일로 회원가입 인증메일을 보냈습니다.\n인증을 완료해주세요!");
 			mv.setViewName("redirect:/");
 			

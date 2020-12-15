@@ -121,7 +121,13 @@ public class SignupController {
 		}
 	}
 	
-
+	
+	// 유저 프로필
+	@RequestMapping("profile.me")
+	public String profileUser() {
+		
+		return "user/userProfile";
+	}
 	
 	
 	

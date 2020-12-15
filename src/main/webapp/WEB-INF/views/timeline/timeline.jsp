@@ -64,7 +64,7 @@
           <ul>
             <li>알림</li>
             <li>메시지</li>
-            <li>PROFILE</li>
+            <li><a herf="profile.me">PROFILE</a></li>
             <li>LOGOUT</li>
           </ul>
         </div>

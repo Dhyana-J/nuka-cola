@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -21,8 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.member.model.dao.MemberDao;
+import com.devcat.nucacola.member.model.vo.Bookmark;
+import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.CompSub;
+import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.TempKey;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -241,6 +248,184 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String checkEmail(String email) {
 		return mDao.checkEmail(sqlSession, email);
+	}
+
+	
+	
+	
+	// 연결
+	
+	
+	
+	@Override
+	public ArrayList<Connection> selectFollowingList(PageInfo pi, int uno) {
+		// TODO Auto-generated method stub
+		return mDao.selectFollowingList(sqlSession,pi,uno);
+	}
+
+	@Override
+	public int deleteFollowing(int followerNo) {
+		// TODO Auto-generated method stub
+		return mDao.deleteFollowing(sqlSession,followerNo);
+	}
+
+	@Override
+	public ArrayList<Connection> selectFollowerList(PageInfo pi, int uno) {
+		// TODO Auto-generated method stub
+		return mDao.selectFollowerList(sqlSession,pi,uno);
+	}
+
+	@Override
+	public int deleteFollower(int followingNo) {
+		// TODO Auto-generated method stub
+		return mDao.deleteFollower(sqlSession,followingNo);
+	}
+
+	@Override
+	public ArrayList<Connection> selectConnectionList(PageInfo pi, int uno) {
+		// TODO Auto-generated method stub
+		return mDao.selectConnectionList(sqlSession,pi,uno);
+	}
+
+	
+	
+	/// 프로필
+	
+	
+	
+	
+	@Override
+	public int countFollowing(int uno) {
+		// TODO Auto-generated method stub
+		return mDao.countFollowing(sqlSession,uno);
+	}
+
+	@Override
+	public int countFollower(int uno) {
+		// TODO Auto-generated method stub
+		return mDao.countFollower(sqlSession,uno);
+	}
+
+	@Override
+	public int countConnection(int uno) {
+		// TODO Auto-generated method stub
+		return mDao.countConnection(sqlSession,uno);
+	}
+
+	@Override
+	public int insertUserInfo(String userInfo) {
+		// TODO Auto-generated method stub
+		return mDao.insertUserInfo(sqlSession,userInfo);
+	}
+
+	@Override
+	public int updateUserInfo(String userInfo) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserInfo(sqlSession,userInfo);
+	}
+
+	@Override
+	public int checkSkill(String skillName) {
+		// TODO Auto-generated method stub
+		return mDao.checkSkill(sqlSession,skillName);
+	}
+
+	@Override
+	public int insertUserFiled(int skillNo) {
+		// TODO Auto-generated method stub
+		return mDao.insertUserFiled(sqlSession,skillNo);
+	}
+
+	@Override
+	public int updateUserFiled(int skillNo) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserFiled(sqlSession,skillNo);
+	}
+
+	@Override
+	public int insertUserPosi(String userPosi) {
+		// TODO Auto-generated method stub
+		return mDao.insertUserPosi(sqlSession,userPosi);
+	}
+
+	@Override
+	public int updateUserPosi(String userPosi) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserPosi(sqlSession,userPosi);
+	}
+
+	@Override
+	public int insertProject(Project p) {
+		// TODO Auto-generated method stub
+		return mDao.insertProject(sqlSession,p);
+	}
+
+	@Override
+	public int updateProject(Project p) {
+		// TODO Auto-generated method stub
+		return mDao.updateProject(sqlSession,p);
+	}
+
+	@Override
+	public int insertUserEdu(String userEdu) {
+		// TODO Auto-generated method stub
+		return mDao.insertUserEdu(sqlSession,userEdu);
+	}
+
+	@Override
+	public int updateUserEdu(String userEdu) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserEdu(sqlSession,userEdu);
+	}
+
+	@Override
+	public int insertCarrer(Carrer c) {
+		// TODO Auto-generated method stub
+		return mDao.insertCarrer(sqlSession,c);
+	}
+
+	@Override
+	public int updateCarrer(Carrer c) {
+		// TODO Auto-generated method stub
+		return mDao.updateCarrer(sqlSession,c);
+	}
+
+
+
+	
+	
+	
+	// 기업구독 및 좋아요
+	
+	@Override
+	public int insertBookmark(Bookmark b) {
+		return mDao.insertBookmark(sqlSession, b);
+	}
+	
+	
+	@Override
+	public ArrayList<Bookmark> selectBookmark(PageInfo pi) {
+		return mDao.selectBookmark(sqlSession, pi);
+	}
+
+	@Override
+	public int deleteBookmark(int bno) {
+		return mDao.deleteBookmark(sqlSession, bno);
+	}
+
+	@Override
+	public int insertSubComp(CompSub cs) {
+		return mDao.insertSubComp(sqlSession, cs);
+	}
+
+	@Override
+	public ArrayList<CompSub> selectSubComp(PageInfo pi) {
+		return mDao.selectSubComp(sqlSession, pi);
+	}
+
+	@Override
+	public int deleteSubComp(CompSub cs) {
+		return mDao.deleteSubComp(sqlSession, cs);
 	}
 	
 	

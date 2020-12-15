@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+pageEncoding="UTF-8"%> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -22,35 +22,14 @@
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
   <body>
-  
-  	<jsp:include page="../common/mainMenu.jsp"/>
-  	
-  	<c:if test="${!empty alertMsg }">
-		<script>
-			alert('${alertMsg}');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
-  	
-  	
-    <header>
-      <div class="inner">
-        <div class="left__header">
-          <div class="logo">
-            <img src="resources/assets/logo.png" alt="logo" />
-          </div>
-          <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
-            <li class="header__nav-item">COMPANY</li>
-            <li class="header__nav-item">EMPLOYMENT</li>
-          </ul>
-        </div>
-        <div class="right__header">
-          <i class="material-icons">menu</i>
-          <span>MENU</span>
-        </div>
-      </div>
-    </header>
+    <jsp:include page="../common/mainMenu.jsp" />
+
+    <c:if test="${!empty alertMsg }">
+      <script>
+        alert("${alertMsg}");
+      </script>
+      <c:remove var="alertMsg" scope="session" />
+    </c:if>
 
     <!-- 메인메뉴 -->
     <div class="main__menu__container">
@@ -116,7 +95,7 @@
             </div>
             <div class="input__box">
               <label for="">이메일</label>
-              <input type="text" name="email"/>
+              <input type="text" name="email" />
             </div>
             <small class="forgot-email" id="find-email-btn"
               >이메일이 기억나지 않으세요?</small
@@ -129,9 +108,17 @@
               <button type="button" id="find-pwd-btn" class="btn">
                 비밀번호 찾기
               </button>
-              <button class="btn btn-blue" onclick="javascript: form.action='login.me'">로그인</button>
+              <button
+                class="btn btn-blue"
+                onclick="javascript: form.action='login.me'"
+              >
+                로그인
+              </button>
               <button class="btn btn-facebook"></button>
-              <button class="btn btn-katok"></button>
+              <a
+                class="btn btn-katok"
+                href="https://kauth.kakao.com/oauth/authorize?client_id=9cbaf3231e03e46ca8f9be8ce62f4866&redirect_uri=http://localhost:2020/nucacola/kakaologin.me&response_type=code"
+              ></a>
             </div>
           </form>
         </section>
@@ -148,7 +135,7 @@
               <span>처음방문이신가요?</span>
               <b>SIGNUP</b>
             </li>
-            <li onClick='location.href="/views/timeline/timeline.jsp"'>
+            <li onClick='location.href=""'>
               <span>돌러보기</span>
               <b>MORE</b>
             </li>
@@ -329,4 +316,3 @@
     </script>
   </body>
 </html>
-    

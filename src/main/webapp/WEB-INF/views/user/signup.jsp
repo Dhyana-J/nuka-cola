@@ -17,11 +17,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
   <body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   	
   	<jsp:include page="../common/mainMenu.jsp"/>
   	
@@ -31,75 +31,6 @@
 		</script>
 		<c:remove var="alertMsg" scope="session"/>
 	</c:if>
-  
-    <header>
-      <div class="inner">
-        <div class="left__header">
-          <div class="logo">
-            <img src="resources/assets/logo.png" alt="logo" />
-          </div>
-          <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
-            <li class="header__nav-item">COMPANY</li>
-            <li class="header__nav-item">EMPLOYMENT</li>
-          </ul>
-        </div>
-        <div class="right__header">
-          <i class="material-icons">menu</i>
-          <span>MENU</span>
-        </div>
-      </div>
-    </header>
-
-    <!-- 메인메뉴 -->
-    <div class="main__menu__container">
-      <div class="inner">
-        <div class="menu__left">
-          <div class="search__box">
-            <input type="text" placeholder="검색어를 입력해주세요" />
-            <i class="material-icons"> search </i>
-          </div>
-          <ul class="menu__nav">
-            <li><a href="#">TIME LINE</a></li>
-            <li><a href="#">PARTNERS</a></li>
-            <li><a href="#">COMPANIES</a></li>
-            <li><a href="#">EMPLOYMENT</a></li>
-          </ul>
-        </div>
-        <div class="menu__right">
-          <p>어서오세요 <b>가나다</b>님</p>
-          <ul>
-            <li>알림</li>
-            <li>메시지</li>
-            <li>PROFILE</li>
-            <li>LOGOUT</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <script>
-      document.querySelector(".right__header").addEventListener("click", () => {
-        if (
-          document
-            .querySelector(".main__menu__container")
-            .classList.contains("main__menu-active")
-        ) {
-          document.querySelector(".main__menu__container").style.animation =
-            "slideOffMenu 0.5s ease-in-out forwards";
-          setTimeout(() => {
-            document
-              .querySelector(".main__menu__container")
-              .classList.toggle("main__menu-active");
-            document.querySelector(".main__menu__container").style.animation =
-              "slideMenu 0.5s ease-in-out forwards";
-          }, 300);
-        } else {
-          document
-            .querySelector(".main__menu__container")
-            .classList.toggle("main__menu-active");
-        }
-      });
-    </script>
 
     <!-- 컨텐츠 -->
     <main>
@@ -122,7 +53,7 @@
                 <input type="text" name="email" id="email-check" />
               </div>
               <small id="alert_check_email" class="signup--check">올바른 이메일형식을 입력해주세요</small>
-              <small id="alert_dupcheck_email" class="signup--check">올바른 이메일형식을 입력해주세요</small>
+              <small id="alert_dupcheck_email" class="signup--check">중복된 이메일입니다.</small>
               <div class="input__box">
                 <label for="">비밀번호</label>
                 <input id="password" type="text" name="userPwd" />
@@ -139,7 +70,7 @@
                 <input type="text" name="userName"/>
               </div>
               <div class="login__btn__wrapper">
-                <button class="btn">취소</button>
+                <button type="button" class="btn">취소</button>
                 <button type="button" id="sign-up-next" class="btn btn-blue">
                   다음
                 </button>
@@ -204,7 +135,7 @@
               <span>처음방문이신가요?</span>
               <b>SIGNUP</b>
             </li>
-            <li onClick='location.href="/views/timeline/index.html"'>
+            <li onClick='location.href="/views/timeline/index.jsp"'>
               <span>돌러보기</span>
               <b>MORE</b>
             </li>
@@ -217,6 +148,7 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script defer>
+    
       // 다음버튼
       document.querySelector("#sign-up-next").addEventListener("click", () => {
         document
@@ -247,6 +179,10 @@
       document
         .querySelector("#email-check")
         .addEventListener("input",(e)=>{
+       	 
+   		  document.querySelector("#alert_dupcheck_email").style.display='none';
+   		  document.querySelector("#alert_check_email").style.display="none";
+        	
           //정규표현식 출처 : https://emailregex.com/
           let checkEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           
@@ -259,10 +195,36 @@
 
             document.querySelector("#alert_check_email").style.display="none";
             document.querySelector("#sign-up-next").removeAttribute('disabled'); //다음 버튼 활성화
-            //여기에 비동기식 이메일 중복체크 기술해줄까?
             
-          }
-        });
+            //여기에 비동기식 이메일 중복체크 기술해줄까?
+       		axios.get('checkEmail.me',{
+       			params:{
+       				email:e.target.value
+       			}
+       		})
+       		.then(function(dupCount){
+       			
+       			if(dupCount.data==0){ //이메일 중복 아닌 경우 (dupCount.data값이 0인 경우)
+                    document.querySelector("#alert_dupcheck_email").style.color='#30409f';
+                    document.querySelector("#alert_dupcheck_email").innerText='사용 가능한 이메일입니다.';
+            		document.querySelector("#alert_dupcheck_email").style.display='block';
+            		document.querySelector("#sign-up-next").removeAttribute('disabled'); //다음 버튼 활성화
+            		
+            	}else{ //이메일 중복되는 경우 (dupCount.data값이 0이 아닌 경우)
+                    document.querySelector("#alert_dupcheck_email").style.color='#ff0000';
+                    document.querySelector("#alert_dupcheck_email").innerText='중복된 이메일입니다.';
+            		document.querySelector("#alert_dupcheck_email").style.display="block";
+            		document.querySelector("#sign-up-next").disabled='true'; // 다음버튼 비활성화
+            		
+            	}
+       		})
+       		.catch(function(){
+       			console.log('통신실패');
+       		})
+            
+            
+          }//else끝
+       	});//addEventListener끝
 
     </script>
   </body>

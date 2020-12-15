@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="companyMapper">
+	<resultMap id="CompanyResultSet" type="Company">
+		<result column="comp_no" property="compNo"/>
+		<result column="comp_name" property="compName"/>
+		<result column="comp_info" property="compInfo"/>
+		<result column="comp_email" property="compEmail"/>
+		<result column="comp_address" property="compAddress"/>
+		<result column="comp_logo" property="compLogo"/>
+		<result column="comp_headcount" property="headCount"/>
+		<result column="comp_birth" property="compBirth"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
+		<result column="user_no" property="userNo"/>
+		<result column="comp_pm" property="compPm"/>
+	</resultMap>
+	<select id="selectCompanyList" resultMap="CompanyResultSet">
+		 select
+		        comp_no
+		      , comp_info
+		      , comp_name
+		      , comp_address
+		      , comp_logo
+		   from companys
+		  order
+		     by created_at desc
+	</select>
+	<insert id="insertCompany" parameterType="Company">
+		insert
+		  into companys
+		  (
+		  	 comp_no
+		   , comp_name
+		   , comp_info
+		   , comp_email
+		   , comp_address
+		   , comp_logo
+		   , comp_headcount
+		   , comp_birth
+		   , created_at
+		   , updated_at
+		   , uesr_no
+		   , comp_pm
+		  )
+		  values
+		  (
+		  	 seq_comp.nextval
+		   , #{compName}
+		   , #{compInfo}
+		   , #{compEmail}
+		   , #{compAddress}
+		   , #{compLogo}
+		   , #{headCount}
+		   , #{compBirth}
+		   , #{createdAt}
+		   , #{updatedAt}
+		   , #{userNo}
+		   , #{compPm}
+		  )
+	</insert>
+	
+	
+</mapper>

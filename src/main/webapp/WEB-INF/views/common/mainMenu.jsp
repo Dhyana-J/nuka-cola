@@ -8,6 +8,25 @@
     <title>Document</title>
   </head>
   <body>
+    <header>
+      <div class="inner">
+        <div class="left__header">
+          <div class="logo">
+            <img src="resources/assets/logo.png" alt="logo" />
+          </div>
+          <ul class="header__nav">
+            <li class="header__nav-item">PARTNER</li>
+            <li class="header__nav-item"><a href="list.co">COMPANIES</a></li>
+            <li class="header__nav-item">EMPLOYMENT</li>
+          </ul>
+        </div>
+        <div class="right__header">
+          <i class="material-icons">menu</i>
+          <span>MENU</span>
+        </div>
+      </div>
+    </header>
+  
     <div class="main__menu__container">
       <div class="inner">
         <div class="menu__left">
@@ -16,9 +35,9 @@
             <i class="material-icons"> search </i>
           </div>
           <ul class="menu__nav">
-            <li><a href="#">TIME LINE</a></li>
+            <li><a href="/views/timeline/timeline.jsp">TIME LINE</a></li>
             <li><a href="#">PARTNERS</a></li>
-            <li><a href="#">COMPANIES</a></li>
+            <li><a href="list.co">COMPANIES</a></li>
             <li><a href="#">EMPLOYMENT</a></li>
           </ul>
         </div>

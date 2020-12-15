@@ -61,15 +61,18 @@
               document.querySelector('#img-input').click();
             }
           </script>
+
+        <c:forEach var="p" items="${ list }">
           <!-- 게시글아이템 -->
           <div class="content__wrapper post__item-wrapper">
+            <input type="hidden" class="user_no_input" value="${p.userNo}">
             <div class="post__user-info">
               <div class="avatar-small">
                 <img src="../../assets/avatar.png" alt="" />
               </div>
               <div class="user__summary">
-                <strong>Tim Cook</strong>
-                <small>Apple.inc @ CEO</small>
+                <strong>${p.userName}</strong>
+                <small>${p.userComp}</small>
               </div>
               <div class="follow__btn">
                 <i class="material-icons">person_add</i>
@@ -77,12 +80,9 @@
               </div>
             </div>
             <article>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry’s standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              ${p.postContent}
             </article>
-            <span class="post__date">2020 - 11 - 31</span>
+            <span class="post__date">${p.createdAt}</span>
             <div class="post__btn__wrapper">
               <div class="like_btn">
                 <i class="material-icons"> thumb_up_alt </i>
@@ -138,6 +138,8 @@
               </li>
             </ul>
           </div>
+
+          </c:forEach>
 
           <div class="content__wrapper post__item-wrapper">
             <div class="post__user-info">

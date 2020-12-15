@@ -1,5 +1,7 @@
 package com.devcat.nucacola.posts.controller;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.posts.model.vo.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,12 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.devcat.nucacola.posts.model.service.PostService;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
@@ -29,8 +33,18 @@ public class PostController {
 	}
 	
 	@RequestMapping("list.pos")
-	public String selectPostList() {
-		return "/main";
+	public String selectPostList(
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			Model model
+	) {
+		//System.out.println(currentPage);
+		int listCount = pService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		ArrayList<Post> list = pService.selectPostList(pi);
+
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		return "/timeline/timeline";
 	}
 	
 	// 포스트 작성
@@ -47,8 +61,7 @@ public class PostController {
 		int result = pService.insertPost(p);
 		if(result>0){
 			session.setAttribute("alertMsg","게시글작성 성공");
-			return "/timeline/timeline";
-//			return "redirect:list.pos";
+			return "redirect:list.pos";
 		}else{
 			model.addAttribute("errorMsg","작성실패!");
 			return "common/errorPage";

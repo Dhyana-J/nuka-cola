@@ -6,9 +6,12 @@
         <result column="post_no" property="postNo"/>
         <result column="post_content" property="postContent"/>
         <result column="post_img" property="postImg"/>
-        <result column="create_at" property="createAt"/>
-        <result column="update_at" property="updateAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
         <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_posi" property="userPosi"/>
+        <result column="user_comp" property="userComp"/>
     </resultMap>
 
     <select id="selectListCount" resultType="_int">
@@ -18,16 +21,18 @@
     </select>
 
     <select id="selectPostList" resultMap="postResultSet">
-        select
-            POST_NO
-             ,POST_CONTENT
-             ,  POST_IMAGE
-             , to_char(create_at,'YYYY-MM-DD') "create_date"
-             , to_char(updated_at,'YYYY-MM-DD') "updated_at"
-             , origin_name
-        from Posts
-        order
-            by post_no desc
+        select POST_NO
+     , POST_CONTENT
+     , POST_IMAGE
+     , to_char(P.created_at, 'YYYY-MM-DD') "created_date"
+     , to_char(P.updated_at, 'YYYY-MM-DD') "updated_at"
+     , u.user_no
+     , USER_NAME
+     , USER_POSI
+     , USER_COMP
+        from Posts P
+         left join USERS U on U.USER_NO = P.USER_NO
+        order by post_no desc
     </select>
 
     <insert id="insertPost" parameterType="Post">

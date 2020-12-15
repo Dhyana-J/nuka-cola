@@ -2,6 +2,7 @@ package com.devcat.nucacola.posts.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,12 +15,16 @@ public class PostDao {
 
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("post-mapper.selectListCount");
 	}
 
 	public ArrayList<Post> selectPostList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return null;
+
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList)sqlSession.selectList("post-mapper.selectPostList", null, rowBounds);
 	}
 
 	public int insertPost(SqlSessionTemplate sqlSession, Post p) {

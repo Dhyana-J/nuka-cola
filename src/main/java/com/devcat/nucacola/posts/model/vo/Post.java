@@ -29,6 +29,9 @@ public class Post {
 	private String createdAt;
 	private String updatedAt;
 	private int userNo;
+	private String userName;
+	private String userPosi;
+	private String userComp;
 	
 	
 }

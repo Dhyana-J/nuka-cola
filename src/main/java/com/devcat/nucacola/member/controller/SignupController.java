@@ -3,6 +3,7 @@ package com.devcat.nucacola.member.controller;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.devcat.nucacola.member.model.service.MemberService;
@@ -85,7 +87,6 @@ public class SignupController {
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model, HttpSession session, HttpServletRequest request) {
 		
-		System.out.println(m);
 		
 		// 회원가입 시 입력한 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
@@ -110,6 +111,14 @@ public class SignupController {
 			return "common/errorPage";
 			
 		}
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("checkEmail.me")
+	public String checkEmail(String email, HttpServletResponse response) {
+		
+		return mService.checkEmail(email);
 		
 	}
 	

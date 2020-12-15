@@ -26,4 +26,9 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.confirmEmail",m);
 	}
 	
+	//이메일 중복체크
+	public String checkEmail(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.checkEmail", email);
+	}
+	
 }

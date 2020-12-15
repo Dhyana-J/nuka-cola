@@ -236,6 +236,12 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 	}
+
+	//이메일 중복체크
+	@Override
+	public String checkEmail(String email) {
+		return mDao.checkEmail(sqlSession, email);
+	}
 	
 	
 

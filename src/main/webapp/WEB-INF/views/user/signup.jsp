@@ -17,11 +17,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
   </head>
   <body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   	
   	<jsp:include page="../common/mainMenu.jsp"/>
   	
@@ -53,7 +53,7 @@
                 <input type="text" name="email" id="email-check" />
               </div>
               <small id="alert_check_email" class="signup--check">올바른 이메일형식을 입력해주세요</small>
-              <small id="alert_dupcheck_email" class="signup--check">올바른 이메일형식을 입력해주세요</small>
+              <small id="alert_dupcheck_email" class="signup--check">중복된 이메일입니다.</small>
               <div class="input__box">
                 <label for="">비밀번호</label>
                 <input id="password" type="text" name="userPwd" />
@@ -70,7 +70,7 @@
                 <input type="text" name="userName"/>
               </div>
               <div class="login__btn__wrapper">
-                <button class="btn">취소</button>
+                <button type="button" class="btn">취소</button>
                 <button type="button" id="sign-up-next" class="btn btn-blue">
                   다음
                 </button>
@@ -148,6 +148,7 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script defer>
+    
       // 다음버튼
       document.querySelector("#sign-up-next").addEventListener("click", () => {
         document
@@ -178,6 +179,10 @@
       document
         .querySelector("#email-check")
         .addEventListener("input",(e)=>{
+       	 
+   		  document.querySelector("#alert_dupcheck_email").style.display='none';
+   		  document.querySelector("#alert_check_email").style.display="none";
+        	
           //정규표현식 출처 : https://emailregex.com/
           let checkEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           
@@ -190,10 +195,36 @@
 
             document.querySelector("#alert_check_email").style.display="none";
             document.querySelector("#sign-up-next").removeAttribute('disabled'); //다음 버튼 활성화
-            //여기에 비동기식 이메일 중복체크 기술해줄까?
             
-          }
-        });
+            //여기에 비동기식 이메일 중복체크 기술해줄까?
+       		axios.get('checkEmail.me',{
+       			params:{
+       				email:e.target.value
+       			}
+       		})
+       		.then(function(dupCount){
+       			
+       			if(dupCount.data==0){ //이메일 중복 아닌 경우 (dupCount.data값이 0인 경우)
+                    document.querySelector("#alert_dupcheck_email").style.color='#30409f';
+                    document.querySelector("#alert_dupcheck_email").innerText='사용 가능한 이메일입니다.';
+            		document.querySelector("#alert_dupcheck_email").style.display='block';
+            		document.querySelector("#sign-up-next").removeAttribute('disabled'); //다음 버튼 활성화
+            		
+            	}else{ //이메일 중복되는 경우 (dupCount.data값이 0이 아닌 경우)
+                    document.querySelector("#alert_dupcheck_email").style.color='#ff0000';
+                    document.querySelector("#alert_dupcheck_email").innerText='중복된 이메일입니다.';
+            		document.querySelector("#alert_dupcheck_email").style.display="block";
+            		document.querySelector("#sign-up-next").disabled='true'; // 다음버튼 비활성화
+            		
+            	}
+       		})
+       		.catch(function(){
+       			console.log('통신실패');
+       		})
+            
+            
+          }//else끝
+       	});//addEventListener끝
 
     </script>
   </body>

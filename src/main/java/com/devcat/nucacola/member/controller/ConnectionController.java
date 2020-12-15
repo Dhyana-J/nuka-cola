@@ -16,33 +16,33 @@ public class ConnectionController {
 	//팔로잉 조회
 	@RequestMapping()
 	public String selectFollowingList() {
-		
+		return "/main";
 	}
 	
 	// 팔로잉 삭제
 	@RequestMapping()
 	public String deleteFollowing() {
-		
+		return "/main";
 	}
 	
 	
 	// 팔로워 조회
 	@RequestMapping()
 	public String selectFollowerList() {
-		
+		return "/main";
 	}
 	
 	// 팔로워 삭제
 	@RequestMapping()
 	public String deleteFollower() {
-		
+		return "/main";
 	}
 	
 	
 	// 연결 조회
 	@RequestMapping()
 	public String selectConnectionList() {
-		
+		return "/main";
 	}
 	
 	

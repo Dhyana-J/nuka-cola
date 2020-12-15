@@ -16,51 +16,51 @@ public class PostController {
 	// 포스트 조회
 	@RequestMapping()
 	public String selectListCount() {
-		
+		return "/main";
 	}
 	
 	@RequestMapping()
 	public String selectPostList() {
-		
+		return "/main";
 	}
 	
 	// 포스트 작성
 	@RequestMapping()
 	public String insertPost() {
-		
+		return "/main";
 	}
 	
 	
 	// 포스트 수정
 	@RequestMapping()
 	public String updatePost() {
-		
+		return "/main";
 	}
 	
 	//포스트 삭제
 	@RequestMapping()
 	public String deletePost() {
-		
+		return "/main";
 	}
 	
 	//포스트 좋아요
 	@RequestMapping()
 	public String likePost() {
-		
+		return "/main";
 	}
 	
 
 	// 댓글 조회
 	@RequestMapping()
 	public String selectCommentList() {
-		
+		return "/main";
 	}
 	
 	
 	// 댓글 작성
 	@RequestMapping()
 	public String insertComment() {
-		
+		return "/main";
 	}
 	
 }

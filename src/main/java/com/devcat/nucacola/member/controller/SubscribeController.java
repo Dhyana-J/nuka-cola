@@ -18,25 +18,25 @@ public class SubscribeController {
 	// 북마크 추가
 	@RequestMapping()
 	public String insertBookmark() {
-	
+		return "/main";
 	
 	}
 	
 	// 북마크 조회
 	@RequestMapping()
 	public String selectBookmark() {
-	
-	
+
+		return "/main";
 	}
 	// 북마크 취소
 	@RequestMapping()
 	public String deleteBookmark() {
-	
+		return "/main";
 	}
 	// 기업 구독 추가	
 	@RequestMapping()
 	public String insertSubComp() {
-	
+		return "/main";
 		
 		
 	}	
@@ -44,7 +44,7 @@ public class SubscribeController {
 	// 기업 구독 조회
 	@RequestMapping()
 	public String selectSubComp() {
-	
+		return "/main";
 		
 	
 	}
@@ -52,6 +52,6 @@ public class SubscribeController {
 	// 기업 구독 취소	
 	@RequestMapping()
 	public String deleteSubComp() {
-		
+		return "/main";
 	}
 }

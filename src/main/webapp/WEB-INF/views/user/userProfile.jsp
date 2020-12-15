@@ -27,30 +27,12 @@
 <body>
 	
 	<jsp:include page="../common/mainMenu.jsp"/>
-	
-	    <header>
-        <div class="inner">
-          <div class="left__header">
-            <div class="logo">
-              <img src="../../assets/logo.png" alt="logo" />
-            </div>
-            <ul class="header__nav">
-              <li class="header__nav-item">PARTNER</li>
-              <li class="header__nav-item">COMPANY</li>
-              <li class="header__nav-item">EMPLOYMENT</li>
-            </ul>
-          </div>
-          <div class="right__header">
-            <i class="icono-hamburger"></i>
-            <span>MENU</span>
-          </div>
-        </div>
-    </header>
+
       <section class="visual__section">
         <div class="inner">
           <div class="visual__left">
             <div class="avatar">
-                <img src= "../../assets/profile.png" alt="logo">
+                <img src= "resources/assets/profile.png" alt="logo">
             </div>
             <div>
               <div class="main__info">

@@ -24,10 +24,10 @@ public class Post {
 	 */
 	
 	private int postNo;
-	private String postCotent;
+	private String postContent;
 	private String postImg;
-	private String createAt;
-	private String updateAt;
+	private String createdAt;
+	private String updatedAt;
 	private int userNo;
 	
 	

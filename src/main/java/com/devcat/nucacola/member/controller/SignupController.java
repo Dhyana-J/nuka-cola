@@ -48,6 +48,7 @@ public class SignupController {
 				&& loginUser.getEmailAuth().equals("Y")) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("timeline/timeline");
+			System.out.println("로그인");
 			
 		}else if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			

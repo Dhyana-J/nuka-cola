@@ -24,7 +24,8 @@ public class PostDao {
 
 	public int insertPost(SqlSessionTemplate sqlSession, Post p) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("post-mapper.insertPost",p);
+
 	}
 
 	public int updatePost(SqlSessionTemplate sqlSession, Post p) {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="post-mapper">
+
+    <resultMap id="postResultSet" type="Post">
+        <result column="post_no" property="postNo"/>
+        <result column="post_content" property="postContent"/>
+        <result column="post_img" property="postImg"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+        <result column="user_no" property="userNo"/>
+    </resultMap>
+
+    <select id="selectListCount" resultType="_int">
+        select
+            count(*)
+        from NUKACOLA.POSTS
+    </select>
+
+    <select id="selectPostList" resultMap="postResultSet">
+        select
+            POST_NO
+             ,POST_CONTENT
+             ,  POST_IMAGE
+             , to_char(create_at,'YYYY-MM-DD') "create_date"
+             , to_char(updated_at,'YYYY-MM-DD') "updated_at"
+             , origin_name
+        from Posts
+        order
+            by post_no desc
+    </select>
+
+    <insert id="insertPost" parameterType="Post">
+        INSERT INTO NUKACOLA.POSTS (POST_NO, POST_CONTENT, POST_IMAGE, CREATED_AT, UPDATED_AT, USER_NO)
+        VALUES (SEQ_POST.nextval, #{postContent}, #{postImg}, DEFAULT, DEFAULT, #{userNo})
+    </insert>
+
+
+</mapper>

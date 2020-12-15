@@ -8,10 +8,12 @@
 
 	<typeAliases>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.devcat.nucacola.company.model.vo.Company" alias="Company"/>
 	</typeAliases>
 	
 	<!-- 원래 DB접속 관련된 내용들을 작성했으나 다룬곳에서 작성 -->
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/company-mapper.xml"/>
 	</mappers>
 </configuration>

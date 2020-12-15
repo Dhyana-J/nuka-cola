@@ -14,51 +14,51 @@ public class PostController {
 	
 	
 	// 포스트 조회
-	@RequestMapping()
+	@RequestMapping("list.cou")
 	public String selectListCount() {
 		return "/main";
 	}
 	
-	@RequestMapping()
+	@RequestMapping("list.pos")
 	public String selectPostList() {
 		return "/main";
 	}
 	
 	// 포스트 작성
-	@RequestMapping()
+	@RequestMapping("insert.pos")
 	public String insertPost() {
 		return "/main";
 	}
 	
 	
 	// 포스트 수정
-	@RequestMapping()
+	@RequestMapping("update.pos")
 	public String updatePost() {
 		return "/main";
 	}
 	
 	//포스트 삭제
-	@RequestMapping()
+	@RequestMapping("delete.pos")
 	public String deletePost() {
 		return "/main";
 	}
 	
 	//포스트 좋아요
-	@RequestMapping()
+	@RequestMapping("like.pos")
 	public String likePost() {
 		return "/main";
 	}
 	
 
 	// 댓글 조회
-	@RequestMapping()
+	@RequestMapping("list.com")
 	public String selectCommentList() {
 		return "/main";
 	}
 	
 	
 	// 댓글 작성
-	@RequestMapping()
+	@RequestMapping("insert.com")
 	public String insertComment() {
 		return "/main";
 	}

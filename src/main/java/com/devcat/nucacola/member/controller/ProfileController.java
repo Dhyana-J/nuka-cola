@@ -19,78 +19,79 @@ public class ProfileController {
 	 * // 지원 이력 조회
 	 * 
 	 * @RequestMapping() public String selectListCount() {
+	 "undefined*
 	 * 
 	 * }
 	 */
 	
 	// 한줄 소개 입력
-	@RequestMapping()
+	@RequestMapping("/insert.us")
 	public String insertUserInfo(String UserInfo) {
 		return "/main";
 	}
 	
 	// 한줄 소개 수정
-	@RequestMapping()
+	@RequestMapping("/update.us")
 	public String updateUserInfo(String UserInfo) {
 		return "/main";
 	}
 	
 	// 기술테이블 기술 체크
-	@RequestMapping()
-	public String checkSkill(String skillName) {
+	@RequestMapping("/search.sk")
+	public String searchSkill(String skillName) {
 		return "/main";
 	}
 
 	// 활동 분야 입력
-	@RequestMapping()
-	public String insertUserFiled(int skillNo) {
+	@RequestMapping("/insert.field.us")
+	public String insertUserField(int skillNo) {
 		return "/main";
 	}
 	// 활동 분야 수정
-	@RequestMapping()
-	public String updateUserFiled(int skillNo) {
+	@RequestMapping("/update.field.us")
+	public String updateUserField(int skillNo) {
 		return "/main";
 	}
 	
 	// 업무 분야 입력
-	@RequestMapping()
-	public String  insertUserPosi(String UserPosi) {
+	@RequestMapping("/insert.position.us")
+	public String  insertUserPosition(String UserPosition) {
 		return "/main";
 	}
 	// 업무 분야 수정
-	@RequestMapping()
-	public String updateUserPosi(String UserPosi) {
+	@RequestMapping("/update.position.us")
+	public String updateUserPosition(String UserPosition) {
 		return "/main";
 	}
 	// 프로젝트 입력
-	@RequestMapping()
+	@RequestMapping("/insert.project.us")
 	public String insertProject(Project p) {
 		return "/main";
 	}
 	// 프로젝트 수정
-	@RequestMapping()
+	@RequestMapping("/update.project.us")
 	public String updateProject(Project p) {
 		return "/main";
 	}
 	
 	// 최종학력 입력
-	@RequestMapping()
+	@RequestMapping("/insert.edu.us")
 	public String insertUserEdu(String UserEdu) {
 		return "/main";
 	}
 	// 최종학력 수정
-	@RequestMapping()
+	@RequestMapping("/update.edu.us")
 	public String updateUserEdu(String UserEdu) {
 		return "/main";
 	}
 	// 경력 입력
-	@RequestMapping()
-	public String insertCarrer(Carrer c) {
+	@RequestMapping("/insert.career.us")
+	public String insertCareer(Carrer c) {
 		return "/main";
 	}
 	// 경력 수정
-	@RequestMapping()
-	public String updateCarrer(Carrer c) {
+	@RequestMapping("/update.career.us")
+	public String updateCareer(Carrer c) {
 		return "/main";
 	}
 

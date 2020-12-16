@@ -44,7 +44,7 @@ public class SignupController {
 		
 		System.out.println("암호화 전 비번 : " + m.getUserPwd());
 		
-		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())
+		if(loginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())*/
 				&& loginUser.getEmailAuth().equals("Y")) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("timeline/timeline");
@@ -141,12 +141,6 @@ public class SignupController {
 	}
 	
 	
-	// 유저 프로필
-	@RequestMapping("profile.me")
-	public String profileUser() {
-		
-		return "user/userProfile";
-	}
 	   //카카오 로그인 
 	@RequestMapping(value="kakaologin.me")
 	public String login(@RequestParam("code") String code, HttpSession session) {

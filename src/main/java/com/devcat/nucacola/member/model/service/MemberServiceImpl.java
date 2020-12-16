@@ -255,13 +255,6 @@ public class MemberServiceImpl implements MemberService {
 	
 	// 연결
 	
-	
-	
-	@Override
-	public ArrayList<Connection> selectFollowingList(PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return mDao.selectFollowingList(sqlSession,pi,uno);
-	}
 
 	@Override
 	public int deleteFollowing(int followerNo) {
@@ -270,22 +263,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Connection> selectFollowerList(PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return mDao.selectFollowerList(sqlSession,pi,uno);
-	}
-
-	@Override
 	public int deleteFollower(int followingNo) {
 		// TODO Auto-generated method stub
 		return mDao.deleteFollower(sqlSession,followingNo);
 	}
 
-	@Override
-	public ArrayList<Connection> selectConnectionList(PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return mDao.selectConnectionList(sqlSession,pi,uno);
-	}
+
 
 	
 	
@@ -293,23 +276,39 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
+	//팔로워(나를팔로우하는사람)
+	@Override
+	public ArrayList<Member> selectFollowers(int userNo, PageInfo pi){
+		return mDao.selectFollowers(sqlSession, userNo,pi);
+	}
+	//팔로잉(내가팔로우하는사람)
+	@Override
+	public ArrayList<Member> selectFollowings(int userNo, PageInfo pi){
+		return mDao.selectFollowings(sqlSession, userNo,pi);
+	}
+	//연결된사람(맞팔)
+	@Override
+	public ArrayList<Member> selectConnections(int userNo, PageInfo pi){
+		return mDao.selectConnections(sqlSession, userNo, pi);
+	}
+	
 	
 	@Override
-	public int countFollowing(int uno) {
+	public int countFollowings(int uno) {
 		// TODO Auto-generated method stub
-		return mDao.countFollowing(sqlSession,uno);
+		return mDao.countFollowings(sqlSession,uno);
 	}
 
 	@Override
-	public int countFollower(int uno) {
+	public int countFollowers(int uno) {
 		// TODO Auto-generated method stub
-		return mDao.countFollower(sqlSession,uno);
+		return mDao.countFollowers(sqlSession,uno);
 	}
 
 	@Override
-	public int countConnection(int uno) {
+	public int countConnections(int uno) {
 		// TODO Auto-generated method stub
-		return mDao.countConnection(sqlSession,uno);
+		return mDao.countConnections(sqlSession,uno);
 	}
 
 	@Override
@@ -427,6 +426,8 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+
+
 	
 	
 

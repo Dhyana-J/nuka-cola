@@ -2,8 +2,6 @@ package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
 
-
-
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 

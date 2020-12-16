@@ -2,6 +2,7 @@ package com.devcat.nucacola.member.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +10,6 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.CompSub;
-import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 
@@ -43,54 +43,7 @@ public class MemberDao {
 	
 	
 	
-	//팔로잉 조회
-	public ArrayList<Connection> selectFollowingList(SqlSessionTemplate sqlSession, PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	// 팔로잉 삭제
-	public int deleteFollowing(SqlSessionTemplate sqlSession, int followerNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	// 팔로워 조회
-	public ArrayList<Connection> selectFollowerList(SqlSessionTemplate sqlSession, PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	// 팔로워 삭제
-	public int deleteFollower(SqlSessionTemplate sqlSession, int followingNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	// 연결 조회
-	public ArrayList<Connection> selectConnectionList(SqlSessionTemplate sqlSession, PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	//팔로잉수
-	public int countFollowing(SqlSessionTemplate sqlSession, int uno) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	// 팔로워수
-	public int countFollower(SqlSessionTemplate sqlSession, int uno) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	// 연결 수
-	public int countConnection(SqlSessionTemplate sqlSession, int uno) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	
 	// 한줄 소개
@@ -201,6 +154,71 @@ public class MemberDao {
 		return 0;
 	}
 	
+	//인맥 (팔로워, 팔로잉, 연결)
+	
+	//팔로워(나를팔로우하는사람)
+	public ArrayList<Member> selectFollowers(SqlSessionTemplate sqlSession, int userNo, PageInfo pi){
+		
+		RowBounds rowBounds = new RowBounds(0,pi.getBoardLimit());
+		
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowers",userNo,rowBounds);
+		
+	}
+	
+	public int countFollowers(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.countFollowers",userNo);
+		
+	}
+	
+	
+	
+	//팔로잉(내가팔로우하는사람)
+	public ArrayList<Member> selectFollowings(SqlSessionTemplate sqlSession, int userNo, PageInfo pi){
+		
+		RowBounds rowBounds = new RowBounds(0,pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowings",userNo,rowBounds);
+		
+	}
+	
+	public int countFollowings(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.countFollowings",userNo);
+		
+	}
+	
+	//연결된사람(맞팔)
+	public ArrayList<Member> selectConnections(SqlSessionTemplate sqlSession, int userNo, PageInfo pi){
+		
+		RowBounds rowBounds = new RowBounds(0,pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectConnections", userNo,rowBounds);
+		
+	}
+	
+	public int countConnections(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.countConnections",userNo);
+		
+	}
+	
+	
+	// 팔로잉 삭제
+	public int deleteFollowing(SqlSessionTemplate sqlSession, int followerNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+
+
+	// 팔로워 삭제
+	public int deleteFollower(SqlSessionTemplate sqlSession, int followingNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 	
 	

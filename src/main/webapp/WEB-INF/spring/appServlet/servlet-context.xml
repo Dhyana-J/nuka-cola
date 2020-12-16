@@ -39,4 +39,11 @@
 		</beans:property>
 	</beans:bean>
 	
+	<interceptors>
+	  	<interceptor>
+	  		<mapping path="/connection.us"/>
+	  		<beans:bean id="loginInterceptor" class="com.devcat.nucacola.common.interceptor.LoginInterceptor"/>
+	  	</interceptor>
+	  </interceptors>
+	
 </beans:beans>

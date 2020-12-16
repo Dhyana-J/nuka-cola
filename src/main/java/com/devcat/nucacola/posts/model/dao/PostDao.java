@@ -45,7 +45,7 @@ public class PostDao {
 
 	public ArrayList<Comment> selectCommentList(SqlSessionTemplate sqlSession, int pno) {
 		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList)sqlSession.selectList("post-mapper.selectCommentList", pno);
 	}
 
 	public int insertComment(SqlSessionTemplate sqlSession, Comment c) {

@@ -2,7 +2,9 @@ package com.devcat.nucacola.posts.controller;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.posts.model.vo.Comment;
 import com.devcat.nucacola.posts.model.vo.Post;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.devcat.nucacola.posts.model.service.PostService;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -89,19 +92,25 @@ public class PostController {
 	public String likePost() {
 		return "/main";
 	}
-	
 
-	// 댓글 조회
-	@RequestMapping("list.com")
-	public String selectCommentList() {
-		return "/main";
-	}
-	
-	
-	// 댓글 작성
+
+	@ResponseBody
 	@RequestMapping("insert.com")
-	public String insertComment() {
-		return "/main";
+	public String insertReply(Comment c){
+		int result = pService.insertComment(c);
+		if(result > 0){
+			return "success";
+		}else{
+			return "fail";
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value="load.com",produces = "application/json; charset=utf-8")
+	public String selectCommentList(int pno){
+		System.out.println(pno);
+		ArrayList<Comment> list =pService.selectCommentList(pno);
+		return new Gson().toJson(list);
 	}
 
 	public String saveFile(HttpSession session , MultipartFile upfile){

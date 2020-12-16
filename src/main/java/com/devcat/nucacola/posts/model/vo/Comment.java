@@ -30,6 +30,8 @@ public class Comment {
 	private int postNo;
 	private String createdAt;
 	private String updatedAt;
+	private String userName;
+	private String userComp;
 
 	
 }

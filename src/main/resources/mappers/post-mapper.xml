@@ -13,6 +13,16 @@
         <result column="user_posi" property="userPosi"/>
         <result column="user_comp" property="userComp"/>
     </resultMap>
+    <resultMap id="commentResultSet" type="Comment">
+        <result column="comment_no" property="commentNo"/>
+        <result column="comment_content" property="commentContent"/>
+        <result column="post_no" property="postNo"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_comp" property="userComp"/>
+    </resultMap>
 
     <select id="selectListCount" resultType="_int">
         select
@@ -40,5 +50,17 @@
         VALUES (SEQ_POST.nextval, #{postContent}, #{postImg}, DEFAULT, DEFAULT, #{userNo})
     </insert>
 
-
+    <select id="selectCommentList" resultMap="commentResultSet" parameterType="_int">
+        select COMMENT_NO,
+       COMMENT_CONTENT,
+       COMMENTS.USER_NO,
+       COMMENTS.POST_NO,
+       COMMENTS.CREATED_AT,
+       COMMENTS.UPDATED_AT,
+       U.USER_NAME,
+       U.USER_COMP
+from COMMENTS
+         left join USERS U on U.USER_NO = COMMENTS.USER_NO
+where POST_NO = #{pno};
+    </select>
 </mapper>

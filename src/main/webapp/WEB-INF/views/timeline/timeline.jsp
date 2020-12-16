@@ -19,6 +19,7 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/timeline.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
   	
@@ -96,6 +97,14 @@
 
             <!-- 댓글목록 -->
             <ul class="post__comment_list">
+              <input class='post-id' type="hidden" name="postNo" value='${p.postNo}'>
+              <li>
+                <div class="comment_input">
+                  <span>댓글등록</span>
+                  <textarea id='comment-input' name="commentContent"></textarea>
+                  <button type='button' id='comment-insert-btn' class='btn btn-blue'>ADD</button>
+                </div>
+              </li>
               <li>
                 <div class="post__user-info">
                   <div class="avatar-small">
@@ -279,6 +288,27 @@
     </main>
   </body>
   <script defer>
+    document.querySelectorAll('#comment-insert-btn').forEach((v,i)=>
+            v.addEventListener('click',()=>{
+              axios.get('insert.com?postNo='+document.querySelectorAll('.post-id')[i].value+"&userNo="+'${loginUser.userNo}'+'&commentContent='+document.querySelectorAll('#comment-input')[i].value)
+                      .then((res)=>{
+                        console.log(res.data)
+                      })
+                      .catch((e)=>{
+                        console.error(e)
+                      })
+            })
+    )
+
+    const loadComment=()=>{
+      document.querySelectorAll('.comment-open').forEach((v,i)=>{
+        v.addEventListener('click',()=>{
+          axios.get('load.com?pno='+document.querySelectorAll('.post-id')[i].value)
+          .then((res)=>console.log(res.data))
+        })
+      })
+    }
+    loadComment()
     document.querySelector(".post_form-btn").addEventListener("click", (e) => {
       document
         .querySelector(".post_form_wrapper")

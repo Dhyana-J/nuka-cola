@@ -44,7 +44,9 @@
 			 , email_auth
 	      from users
 	     where user_status != 1
-           and user_email=#{email}
+
+           		and user_email=#{email}
+				
 	</select>
 	
 	<insert id="insertMember"
@@ -121,5 +123,27 @@
 		   and login_type='local'
 		   and user_status in(0,2)
 	</select>
+	
+	
+	<insert id="updateUserInfo" parameterType="Member">
+		
+		update
+				users
+		set user_info = #{userInfo}
+		where user_no = #{userNo}
+
+	</insert>
+	
+	<select id="selectUserInfo" parameterType="_int" resultType="string">
+	
+		select
+			  user_info
+		from  users
+		where user_no = #{userNo}
+	
+	
+	</select>
+	
+	
 	
 </mapper>

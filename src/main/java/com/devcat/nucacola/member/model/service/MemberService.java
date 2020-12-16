@@ -58,11 +58,13 @@ public interface MemberService {
 	// 트리거로 알아서 되게끔 구현
 	
 	
-	// 한줄 소개 입력
-	int insertUserInfo(String UserInfo);
 	
 	// 한줄 소개 수정
-	int updateUserInfo(String UserInfo);
+	int updateUserInfo(Member m);
+	
+	// 한줄 소개 가져오기
+	String selectUserInfo(int userNo);
+	
 	
 	
 	// 기술 유무 체크 => count로 체크하는건 어떄?
@@ -124,6 +126,7 @@ public interface MemberService {
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);
+	
 	
 	
 	

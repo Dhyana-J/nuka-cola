@@ -1,11 +1,15 @@
 package com.devcat.nucacola.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 
 @Controller
@@ -25,16 +29,33 @@ public class ProfileController {
 	 */
 	
 	// 한줄 소개 입력
-	@RequestMapping("/insert.us")
-	public String insertUserInfo(String UserInfo) {
-		return "/main";
+	@RequestMapping("/update.us")
+	public String updateUserInfo(Member m, HttpSession session, Model model) {
+		
+		//System.out.println(userInfo);
+		//System.out.println(userNo);
+		
+		
+		int result = mService.updateUserInfo(m);
+		
+		if(result>0) {
+
+			Member loginUser = new Member();
+			loginUser = mService.loginMember(m);
+			
+			session.setAttribute("loginUser", loginUser);
+			
+			return "redirect:profile.me";
+			
+		}else {
+			
+			model.addAttribute("errorMsg","수정 실패..");
+			return "common/errorPage";
+		}
+		
+		
 	}
 	
-	// 한줄 소개 수정
-	@RequestMapping("/update.us")
-	public String updateUserInfo(String UserInfo) {
-		return "/main";
-	}
 	
 	// 기술테이블 기술 체크
 	@RequestMapping("/search.sk")
@@ -55,12 +76,12 @@ public class ProfileController {
 	
 	// 업무 분야 입력
 	@RequestMapping("/insert.position.us")
-	public String  insertUserPosition(String UserPosition) {
+	public String  insertUserPosition(String userPosition) {
 		return "/main";
 	}
 	// 업무 분야 수정
 	@RequestMapping("/update.position.us")
-	public String updateUserPosition(String UserPosition) {
+	public String updateUserPosition(String userPosition) {
 		return "/main";
 	}
 	// 프로젝트 입력
@@ -76,12 +97,12 @@ public class ProfileController {
 	
 	// 최종학력 입력
 	@RequestMapping("/insert.edu.us")
-	public String insertUserEdu(String UserEdu) {
+	public String insertUserEdu(String userEdu) {
 		return "/main";
 	}
 	// 최종학력 수정
 	@RequestMapping("/update.edu.us")
-	public String updateUserEdu(String UserEdu) {
+	public String updateUserEdu(String userEdu) {
 		return "/main";
 	}
 	// 경력 입력

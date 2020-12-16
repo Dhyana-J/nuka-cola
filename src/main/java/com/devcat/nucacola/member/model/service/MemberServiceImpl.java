@@ -313,16 +313,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int insertUserInfo(String userInfo) {
+	public int updateUserInfo(Member m) {
 		// TODO Auto-generated method stub
-		return mDao.insertUserInfo(sqlSession,userInfo);
+		return mDao.updateUserInfo(sqlSession,m);
 	}
-
+	
 	@Override
-	public int updateUserInfo(String userInfo) {
-		// TODO Auto-generated method stub
-		return mDao.updateUserInfo(sqlSession,userInfo);
+	public String selectUserInfo(int userNo) {
+		
+		return mDao.selectUserInfo(sqlSession,userNo);
 	}
+	
 
 	@Override
 	public int checkSkill(String skillName) {
@@ -427,7 +428,8 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
-	
+
+
 	
 
 }

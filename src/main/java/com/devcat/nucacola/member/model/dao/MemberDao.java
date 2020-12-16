@@ -94,17 +94,10 @@ public class MemberDao {
 
 	
 	// 한줄 소개
-	public int insertUserInfo(SqlSessionTemplate sqlSession, String userInfo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateUserInfo(SqlSessionTemplate sqlSession,Member m) {
+		return sqlSession.update("memberMapper.updateUserInfo",m);
 	}
 
-	public int updateUserInfo(SqlSessionTemplate sqlSession, String userInfo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
 	
 	//활동 분야, 기술
 	public int checkSkill(SqlSessionTemplate sqlSession, String skillName) {
@@ -199,6 +192,11 @@ public class MemberDao {
 	public int deleteSubComp(SqlSessionTemplate sqlSession, CompSub cs) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public String selectUserInfo(SqlSessionTemplate sqlSession, int userNo) {
+
+		return sqlSession.selectOne("memberMapper.selectUserInfo", userNo);
 	}
 	
 	

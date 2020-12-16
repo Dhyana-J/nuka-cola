@@ -157,14 +157,7 @@ public class SignupController {
 	      HashMap<String, Object> userInfo = mService.getUserInfo(access_Token);
 	      
 	      System.out.println("login Controller : " +  userInfo);
-	      
-	      
-	      
-	      
-	      
-	      
-	      
-	      
+
 	      if (userInfo.get("email") != null) {
 	    	  
 	    	  session.setAttribute("kakoId", userInfo.get("email"));

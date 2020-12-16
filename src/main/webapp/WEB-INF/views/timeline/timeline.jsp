@@ -24,26 +24,6 @@
   	
     <jsp:include page="../common/mainMenu.jsp"/>
   
-    <!-- 헤더 -->
-    <header>
-      <div class="inner">
-        <div class="left__header">
-          <div class="logo">
-            <img src="resources/assets/logo.png" alt="logo" />
-          </div>
-          <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
-            <li class="header__nav-item">COMPANY</li>
-            <li class="header__nav-item">EMPLOYMENT</li>
-          </ul>
-        </div>
-        <div class="right__header">
-          <i class="material-icons">menu</i>
-          <span>MENU</span>
-        </div>
-      </div>
-    </header>
-
     <!-- 메인메뉴 -->
     <div class="main__menu__container">
       <div class="inner">

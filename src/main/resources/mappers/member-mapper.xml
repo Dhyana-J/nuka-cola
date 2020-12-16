@@ -21,6 +21,15 @@
 		<result column="email_auth" property="emailAuth"/>
 	</resultMap>
 	
+	<resultMap id="bookmarkResultSet" type="Bookmark">
+		<result column="user_no" property="userNo"/>
+		<result column="recruit_no" property="recruitNo"/>
+		<result column="recruit_title" property="recruitTitle"/>
+		<result column="recruit_requ" property="recruitRequ"/>
+		<result column="comp_name" property="compName"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
+	
 	<select id="loginMember"
 		    parameterType="Member"
 		    resultMap="memberResultSet">
@@ -122,4 +131,26 @@
 		   and user_status in(0,2)
 	</select>
 	
+	<!-- 북마크 조회 -->
+	<select id="selectBookmark" parameterType="_int" resultMap="bookmarkResultSet">
+		select 
+		b.user_no,
+		recruit_no,
+		to_char(r.created_at, 'YYYY-MM-DD') "created_at",
+		r.recruit_title,
+		r.recruit_requ,
+		c.comp_name
+		from bookmarks b
+		left join recruits r using(recruit_no)
+		left join companys c on(r.comp_no = c.comp_no)
+		where b.user_no=#{uno}
+		order by b.created_at
+		
+	</select>
+	
+	<delete id="deleteBookmark" parameterType="_int">
+	delete 
+	from bookmarks 
+	 where RECRUIT_NO=#{bno}
+	</delete>
 </mapper>

@@ -1,14 +1,18 @@
 package com.devcat.nucacola.member.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Bookmark;
 
 @Controller
 public class SubscribeController {
-
 	
 	// 기업 구독 및 북마크 컨트롤러 입니다.
 	
@@ -24,14 +28,21 @@ public class SubscribeController {
 	
 	// 북마크 조회
 	@RequestMapping("/list.bk")
-	public String selectBookmark() {
-
-		return "/main";
+	public String selectBookmark(int uno, Model model) {
+		ArrayList<Bookmark>blist = mService.selectBookmark(uno);
+		
+		model.addAttribute("blist",blist);
+		return "/user/userProfile_bookmark";
 	}
 	// 북마크 취소
 	@RequestMapping("/delete.bk")
-	public String deleteBookmark() {
-		return "/main";
+	public String deleteBookmark(int bno,int uno) {
+		System.out.println(bno);
+		System.out.println(uno);
+		int result = mService.deleteBookmark(bno);
+//		System.out.println(result);
+
+		return "redirect:list.bk?uno="+uno;
 	}
 	// 기업 구독 추가	
 	@RequestMapping("/insert.sub")

@@ -113,7 +113,7 @@ public class MemberServiceImpl implements MemberService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=9cbaf3231e03e46ca8f9be8ce62f4866");
-			sb.append("&redirect_uri=http://localhost:2020/nucacola/kakaologin.me");
+			sb.append("&redirect_uri=http://localhost:3000/nukacola/kakaologin.me");
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -395,7 +395,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	// 기업구독 및 좋아요
+	// 기업구독 및 북마크
 	
 	@Override
 	public int insertBookmark(Bookmark b) {
@@ -404,13 +404,15 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	@Override
-	public ArrayList<Bookmark> selectBookmark(PageInfo pi) {
-		return mDao.selectBookmark(sqlSession, pi);
+	public ArrayList<Bookmark> selectBookmark(int uno) {
+		return mDao.selectBookmark(sqlSession,uno);
 	}
 
 	@Override
 	public int deleteBookmark(int bno) {
+		System.out.println(bno);
 		return mDao.deleteBookmark(sqlSession, bno);
+		
 	}
 
 	@Override

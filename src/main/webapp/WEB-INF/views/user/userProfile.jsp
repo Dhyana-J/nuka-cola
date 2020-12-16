@@ -57,7 +57,7 @@
                   <ul>
                       <li class="nav-active">PROFILE</li>
                       <li>POST</li>
-                      <li>LIKE</li>
+                      <li onClick='location.href="list.bk?uno=${loginUser.userNo}"'>LIKE</a></li>
                   </ul>
               </div>
               

@@ -109,7 +109,7 @@ public interface MemberService {
 	
 	// 북마크 조회
 	
-	ArrayList<Bookmark> selectBookmark(PageInfo pi);
+	ArrayList<Bookmark> selectBookmark(int uno);
 	
 	// 북마크 취소
 	

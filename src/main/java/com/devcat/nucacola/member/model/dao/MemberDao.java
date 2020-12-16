@@ -175,15 +175,14 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	// 북마크 조회
+	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession,int uno) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBookmark", uno);
 	}
 
 	public int deleteBookmark(SqlSessionTemplate sqlSession, int bno) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("memberMapper.deleteBookmark",bno);
 	}
 
 	public int insertSubComp(SqlSessionTemplate sqlSession, CompSub cs) {

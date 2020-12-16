@@ -66,14 +66,18 @@
               <div class="content__wrapper">
                 <div class="section__content__title">
                     <strong>한줄 소개</strong>
-                    <div class="edit__field" >
-                        <i class="material-icons" id="editIntroduce">create</i>
+                    <div onclick="oneLineToggle()" class="edit__field">
+                      <i id="one-line-btn" class="material-icons">create</i>
                     </div>
                 </div>
-                <span class="just__text">
-                    	안녕하세요? <br>
+                <span class="just__text" id="one-line-info">
+                  	  안녕하세요? <br>
                     	또왔네?
                 </span>
+                <div id="one-line-input" class="edit-disable">
+                  <textarea></textarea>
+                  <button type="button" class="btn">등록</button>
+                </div>
               </div>
               <div class="main__main__section">
                 <div class="main__section__left">
@@ -337,6 +341,39 @@
             
             
         </script>
+                <script>
+
+		  // //왠만해서는 쓰지말자 함수선언식
+		  // function a(a, b) {
+		  //   return a + b;
+		  // }
+		  // //함수표현식
+		  // const b = function (a, b) {
+		  //   return a + b;
+		  // };
+		  // const c = {
+		  //   a() {
+		  //     return this;
+		  //   },
+		  //   b() {
+		  //     return 1;
+		  //   },
+		  // };
+		
+		  // //화살표함수
+		  // const d = (a, b) => a + b;
+		
+		  const oneLineToggle = () => {
+		    document.querySelector("#one-line-info").classList.toggle("edit-disable");
+		    document.querySelector("#one-line-input").classList.toggle("edit-disable");
+		
+		    if (document.querySelector("#one-line-btn").innerText === "create") {
+		      document.querySelector("#one-line-btn").innerText = "close";
+		    } else {
+		      document.querySelector("#one-line-btn").innerText = "create";
+		    }
+		  };
+		  </script>
 			        
 		<jsp:include page="../common/footer.jsp"/>
 

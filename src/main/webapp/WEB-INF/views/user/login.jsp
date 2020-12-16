@@ -67,7 +67,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               <button class="btn btn-facebook"></button>
               <a
                 class="btn btn-katok"
-                href="https://kauth.kakao.com/oauth/authorize?client_id=9cbaf3231e03e46ca8f9be8ce62f4866&redirect_uri=http://localhost:2020/nucacola/kakaologin.me&response_type=code"
+                href="https://kauth.kakao.com/oauth/authorize?client_id=9cbaf3231e03e46ca8f9be8ce62f4866&redirect_uri=http://localhost:8888/nukacola/kakaologin.me&response_type=code"
               ></a>
             </div>
           </form>

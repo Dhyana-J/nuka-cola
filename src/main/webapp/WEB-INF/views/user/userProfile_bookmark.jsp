@@ -127,7 +127,17 @@
              function deleteBtn(bno,uno){
             	 console.log(bno);
             	 console.log(uno);
-            	 location.href="delete.bk?uno="+uno+"&bno="+bno;
+            	 axios.get('delete.bk',{
+            		 params:{
+            			 uno:uno,
+            			 bno:bno,
+            		 }
+            	 })
+            	 .then(function(){
+            		 alert("북마크취소 되었습니다.");
+            		 location.href="list.bk?uno="+uno;
+            	 })
+            	 
             }
             
             

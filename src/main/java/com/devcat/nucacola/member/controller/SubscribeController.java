@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Bookmark;
@@ -35,14 +35,16 @@ public class SubscribeController {
 		return "/user/userProfile_bookmark";
 	}
 	// 북마크 취소
-	@RequestMapping("/delete.bk")
-	public String deleteBookmark(int bno,int uno) {
+	@ResponseBody
+	@RequestMapping(value="/delete.bk", produces="text/html; charset=utf-8")
+	public void deleteBookmark(int bno,int uno) {
 		System.out.println(bno);
 		System.out.println(uno);
 		int result = mService.deleteBookmark(bno);
 //		System.out.println(result);
 
-		return "redirect:list.bk?uno="+uno;
+//		return "redirect:list.bk?uno="+uno;
+//		return "redirect:";
 	}
 	// 기업 구독 추가	
 	@RequestMapping("/insert.sub")

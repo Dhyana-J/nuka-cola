@@ -304,7 +304,6 @@
       
       	'use strict';
       	
-      	
       	//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
   		if(    ${frPi.currentPage}==${frPi.maxPage} 
   			&& ${fgPi.currentPage}==${fgPi.maxPage} 
@@ -321,11 +320,10 @@
       	let stopCnLoad = false;
       
       	//리스트 추가해주는 메소드
-      	const loadList = (stop,list,area)=>{
-      		if(!stop){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-      			
-	      		list.forEach((v)=>{ //팔로워리스트
+      	const loadList = (list,area)=>{
+	      		list.forEach((v)=>{ //리스트의 각 요소 v에 대해
 	      			
+	      			//유저이미지나 회사 비어있는 경우 ''로 대체
 	      			if(v.userAvatar==undefined) v.userAvatar='';
 	      			if(v.userComp==undefined) v.userComp='';
 	      			
@@ -334,21 +332,18 @@
 	      								+'class="circle"'
 	      								+'src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
 	      								+'alt="PROFILE"'+'/>'
-      								+'<div class="content_introduce">'
-      									+'<strong>'+v.userName+'</strong>'
-      									+'<p>'+v.userComp+'</p>'
-    								+'</div>'
-    							 +'</div>';
- 					area.insertAdjacentHTML('beforeend',profile);
+	     								+'<div class="content_introduce">'
+	     									+'<strong>'+v.userName+'</strong>'
+	     									+'<p>'+v.userComp+'</p>'
+	   								+'</div>'
+	   							 +'</div>';
+						area.insertAdjacentHTML('beforeend',profile);
 	      		});
-      			
-      		}
       	};
       	
-      	//페이지 비교해주는 메소드
+    	//팔로워, 팔로잉, 연결 각각의 현재페이지가 마지막페이지면 리스트로드 중지플래그 활성화해주는 메소드
       	const comparePage = (pCon)=>{
       		
-      		//현재페이지가 마지막페이지면 stopLoad 활성화
       		if(pCon.data.piBox[0].currentPage==pCon.data.piBox[0].maxPage){//follower
       			stopFrLoad=true;
       		}
@@ -361,22 +356,18 @@
       		
       	};
       	
-      	//모두 마지막 페이지면 버튼 비활성화해주는 메소드
-      	const disMoreBtn=()=>{
+      	
+      	//more버튼 속성 변경 메소드
+      	const changeMoreBtn=(pCon)=>{
+      		
       		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
             if(    stopFrLoad==true
               	&& stopFgLoad==true
               	&& stopCnLoad==true){
   	            let moreBtn = document.querySelector('#moreBtn');
   	            moreBtn.setAttribute('disabled',true);
-            }
-      	};
-      	
-      	//more버튼 속성 변경 메소드
-      	const changeMoreBtn=(pCon)=>{
-      		//더보기버튼 속성 변경
-            if(!document.querySelector('#moreBtn').hasAttribute('disabled')){ //버튼이 비활성화되어있지 않으면 세팅
-            	
+          	}else{ 
+          		//버튼이 비활성화되어있지 않으면 세팅
 	      		document.querySelector('#moreBtn').setAttribute('onclick',
 	                        'loadMore('+${loginUser.userNo}+','
 	                        +pCon.data.piBox[0].currentPage+','//follower
@@ -390,67 +381,68 @@
       	}
       	
         
-      	//"처음" more버튼 누를 때 실행되는 함수
+      	//***** Main Method *****
+      	//*이미 불러온페이지와 axios 후 방금 불러온 페이지에 따라 플래그 활성화,비활성화됨. 로직 헷갈릴 수 있다
+      	//more버튼 누를 때 실행되는 메소드
       	const loadMore = function(userNo,frCp,frMp,fgCp,fgMp,cnCp,cnMp){
       		
       		
-      		//현재페이지가 마지막페이지가 아니면 다음페이지(현재페이지+1) 세팅
-      		//현재페이지가 마지막페이지면 stopLoad 세팅
-      		if(frCp<${frPi.maxPage}){//follower
-      			frCp++;
+      		//이미 불러온페이지가 마지막페이지가 아니면 다음페이지(현재페이지+1) 세팅
+      		//이미 불러온페이지가 마지막페이지면 stopLoad플래그 활성화 (안해주면 axios실행시 똑같은리스트 또불러올수있음)
+      		if(frCp<frMp){
+      			frCp++;//follower
       		}else{
       			stopFrLoad=true;
       		}
-      		
-      		if(fgCp<${fgPi.maxPage}){//following
-      			fgCp++;
+      		if(fgCp<fgMp){
+      			fgCp++;//following
       		}else{
       			stopFgLoad=true;
       		}
-      		
-      		if(cnCp<${cnPi.maxPage}){//connection
-      			cnCp++;
+      		if(cnCp<cnMp){
+      			cnCp++;//connection
       		}else{
       			stopCnLoad=true;
       		}
       		
       		
 	      	axios.get('connection2.us',{
-	      		params:{
+	      		params:{//유저번호, 불러올 다음페이지 세팅
 	      			userNo:userNo,
-	      			frCp:frCp,
-	      			fgCp:fgCp,
-	      			cnCp:cnCp
+	      			frCp:frCp, 
+	      			fgCp:fgCp, 
+	      			cnCp:cnCp 
 	      		}
 	      	})
 	      	.then(function(pCon){
 	      		
 	      		console.log('loadMore통신 성공');
 	      		
-	      		//넘어온 팔로워,팔로잉,연결 리스트 변수에 담아두자.
-	      		const frList = pCon.data.followers;
-	      		const fgList = pCon.data.followings;
-	      		const cnList = pCon.data.connections;
 	      		
-	      		//리스트를 출력해줄 각 구역 Dom객체 저장
-	      		let frArea = document.querySelector(".section__connection:first-child");//팔로워
-	      		let fgArea = document.querySelector(".section__connection:nth-child(2)");//팔로잉
-	      		let cnArea = document.querySelector(".section__connection:nth-child(3)");//연결
-
+	      		//넘어온 팔로워,팔로잉,연결 리스트 추가해주자 (stopLoad false인 경우만)
+	      		if(!stopFrLoad){
+		      		const frList = pCon.data.followers;//리스트를 출력해줄 구역 Dom 가져오기
+		      		let frArea = document.querySelector(".section__connection:first-child");//팔로워
+		      		loadList(frList,frArea);
+	      		}
+	      		if(!stopFgLoad){
+		      		const fgList = pCon.data.followings;
+		      		let fgArea = document.querySelector(".section__connection:nth-child(2)");//팔로잉
+		      		loadList(fgList,fgArea);
+	      		}
+	      		if(!stopCnLoad){
+		      		const cnList = pCon.data.connections;
+		      		let cnArea = document.querySelector(".section__connection:nth-child(3)");//연결
+		      		loadList(cnList,cnArea);
+	      		}
 	      		
-	      		//가져온 데이터를 가지고 리스트 수정해주기
-	      		loadList(stopFrLoad,frList,frArea);
-	      		loadList(stopFgLoad,fgList,fgArea);
-	      		loadList(stopCnLoad,cnList,cnArea);
-	      		
-	      		//현재페이지가 마지막페이지면 stopLoad 활성화
+	      		//팔로잉,팔로워,연결 각각 방금 불러온 페이지가 마지막페이지면 stopLoad 활성화
 	      		comparePage(pCon);
 	      		
-	      		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
-	            disMoreBtn();
-	      		
-	      		//더보기버튼 속성 변경
+	      		//more버튼 속성 변경(stopLoad전부 활성화되어있으면 disabled)
+	      		//하나라도 비활성화면 매개변수 세팅
 	            changeMoreBtn(pCon);
+	      		
 	      		
 	      		console.log('loadMore통신 마무리!');
 	      	})

@@ -135,7 +135,7 @@
             	 })
             	 .then(function(){
             		 alert("북마크취소 되었습니다.");
-            		 
+            		 location.href="list.bk?uno="+uno;
             	 })
             	 
             }
@@ -232,5 +232,6 @@
 
 
           </main>
+          <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

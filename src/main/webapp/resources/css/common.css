@@ -222,7 +222,9 @@ header .right__header {
 .content__section {
   padding-top: 100px;
   background: #f7fbff;
-  height: 1800px;
+  min-height:1000px;
+  height:auto;
+  padding-bottom:20px;
 }
 
 .content__section .section__title {

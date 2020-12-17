@@ -41,6 +41,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    border-left: 15px solid #575db4;
   }
   
   .main__section__left .content__wrapper li {
@@ -210,6 +211,7 @@
   .company__img__box img{
   	  margin:0px;
   	  padding:0px;
+  	  align-self:center;
       width:97%;
       height: 98%;
       

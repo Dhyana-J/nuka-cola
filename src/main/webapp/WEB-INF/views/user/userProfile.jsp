@@ -277,7 +277,12 @@
 
             	<div class="section__more-member">
             		
-                	<button id="moreBtn" class="btn visual__right" onclick="loadMore(${loginUser.userNo},${frPi.currentPage},${fgPi.currentPage},${cnPi.currentPage});">MORE</button>
+                	<button id="moreBtn" class="btn visual__right" 
+                			onclick="loadMore(${loginUser.userNo},${frPi.currentPage},${frPi.maxPage}
+					                								,${fgPi.currentPage},${fgPi.maxPage}
+					                								,${cnPi.currentPage},${cnPi.maxPage});">
+                		MORE
+             		</button>
                 	
             	</div>
 			
@@ -310,15 +315,83 @@
   				
   		}
       	
-      	
       	//리스트 로드 중지 플래그
       	let stopFrLoad = false;
       	let stopFgLoad = false;
       	let stopCnLoad = false;
       
+      	//리스트 추가해주는 메소드
+      	const loadList = (stop,list,area)=>{
+      		if(!stop){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
+      			
+	      		list.forEach((v)=>{ //팔로워리스트
+	      			
+	      			if(v.userAvatar==undefined) v.userAvatar='';
+	      			if(v.userComp==undefined) v.userComp='';
+	      			
+	      			let profile = '<div class="content__profile">'
+	      							+'<img '
+	      								+'class="circle"'
+	      								+'src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
+	      								+'alt="PROFILE"'+'/>'
+      								+'<div class="content_introduce">'
+      									+'<strong>'+v.userName+'</strong>'
+      									+'<p>'+v.userComp+'</p>'
+    								+'</div>'
+    							 +'</div>';
+ 					area.insertAdjacentHTML('beforeend',profile);
+	      		});
+      			
+      		}
+      	};
+      	
+      	//페이지 비교해주는 메소드
+      	const comparePage = (pCon)=>{
+      		
+      		//현재페이지가 마지막페이지면 stopLoad 활성화
+      		if(pCon.data.piBox[0].currentPage==pCon.data.piBox[0].maxPage){//follower
+      			stopFrLoad=true;
+      		}
+      		if(pCon.data.piBox[1].currentPage==pCon.data.piBox[1].maxPage){//following
+      			stopFgLoad=true;
+      		}
+      		if(pCon.data.piBox[2].currentPage==pCon.data.piBox[2].maxPage){//connection
+      			stopCnLoad=true;
+      		}
+      		
+      	};
+      	
+      	//모두 마지막 페이지면 버튼 비활성화해주는 메소드
+      	const disMoreBtn=()=>{
+      		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
+            if(    stopFrLoad==true
+              	&& stopFgLoad==true
+              	&& stopCnLoad==true){
+  	            let moreBtn = document.querySelector('#moreBtn');
+  	            moreBtn.setAttribute('disabled',true);
+            }
+      	};
+      	
+      	//more버튼 속성 변경 메소드
+      	const changeMoreBtn=(pCon)=>{
+      		//더보기버튼 속성 변경
+            if(!document.querySelector('#moreBtn').hasAttribute('disabled')){ //버튼이 비활성화되어있지 않으면 세팅
+            	
+	      		document.querySelector('#moreBtn').setAttribute('onclick',
+	                        'loadMore('+${loginUser.userNo}+','
+	                        +pCon.data.piBox[0].currentPage+','//follower
+	                        +pCon.data.piBox[0].maxPage+','
+	                        +pCon.data.piBox[1].currentPage+','//following
+	                        +pCon.data.piBox[1].maxPage+','
+	                        +pCon.data.piBox[2].currentPage+','//connection
+	                        +pCon.data.piBox[2].maxPage+')'
+	                      );
+            }
+      	}
+      	
         
       	//"처음" more버튼 누를 때 실행되는 함수
-      	const loadMore = function(userNo,frCp,fgCp,cnCp){
+      	const loadMore = function(userNo,frCp,frMp,fgCp,fgMp,cnCp,cnMp){
       		
       		
       		//현재페이지가 마지막페이지가 아니면 다음페이지(현재페이지+1) 세팅
@@ -353,9 +426,6 @@
 	      	.then(function(pCon){
 	      		
 	      		console.log('loadMore통신 성공');
-	      		//console.log(pCon);
-	            //console.log(pCon.data);
-	            //console.log(pCon.data.followings);
 	      		
 	      		//넘어온 팔로워,팔로잉,연결 리스트 변수에 담아두자.
 	      		const frList = pCon.data.followers;
@@ -369,92 +439,18 @@
 
 	      		
 	      		//가져온 데이터를 가지고 리스트 수정해주기
-	      		if(!stopFrLoad){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-	      			
-		      		frList.forEach((follower)=>{ //팔로워리스트
-		      			let profile = '<div class="content__profile">'
-		      							+'<img '
-		      								+'class="circle"'
-		      								+'src="${pageContext.request.contextPath}/'+follower.userAvatar+'"'
-		      								+'alt="PROFILE"'+'/>'
-	      								+'<div class="content_introduce">'
-	      									+'<strong>'+follower.userName+'</strong>'
-	      									+'<p>'+follower.userComp+'</p>'
-	    								+'</div>'
-	    							 +'</div>';
-	 					frArea.insertAdjacentHTML('beforeend',profile);
-		      		});
-	      			
-	      		}
-	      		
-	      		if(!stopFgLoad){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-	      			
-		      		fgList.forEach((following)=>{ //팔로잉리스트
-		      			let profile = '<div class="content__profile">'
-		      							+'<img '
-		      								+'class="circle"'
-		      								+'src="${pageContext.request.contextPath}/'+following.userAvatar+'"'
-		      								+'alt="PROFILE"'+'/>'
-	      								+'<div class="content_introduce">'
-	      									+'<strong>'+following.userName+'</strong>'
-	      									+'<p>'+following.userComp+'</p>'
-	    								+'</div>'
-	    							 +'</div>';
-	 					fgArea.insertAdjacentHTML('beforeend',profile);
-		      		});
-	      			
-	      		}
-	      		
-	      		if(!stopCnLoad){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-	      			
-		      		cnList.forEach((connection)=>{ //연결리스트
-		      			let profile = '<div class="content__profile">'
-		      							+'<img '
-		      								+'class="circle"'
-		      								+'src="${pageContext.request.contextPath}/'+connection.userAvatar+'"'
-		      								+'alt="PROFILE"'+'/>'
-	      								+'<div class="content_introduce">'
-	      									+'<strong>'+connection.userName+'</strong>'
-	      									+'<p>'+connection.userComp+'</p>'
-	    								+'</div>'
-	    							 +'</div>';
-	 					cnArea.insertAdjacentHTML('beforeend',profile);
-		      		});
-	      			
-	      		}//리스트 출력 끝
+	      		loadList(stopFrLoad,frList,frArea);
+	      		loadList(stopFgLoad,fgList,fgArea);
+	      		loadList(stopCnLoad,cnList,cnArea);
 	      		
 	      		//현재페이지가 마지막페이지면 stopLoad 활성화
-	      		if(pCon.data.piBox[0].currentPage==pCon.data.piBox[0].maxPage){//follower
-	      			stopFrLoad=true;
-	      		}
-	      		if(pCon.data.piBox[1].currentPage==pCon.data.piBox[1].maxPage){//following
-	      			stopFgLoad=true;
-	      		}
-	      		if(pCon.data.piBox[2].currentPage==pCon.data.piBox[2].maxPage){//connection
-	      			stopCnLoad=true;
-	      		}
+	      		comparePage(pCon);
 	      		
 	      		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
-	            if(    stopFrLoad==true
-	              	&& stopFgLoad==true
-	              	&& stopCnLoad==true){
-	  	            let moreBtn = document.querySelector('#moreBtn');
-	  	            moreBtn.setAttribute('disabled',true);
-	            }
+	            disMoreBtn();
 	      		
 	      		//더보기버튼 속성 변경
-	            if(!document.querySelector('#moreBtn').hasAttribute('disabled')){ //버튼이 비활성화되어있지 않으면 세팅
-	            	
-		      		document.querySelector('#moreBtn').setAttribute('onclick',
-		                        'loadMore2('+${loginUser.userNo}+','
-		                        +pCon.data.piBox[0].currentPage+','//follower
-		                        +pCon.data.piBox[0].maxPage+','
-		                        +pCon.data.piBox[1].currentPage+','//following
-		                        +pCon.data.piBox[1].maxPage+','
-		                        +pCon.data.piBox[2].currentPage+','//connection
-		                        +pCon.data.piBox[2].maxPage+')'
-		                      );
-	            }
+	            changeMoreBtn(pCon);
 	      		
 	      		console.log('loadMore통신 마무리!');
 	      	})
@@ -462,160 +458,6 @@
 	      		console.log(error);
 	      	})
       	};
-      	
-     
-        //"두 번" 이상 more버튼 누를 때 실행되는 함수
-     	//loadMore2는 유저번호와 팔로우,팔로잉,연결의 현재페이지, 마지막페이지 값을 받는다.
-        const loadMore2 = function(userNo,frCp,frMp,fgCp,fgMp,cnCp,cnMp){
-          
-          //console.log('userno '+userNo);
-          //console.log('frCp '+frCp);
-          //console.log('frMp '+frMp);
-          //console.log('fgCp '+fgCp);
-          //console.log('fgMp '+fgMp);
-          //console.log('cnCp '+cnCp);
-          //console.log('cnMp '+cnMp);
-        
-          
-          //현재페이지가 마지막페이지가 아니면 다음페이지(현재페이지+1) 세팅
-          if(frCp<frMp){//follower
-            frCp++;
-          }
-          if(fgCp<fgMp){//following
-            fgCp++;
-          }
-          if(cnCp<cnMp){//connection
-            cnCp++;
-          }
-
-          
-          //------------현재페이지에 관한 세팅 작업 끝
-          
-          
-          // 통신 시작
-          axios.get('connection2.us',{
-            params:{
-              userNo:userNo,
-              frCp:frCp,
-              fgCp:fgCp,
-              cnCp:cnCp
-            }
-          })
-          .then(function(pCon){
-        	console.log('loadMore2통신 시작');
-            console.log(pCon);
-            console.log(pCon.data);
-            console.log(pCon.data.followings);
-            
-            //넘어온 팔로워,팔로잉,연결 리스트 변수에 담아두자.
-            const frList = pCon.data.followers;
-            const fgList = pCon.data.followings;
-            const cnList = pCon.data.connections;
-            
-            //리스트를 출력해줄 각 구역 Dom객체 저장
-            let frArea = document.querySelector(".section__connection:first-child");
-            let fgArea = document.querySelector(".section__connection:nth-child(2)");
-            let cnArea = document.querySelector(".section__connection:nth-child(3)");
-
-            
-          	//가져온 데이터를 가지고 리스트 수정해주기
-      		if(!stopFrLoad){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-      			
-	      		frList.forEach((follower)=>{ //팔로워리스트
-	      			let profile = '<div class="content__profile">'
-	      							+'<img '
-	      								+'class="circle"'
-	      								+'src="${pageContext.request.contextPath}/'+follower.userAvatar+'"'
-	      								+'alt="PROFILE"'+'/>'
-      								+'<div class="content_introduce">'
-      									+'<strong>'+follower.userName+'</strong>'
-      									+'<p>'+follower.userComp+'</p>'
-    								+'</div>'
-    							 +'</div>';
- 					frArea.insertAdjacentHTML('beforeend',profile);
-	      		});
-      			
-      		}
-      		
-      		if(!stopFgLoad){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-      			
-	      		fgList.forEach((following)=>{ //팔로잉리스트
-	      			let profile = '<div class="content__profile">'
-	      							+'<img '
-	      								+'class="circle"'
-	      								+'src="${pageContext.request.contextPath}/'+following.userAvatar+'"'
-	      								+'alt="PROFILE"'+'/>'
-      								+'<div class="content_introduce">'
-      									+'<strong>'+following.userName+'</strong>'
-      									+'<p>'+following.userComp+'</p>'
-    								+'</div>'
-    							 +'</div>';
- 					fgArea.insertAdjacentHTML('beforeend',profile);
-	      		});
-      			
-      		}
-      		
-      		if(!stopCnLoad){//현재페이지가 마지막페이지가 아닌 경우 리스트 가져옴
-      			
-	      		cnList.forEach((connection)=>{ //연결리스트
-	      			let profile = '<div class="content__profile">'
-	      							+'<img '
-	      								+'class="circle"'
-	      								+'src="${pageContext.request.contextPath}/'+connection.userAvatar+'"'
-	      								+'alt="PROFILE"'+'/>'
-      								+'<div class="content_introduce">'
-      									+'<strong>'+connection.userName+'</strong>'
-      									+'<p>'+connection.userComp+'</p>'
-    								+'</div>'
-    							 +'</div>';
- 					cnArea.insertAdjacentHTML('beforeend',profile);
-	      		});
-      			
-      		}//리스트 출력 끝
-      		
-      		//현재페이지가 마지막페이지면 stopLoad 활성화
-      		if(pCon.data.piBox[0].currentPage==pCon.data.piBox[0].maxPage){//follower
-      			stopFrLoad=true;
-      		}
-      		if(pCon.data.piBox[1].currentPage==pCon.data.piBox[1].maxPage){//following
-      			stopFgLoad=true;
-      		}
-      		if(pCon.data.piBox[2].currentPage==pCon.data.piBox[2].maxPage){//connection
-      			stopCnLoad=true;
-      		}
-            
-      		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
-            if(    stopFrLoad==true
-              	&& stopFgLoad==true
-              	&& stopCnLoad==true){
-  	            let moreBtn = document.querySelector('#moreBtn');
-  	            moreBtn.setAttribute('disabled',true);
-            }
-      		
-            //더보기버튼 속성 변경
-            if(!document.querySelector('#moreBtn').hasAttribute('disabled')){ //버튼이 비활성화되어있지 않으면 세팅
-            	
-	      		document.querySelector('#moreBtn').setAttribute('onclick',
-	                        'loadMore2('+${loginUser.userNo}+','
-	                        +pCon.data.piBox[0].currentPage+','//follower
-	                        +pCon.data.piBox[0].maxPage+','
-	                        +pCon.data.piBox[1].currentPage+','//following
-	                        +pCon.data.piBox[1].maxPage+','
-	                        +pCon.data.piBox[2].currentPage+','//connection
-	                        +pCon.data.piBox[2].maxPage+')'
-	                      );
-            }
-            
-            
-            console.log('loadMore2통신 마무리!');
-          })
-          .catch(function (error){
-            console.log(error);
-          })
-        };
-	        
-        
- 
       
       </script><!-- 팔로우, 팔로잉, 연결 조회 전용 Javascript 끝 -->
 		

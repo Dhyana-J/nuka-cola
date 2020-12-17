@@ -421,8 +421,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<CompSub> selectSubComp(PageInfo pi) {
-		return mDao.selectSubComp(sqlSession, pi);
+	public ArrayList<CompSub> selectSubComp(int uno) {
+		return mDao.selectSubComp(sqlSession, uno);
 	}
 
 	@Override

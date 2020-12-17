@@ -185,14 +185,15 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.deleteBookmark",bno);
 	}
 
+	//기업구독
 	public int insertSubComp(SqlSessionTemplate sqlSession, CompSub cs) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	// 기업구독 조회
+	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, int uno) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSubComp",uno);
 	}
 
 	public int deleteSubComp(SqlSessionTemplate sqlSession, CompSub cs) {

@@ -11,10 +11,13 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CompSub {
-
-	
 	private int userNo;
 	private int compNo;
+	private String compName;
+	private String compInfo;
+	private String compLogo;
+	private String compBirth;
+	private String compHeadcount;
 	private String createdAt;
 	
 	

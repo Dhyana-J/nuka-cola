@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>  
+<title>Insert title here</title>
+</head>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -19,16 +20,13 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="resources/css/common.css" />
-    <link rel="stylesheet" href="resources/css/profile/profile_like_bookmark.css" />
+    <link rel="stylesheet" href="resources/css/profile/profile(script-company).css" />
     <link rel=”stylesheet” href=”icono.min.css”>
     <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-</head>
 <body>
-	<jsp:include page="../common/mainMenu.jsp"/>
+   <jsp:include page="../common/mainMenu.jsp"/>
       <section class="visual__section">
         <div class="inner">
           <div class="visual__left">
@@ -37,7 +35,7 @@
             </div>
             <div>
               <div class="main__info">
-                <strong>${loginUser.userName}</strong>
+                <strong>방글이</strong>
                 <span>Apple.Inc</span>
                 <span>Front-end Amazone AWS, github에 관심</span>
               </div>
@@ -61,90 +59,64 @@
                       <li class="nav-active">LIKE</li>
                   </ul>
               </div>
-          
-    <div class="main__main__section">
-        <div class="main__section__left">
-            <div class="content__wrapper">
-              <ul class="left__info">
-                <li>TOP</li>
-                <li>팔로잉</li>
-                <li>팔로워</li>
-                <li>북마크</li>
-                <li onClick='location.href="list.sub?uno=${loginUser.userNo}"'>구독기업</li>
-                <li>좋아요게시글</li>
-                <li>연결</li>
-              </ul>
-            </div>
-        </div>
-        <div class="main__section__right">
-            <div class="content__wrapper">
-                <div class="section__content__title">
-                    <strong>북마크한 채용공고</strong>  
+              
+              <div class="main__main__section">
+                <div class="main__section__left">
+                    <div class="content__wrapper">
+                      <ul class="left__info">
+                        <li>TOP</li>
+                        <li>팔로잉</li>
+                        <li>팔로워</li>
+                        <li>북마크</li>
+                        <li onClick='location.href="insert.sub?uno=${loginUser.userNo}"'>구독기업</li>
+                        <li>좋아요게시물</li>
+                        <li>연결</li>
+                      </ul>
+                    </div>
                 </div>
-                <div class="just__text">${fn:length(blist)}개의 공고</div>
-				<c:forEach var="b" items="${blist}">
-				<div>
-                <div class="just__text__item">
-                    <span class="just__text__title">${b.compName}</span>
-                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
-                    
-                    <c:if test="${b.recruitRequ eq '0'}">
-                    	<span class="just__text__recruit">신입</span>
-                    </c:if>
-                    <c:if test="${b.recruitRequ eq '1'}">
-                    	<span class="just__text__recruit">경력</span>
-                    </c:if>
-                    <c:if test="${b.recruitRequ eq '2'}">
-                    	<span class="just__text__recruit">신입 경력</span>
-                    </c:if>
+                <div class="main__section__right">
                     
                     
-                    <a class="section__content__title__cencle" onclick="deleteBtn(${b.recruitNo},${b.userNo});">북마크 제외</a>
-                </div>
-                <div class="section__content__box">
-                    <span class="compindus__box">node.js</span>
-                    <span class="compindus__box">React.js</span>
-                    <span class="compindus__box">kotlin</span>
-                    <span class="compindus__box">JAVA</span>
-                </div> 
-                <div class="sysdate">${b.createdAt}</div>
-                </div>
-                </c:forEach>
-                
+                  <div class="content__wrapper">
+                    <div class="section__content__title">
+                        <strong>구독기업</strong>
+                      </div><br>
+                          <span class="following__much">&nbsp;
+                            <strong>102</strong>개의 공고
+                          </span>
+                    <br><br>
+                    	<c:forEach var="cs" items="${cslist}">
+                          <div class="script__company__box">
+                            <div class="company__box__left">
+                                <div class="company__img__box">
+                                <img src="../../assets/loginImage.jpg" alt="">
+                                </div>
+                                <ul>
+                                    <li class="company__info__title">${cs.compName}<span>구성원수&nbsp;Sinece${cs.compBirth}</span> </li>
+                                    <li>${cs.compInfo}</li>
+                                </ul>
+                            </div>
+                            <div class="company__box__right">
+                                <span>삭제</span>
+                            </div>
 
-            </div>
-            </div>
-                    
-        </div>
+                          </div>
 
-        </div>
-    </div>
-                
+                   	 </c:forEach>
+                    
+
+
+
+                   </div>
+                </div>
+              </div>
+            </div>
+
+
             <a id="topBtn" href="#"><img id="logoDesign"src="../../assets/avatar.png" alt=""></a>
 
             <script>
 
-             function deleteBtn(bno,uno){
-            	 console.log(bno);
-            	 console.log(uno);
-            	 axios.get('delete.bk',{
-            		 params:{
-            			 uno:uno,
-            			 bno:bno,
-            		 }
-            	 })
-            	 .then(function(){
-            		 alert("북마크취소 되었습니다.");
-            		 location.href="list.bk?uno="+uno;
-            	 })
-            	 
-            }
-            
-            
-            
-            
-            
-            
             $(function() { 
               $(window).scroll(function() { 
                 if ($(this).scrollTop() > 1000) { 

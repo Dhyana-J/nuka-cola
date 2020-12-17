@@ -30,6 +30,17 @@
 		<result column="created_at" property="createdAt"/>
 	</resultMap>
 	
+	<resultMap id="ComSubResultSet" type="CompSub">
+		<result column="user_no" property="userNo"/>
+		<result column="comp_no" property="compNo"/>
+		<result column="comp_name" property="compName"/>
+		<result column="comp_info" property="compInfo"/>
+		<result column="comp_logo" property="compLogo"/>
+		<result column="comp_birth" property="compBirth"/>
+		<result column="comp_headcount" property="compHeadcount"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
+	
 	<select id="loginMember"
 		    parameterType="Member"
 		    resultMap="memberResultSet">
@@ -153,4 +164,20 @@
 	from bookmarks 
 	 where RECRUIT_NO=#{bno}
 	</delete>
+	
+	<select id="selectSubComp" parameterType="_int" resultMap="ComSubResultSet">
+	select 
+	cs.user_no,
+	comp_no,
+	comp_name,
+	comp_info,
+	comp_logo,
+	substr(c.comp_birth,1,4) "COMP_BIRTH",
+	cs.CREATED_AT,
+	substr(COMP_HEADCOUNT,1,instr(COMP_HEADCOUNT,'명')-1) COMP_HEADCOUNT
+	from comp_sub cs
+	join companys c using(comp_no)
+	where cs.user_no=#{uno}
+	order by cs.created_at
+	</select>
 </mapper>

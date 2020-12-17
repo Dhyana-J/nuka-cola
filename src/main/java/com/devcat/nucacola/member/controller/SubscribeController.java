@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Bookmark;
+import com.devcat.nucacola.member.model.vo.CompSub;
 
 @Controller
 public class SubscribeController {
@@ -56,8 +57,11 @@ public class SubscribeController {
 		
 	// 기업 구독 조회
 	@RequestMapping("/list.sub")
-	public String selectSubComp() {
-		return "/main";
+	public String selectSubComp(int uno, Model model) {
+		ArrayList<CompSub> cslist=mService.selectSubComp(uno);
+		model.addAttribute("cslist",cslist);
+		System.out.println(cslist);
+		return "/user/userProfile_scriptCompany";
 		
 	
 	}

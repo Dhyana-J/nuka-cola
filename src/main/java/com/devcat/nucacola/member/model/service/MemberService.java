@@ -120,7 +120,7 @@ public interface MemberService {
 	int insertSubComp(CompSub cs);
 
 	// 기업 구독 조회
-	ArrayList<CompSub> selectSubComp(PageInfo pi);
+	ArrayList<CompSub> selectSubComp(int uno);
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);

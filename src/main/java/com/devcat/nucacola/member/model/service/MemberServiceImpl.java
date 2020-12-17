@@ -23,6 +23,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
@@ -318,15 +319,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateUserInfo(sqlSession,m);
 	}
 	
-	@Override
-	public String selectUserInfo(int userNo) {
-		
-		return mDao.selectUserInfo(sqlSession,userNo);
-	}
+
 	
 
 	@Override
-	public int checkSkill(String skillName) {
+	public ArrayList<Skills> checkSkill(String skillName) {
 		// TODO Auto-generated method stub
 		return mDao.checkSkill(sqlSession,skillName);
 	}

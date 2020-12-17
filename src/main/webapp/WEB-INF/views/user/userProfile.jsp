@@ -23,6 +23,7 @@ pageEncoding="UTF-8"%>
     <link rel="stylesheet" href="resources/css/profile__main.css" />
     <link rel="”stylesheet”" href="”icono.min.css”" />
     <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <jsp:include page="../common/mainMenu.jsp" />
@@ -64,7 +65,7 @@ pageEncoding="UTF-8"%>
         <div class="content__wrapper">
           <div class="section__content__title">
             <strong>한줄 소개</strong>
-            <div onclick="oneLineToggle()" class="edit__field">
+            <div onclick="oneLineToggle();" class="edit__field">
               <i id="one-line-btn" class="material-icons">create</i>
             </div>
           </div>
@@ -78,6 +79,8 @@ pageEncoding="UTF-8"%>
             <button type="button" onclick="sendUserInfo();" class="btn">등록</button>
           </div>
         </div>
+        
+        
         <div class="main__main__section">
           <div class="main__section__left">
             <div class="content__wrapper">
@@ -98,15 +101,34 @@ pageEncoding="UTF-8"%>
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>활동분야</strong>
-                <div id="edit__act" class="edit__field">
-                  <i class="material-icons" id="editField">create</i>
+                <div onclick="userFiledToggle();" class="edit__field">
+                  <i class="material-icons" id="user-filed-btn">create</i>
                 </div>
               </div>
-              <div class="section__content__box">
+              <div  id="user-filed-list" class="section__content__box">
                 <span class="compindus__box">node.js</span>
                 <span class="compindus__box">React.js</span>
                 <span class="compindus__box">kotlin</span>
                 <span class="compindus__box">JAVA</span>
+              </div>
+              <div id="user-filed-input" class="edit-disable">
+              		<!-- 기술 검색  -->
+	              
+	              	<input type="text" id="user-filed-search" />
+	              
+	              	<!-- 기술 관련 검색어 자리  -->
+	              	<div id="user-filed-search-list">
+
+	              	</div>
+	              	
+	              	<br />
+	              	<!-- 기술 관련 검색어 입력 결과자리  -->
+						<ul class="result_tag"></ul>
+	              	
+	              	<br />
+					
+					<button type="button" id="user-filed-final-btn" class="btn">등록</button>
+
               </div>
             </div>
             
@@ -115,7 +137,7 @@ pageEncoding="UTF-8"%>
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>업무분야</strong>
-                <div onclick="positionToggle()" class="edit__field">
+                <div onclick="positionToggle();" class="edit__field">
                   <i id="position-btn" class="material-icons">create</i>
                 </div>
               </div>
@@ -306,10 +328,9 @@ pageEncoding="UTF-8"%>
 			
    		}
    
-   
-   
+   	
+   		
 
-        
 
         const oneLineToggle = () => {
           document
@@ -342,6 +363,84 @@ pageEncoding="UTF-8"%>
               document.querySelector("#position-btn").innerText = "create";
             }
           };
+          
+          
+          /*유저사용기술 토글 */
+          const userFiledToggle = () => {
+            document
+              .querySelector("#user-filed-list")
+              .classList.toggle("edit-disable");
+            document
+              .querySelector("#user-filed-input")
+              .classList.toggle("edit-disable");
+
+            if (document.querySelector("#user-filed-btn").innerText === "create") {
+              document.querySelector("#user-filed-btn").innerText = "close";
+            } else {
+              document.querySelector("#user-filed-btn").innerText = "create";
+            }
+          };
+          
+          
+          
+          
+          document.querySelector("#user-filed-search").addEventListener("keyup", () => {
+        	  	
+        	  const skill = document.querySelector("#user-filed-search").value;
+        	  console.log(skill);
+        	  console.log(skill.length);
+        	  
+  			 if(skill.length>0)	{
+  				 
+  				axios.get('search.sk', {
+      			    params: {
+      			      skillName: skill
+      			    }
+      			  })
+      			  .then(function (response) {
+      		    		let searchResult = "";
+      				  response.data.forEach(v=>{
+      					  
+      					searchResult += "&nbsp;<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
+
+      				  })
+						
+ 
+      				   document.getElementById("user-filed-search-list").innerHTML = searchResult
+      				  
+      				   
+      				   /* 2. result tag에 버튼 만들어주기 */
+      				  document.querySelector("#user-filed-search-list").addEventListener("click", ()=>{
+      					  
+
+      					  
+      				  })
+      				   
+      				  
+      			  })
+      			  .catch(function (error) {
+      			    console.log(error);
+      			  })
+      			  .then(function () {
+      			    // ...
+      			  });
+
+  			 }
+    			
+        	  
+        	  document.querySelector("#user-filed-final-btn").addEventListener("click", () => {
+
+      		})
+	
+          });
+          
+          
+		
+
+          
+          
+          
+          
         
       </script>
 

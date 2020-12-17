@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.CompSub;
@@ -62,14 +63,11 @@ public interface MemberService {
 	// 한줄 소개 수정
 	int updateUserInfo(Member m);
 	
-	// 한줄 소개 가져오기
-	String selectUserInfo(int userNo);
+
 	
 	
-	
-	// 기술 유무 체크 => count로 체크하는건 어떄?
-	
-	int checkSkill(String skillName);
+	// 스킬 검색목록 불러오기
+	ArrayList<Skills> checkSkill(String skillName);
 	
 	
 	// 활동 분야 입력
@@ -83,6 +81,10 @@ public interface MemberService {
 
 	// 업무 분야 수정
 	int updateUserPosi(Member m);
+	
+	
+	
+	
 	
 	// 프로젝트 입력
 	int insertProject(Project p);

@@ -1,16 +1,21 @@
 package com.devcat.nucacola.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
+import com.google.gson.Gson;
 
 @Controller
 public class ProfileController {
@@ -31,10 +36,6 @@ public class ProfileController {
 	// 한줄 소개 입력
 	@RequestMapping("/update.us")
 	public String updateUserInfo(Member m, HttpSession session, Model model) {
-		
-		//System.out.println(userInfo);
-		//System.out.println(userNo);
-		
 		
 		int result = mService.updateUserInfo(m);
 		
@@ -58,10 +59,22 @@ public class ProfileController {
 	
 	
 	// 기술테이블 기술 체크
-	@RequestMapping("/search.sk")
-	public String searchSkill(String skillName) {
-		return "/main";
+	@ResponseBody
+	@RequestMapping(value="/search.sk", produces="application/json; charset=utf-8")
+	public String searchSkill(String skillName,Model model) {
+		
+		//System.out.println(skillName);
+		
+		ArrayList<Skills> list = mService.checkSkill(skillName);
+		
+		System.out.println(list);
+		
+		
+		return new Gson().toJson(list);
+		
 	}
+	
+	
 
 	// 활동 분야 입력
 	@RequestMapping("/insert.field.us")

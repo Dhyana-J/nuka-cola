@@ -21,6 +21,12 @@
 		<result column="email_auth" property="emailAuth"/>
 	</resultMap>
 	
+	<resultMap id="skillResultSet" type="Skills">
+		<result column="skill_no" property="skillNo"/>
+		<result column="skill_name" property="skillName"/>
+	</resultMap>
+	
+	
 	<select id="loginMember"
 		    parameterType="Member"
 		    resultMap="memberResultSet">
@@ -134,16 +140,6 @@
 
 	</update>
 	
-	<select id="selectUserInfo" parameterType="_int" resultType="string">
-	
-		select
-			  user_info
-		from  users
-		where user_no = #{userNo}
-	
-	
-	</select>
-	
 	<update id="updateUserPosi" parameterType="Member">
 		
 		update
@@ -152,5 +148,20 @@
 		where user_no = #{userNo}
 
 	</update>
+	
+	
+	<select id="checkSkill" parameterType="string" resultMap="skillResultSet">
+	
+		select
+			   skill_no
+			 , skill_name
+		from skills
+		where skill_name like '%' || #{skillName} || '%'
+	
+	
+	</select>
+	
+	
+	
 	
 </mapper>

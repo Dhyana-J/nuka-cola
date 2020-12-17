@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.CompSub;
@@ -100,9 +101,9 @@ public class MemberDao {
 
 	
 	//활동 분야, 기술
-	public int checkSkill(SqlSessionTemplate sqlSession, String skillName) {
-		// TODO Auto-generated method stub
-		return 0;
+	public ArrayList<Skills> checkSkill(SqlSessionTemplate sqlSession, String skillName) {
+
+		return (ArrayList)sqlSession.selectList("memberMapper.checkSkill",skillName);
 	}
 
 	public int insertUserFiled(SqlSessionTemplate sqlSession, int skillNo) {

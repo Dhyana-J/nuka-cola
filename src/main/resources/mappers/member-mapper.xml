@@ -47,6 +47,9 @@
 	      from users
 	     where user_status != 1
            and user_email=#{email}
+           <!-- 
+            and user_pwd=#{userPwd}
+            -->
 	</select>
 	
 	<insert id="insertMember"

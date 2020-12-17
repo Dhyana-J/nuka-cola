@@ -159,7 +159,8 @@ public class MemberDao {
 	//팔로워(나를팔로우하는사람)
 	public ArrayList<Member> selectFollowers(SqlSessionTemplate sqlSession, int userNo, PageInfo pi){
 		
-		RowBounds rowBounds = new RowBounds(0,pi.getBoardLimit());
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
 		
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowers",userNo,rowBounds);
@@ -177,7 +178,8 @@ public class MemberDao {
 	//팔로잉(내가팔로우하는사람)
 	public ArrayList<Member> selectFollowings(SqlSessionTemplate sqlSession, int userNo, PageInfo pi){
 		
-		RowBounds rowBounds = new RowBounds(0,pi.getBoardLimit());
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowings",userNo,rowBounds);
 		
@@ -192,7 +194,8 @@ public class MemberDao {
 	//연결된사람(맞팔)
 	public ArrayList<Member> selectConnections(SqlSessionTemplate sqlSession, int userNo, PageInfo pi){
 		
-		RowBounds rowBounds = new RowBounds(0,pi.getBoardLimit());
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectConnections", userNo,rowBounds);
 		

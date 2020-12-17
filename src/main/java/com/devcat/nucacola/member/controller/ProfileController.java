@@ -74,16 +74,32 @@ public class ProfileController {
 		return "/main";
 	}
 	
-	// 업무 분야 입력
-	@RequestMapping("/insert.position.us")
-	public String  insertUserPosition(String userPosition) {
-		return "/main";
-	}
+
 	// 업무 분야 수정
 	@RequestMapping("/update.position.us")
-	public String updateUserPosition(String userPosition) {
-		return "/main";
+	public String updateUserPosition(Member m, HttpSession session, Model model) {
+		
+		int result = mService.updateUserPosi(m);
+		
+		if(result>0) {
+			
+			Member loginUser = mService.loginMember(m);
+			
+			session.setAttribute("loginUser", loginUser);
+			
+			return "redirect:profile.me";
+			
+			
+		}else {
+			
+			model.addAttribute("errorMsg","수정 실패..");
+			return "common/errorPage";
+			
+		}
+		
 	}
+	
+	
 	// 프로젝트 입력
 	@RequestMapping("/insert.project.us")
 	public String insertProject(Project p) {

@@ -80,10 +80,9 @@ public interface MemberService {
 	int updateUserFiled(int skillNo);
 	
 	
-	// 업무 분야 입력
-	int insertUserPosi(String userPosi);
+
 	// 업무 분야 수정
-	int updateUserPosi(String userPosi);
+	int updateUserPosi(Member m);
 	
 	// 프로젝트 입력
 	int insertProject(Project p);

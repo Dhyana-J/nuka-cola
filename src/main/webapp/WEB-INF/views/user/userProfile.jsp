@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
   <head>
@@ -92,6 +93,8 @@ pageEncoding="UTF-8"%>
             </div>
           </div>
           <div class="main__section__right">
+          
+          
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>활동분야</strong>
@@ -106,15 +109,50 @@ pageEncoding="UTF-8"%>
                 <span class="compindus__box">JAVA</span>
               </div>
             </div>
+            
+            
+            
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>업무분야</strong>
-                <div class="edit__field">
-                  <i id="editTech" class="material-icons">create</i>
+                <div onclick="positionToggle()" class="edit__field">
+                  <i id="position-btn" class="material-icons">create</i>
                 </div>
               </div>
-              <span class="just__text"> 금융 핀테크 서비스와 Ai </span>
+              
+              <span class="just__text" id="position-name"> 
+				<c:choose>
+					<c:when test="${loginUser.userPosi eq '0' }">
+						기획자
+					</c:when>
+					
+					<c:when test="${loginUser.userPosi eq '1' }">
+						개발자
+					</c:when>
+					
+					<c:when test="${loginUser.userPosi eq '2' }">
+						디자이너
+					</c:when>
+					
+				</c:choose>		
+              </span>
+            	
+	           <div id="position-input" class="edit-disable">
+	           <!-- select 박스 크기 조정 하는방법 -->
+	            <select id="position-num">
+	            	<option value="0">기획자</option>
+	            	<option value="1">개발자</option>
+	            	<option value="2">디자이너</option>
+	            
+	            </select>
+	            <button type="button" onclick="sendUserPosi();" class="btn">등록</button>
+	          </div>
+	          
             </div>
+            
+            
+            
+            
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>프로젝트</strong>
@@ -246,7 +284,7 @@ pageEncoding="UTF-8"%>
       
   
       	
-		
+		/* 한줄소개 업데이트 */
    		function sendUserInfo(){
 	   
 	   		const userInfo = document.querySelector("#one-line-user-info").value;
@@ -254,6 +292,17 @@ pageEncoding="UTF-8"%>
 			const email = document.querySelector("#main-info-email").value;
 	   		
 	   		location.href ="update.us?userInfo=" + userInfo + "&userNo=" + userNo + "&email=" + email;
+			
+   		}
+		
+   		/* 업무분야 업데이트 */
+   		function sendUserPosi(){
+	   
+	   		const userPosi = document.querySelector("#position-num").value;
+	   		const userNo = document.querySelector("#main-info-userno").value;
+			const email = document.querySelector("#main-info-email").value;
+	   		
+	   		location.href ="update.position.us?userPosi=" + userPosi + "&userNo=" + userNo + "&email=" + email;
 			
    		}
    
@@ -276,6 +325,24 @@ pageEncoding="UTF-8"%>
             document.querySelector("#one-line-btn").innerText = "create";
           }
         };
+        
+        
+        /* 포지션용 토글  */
+        const positionToggle = () => {
+            document
+              .querySelector("#position-name")
+              .classList.toggle("edit-disable");
+            document
+              .querySelector("#position-input")
+              .classList.toggle("edit-disable");
+
+            if (document.querySelector("#position-btn").innerText === "create") {
+              document.querySelector("#position-btn").innerText = "close";
+            } else {
+              document.querySelector("#position-btn").innerText = "create";
+            }
+          };
+        
       </script>
 
       <jsp:include page="../common/footer.jsp" />

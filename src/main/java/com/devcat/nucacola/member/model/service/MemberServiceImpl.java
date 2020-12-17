@@ -343,16 +343,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateUserFiled(sqlSession,skillNo);
 	}
 
-	@Override
-	public int insertUserPosi(String userPosi) {
-		// TODO Auto-generated method stub
-		return mDao.insertUserPosi(sqlSession,userPosi);
-	}
+
 
 	@Override
-	public int updateUserPosi(String userPosi) {
+	public int updateUserPosi(Member m) {
 		// TODO Auto-generated method stub
-		return mDao.updateUserPosi(sqlSession,userPosi);
+		return mDao.updateUserPosi(sqlSession,m);
 	}
 
 	@Override

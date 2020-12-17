@@ -123,9 +123,9 @@ public class MemberDao {
 		return 0;
 	}
 
-	public int updateUserPosi(SqlSessionTemplate sqlSession, String userPosi) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateUserPosi(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.update("memberMapper.updateUserPosi",m);
 	}
 	
 	

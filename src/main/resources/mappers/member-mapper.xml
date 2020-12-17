@@ -125,14 +125,14 @@
 	</select>
 	
 	
-	<insert id="updateUserInfo" parameterType="Member">
+	<update id="updateUserInfo" parameterType="Member">
 		
 		update
 				users
 		set user_info = #{userInfo}
 		where user_no = #{userNo}
 
-	</insert>
+	</update>
 	
 	<select id="selectUserInfo" parameterType="_int" resultType="string">
 	
@@ -144,6 +144,13 @@
 	
 	</select>
 	
-	
+	<update id="updateUserPosi" parameterType="Member">
+		
+		update
+				users
+		set user_posi = #{userPosi}
+		where user_no = #{userNo}
+
+	</update>
 	
 </mapper>

@@ -315,3 +315,21 @@ a#topBtn {
   display: none;
 }
 
+
+#position-input {
+  width: 100%;
+  resize: none;
+  padding: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+#position-num {
+  width: 100%;
+  height: 60px;
+  resize: none;
+  padding: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+#position-input button {
+  width: 100%;
+}
+

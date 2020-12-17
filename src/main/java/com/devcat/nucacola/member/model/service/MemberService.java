@@ -87,13 +87,16 @@ public interface MemberService {
 	int insertProject(Project p);
 	// 프로젝트 수정
 	int updateProject(Project p);
-	
+
 	// 최종학력 입력
-	int insertUserEdu(String uerEdu);
+	int insertUserEdu(Member m);
+	
 	// 최종학력 수정
-	int updateUserEdu(String userEdu);
+	int updateUserEdu(Member m);
 	
-	
+	// 최종학력 조회
+	String selectUserEdu(int userNo);
+
 	// 경력 입력
 	int insertCarrer(Carrer c);
 	// 경력 수정
@@ -124,6 +127,10 @@ public interface MemberService {
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);
+
+
+
+	
 	
 	
 	

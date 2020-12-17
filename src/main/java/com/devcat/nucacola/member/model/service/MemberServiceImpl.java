@@ -365,18 +365,28 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.updateProject(sqlSession,p);
 	}
-
+	
+	
+	// 최종학력 조회
 	@Override
-	public int insertUserEdu(String userEdu) {
-		// TODO Auto-generated method stub
-		return mDao.insertUserEdu(sqlSession,userEdu);
+	public String selectUserEdu(int userNo) {
+
+		return mDao.selectUserEdu(sqlSession, userNo);
+	}
+	
+	// 최종학력 추가
+	@Override
+	public int insertUserEdu(Member m) {
+		return mDao.insertUserEdu(sqlSession,m);
+	}
+	
+	// 최종학력 수정
+	@Override
+	public int updateUserEdu(Member m) {
+		
+		return mDao.updateUserEdu(sqlSession,m);
 	}
 
-	@Override
-	public int updateUserEdu(String userEdu) {
-		// TODO Auto-generated method stub
-		return mDao.updateUserEdu(sqlSession,userEdu);
-	}
 
 	@Override
 	public int insertCarrer(Carrer c) {
@@ -427,6 +437,7 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+	
 	
 	
 

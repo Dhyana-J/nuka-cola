@@ -147,16 +147,22 @@ public class MemberDao {
 		return 0;
 	}
 	
-	
+
 	// 학력
-	public int insertUserEdu(SqlSessionTemplate sqlSession, String userEdu) {
-		// TODO Auto-generated method stub
+	public int insertUserEdu(SqlSessionTemplate sqlSession, Member m) {
 		return 0;
 	}
+	// 학력 조회
+	public String selectUserEdu(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.selectUserEdu", userNo);
+	}
 
-	public int updateUserEdu(SqlSessionTemplate sqlSession, String userEdu) {
-		// TODO Auto-generated method stub
-		return 0;
+
+	public int updateUserEdu(SqlSessionTemplate sqlSession,Member m) {
+		
+		return sqlSession.update("memberMapper.updateUserEdu", m);
+
 	}
 
 	

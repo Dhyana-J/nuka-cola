@@ -1,11 +1,16 @@
 package com.devcat.nucacola.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 
 @Controller
@@ -75,15 +80,38 @@ public class ProfileController {
 	}
 	
 	// 최종학력 입력
-	@RequestMapping("/insert.edu.us")
-	public String insertUserEdu(String UserEdu) {
-		return "/main";
-	}
-	// 최종학력 수정
 	@RequestMapping("/update.edu.us")
-	public String updateUserEdu(String UserEdu) {
+	public String updateUserEdu(Member m, HttpSession session, Model model) {
+		
+		
+		int result = mService.updateUserEdu(m);
+		
+		
+		if(result > 0) {
+			
+			Member loginUser = new Member();
+			loginUser = mService.loginMember(m);
+			
+			session.setAttribute("loginUser", loginUser);
+			
+			return "redirect:profile.me";
+			
+		}else {
+			model.addAttribute("errorMsg","입력 실패");
+			
+			return "common/errorPage";
+		}
+		
+	}
+	
+
+	// 최종학력 수정
+	@RequestMapping("/insert.edu.us")
+	public String insertUserEdu(String userEdu) {
 		return "/main";
 	}
+
+
 	// 경력 입력
 	@RequestMapping("/insert.career.us")
 	public String insertCareer(Carrer c) {

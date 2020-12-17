@@ -38,13 +38,12 @@ public class SubscribeController {
 	// 북마크 취소
 	@ResponseBody
 	@RequestMapping(value="/delete.bk", produces="text/html; charset=utf-8")
-	public void deleteBookmark(int bno,int uno) {
-		System.out.println(bno);
-		System.out.println(uno);
-		int result = mService.deleteBookmark(bno);
+	public void deleteBookmark(Bookmark bm) {
+		System.out.println(bm);
+		int result = mService.deleteBookmark(bm);
 //		System.out.println(result);
 
-//		return "redirect:list.bk?uno="+uno;
+//		return "redirect:list.bk?uno="+bm.getRecruitNo();
 //		return "redirect:";
 	}
 	// 기업 구독 추가	
@@ -67,9 +66,12 @@ public class SubscribeController {
 	}
 	
 	// 기업 구독 취소	
-	@RequestMapping("/delete.sub")
-	public String deleteSubComp() {
-		return "/main";
+	@ResponseBody
+	@RequestMapping(value="/delete.sub")
+	public void deleteSubComp(CompSub cs) {
+		int result = mService.deleteSubComp(cs);
+		
+//		return "/main";
 	}
 
 	//팔로잉 조회

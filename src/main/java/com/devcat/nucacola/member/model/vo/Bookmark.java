@@ -19,5 +19,14 @@ public class Bookmark {
 	private int recruitRequ;//공고채용조건
 	private String compName;//공고등록회사
 	private String createdAt;//공고마감일
+	
+	
+	public Bookmark(int userNo, int recruitNo) {
+		super();
+		this.userNo = userNo;
+		this.recruitNo = recruitNo;
+	}
 
 }
+
+

@@ -181,7 +181,7 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectBookmark", uno);
 	}
 
-	public int deleteBookmark(SqlSessionTemplate sqlSession, int bno) {
+	public int deleteBookmark(SqlSessionTemplate sqlSession, Bookmark bno) {
 		return sqlSession.delete("memberMapper.deleteBookmark",bno);
 	}
 
@@ -197,8 +197,7 @@ public class MemberDao {
 	}
 
 	public int deleteSubComp(SqlSessionTemplate sqlSession, CompSub cs) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("memberMapper.deleteSubComp", cs);
 	}
 	
 	

@@ -208,7 +208,9 @@
       align-items: center;
   }
   .company__img__box img{
-      width:98%;
+  	  margin:0px;
+  	  padding:0px;
+      width:97%;
       height: 98%;
       
   }
@@ -222,4 +224,9 @@
       margin-top: 20px;
       color:#9f305b;
       font-size: 14px;
+      height:20px;
   }
+   .company__box__right span:hover{
+   	  color:#000;
+   	  cursor:pointer;
+   }

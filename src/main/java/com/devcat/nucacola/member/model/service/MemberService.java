@@ -113,7 +113,7 @@ public interface MemberService {
 	
 	// 북마크 취소
 	
-	int deleteBookmark(int bno);
+	int deleteBookmark(Bookmark bm);
 	
 	// 기업 구독 추가	
 	

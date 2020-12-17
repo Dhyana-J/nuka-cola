@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,7 @@
     <link rel=”stylesheet” href=”icono.min.css”>
     <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <body>
    <jsp:include page="../common/mainMenu.jsp"/>
       <section class="visual__section">
@@ -82,22 +84,22 @@
                         <strong>구독기업</strong>
                       </div><br>
                           <span class="following__much">&nbsp;
-                            <strong>102</strong>개의 공고
+                            <strong>${fn:length(cslist)}</strong>개의 공고
                           </span>
                     <br><br>
                     	<c:forEach var="cs" items="${cslist}">
                           <div class="script__company__box">
                             <div class="company__box__left">
                                 <div class="company__img__box">
-                                <img src="../../assets/loginImage.jpg" alt="">
+                                <img src="resources/assets/${cs.compLogo}" alt="">
                                 </div>
                                 <ul>
-                                    <li class="company__info__title">${cs.compName}<span>구성원수&nbsp;Sinece${cs.compBirth}</span> </li>
+                                    <li class="company__info__title">${cs.compName}<span>구성원수[${cs.compHeadcount}]&nbsp;&nbsp;Sinece${cs.compBirth}</span> </li>
                                     <li>${cs.compInfo}</li>
                                 </ul>
                             </div>
                             <div class="company__box__right">
-                                <span>삭제</span>
+                                <span onclick= "CSdeleteBtn(${cs.compNo},${cs.userNo});">삭제</span>
                             </div>
 
                           </div>
@@ -117,6 +119,27 @@
 
             <script>
 
+            function CSdeleteBtn(cs,uno){
+           	 console.log(cs);
+           	 console.log(uno);
+           	 axios.get('delete.sub',{
+           		 params:{
+           			 userNo:uno,
+           			 compNo:cs,
+           		 }
+           	 })
+           	 .then(function(){
+           		 alert("구독이 취소 되었습니다.");
+           		 location.href="list.sub?uno="+uno;
+           	 })
+           	 
+           }
+            
+            
+            
+            
+            
+            
             $(function() { 
               $(window).scroll(function() { 
                 if ($(this).scrollTop() > 1000) { 

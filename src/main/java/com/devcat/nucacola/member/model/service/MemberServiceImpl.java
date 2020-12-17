@@ -409,9 +409,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int deleteBookmark(int bno) {
-		System.out.println(bno);
-		return mDao.deleteBookmark(sqlSession, bno);
+	public int deleteBookmark(Bookmark bm) {
+		return mDao.deleteBookmark(sqlSession, bm);
 		
 	}
 

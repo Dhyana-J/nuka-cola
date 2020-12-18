@@ -213,4 +213,24 @@
 			    )
 	</select>
 	
+	<!-- 팔로잉 추가 -->
+	<insert id="addFollowing"
+			parameterType="Connection">
+			insert 
+					into connections 
+					values(
+						#{followerNo},
+						#{followingNo},
+						sysdate
+					)
+	</insert>
+	<!-- 팔로잉 취소 -->
+	<delete id="cancelFollowing"
+			parameterType="Connection">
+			delete
+				  from connections
+				  where follower_no=#{followerNo}
+				  	and following_no=#{followingNo}
+	</delete>
+	
 </mapper>

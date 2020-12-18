@@ -10,6 +10,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.CompSub;
+import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 
@@ -208,18 +209,13 @@ public class MemberDao {
 	}
 	
 	
-	// 팔로잉 삭제
-	public int deleteFollowing(SqlSessionTemplate sqlSession, int followerNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	//팔로잉 추가(내가 다른 사람 팔로우)
+	public int addFollowing(SqlSessionTemplate sqlSession, Connection conn) {
+		return sqlSession.insert("memberMapper.addFollowing",conn);
 	}
-	
-
-
-	// 팔로워 삭제
-	public int deleteFollower(SqlSessionTemplate sqlSession, int followingNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	//팔로우 취소
+	public int cancelFollowing(SqlSessionTemplate sqlSession, Connection conn) {
+		return sqlSession.delete("memberMapper.cancelFollowing",conn);
 	}
 
 	

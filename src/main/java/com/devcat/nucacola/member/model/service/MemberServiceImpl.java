@@ -254,19 +254,15 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	// 연결
+	//팔로잉 추가(내가 다른사람 팔로우)
+	public int addFollowing(Connection conn) {
+		return mDao.addFollowing(sqlSession,  conn);
+	}
+	//팔로우 취소
+	public int cancelFollowing(Connection conn) {
+		return mDao.cancelFollowing(sqlSession,  conn);
+	}
 	
-
-	@Override
-	public int deleteFollowing(int followerNo) {
-		// TODO Auto-generated method stub
-		return mDao.deleteFollowing(sqlSession,followerNo);
-	}
-
-	@Override
-	public int deleteFollower(int followingNo) {
-		// TODO Auto-generated method stub
-		return mDao.deleteFollower(sqlSession,followingNo);
-	}
 
 
 
@@ -292,22 +288,21 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectConnections(sqlSession, userNo, pi);
 	}
 	
-	
+	//팔로잉 수 조회
 	@Override
 	public int countFollowings(int uno) {
-		// TODO Auto-generated method stub
 		return mDao.countFollowings(sqlSession,uno);
 	}
 
+	//팔로워 수 조회
 	@Override
 	public int countFollowers(int uno) {
-		// TODO Auto-generated method stub
 		return mDao.countFollowers(sqlSession,uno);
 	}
 
+	//연결된 사람 수 조회
 	@Override
 	public int countConnections(int uno) {
-		// TODO Auto-generated method stub
 		return mDao.countConnections(sqlSession,uno);
 	}
 

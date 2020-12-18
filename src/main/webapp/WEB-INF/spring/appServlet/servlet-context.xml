@@ -41,7 +41,7 @@
 	
 	<interceptors>
 	  	<interceptor>
-	  		<mapping path="/connection.us"/>
+	  		<mapping path="/initConnection.us"/>
 	  		<beans:bean id="loginInterceptor" class="com.devcat.nucacola.common.interceptor.LoginInterceptor"/>
 	  	</interceptor>
 	  </interceptors>

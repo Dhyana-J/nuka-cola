@@ -201,17 +201,20 @@
                       
                       <c:forEach var="follower" items="${pCon.get('followers')}">
                       
-	                      <div class="content__profile">
-	                          <img
-	                            class="circle"
-	                            src="${pageContext.request.contextPath}/${follower.userAvatar}"
-	                           	alt="PROFILE"
-	                          />
-	                          <div class="content__introduce">
-	                            <strong>${follower.userName}</strong>
-	                            <p>${follower.userComp}</p>
-	                          </div>
-	                      </div><!--content__profile-->
+	                      <form action="test.conn" method="post" class="submitNo" onclick="submit();">
+	                          <input type="hidden" name="userNo" value="${follower.userNo}"/>
+		                      <div class="content__profile">
+		                          <img
+		                            class="circle"
+		                            src="${pageContext.request.contextPath}/${follower.userAvatar}"
+		                           	alt="PROFILE"
+		                          />
+		                          <div class="content__introduce">
+		                            <strong>${follower.userName}</strong>
+		                            <p>${follower.userComp}</p>
+		                          </div>
+		                      </div><!--content__profile-->
+	                      </form>
                       
                       </c:forEach>
 
@@ -228,17 +231,21 @@
                       <!--팔로잉 리스트-->
                       <c:forEach var="following" items="${pCon.get('followings')}">
                       
-	                      <div class="content__profile">
-	                          <img
-	                            class="circle"
-	                            src="${pageContext.request.contextPath}/${following.userAvatar}"
-	                            alt="PROFILE"
-	                          />
-	                          <div class="content__introduce">
-	                            <strong>${following.userName}</strong>
-	                            <p>${following.userComp}</p>
-	                          </div>
-	                      </div><!--content__profile-->
+	                      <form action="test.conn" method="post" class="submitNo" onclick="submit();">
+	                          <input type="hidden" name="userNo" value="${following.userNo}"/>
+	                      
+		                      <div class="content__profile">
+		                          <img
+		                            class="circle"
+		                            src="${pageContext.request.contextPath}/${following.userAvatar}"
+		                            alt="PROFILE"
+		                          />
+		                          <div class="content__introduce">
+		                            <strong>${following.userName}</strong>
+		                            <p>${following.userComp}</p>
+		                          </div>
+		                      </div><!--content__profile-->
+	                      </form>
                       
                       </c:forEach>
 
@@ -255,17 +262,20 @@
                       <!--연결 리스트(자료구조 아님!)-->
                       <c:forEach var="connection" items="${pCon.get('connections') }">
                       
-	                      <div class="content__profile">
-	                          <img
-	                            class="circle"
-	                            src="${pageContext.request.contextPath}/${connection.userAvatar}"
-	                            alt="PROFILE"
-	                          />
-	                          <div class="content__introduce">
-	                            <strong>${connection.userName}</strong>
-	                            <p>${connection.userComp}</p>
-	                          </div>
-	                      </div><!--content__profile-->
+	                      <form action="test.conn" method="post" class="submitNo" onclick="submit();">
+	                          <input type="hidden" name="userNo" value="${connection.userNo}"/>
+		                      <div class="content__profile">
+		                          <img
+		                            class="circle"
+		                            src="${pageContext.request.contextPath}/${connection.userAvatar}"
+		                            alt="PROFILE"
+		                          />
+		                          <div class="content__introduce">
+		                            <strong>${connection.userName}</strong>
+		                            <p>${connection.userComp}</p>
+		                          </div>
+		                      </div><!--content__profile-->
+	                      </form>
                       
                       </c:forEach>
                   
@@ -299,6 +309,8 @@
         ><img id="logoDesign" src="resources/assets/avatar.png" alt=""
       /></a> -->
       
+
+      
       <!-- 팔로우, 팔로잉, 연결 조회 전용 Javascript -->
       <script defer>
       
@@ -327,16 +339,19 @@
 	      			if(v.userAvatar==undefined) v.userAvatar='';
 	      			if(v.userComp==undefined) v.userComp='';
 	      			
-	      			let profile = '<div class="content__profile">'
-	      							+'<img '
-	      								+'class="circle"'
-	      								+'src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
-	      								+'alt="PROFILE"'+'/>'
-	     								+'<div class="content_introduce">'
-	     									+'<strong>'+v.userName+'</strong>'
-	     									+'<p>'+v.userComp+'</p>'
-	   								+'</div>'
-	   							 +'</div>';
+	      			let profile ='<form action="test.conn" method="post" class="submitNo" onclick="submit();">'
+                   				  +'<input type="hidden" name="userNo" value="'+v.userNo+'"/>'
+	      							+'<div class="content__profile">'
+		      							+'<img'
+		      								+' class="circle"'
+		      								+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
+		      								+' alt="PROFILE"'+'/>'
+		     								+'<div class="content_introduce">'
+		     									+'<strong>'+v.userName+'</strong>'
+		     									+'<p>'+v.userComp+'</p>'
+		   								+'</div>'
+		   							 +'</div>'
+	   							+'</form>';
 						area.insertAdjacentHTML('beforeend',profile);
 	      		});
       	};
@@ -406,7 +421,7 @@
       		}
       		
       		
-	      	axios.get('connection2.us',{
+	      	axios.get('loadConnection.us',{
 	      		params:{//유저번호, 불러올 다음페이지 세팅
 	      			userNo:userNo,
 	      			frCp:frCp, 

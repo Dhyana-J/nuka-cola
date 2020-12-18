@@ -112,21 +112,15 @@ public class ProfileController {
 		return "/main";
 	}
 	
-	// 인맥 불러오기
-	@RequestMapping("connection.us")
+	// 처음 프로필 진입 시 인맥 불러오기
+	@RequestMapping("initConnection.us")
 	public String selectConnectionList(@RequestParam(value="currentPage",defaultValue="1") int currentPage,Member m, Model model){
 		
-//		System.out.println("userNo :"+m.getUserNo());
-//		System.out.println("currentPage : " + currentPage);
 		
 		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
 		int countFollowers=mService.countFollowers(m.getUserNo());
 		int countFollowings=mService.countFollowings(m.getUserNo());
 		int countConnections=mService.countConnections(m.getUserNo());
-		
-//		System.out.println("팔로워수 : "+countFollowers);
-//		System.out.println("팔로잉수 : "+countFollowings);
-//		System.out.println("연결수 : "+countConnections);
 		
 		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
 		PageInfo frPi=Pagination.getPageInfo(countFollowers, currentPage, 1, 3);
@@ -137,10 +131,6 @@ public class ProfileController {
 		ArrayList<Member> followers = mService.selectFollowers(m.getUserNo(),frPi);
 		ArrayList<Member> followings = mService.selectFollowings(m.getUserNo(),fgPi);
 		ArrayList<Member> connections = mService.selectConnections(m.getUserNo(),cnPi);
-		
-//		for(Member test : followings) {
-//			System.out.println(test);
-//		}
 		
 		//위에서 생성한 리스트들을 담을 HashMap을 선언하고
 		HashMap<String,ArrayList<Member>> pCon = new HashMap<>(); //personalConnection = 인맥
@@ -161,19 +151,14 @@ public class ProfileController {
 		return "user/userProfile";
 	}
 	
+	//프로필 인맥 More버튼 클릭 시 실행될 컨트롤러
 	@ResponseBody
-	@RequestMapping(value="connection2.us",produces="application/json;charset=utf-8")
+	@RequestMapping(value="loadConnection.us",produces="application/json;charset=utf-8")
 	public HashMap<String, ArrayList<?extends Object>> selectConnectionList2(Member m,int frCp,int fgCp, int cnCp, Model model){
 		
 		//frCp : 팔로워 현재페이지
 		//fgCp : 팔로잉 현재페이지
 		//cnCp : 연결 현재페이지
-		
-//		System.out.println("userNo : "+m.getUserNo());
-//		System.out.println("frCp : "+frCp);
-//		System.out.println("fgCp : "+fgCp);
-//		System.out.println("cnCp : "+cnCp);
-		
 		
 		
 		//팔로워, 팔로잉, 연결된사람 수를 카운트한다.
@@ -209,10 +194,6 @@ public class ProfileController {
 		pCon.put("followings", followings);
 		pCon.put("connections", connections);
 		pCon.put("piBox", piBox);
-		
-//		for(PageInfo pi : (ArrayList<PageInfo>)pCon.get("piBox")) {
-//			System.out.println(pi);
-//		}
 		
 		return pCon;
 	}

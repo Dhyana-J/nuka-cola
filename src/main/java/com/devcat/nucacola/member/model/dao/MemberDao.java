@@ -180,6 +180,9 @@ public class MemberDao {
 	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession,int uno) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectBookmark", uno);
 	}
+	public ArrayList<Bookmark> selectRecruitSkills(SqlSessionTemplate sqlSession,int uno) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectRecruitSkills", uno);
+	}
 
 	public int deleteBookmark(SqlSessionTemplate sqlSession, Bookmark bno) {
 		return sqlSession.delete("memberMapper.deleteBookmark",bno);

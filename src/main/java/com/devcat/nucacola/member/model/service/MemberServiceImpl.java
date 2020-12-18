@@ -407,7 +407,10 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Bookmark> selectBookmark(int uno) {
 		return mDao.selectBookmark(sqlSession,uno);
 	}
-
+	@Override
+	public ArrayList<Bookmark> selectRecruitSkills(int uno) {
+		return mDao.selectRecruitSkills(sqlSession,uno);
+	}
 	@Override
 	public int deleteBookmark(Bookmark bm) {
 		return mDao.deleteBookmark(sqlSession, bm);

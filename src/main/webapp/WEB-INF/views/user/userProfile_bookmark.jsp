@@ -102,10 +102,12 @@
                     <a class="section__content__title__cencle" onclick="deleteBtn(${b.recruitNo},${b.userNo});">북마크 제외</a>
                 </div>
                 <div class="section__content__box">
-                    <span class="compindus__box">node.js</span>
-                    <span class="compindus__box">React.js</span>
-                    <span class="compindus__box">kotlin</span>
-                    <span class="compindus__box">JAVA</span>
+					<c:forEach var="skill" items="${skillMap}">
+                    <span class="compindus__box">${skillMap.value}</span>
+					</c:forEach>
+
+
+					
                 </div> 
                 <div class="sysdate">${b.createdAt}</div>
                 </div>

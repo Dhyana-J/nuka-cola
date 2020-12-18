@@ -110,7 +110,7 @@ public interface MemberService {
 	// 북마크 조회
 	
 	ArrayList<Bookmark> selectBookmark(int uno);
-	
+	ArrayList<Bookmark> selectRecruitSkills(int uno);
 	// 북마크 취소
 	
 	int deleteBookmark(Bookmark bm);

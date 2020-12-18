@@ -28,6 +28,7 @@
 		<result column="recruit_requ" property="recruitRequ"/>
 		<result column="comp_name" property="compName"/>
 		<result column="created_at" property="createdAt"/>
+		<result column="skill_name" property="skillName"/>
 	</resultMap>
 	
 	<resultMap id="ComSubResultSet" type="CompSub">
@@ -157,6 +158,19 @@
 		where b.user_no=#{uno}
 		order by b.created_at
 		
+	</select>
+	
+	<!-- 업무관련 기술조회 -->
+	<select id="selectRecruitSkills" parameterType="_int" resultMap="bookmarkResultSet">
+	select
+          LISTAGG(SKILL_NAME,',')within group(order by skill_no) SKILL_NAME, recruit_no
+          from recruit_skills
+          join skills s using(SKILL_NO)
+          where recruit_no in(select recruit_no
+                                 from bookmarks b
+                                 left join recruits r using(recruit_no)
+                                 where user_no=#{uno})
+          group by recruit_no
 	</select>
 	
 	<delete id="deleteBookmark" parameterType="Bookmark">

@@ -1,6 +1,9 @@
 package com.devcat.nucacola.member.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,8 +33,30 @@ public class SubscribeController {
 	// 북마크 조회
 	@RequestMapping("/list.bk")
 	public String selectBookmark(int uno, Model model) {
-		ArrayList<Bookmark>blist = mService.selectBookmark(uno);
-		
+		HashMap<Integer, List<String>>skillMap =new HashMap<>();
+		ArrayList<Bookmark>blist = mService.selectBookmark(uno);// 채용공고정보
+		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
+		model.addAttribute("skills",skills); // 성공하면 지우기
+		System.out.println(skills.size()); //조회해온 채용공고관련업무기술 갯수 (이것도 성공하면 지우기)
+		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
+			System.out.println(skills.get(i).getSkillName());
+			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
+			
+			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
+//			for(int j=0;j<skillsName.length;j++) {// 자른기술명 list에 넣기
+//				skillList.add(skillsName);
+				System.out.println(i);
+				System.out.println(skillsName);
+				int key=skills.get(i).getRecruitNo();
+				skillMap.put(key,skillsName);
+				/*
+				for(int j=0;j<skillsName.size();j++) {
+				System.out.println(skillsName.get(j));
+				}*/ //리스트에 잇는 내용 하나씩 출력
+//			}
+			System.out.println(skillMap.get(1));
+		}
+		model.addAttribute("skillMap",skillMap);
 		model.addAttribute("blist",blist);
 		return "/user/userProfile_bookmark";
 	}

@@ -30,6 +30,7 @@ public class Member {
 	private String certifyQues;
 	private String certifyAns;
 	private String emailAuth;
+	private String userComp;
 	
 	
 	//이메일 인증용 생성자

@@ -11,3 +11,25 @@
    <jsp:forward page="WEB-INF/views/user/login.jsp"/>
 </body>
 </html>
+
+<li>
+   <div class="post__user-info">
+      <div class="avatar-small">
+         <img src="resources/assets/avatar.png" alt="" />
+      </div>
+      <div class="user__summary">
+         <strong>Bill Gates</strong>
+         <small>MicroSoft @ CSAS</small>
+      </div>
+      <span class="post__date">2020 - 11 - 31</span>
+   </div>
+   <p class="comment_content">
+      Lorem Ipsum is simply dummy text of the printing and
+      typesetting industry.
+   </p>
+   <!-- <div class="comment__btn-wrapper">
+               <span>수정</span>
+               <span>삭제</span>
+             </div> -->
+</li>
+</ul>

@@ -98,134 +98,18 @@
             <!-- 댓글목록 -->
             <ul class="post__comment_list">
               <input class='post-id' type="hidden" name="postNo" value='${p.postNo}'>
-              <li>
-                <div class="comment_input">
-                  <span>댓글등록</span>
-                  <textarea id='comment-input' name="commentContent"></textarea>
-                  <button type='button' id='comment-insert-btn' class='btn btn-blue'>ADD</button>
-                </div>
-              </li>
-              <li>
-                <div class="post__user-info">
-                  <div class="avatar-small">
-                    <img src="../../assets/avatar.png" alt="" />
-                  </div>
-                  <div class="user__summary">
-                    <strong>Bill Gates</strong>
-                    <small>MicroSoft @ CSAS</small>
-                  </div>
-                  <span class="post__date">2020 - 11 - 31</span>
-                </div>
-                <p class="comment_content">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </p>
-                <!-- <div class="comment__btn-wrapper">
-                  <span>수정</span>
-                  <span>삭제</span>
-                </div> -->
-              </li>
-              <li>
-                <div class="post__user-info">
-                  <div class="avatar-small">
-                    <img src="../../assets/avatar.png" alt="" />
-                  </div>
-                  <div class="user__summary">
-                    <strong>Bill Gates</strong>
-                    <small>MicroSoft @ CSAS</small>
-                  </div>
-                  <span class="post__date">2020 - 11 - 31</span>
-                </div>
-                <p class="comment_content">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </p>
-                <!-- <div class="comment__btn-wrapper">
-                  <span>수정</span>
-                  <span>삭제</span>
-                </div> -->
-              </li>
+              <div class="comment_input">
+                <span>댓글등록</span>
+                <textarea class='comment-input' name="commentContent"></textarea>
+                <button type='button' class='btn btn-blue comment-insert-btn'>ADD</button>
+              </div>
+
             </ul>
           </div>
 
           </c:forEach>
 
-          <div class="content__wrapper post__item-wrapper">
-            <div class="post__user-info">
-              <div class="avatar-small">
-                <img src="resources/assets/avatar.png" alt="" />
-              </div>
-              <div class="user__summary">
-                <strong>Tim Cook</strong>
-                <small>Apple.inc @ CEO</small>
-              </div>
-              <div class="follow__btn">
-                <i class="material-icons">person_add</i>
-                <p>FOLLOW</p>
-              </div>
-            </div>
-            <article>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry’s standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </article>
-            <span class="post__date">2020 - 11 - 31</span>
-            <div class="post__btn__wrapper">
-              <div class="like_btn">
-                <i class="material-icons"> thumb_up_alt </i>
-                <span>LIKE</span>
-              </div>
-              <div class="comment-open like_btn">
-                <i class="material-icons"> comment </i>
-                <span>COMMENT</span>
-              </div>
-            </div>
 
-            <!-- 댓글목록 -->
-            <ul class="post__comment_list">
-              <li>
-                <div class="post__user-info">
-                  <div class="avatar-small">
-                    <img src="resources/assets/avatar.png" alt="" />
-                  </div>
-                  <div class="user__summary">
-                    <strong>Bill Gates</strong>
-                    <small>MicroSoft @ CSAS</small>
-                  </div>
-                  <span class="post__date">2020 - 11 - 31</span>
-                </div>
-                <p class="comment_content">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </p>
-                <!-- <div class="comment__btn-wrapper">
-                            <span>수정</span>
-                            <span>삭제</span>
-                          </div> -->
-              </li>
-              <li>
-                <div class="post__user-info">
-                  <div class="avatar-small">
-                    <img src="resources/assets/avatar.png" alt="" />
-                  </div>
-                  <div class="user__summary">
-                    <strong>Bill Gates</strong>
-                    <small>MicroSoft @ CSAS</small>
-                  </div>
-                  <span class="post__date">2020 - 11 - 31</span>
-                </div>
-                <p class="comment_content">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </p>
-                <!-- <div class="comment__btn-wrapper">
-                            <span>수정</span>
-                            <span>삭제</span>
-                          </div> -->
-              </li>
-            </ul>
-          </div>
         </div>
         <div class="timeline__section-rifht">
           <div class="content__wrapper profile__content">
@@ -288,11 +172,56 @@
     </main>
   </body>
   <script defer>
-    document.querySelectorAll('#comment-insert-btn').forEach((v,i)=>
+
+    const createCommentItem = (v,i)=>{
+      const ListContainer = document.querySelectorAll(".post__comment_list")[i]
+      const commentBox = document.createElement('li')
+      const userBox=document.createElement('div')
+      userBox.className='post__user-info'
+      const avatarBox=document.createElement('div')
+      avatarBox.className='avatar-small'
+      const userAvatar = document.createElement('img')
+              userAvatar.src = v.userAvatar;
+      avatarBox.appendChild(userAvatar);
+      const userSummary = document.createElement('div');
+            userSummary.className='user__summary'
+      const userName = document.createElement('strong')
+            userName.innerText = v.userName;
+      const userComp = document.createElement('small');
+            userComp.innerText = v.userComp;
+      const postDate = document.createElement('span')
+            postDate.className='post__date'
+            postDate.innerText = v.createdAt;
+      const commentContent = document.createElement('p');
+            commentContent.className='comment_content';
+            commentContent.innerText=v.commentContent;
+      const userNo = document.createElement('input');
+            userNo.type='hidden';
+            userNo.value=v.userNo;
+            userNo.className = 'comment-user-no';
+      userSummary.appendChild(userName);
+      userSummary.appendChild(userComp);
+      userBox.appendChild(avatarBox);
+      userBox.appendChild(userSummary);
+      userBox.appendChild(postDate);
+      commentBox.appendChild(userBox);
+      commentBox.appendChild(commentContent);
+      ListContainer.appendChild(userNo);
+      ListContainer.appendChild(commentBox);
+    }
+
+    document.querySelectorAll('.comment-insert-btn').forEach((v,i)=>
             v.addEventListener('click',()=>{
-              axios.get('insert.com?postNo='+document.querySelectorAll('.post-id')[i].value+"&userNo="+'${loginUser.userNo}'+'&commentContent='+document.querySelectorAll('#comment-input')[i].value)
+              axios.get('insert.com?postNo='+document.querySelectorAll('.post-id')[i].value+"&userNo="+'${loginUser.userNo}'+'&commentContent='+document.querySelectorAll('.comment-input')[i].value)
                       .then((res)=>{
-                        console.log(res.data)
+                        const data = {
+                          userAvatar:"${loginUser.userAvatar}",
+                          commentContent:document.querySelectorAll('.comment-input')[i].value,
+                          userComp:"${loginUser.userComp}",
+                          userNo:"${loginUser.userNo}",
+                          userName:"${loginUser.userName}",
+                        }
+                        createCommentItem(data,i);
                       })
                       .catch((e)=>{
                         console.error(e)
@@ -300,15 +229,39 @@
             })
     )
 
+    let currentBtnNumber = 0;
     const loadComment=()=>{
       document.querySelectorAll('.comment-open').forEach((v,i)=>{
         v.addEventListener('click',()=>{
-          axios.get('load.com?pno='+document.querySelectorAll('.post-id')[i].value)
-          .then((res)=>console.log(res.data))
+          if(currentBtnNumber!==i){
+            currentBtnNumber = i;
+            axios.get('load.com', {
+              params: {
+                pno: document.querySelectorAll('.post-id')[i].value
+              }
+            })
+            .then((res) =>{
+              // const ListContainer = document.querySelectorAll(".post__comment_list")[i]
+              res.data.forEach(v=>{
+                createCommentItem(v,i);
+              })
+            })
+          }else{
+            currentBtnNumber = 0;
+            console.log(document.querySelectorAll(".post__comment_list"));
+            const ListContainer = document.querySelectorAll(".post__comment_list")[i]
+            ListContainer.childNodes.forEach(v=>{
+              if(v.nodeName==='LI'){
+                v.remove();
+              }
+            })
+          }
         })
       })
     }
+
     loadComment()
+
     document.querySelector(".post_form-btn").addEventListener("click", (e) => {
       document
         .querySelector(".post_form_wrapper")
@@ -322,5 +275,7 @@
           [i].classList.toggle("comment_list_active");
       })
     );
+
+
   </script>
 </html>

@@ -50,7 +50,7 @@ public class PostDao {
 
 	public int insertComment(SqlSessionTemplate sqlSession, Comment c) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("post-mapper.insertComment",c);
 	}
 
 }

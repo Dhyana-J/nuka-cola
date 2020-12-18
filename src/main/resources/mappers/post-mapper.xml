@@ -12,6 +12,7 @@
         <result column="user_name" property="userName"/>
         <result column="user_posi" property="userPosi"/>
         <result column="user_comp" property="userComp"/>
+        <result column="user_avatar" property="userAvatar"/>
     </resultMap>
     <resultMap id="commentResultSet" type="Comment">
         <result column="comment_no" property="commentNo"/>
@@ -22,6 +23,7 @@
         <result column="user_no" property="userNo"/>
         <result column="user_name" property="userName"/>
         <result column="user_comp" property="userComp"/>
+        <result column="user_avatar" property="userAvatar"/>
     </resultMap>
 
     <select id="selectListCount" resultType="_int">
@@ -39,7 +41,8 @@
      , u.user_no
      , USER_NAME
      , USER_POSI
-     , USER_COMP
+     , USER_COMP,
+            U.USER_AVATAR
         from Posts P
          left join USERS U on U.USER_NO = P.USER_NO
         order by post_no desc
@@ -51,16 +54,21 @@
     </insert>
 
     <select id="selectCommentList" resultMap="commentResultSet" parameterType="_int">
-        select COMMENT_NO,
-       COMMENT_CONTENT,
+        select COMMENTS.COMMENT_NO,
+               COMMENTS.COMMENT_CONTENT,
        COMMENTS.USER_NO,
        COMMENTS.POST_NO,
        COMMENTS.CREATED_AT,
        COMMENTS.UPDATED_AT,
        U.USER_NAME,
-       U.USER_COMP
+       U.USER_COMP,
+       U.USER_AVATAR
 from COMMENTS
          left join USERS U on U.USER_NO = COMMENTS.USER_NO
-where POST_NO = #{pno};
+where POST_NO = #{pno}
     </select>
+    <insert id="insertComment" parameterType="Comment">
+        INSERT INTO COMMENTS (COMMENT_NO, COMMENT_CONTENT, USER_NO, POST_NO)
+        VALUES (SEQ_COMMENT.nextval, #{commentContent}, #{userNo}, #{postNo})
+    </insert>
 </mapper>

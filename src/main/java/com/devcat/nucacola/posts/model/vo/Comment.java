@@ -32,6 +32,7 @@ public class Comment {
 	private String updatedAt;
 	private String userName;
 	private String userComp;
+	private String userAvatar;
 
 	
 }

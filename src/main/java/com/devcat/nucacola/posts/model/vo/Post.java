@@ -32,6 +32,6 @@ public class Post {
 	private String userName;
 	private String userPosi;
 	private String userComp;
-	
+	private String userAvatar;
 	
 }

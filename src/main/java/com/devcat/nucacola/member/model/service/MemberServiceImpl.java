@@ -291,9 +291,17 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	/// 프로필
+	@Override
+	public Member selectUserProfile(int userNo) {
+		
+		return mDao.selectUserProfile(sqlSession, userNo);
+	}
 	
-	
-	
+	@Override
+	public ArrayList<Skills> selectUserSkill(int userNo) {
+		
+		return mDao.selectUserSkill(sqlSession, userNo);
+	}
 	
 	@Override
 	public int countFollowing(int uno) {
@@ -327,11 +335,17 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.checkSkill(sqlSession,skillName);
 	}
+	
+	@Override
+	public ArrayList<Skills> getSkillNo(String[] arr) {
+		return mDao.getSkillNo(sqlSession,arr);
+	}
+	
 
 	@Override
-	public int insertUserFiled(int skillNo) {
+	public int insertUserFiled(HashMap<String,Object> hm) {
 		// TODO Auto-generated method stub
-		return mDao.insertUserFiled(sqlSession,skillNo);
+		return mDao.insertUserFiled(sqlSession,hm);
 	}
 
 	@Override
@@ -421,6 +435,10 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+
+
+
+
 
 
 	

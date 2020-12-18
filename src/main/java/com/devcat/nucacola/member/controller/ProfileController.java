@@ -1,6 +1,7 @@
 package com.devcat.nucacola.member.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -67,7 +68,7 @@ public class ProfileController {
 		
 		ArrayList<Skills> list = mService.checkSkill(skillName);
 		
-		System.out.println(list);
+		//System.out.println(list);
 		
 		
 		return new Gson().toJson(list);
@@ -77,10 +78,64 @@ public class ProfileController {
 	
 
 	// 활동 분야 입력
-	@RequestMapping("/insert.field.us")
-	public String insertUserField(int skillNo) {
-		return "/main";
+	@ResponseBody
+	@RequestMapping(value="/insert.field.us", produces="application/json; charset=utf-8")
+	public String insertUserField(String skillName, int userNo) {
+		
+		//System.out.println(skillName);
+		//System.out.println(userNo);
+
+		// 넘어온 기술들을 쪼개서 배열에 담아줌
+		String[] arr = skillName.split(" ");
+		
+		
+		
+		// 기술 번호를 알아오기 위한 list
+		ArrayList<Skills> list = new ArrayList<>();
+		
+		// hasMap으로 넘기기 위한 기술번호를 담을 list
+		ArrayList<Integer> skillsNo = new ArrayList<>();
+		
+		// 기술 번호 알아오는 리스트(기술번호, 기술이름 다 가져옴)
+		list = mService.getSkillNo(arr);
+		
+		
+		// 반복문으로 기술 번호 담아주기
+		for(int i=0; i<list.size(); i++) {
+			
+			skillsNo.add(list.get(i).getSkillNo());
+		}
+		
+		System.out.println(list);
+		
+		
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("userNo", userNo);
+		hm.put("skillsNo",skillsNo);
+		
+		System.out.println(hm);
+		
+		// 유저 필드에 기술번호를 담아줌
+		int result = mService.insertUserFiled(hm);
+		
+		ArrayList<String> skillNameList = new ArrayList<>(); 
+		
+		if (result>0) {
+			
+			for(int i = 0; i<list.size(); i++) {
+				System.out.println(list.get(i).getSkillName());
+				skillNameList.add(list.get(i).getSkillName());
+			}
+
+		}
+		
+		
+		return new Gson().toJson(skillNameList);	
+		
 	}
+	
+	
 	// 활동 분야 수정
 	@RequestMapping("/update.field.us")
 	public String updateUserField(int skillNo) {

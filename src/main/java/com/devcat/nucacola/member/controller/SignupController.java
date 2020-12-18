@@ -1,5 +1,6 @@
 package com.devcat.nucacola.member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.service.MemberServiceImpl;
 import com.devcat.nucacola.member.model.vo.Member;
@@ -144,8 +146,18 @@ public class SignupController {
 	
 	// 유저 프로필
 	@RequestMapping("profile.me")
-	public String profileUser() {
+	public String profileUser(int userNo, Model model) {
 		
+		// 유저 정보 전부 가져오기
+		Member pUser = mService.selectUserProfile(userNo);
+		// 기술 이름 따로 가져옴
+		ArrayList<Skills> skillList = mService.selectUserSkill(userNo);
+		// 해시맵 담아서
+
+		
+		// 세션에 담아서 리턴
+		model.addAttribute("pUser",pUser);
+		model.addAttribute("skillList",skillList);
 		
 		return "user/userProfile";
 	}

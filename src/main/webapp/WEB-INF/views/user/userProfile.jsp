@@ -36,9 +36,9 @@ pageEncoding="UTF-8"%>
           </div>
           <div>
             <div class="main__info">
-              <input type="hidden" name="uno" value="${loginUser.email }" id="main-info-email" />
-              <input type="hidden" name="uno" value="${loginUser.userNo }" id="main-info-userno" />
-              <strong>${ loginUser.userName }</strong> <span>Apple.Inc</span>
+              <input type="hidden" name="uno" value="${pUser.email }" id="main-info-email" />
+              <input type="hidden" name="uno" value="${pUser.userNo }" id="main-info-userno" />
+              <strong>${ pUser.userName }</strong> <span>Apple.Inc</span>
               <span>Front-end Amazone AWS, github에 관심</span>
             </div>
             <ul class="people__info">
@@ -71,7 +71,7 @@ pageEncoding="UTF-8"%>
           </div>
           <span class="just__text" id="one-line-info">
 		
-            		${loginUser.userInfo}<br />
+            		${pUser.userInfo}<br />
 
           </span>
           <div id="one-line-input" class="edit-disable">
@@ -106,19 +106,25 @@ pageEncoding="UTF-8"%>
                 </div>
               </div>
               <div  id="user-filed-list" class="section__content__box">
-                <span class="compindus__box">node.js</span>
-                <span class="compindus__box">React.js</span>
-                <span class="compindus__box">kotlin</span>
-                <span class="compindus__box">JAVA</span>
+              
+               		<c:forEach var="i" items="${skillList}">
+	              	
+	              		<span class="compindus__box">${ i.skillName }</span>
+	              	
+	              	</c:forEach>
               </div>
               <div id="user-filed-input" class="edit-disable">
               		<!-- 기술 검색  -->
-	              
+	              	
+	              	
+	              	
 	              	<input type="text" id="user-filed-search" />
 	              
 	              	<!-- 기술 관련 검색어 자리  -->
 	              	<div id="user-filed-search-list">
+					
 
+					
 	              	</div>
 	              	
 	              	<br />
@@ -144,15 +150,15 @@ pageEncoding="UTF-8"%>
               
               <span class="just__text" id="position-name"> 
 				<c:choose>
-					<c:when test="${loginUser.userPosi eq '0' }">
+					<c:when test="${pUser.userPosi eq '0' }">
 						기획자
 					</c:when>
 					
-					<c:when test="${loginUser.userPosi eq '1' }">
+					<c:when test="${pUser.userPosi eq '1' }">
 						개발자
 					</c:when>
 					
-					<c:when test="${loginUser.userPosi eq '2' }">
+					<c:when test="${pUser.userPosi eq '2' }">
 						디자이너
 					</c:when>
 					
@@ -303,7 +309,12 @@ pageEncoding="UTF-8"%>
       </div>
 
       <script>
-	
+
+		/* 항상 실행 */
+      	(function(){
+      		
+      	})();
+      	
 		/* 한줄소개 업데이트 */
    		function sendUserInfo(){
 	   
@@ -425,24 +436,14 @@ pageEncoding="UTF-8"%>
 		  			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */	
 			
 			  		let tagName = e.target.innerText;
-					
+
 		  			createTag(tagName);
 		  				
-
+					
 		  			
 		      })
 			 
-			 
-			 
-			 
-   	  
-   	  document.querySelector("#user-filed-final-btn").addEventListener("click", () => {
 
- 		})
-
-          
-          
-          
         /* resultTag 생성용 함수 */ 
         tagList = document.querySelector(".result_tag");
         let TagList = [];
@@ -462,13 +463,19 @@ pageEncoding="UTF-8"%>
         		  return toDo.id !== parseInt(li.id);
         	  });
         	  TagList = cleanTag;
-        	  
+        	  saveTag();
           }
           
           function saveTag() {
               localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
             }	
 
+          function handleSubmit(event) {
+        	  
+        	  document.querySelector(".result_tag").innerHTML= "";
+          }
+          
+          
           /* 태그 생성용 함수 */
 		  function createTag(tagName) {
 			  const li = document.createElement("li");
@@ -478,7 +485,7 @@ pageEncoding="UTF-8"%>
 			  delBtn.className = "material-icons"
 			  
 			  const span = document.createElement("span");
-			  const newId = TagList.length +1;
+			  const newId = TagList.length + 1;
 			  span.innerText = tagName;
 			  li.appendChild(span);
 			  li.appendChild(delBtn);
@@ -488,19 +495,91 @@ pageEncoding="UTF-8"%>
 			  tagList.appendChild(li);
 			  
 			  const TagObj = {
-				text : tagName,
-				id : newId,
+				skillName : tagName,
+				id: newId
 			  };
 			  
 			  TagList.push(TagObj);
 			  saveTag();
-			  console.log(TagList);
-			  
+
 		  }
         
-        
+       
+          
+	      const loadSkills = ()=>{
+
+
+		      let userSkillList = "";
+
+		      TagList.forEach(s => {
+
+		        userSkillList += s.skillName +" "
+
+		      })
+
+
+		      axios.get('insert.field.us',{
+		        params:{
+		          skillName:userSkillList ,
+		          userNo : ${loginUser.userNo}
+		        }
+		      })
+		              .then(function(response){
+
+		                console.log(response)
+
+		                let skillList = response.data
+
+		                /* 설정한 태그를 지워주는 함수 */
+		               
+
+		                /* 종료후 토글 바꿔주기 */
+		                document
+		                        .querySelector("#user-filed-list")
+		                        .classList.toggle("edit-disable");
+		                document
+		                        .querySelector("#user-filed-input")
+		                        .classList.toggle("edit-disable");
+
+
+		                if (document.querySelector("#user-filed-btn").innerText === "create") {
+		                  document.querySelector("#user-filed-btn").innerText = "close";
+		                } else {
+		                  document.querySelector("#user-filed-btn").innerText = "create";
+		                }
+
+		                /* 활동 분야에 값 넣어주기 */
+
+
+		              })
+		              .catch(function(error){
+		                console.log(error);
+
+		              })
+
+
+		    } 
+		
+   		  document.querySelector("#user-filed-final-btn").addEventListener("click", (e) => {
+			   
+			   loadSkills();
+			   location.reload()
+		   })
+		   
+
+          
       </script>
 
+
+		<script>
+		
+		  
+		   
+		
+			    
+		
+		</script>
+		
       <jsp:include page="../common/footer.jsp" />
     </main>
   </body>

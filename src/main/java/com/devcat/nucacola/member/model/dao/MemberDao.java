@@ -1,6 +1,9 @@
 package com.devcat.nucacola.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -106,9 +109,10 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.checkSkill",skillName);
 	}
 
-	public int insertUserFiled(SqlSessionTemplate sqlSession, int skillNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertUserFiled(SqlSessionTemplate sqlSession, HashMap<String,Object> hm) {
+		
+		return sqlSession.insert("memberMapper.insertUserFiled", hm);
+		
 	}
 
 	public int updateUserFiled(SqlSessionTemplate sqlSession, int skillNo) {
@@ -198,6 +202,21 @@ public class MemberDao {
 	public String selectUserInfo(SqlSessionTemplate sqlSession, int userNo) {
 
 		return sqlSession.selectOne("memberMapper.selectUserInfo", userNo);
+	}
+
+	public ArrayList<Skills> getSkillNo(SqlSessionTemplate sqlSession, String[] arr) {
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.getSkillNo",arr);
+	}
+
+	public Member selectUserProfile(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.selectUserProfile", userNo);
+	}
+
+	public ArrayList<Skills> selectUserSkill(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectUserSkill", userNo);
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.devcat.nucacola.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
@@ -69,9 +70,12 @@ public interface MemberService {
 	// 스킬 검색목록 불러오기
 	ArrayList<Skills> checkSkill(String skillName);
 	
+	// 스킬 번호 알아오기
+	ArrayList<Skills> getSkillNo(String[] arr);
+	
 	
 	// 활동 분야 입력
-	int insertUserFiled(int skillNo);
+	int insertUserFiled(HashMap<String, Object> hm);
 	
 	
 	// 활동 분야 수정
@@ -127,6 +131,17 @@ public interface MemberService {
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);
+	
+	
+	
+	// 유저 프로필 가져오기
+	Member selectUserProfile(int userNo);
+	
+	// 유저 프로필용 기술 가져오기
+	ArrayList<Skills> selectUserSkill(int userNo);
+
+	
+	
 	
 	
 	

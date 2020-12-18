@@ -102,8 +102,8 @@
                     <a class="section__content__title__cencle" onclick="deleteBtn(${b.recruitNo},${b.userNo});">북마크 제외</a>
                 </div>
                 <div class="section__content__box">
-					<c:forEach var="skill" items="${skillMap}">
-                    <span class="compindus__box">${skill.value.get(0)}</span>
+					<c:forEach var="skill" items="${skillMap.get(b.recruitNo)}">
+                    <span class="compindus__box">${skill}</span>
 					</c:forEach>
 
 

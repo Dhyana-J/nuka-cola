@@ -303,9 +303,7 @@ pageEncoding="UTF-8"%>
       </div>
 
       <script>
-      
-  
-      	
+	
 		/* 한줄소개 업데이트 */
    		function sendUserInfo(){
 	   
@@ -328,10 +326,8 @@ pageEncoding="UTF-8"%>
 			
    		}
    
-   	
-   		
 
-
+		/* 한줄 소개 토글 */
         const oneLineToggle = () => {
           document
             .querySelector("#one-line-info")
@@ -398,24 +394,17 @@ pageEncoding="UTF-8"%>
       			    }
       			  })
       			  .then(function (response) {
+      				  
       		    		let searchResult = "";
       				  response.data.forEach(v=>{
       					  
-      					searchResult += "&nbsp;<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
+      					searchResult += "<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
 
       				  })
 						
  
       				   document.getElementById("user-filed-search-list").innerHTML = searchResult
-      				  
-      				   
-      				   /* 2. result tag에 버튼 만들어주기 */
-      				  document.querySelector("#user-filed-search-list").addEventListener("click", ()=>{
-      					  
-
-      					  
-      				  })
-      				   
+	   
       				  
       			  })
       			  .catch(function (error) {
@@ -426,21 +415,89 @@ pageEncoding="UTF-8"%>
       			  });
 
   			 }
-    			
-        	  
-        	  document.querySelector("#user-filed-final-btn").addEventListener("click", () => {
+    		
 
-      		})
-	
           });
-          
-          
-		
+         
+			 
+		   /* 2. result tag에 버튼 만들어주기 */
+		document.querySelector("#user-filed-search-list").addEventListener("click", function (e) {
+		  			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */	
+			
+			  		let tagName = e.target.innerText;
+					
+		  			createTag(tagName);
+		  				
+
+		  			
+		      })
+			 
+			 
+			 
+			 
+   	  
+   	  document.querySelector("#user-filed-final-btn").addEventListener("click", () => {
+
+ 		})
 
           
           
           
+        /* resultTag 생성용 함수 */ 
+        tagList = document.querySelector(".result_tag");
+        let TagList = [];
+        const TAG_LS = "tag"; 
           
+          function filter(toDo) {
+              return toDo.id === 1;
+           }
+          
+          /* 태그 삭제용 함수 */
+          function deleteTag(event) {
+        	  const btn = event.target;
+        	  const li = btn.parentNode;
+        	  tagList.removeChild(li);
+        	  
+        	  const cleanTag = TagList.filter(function(toDo) {
+        		  return toDo.id !== parseInt(li.id);
+        	  });
+        	  TagList = cleanTag;
+        	  
+          }
+          
+          function saveTag() {
+              localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
+            }	
+
+          /* 태그 생성용 함수 */
+		  function createTag(tagName) {
+			  const li = document.createElement("li");
+			  const delBtn = document.createElement("i");
+			  
+			  delBtn.innerText = "close";
+			  delBtn.className = "material-icons"
+			  
+			  const span = document.createElement("span");
+			  const newId = TagList.length +1;
+			  span.innerText = tagName;
+			  li.appendChild(span);
+			  li.appendChild(delBtn);
+			  li.id = newId;
+			  
+			  delBtn.addEventListener("click", deleteTag);
+			  tagList.appendChild(li);
+			  
+			  const TagObj = {
+				text : tagName,
+				id : newId,
+			  };
+			  
+			  TagList.push(TagObj);
+			  saveTag();
+			  console.log(TagList);
+			  
+		  }
+        
         
       </script>
 

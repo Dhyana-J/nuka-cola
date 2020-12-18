@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,14 +9,22 @@
     <title>Document</title>
   </head>
   <body>
+  
+  	<c:if test="${!empty alertMsg }">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
+  
     <header>
       <div class="inner">
         <div class="left__header">
           <div class="logo">
-            <img src="resources/assets/logo.png" alt="logo" />
+            <a href="loginForm.me"><img src="resources/assets/logo.png" alt="logo" /></a>
           </div>
           <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
+            <li class="header__nav-item"><a href="list.pa">PARTNER</a></li>
             <li class="header__nav-item"><a href="list.co">COMPANIES</a></li>
             <li class="header__nav-item">EMPLOYMENT</li>
           </ul>

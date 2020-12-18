@@ -31,24 +31,12 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <header>
-      <div class="inner">
-        <div class="left__header">
-          <div class="logo">
-            <img src="resources/assets/logo.png" alt="logo" />
-          </div>
-          <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
-            <li class="header__nav-item">COMPANY</li>
-            <li class="header__nav-item">EMPLOYMENT</li>
-          </ul>
-        </div>
-        <div class="right__header">
-          <i class="icono-hamburger"></i>
-          <span>MENU</span>
-        </div>
-      </div>
-    </header>
+  
+  
+    <jsp:include page="../common/mainMenu.jsp"/>
+    
+    
+    
     <section class="visual__section">
       <div class="inner">
         <div class="visual__left">

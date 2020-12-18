@@ -1,10 +1,9 @@
 package com.devcat.nucacola.member.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,6 +17,12 @@ public class ConnectionController {
 	@Autowired
 	private MemberService mService;
 	
+
+	@RequestMapping("list.pa")
+	public String partnerForm() {
+		return "partner/partner";
+	}
+	
 	@RequestMapping("test.conn")
 	public String test(int userNo) {
 		for(int i=0; i<10; i++) {
@@ -29,18 +34,44 @@ public class ConnectionController {
 	
 	@ResponseBody
 	@RequestMapping("addFollowing.conn")
-	public int addFollowing(int userNo, int followingNo) {
+	public HashMap<String,Integer> addFollowing(int userNo, int followingNo) {
 		
-				//유저번호, 팔로잉할사람 회원번호 넘겨주자
-		return mService.addFollowing(new Connection(userNo,followingNo));
+					
+		int result = mService.addFollowing(new Connection(userNo,followingNo));
+		
+		HashMap<String,Integer> list = new HashMap<>();//뷰로 리턴할 HashMap
+		
+		if(result>0) {//팔로잉 추가 성공시
+			list.put("result",result);
+			list.put("followerNo",userNo);
+			list.put("followingNo",followingNo);
+			return list;
+			
+		}else{//팔로잉 추가 실패시
+			list.put("result",result);
+			return list;
+		}
 		
 	}
 	
 	@ResponseBody
 	@RequestMapping("cancelFollowing.conn")
-	public int cancelFollowing(int userNo, int followingNo) {
-				//유저번호, 팔로잉 취소할사람 회원번호 넘겨주자
-		return mService.cancelFollowing(new Connection(userNo,followingNo));
+	public HashMap<String,Integer> cancelFollowing(int userNo, int followingNo) {
+		
+		int result = mService.cancelFollowing(new Connection(userNo,followingNo));
+		
+		HashMap<String,Integer> list = new HashMap<>();//뷰로 리턴할 HashMap
+		
+		if(result>0) {//팔로잉 추가 성공시
+			list.put("result",result);
+			list.put("followerNo",userNo);
+			list.put("followingNo",followingNo);
+			return list;
+			
+		}else{//팔로잉 추가 실패시
+			list.put("result",result);
+			return list;
+		}
 		
 	}
 	

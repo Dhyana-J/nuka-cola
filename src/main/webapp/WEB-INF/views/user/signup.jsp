@@ -25,12 +25,6 @@
   	
   	<jsp:include page="../common/mainMenu.jsp"/>
   	
-  	<c:if test="${!empty alertMsg }">
-		<script>
-			alert('${alertMsg}');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
 
     <!-- 컨텐츠 -->
     <main>
@@ -143,9 +137,6 @@
         </div>
       </div>
     </main>
-    
-    <!-- 푸터 포함 -->
-    <jsp:include page="../common/footer.jsp"/>
     
     <script defer>
     

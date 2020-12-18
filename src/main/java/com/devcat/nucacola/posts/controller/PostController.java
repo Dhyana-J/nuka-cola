@@ -109,7 +109,7 @@ public class PostController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value="load.com",method = RequestMethod.GET)
+	@RequestMapping(value="load.com",method = RequestMethod.GET,produces = "application/json; charset=UTF-8")
 	public String selectCommentList(int pno)throws Exception {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "application/json; charset=utf-8");

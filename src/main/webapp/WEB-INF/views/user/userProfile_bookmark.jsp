@@ -103,7 +103,7 @@
                 </div>
                 <div class="section__content__box">
 					<c:forEach var="skill" items="${skillMap}">
-                    <span class="compindus__box">${skillMap.value}</span>
+                    <span class="compindus__box">${skill.value.get(0)}</span>
 					</c:forEach>
 
 

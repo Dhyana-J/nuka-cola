@@ -7,14 +7,14 @@ import com.devcat.nucacola.posts.model.vo.Post;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.devcat.nucacola.posts.model.service.PostService;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -109,13 +109,15 @@ public class PostController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value="load.com",method = RequestMethod.GET,produces = "application/json; charset=UTF-8")
-	public String selectCommentList(int pno)throws Exception {
+	@RequestMapping(value="load.com",method = RequestMethod.GET)
+	public ResponseEntity<String> selectCommentList(int pno)throws Exception {
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type", "application/json; charset=utf-8");
+
 		System.out.println(pno);
 		ArrayList<Comment> list =pService.selectCommentList(pno);
-		return new Gson().toJson(list);
+		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+		String json = new Gson().toJson(list);
+		return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
 	}
 
 	public String saveFile(HttpSession session , MultipartFile upfile){

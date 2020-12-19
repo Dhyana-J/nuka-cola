@@ -173,7 +173,7 @@
   </body>
   <script defer>
 
-    const createCommentItem = (v,i)=>{
+    const createCommentItem = (v,i,c=0)=>{
       const ListContainer = document.querySelectorAll(".post__comment_list")[i]
       const commentBox = document.createElement('li')
       const userBox=document.createElement('div')
@@ -206,8 +206,13 @@
       userBox.appendChild(postDate);
       commentBox.appendChild(userBox);
       commentBox.appendChild(commentContent);
-      ListContainer.appendChild(userNo);
-      ListContainer.appendChild(commentBox);
+      commentBox.appendChild(userNo);
+      if(c!==0){
+        ListContainer.prepend(commentBox);
+      }else{
+        ListContainer.appendChild(commentBox);
+      }
+
     }
 
     document.querySelectorAll('.comment-insert-btn').forEach((v,i)=>
@@ -221,7 +226,7 @@
                           userNo:"${loginUser.userNo}",
                           userName:"${loginUser.userName}",
                         }
-                        createCommentItem(data,i);
+                        createCommentItem(data,i,1);
                       })
                       .catch((e)=>{
                         console.error(e)
@@ -229,7 +234,7 @@
             })
     )
 
-    let currentBtnNumber = 0;
+    let currentBtnNumber =9999;
     const loadComment=()=>{
       document.querySelectorAll('.comment-open').forEach((v,i)=>{
         v.addEventListener('click',()=>{
@@ -247,7 +252,7 @@
               })
             })
           }else{
-            currentBtnNumber = 0;
+            currentBtnNumber = 9999;
             console.log(document.querySelectorAll(".post__comment_list"));
             const ListContainer = document.querySelectorAll(".post__comment_list")[i]
             ListContainer.childNodes.forEach(v=>{

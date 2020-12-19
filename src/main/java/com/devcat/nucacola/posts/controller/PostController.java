@@ -51,9 +51,23 @@ public class PostController {
 		model.addAttribute("list", list);
 		return "/timeline/timeline";
 	}
+
+	@RequestMapping("load.pos")
+	public ResponseEntity<String> loadPostList(
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage
+	) {
+		System.out.println(currentPage);
+		HttpHeaders responseHeaders = new HttpHeaders();
+		int listCount = pService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		ArrayList<Post> list = pService.selectPostList(pi);
+		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+		String json = new Gson().toJson(list);
+		return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+	}
 	
 	// 포스트 작성
-	@RequestMapping("insert.pos")
+	@RequestMapping(value = "insert.pos",method = RequestMethod.GET)
 	public String insertPost(Post p, MultipartFile upfile, HttpSession session, Model model) {
 		if(!upfile.getOriginalFilename().equals("")){
 			String changeName = saveFile(session , upfile);

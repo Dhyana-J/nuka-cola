@@ -96,15 +96,17 @@
             </div>
 
             <!-- 댓글목록 -->
-            <ul class="post__comment_list">
+            <div class="post__comment_list">
               <input class='post-id' type="hidden" name="postNo" value='${p.postNo}'>
               <div class="comment_input">
                 <span>댓글등록</span>
                 <textarea class='comment-input' name="commentContent"></textarea>
                 <button type='button' class='btn btn-blue comment-insert-btn'>ADD</button>
               </div>
+              <ul class="post__comment_box">
 
-            </ul>
+              </ul>
+            </div>
           </div>
 
           </c:forEach>
@@ -174,7 +176,7 @@
   <script defer>
 
     const createCommentItem = (v,i,c=0)=>{
-      const ListContainer = document.querySelectorAll(".post__comment_list")[i]
+      const ListContainer = document.querySelectorAll(".post__comment_box")[i]
       const commentBox = document.createElement('li')
       const userBox=document.createElement('div')
       userBox.className='post__user-info'
@@ -215,24 +217,27 @@
 
     }
 
-    document.querySelectorAll('.comment-insert-btn').forEach((v,i)=>
-            v.addEventListener('click',()=>{
-              axios.get('insert.com?postNo='+document.querySelectorAll('.post-id')[i].value+"&userNo="+'${loginUser.userNo}'+'&commentContent='+document.querySelectorAll('.comment-input')[i].value)
-                      .then((res)=>{
-                        const data = {
-                          userAvatar:"${loginUser.userAvatar}",
-                          commentContent:document.querySelectorAll('.comment-input')[i].value,
-                          userComp:"${loginUser.userComp}",
-                          userNo:"${loginUser.userNo}",
-                          userName:"${loginUser.userName}",
-                        }
-                        createCommentItem(data,i,1);
-                      })
-                      .catch((e)=>{
-                        console.error(e)
-                      })
-            })
-    )
+    const commentInsertWatcher=()=>{
+      document.querySelectorAll('.comment-insert-btn').forEach((v, i) =>
+              v.addEventListener('click', () => {
+                axios.get('insert.com?postNo=' + document.querySelectorAll('.post-id')[i].value + "&userNo=" + '${loginUser.userNo}' + '&commentContent=' + document.querySelectorAll('.comment-input')[i].value)
+                        .then((res) => {
+                          const data = {
+                            userAvatar: "${loginUser.userAvatar}",
+                            commentContent: document.querySelectorAll('.comment-input')[i].value,
+                            userComp: "${loginUser.userComp}",
+                            userNo: "${loginUser.userNo}",
+                            userName: "${loginUser.userName}",
+                          }
+                          createCommentItem(data, i, 1);
+                          document.querySelectorAll('.comment-input')[i].value = "";
+                        })
+                        .catch((e) => {
+                          console.error(e)
+                        })
+              })
+      )
+    }
 
     let currentBtnNumber =9999;
     const loadComment=()=>{
@@ -246,18 +251,16 @@
               }
             })
             .then((res) =>{
-              // const ListContainer = document.querySelectorAll(".post__comment_list")[i]
               res.data.forEach(v=>{
                 createCommentItem(v,i);
               })
             })
           }else{
             currentBtnNumber = 9999;
-            console.log(document.querySelectorAll(".post__comment_list"));
-            const ListContainer = document.querySelectorAll(".post__comment_list")[i]
-            ListContainer.childNodes.forEach(v=>{
-              if(v.nodeName==='LI'){
-                v.remove();
+            const ListContainer = document.querySelectorAll(".post__comment_box")[i]
+            ListContainer.childNodes.forEach(s=>{
+              if(s.nodeName==='LI'){
+                s.remove();
               }
             })
           }
@@ -265,22 +268,163 @@
       })
     }
 
-    loadComment()
 
     document.querySelector(".post_form-btn").addEventListener("click", (e) => {
       document
         .querySelector(".post_form_wrapper")
         .classList.toggle("post_form-active");
     });
-    document.querySelectorAll(".comment-open").forEach((v, i) =>
-      v.addEventListener("click", () => {
-        v.classList.toggle("comment_btn_active");
-        document
-          .querySelectorAll(".post__comment_list")
-          [i].classList.toggle("comment_list_active");
-      })
-    );
 
+    const commentOpenAll = (v,i)=>{
+      console.log(v,i,'댓글열림');
+      v.classList.toggle("comment_btn_active");
+      document.querySelectorAll(".post__comment_list")[i].classList.toggle("comment_list_active");
+    }
+    const commentOpenWatcher=()=>{
+      document.querySelectorAll(".comment-open").forEach((v, i) =>
+              v.addEventListener("click", () => commentOpenAll(v,i))
+      );
+    }
+    const removeCommentOpenWatcher=()=>{
+      document.querySelectorAll(".comment-open").forEach((v, i) =>
+              v.removeEventListener("click",() => commentOpenAll(v,i))
+      );
+    }
+    const createPostItem = (v) =>{
+      const contentWrapper = document.createElement('div')
+        contentWrapper.classList.add('content__wrapper');
+        contentWrapper.classList.add('post__item-wrapper');
 
+      const postWriter = document.createElement('input');
+        postWriter.type='hidden';
+        postWriter.className = 'user_no_input';
+        postWriter.value = v.userNo;
+
+      const userBox=document.createElement('div')
+        userBox.className='post__user-info'
+        const avatarBox=document.createElement('div')
+          avatarBox.className='avatar-small'
+        const userAvatar = document.createElement('img')
+          userAvatar.src = v.userAvatar;
+        const userSummary = document.createElement('div');
+          userSummary.className='user__summary'
+          const userName = document.createElement('strong')
+            userName.innerText = v.userName;
+          const userComp = document.createElement('small');
+            userComp.innerText = v.userComp;
+        const followBtn = document.createElement('div')
+          followBtn.className='follow__btn'
+          const followIcon = document.createElement('i');
+          followIcon.className='material-icons'
+          followIcon.innerText = 'person_add'
+          const followText = document.createElement('p')
+          followText.innerText = 'FOLLOW'
+      avatarBox.appendChild(userAvatar);
+      userSummary.appendChild(userName);
+      userSummary.append(userComp);
+      userBox.appendChild(avatarBox)
+      userBox.appendChild(userSummary)
+      userBox.appendChild(followBtn)
+
+      //본문
+      const postContent = document.createElement('article');
+        postContent.innerText=v.postContent;
+      const postDate = document.createElement('span');
+        postDate.className='post__date'
+        postDate.innerText=v.updatedAt
+
+      //버튼
+      const postBtnWrapper = document.createElement('div');
+        postBtnWrapper.className = 'post__btn__wrapper';
+
+      const likeBtn = document.createElement('div');
+        likeBtn.className='like_btn';
+      const likeBtnIcon = document.createElement('i');
+        likeBtnIcon.className = 'material-icons';
+        likeBtnIcon.innerText = 'thumb_up_alt';
+      const likeBtnText = document.createElement('span');
+        likeBtnText.innerText = 'LIKE';
+      likeBtn.appendChild(likeBtnIcon);
+      likeBtn.appendChild(likeBtnText);
+      const commentBtn = document.createElement('div');
+      commentBtn.className='comment-open like_btn';
+      const commentBtnIcon = document.createElement('i');
+      commentBtnIcon.className = 'material-icons';
+      commentBtnIcon.innerText = 'comment';
+      const commentBtnText = document.createElement('span');
+      commentBtnText.innerText = 'COMMENT';
+      commentBtn.appendChild(commentBtnIcon);
+      commentBtn.appendChild(commentBtnText);
+
+      postBtnWrapper.appendChild(likeBtn);
+      postBtnWrapper.appendChild(commentBtn);
+
+      //댓글
+      const commentBox = document.createElement('div');
+        commentBox.className = "post__comment_list"
+
+      const postNo = document.createElement('input');
+        postNo.type='hidden';
+        postNo.className='post-id';
+        postNo.value=v.postNo;
+        postNo.name='postNo';
+      const commentInputBox = document.createElement('div');
+        commentInputBox.className='comment_input';
+      const commentInputTitle = document.createElement('span');
+        commentInputTitle.innerText = '댓글등록';
+      const commentInputForm = document.createElement('textarea');
+        commentInputForm.className='comment-input';
+        commentInputForm.name='commentContent';
+      const commentInputBtn = document.createElement('button');
+        commentInputBtn.type='button';
+        commentInputBtn.className = 'btn btn-blue comment-insert-btn';
+        commentInputBtn.innerText='ADD';
+      commentInputBox.appendChild(commentInputTitle);
+      commentInputBox.appendChild(commentInputForm);
+      commentInputBox.appendChild(commentInputBtn);
+      commentBox.appendChild(postNo);
+      commentBox.appendChild(commentInputBox);
+
+      const postCommentBox = document.createElement('ul');
+        postCommentBox.className='post__comment_box';
+      commentBox.appendChild(postCommentBox);
+
+      contentWrapper.appendChild(postWriter);
+      contentWrapper.appendChild(userBox);
+      contentWrapper.appendChild(postContent);
+      contentWrapper.appendChild(postDate);
+      contentWrapper.appendChild(postBtnWrapper);
+      contentWrapper.appendChild(commentBox);
+
+      document.querySelector('.timeline__section-left').appendChild(contentWrapper);
+    }
+    //infinite
+    let currentPageNum = 2;
+    window.addEventListener('scroll',()=>{
+      if(window.pageYOffset + document.documentElement.clientHeight >
+              document.documentElement.scrollHeight - 1){
+        console.log('로드!')
+        axios.get('load.pos', {
+          params: {
+            currentPage: currentPageNum++
+          }
+        })
+        .then((res)=>{
+
+          console.log(res.data)
+          //timeline__section-left 에 추가
+          res.data.forEach(v=>{
+            createPostItem(v);
+          })
+          removeCommentOpenWatcher()
+          commentOpenWatcher();
+          commentInsertWatcher();
+          loadComment();
+        })
+      }
+    })
+    loadComment();
+    commentOpenWatcher()
+    commentInsertWatcher()
   </script>
 </html>

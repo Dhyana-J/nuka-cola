@@ -66,6 +66,7 @@
 from COMMENTS
          left join USERS U on U.USER_NO = COMMENTS.USER_NO
 where POST_NO = #{pno}
+        order by COMMENTS.COMMENT_NO desc
     </select>
     <insert id="insertComment" parameterType="Comment">
         INSERT INTO COMMENTS (COMMENT_NO, COMMENT_CONTENT, USER_NO, POST_NO)

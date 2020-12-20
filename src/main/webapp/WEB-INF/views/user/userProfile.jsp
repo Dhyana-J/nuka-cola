@@ -117,31 +117,56 @@
 						</div>
 						<span class="just__text"> 금융 핀테크 서비스와 Ai </span>
 					</div>
-					<div class="content__wrapper">
-						<div class="section__content__title">
-							<strong>프로젝트</strong>
-							<div class="edit__field">
-								<i id="editProject" class="material-icons">create</i>
-							</div>
-						</div>
-						<div class="section__content__text">
-							<ul>
-								<li><strong>Front-end 개발</strong></li>
-								<li>이상한 프로젝트</li>
-								<li>프로젝트</li>
-							</ul>
-							<ul>
-								<li><strong>Front-end 개발</strong></li>
-								<li>이상한 프로젝트</li>
-								<li>프로젝트</li>
-							</ul>
-							<ul>
-								<li><strong>Front-end 개발</strong></li>
-								<li>이상한 프로젝트</li>
-								<li>프로젝트</li>
-							</ul>
-						</div>
-					</div>
+					
+					
+					
+					                    <div class="content__wrapper">
+
+                        <div class="section__content__title">
+
+                            <strong>프로젝트</strong>
+
+                            <div onclick="projectToggle()" class="edit__field">
+                                <i id="project-btn" class="material-icons">create</i>
+                            </div>
+                            
+                        </div>
+                        <span class="just__text" id="project-name">
+                          <div>
+                            <ul class="user__project__section">
+                              <li>야후코리아 페쇄</li>
+                              <li>백엔드</li>
+                              <li>2020/01/01 ~ 2020/04/05</li>
+                            </ul> 
+                          </div>
+                        </span>
+                        <div class="edit-disable" id="project-input">
+
+                          <form action="update.project" method="post">
+                            
+                              <span>프로젝트명 : </span>
+                              <input type="text" name="projectName" placeholder="예) 야후코리아 폐쇄">
+                              <br>
+                              <br>
+                             
+                              <span>주요업무 : </span> 
+                              <input type="text" name="pPosition" placeholder=" 주요업무를 입력해주세요 예) Front-end"> 
+                              <br>
+                              <br>
+                            
+                              <span>기간 : </span>
+                              <input type="text" name="projectStart" placeholder="시작기간을 입력해주세요 예) 2020.01.01"> ~
+                              <input type="text" name="projectEnd" placeholder="마친기간을 입력해주세요">
+                              <br> <br><br>
+                                <div id="">
+                                  <button type="button" onclick="sendUserProject();" class="btn">등록</button>
+                                </div>
+                           
+                          </form>
+
+                        </div>
+
+                    </div>
 					<div class="content__wrapper">
 						<div class="section__content__title">
 							<strong>최종학력</strong>
@@ -251,15 +276,12 @@
 		/*프로젝트 */
 		
 		function sendUserProject() {
-
-            const projectNo = document.querySelector("").value;
-            const projectName = document.querySelector("").value;
-            const position = document.querySelector("").value;
-            const pStart = document.querySelector("").value;
-            const pEnd = document.querySelector("").value;
-            
-            location.href="update.project.us?userProject=" + projectName + "&projectNo" + projectNo + "&userNo=" + userNo;
-
+             const projectName = document.querySelector("#projectName").value;
+             const position = document.querySelector("#pPosition").value;
+             const pStart = document.querySelector("projectStart").value;
+             const pEnd = document.querySelector("projectEnd").value;
+             location.href="insert.project.us?userProject=" + projectName + "&userNo" + userNo;
+  
         }
 		
 		
@@ -284,22 +306,21 @@
 			  
 		/* 프로젝트 아이콘 버튼용*/
 		
-		const projectToggle = () => {
-                
-			document
+		 const projectToggle = () => {
+               document
                   .querySelector("#project-name")
                   .classList.toggle("edit-disable");
 
-			document
+               document
                   .querySelector("#project-input")
                   .classList.toggle("edit-disable");
 
-                  if(document.querySelector("#project-btn").innerText === "create") {
-                    document.querySelector("#project-btn").innerText = "close";
-                  }else{
-                    document.querySelector("#project-btn").innerText = "create";
+               if(document.querySelector("#project-btn").innerText === "create") {
+                  document.querySelector("#project-btn").innerText = "close"
+               }else{
+                  document.querySelector("#project-btn").innerText = "create";
                   }
-                };
+         }
 			  
 			  
 			  

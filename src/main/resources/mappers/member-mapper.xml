@@ -144,9 +144,7 @@
 		   set user_edu = #{userEdu}
 		 where user_no = #{userNo}
 	</update>
-	
-	
-	
+
 	
 	
 </mapper>

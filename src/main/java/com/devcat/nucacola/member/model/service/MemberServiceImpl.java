@@ -362,7 +362,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateProject(Project p) {
-		// TODO Auto-generated method stub
+
 		return mDao.updateProject(sqlSession,p);
 	}
 	
@@ -437,7 +437,8 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
-	
+
+
 	
 	
 

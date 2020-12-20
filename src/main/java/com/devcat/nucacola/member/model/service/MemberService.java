@@ -127,6 +127,7 @@ public interface MemberService {
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);
+	
 
 
 

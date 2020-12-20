@@ -70,13 +70,34 @@ public class ProfileController {
 	}
 	// 프로젝트 입력
 	@RequestMapping("/insert.project.us")
-	public String insertProject(Project p) {
-		return "/main";
+	public String insertProject(Project p, Model model) {
+		
+		int result = mService.insertProject(p);
+		
+		if(result >0) {
+			return "redirect:profile.me";
+		}else {
+			model.addAttribute("errorMsg","입력실패");
+			return "common/errorPage";
+		}
+		
 	}
+	
 	// 프로젝트 수정
 	@RequestMapping("/update.project.us")
-	public String updateProject(Project p) {
-		return "/main";
+	public String updateProject(Project p, HttpSession session, Model model) {
+		
+		int result = mService.updateProject(p);
+		
+		if(result > 0) {
+
+			return "redirect:profile.me";
+		}else {
+			model.addAttribute("errorMsg","입력 실패");
+			return "common/errorPage";
+		}
+		
+		
 	}
 	
 	// 최종학력 입력
@@ -104,13 +125,6 @@ public class ProfileController {
 		
 	}
 	
-
-	// 최종학력 수정
-	@RequestMapping("/insert.edu.us")
-	public String insertUserEdu(String userEdu) {
-		return "/main";
-	}
-
 
 	// 경력 입력
 	@RequestMapping("/insert.career.us")

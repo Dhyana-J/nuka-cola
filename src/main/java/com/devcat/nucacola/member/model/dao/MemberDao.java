@@ -181,6 +181,7 @@ public class MemberDao {
 	public int countBookmark(SqlSessionTemplate sqlSession, int uno) {
 		return sqlSession.selectOne("memberMapper.countBookmark",uno);
 	}
+	//북마크 페이징 처리
 	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession,int uno,PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
@@ -199,9 +200,13 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 	// 기업구독 조회
-	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, int uno) {
+	public int countSubComp(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("memberMapper.countSubComp",uno);
+	}
+	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, int uno, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSubComp",uno);
 	}
 

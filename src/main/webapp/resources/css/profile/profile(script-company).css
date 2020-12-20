@@ -75,7 +75,7 @@
   .main__section__right .content__wrapper {
     width: 100%;
     height: 100%;
-    padding: 25px 30px;
+    padding: 13px 13px;
     background: #fff;
     border-radius: 5px;
     border: 1px solid #c7c7c7;
@@ -232,3 +232,8 @@
    	  color:#000;
    	  cursor:pointer;
    }
+   .content__wrapper .more{
+	display:flex;
+	margin:20px;
+	justify-content: center;
+}

@@ -81,9 +81,9 @@
                 <div class="section__content__title">
                     <strong>북마크한 채용공고</strong>  
                 </div>
-                <div class="just__text">${fn:length(blist)}개의 공고</div>
+                <div class="just__text">${blistCount}개의 공고</div>
 				<c:forEach var="b" items="${blist}">
-				<div>
+				<div onclick='location.href="detail.re?rno=${b.recruitNo}"'>
                 <div class="just__text__item">
                     <span class="just__text__title">${b.compName}</span>
                     <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
@@ -113,9 +113,14 @@
                 </div>
                 </c:forEach>
                 
-				<div class="more">
-                  <button class="btn">more</button>
-                </div>
+                <c:if test="${blist != null}">
+					<div class="more">
+	                  <button class="btn" id="moreBtn" onclick="moreList(${loginUser.userNo},${pi.currentPage});">more</button>
+	                </div>
+                </c:if>
+                <c:if test="${blist == null}">
+					
+                </c:if>
             </div>
             </div>
                     
@@ -127,6 +132,33 @@
             <a id="topBtn" href="#"><img id="logoDesign"src="../../assets/avatar.png" alt=""></a>
 
             <script>
+            
+            
+          	'use strict';
+          	
+          	//북마크의 현재페이지가 마지막 페이지면 more버튼 비활성화.
+      		if(${pi.currentPage}==${pi.maxPage}){
+      			let moreBtn = document.querySelector('#moreBtn');
+      			moreBtn.setAttribute('disabled',true);	
+      		}
+          	
+            
+            
+            
+            let btn = document.getElementsByClassName("list_more");
+            console.log(btn.value());
+            const moreList=(uno,currentPage)=>{
+            	axios.get('loadMore.bk',{
+            		params:{
+            		currentPage:crrentPage,
+            		userNo:uno
+            		}
+            	})
+            	.then(function(){
+            		 alert("북마크취소 되었습니다.");
+            	 })
+            }
+            
 
              function deleteBtn(bno,uno){
             	 console.log(bno);

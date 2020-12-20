@@ -109,19 +109,18 @@ public interface MemberService {
 	
 	// 북마크 조회
 	int  countBookmark(int uno);
-	ArrayList<Bookmark> selectBookmark(int uno,PageInfo pi);
+	ArrayList<Bookmark> selectBookmark(int uno, PageInfo pi);
 	ArrayList<Bookmark> selectRecruitSkills(int uno);
 
 	// 북마크 취소
-	
 	int deleteBookmark(Bookmark bm);
 	
 	// 기업 구독 추가	
-	
 	int insertSubComp(CompSub cs);
 
 	// 기업 구독 조회
-	ArrayList<CompSub> selectSubComp(int uno);
+	int  countSubComp(int uno);
+	ArrayList<CompSub> selectSubComp(int uno, PageInfo pi);
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);

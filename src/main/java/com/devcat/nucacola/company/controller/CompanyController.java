@@ -85,5 +85,11 @@ public class CompanyController {
 	
 	}
 	
+	// 프로필 메인화면
+	@RequestMapping("profileMain.co")
+	public String profileMainCompany(int cno) {
+		return "company/commpanyProfileMain";
+	}
+	
 	
 }

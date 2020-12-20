@@ -84,11 +84,11 @@
                         <strong>구독기업</strong>
                       </div><br>
                           <span class="following__much">&nbsp;
-                            <strong>${fn:length(cslist)}</strong>개의 공고
+                            <strong>${csCount}</strong>개의 공고
                           </span>
                     <br><br>
                     	<c:forEach var="cs" items="${cslist}">
-                          <div class="script__company__box">
+                          <div class="script__company__box" onclick='location.href="list.co?cno=${cs.compNo}"'>
                             <div class="company__box__left">
                                 <div class="company__img__box">
                                 <img src="resources/assets/${cs.compLogo}" alt="">
@@ -105,7 +105,14 @@
                           </div>
 
                    	 </c:forEach>
-                    
+                   	 
+                   	 <c:if test="${cslist != null || csCount<pi.boardLimit}">
+						<div class="more">
+		                  <button class="btn" id="moreBtn" onclick="moreList(${loginUser.userNo},${pi.currentPage});">more</button>
+		                </div>
+	                </c:if>
+	                <c:if test="${cslist == null}">
+                    </c:if>
 
 
 
@@ -117,7 +124,13 @@
 
             <a id="topBtn" href="#"><img id="logoDesign"src="../../assets/avatar.png" alt=""></a>
 
-            <script>
+            <script der>
+            
+            if(${pi.currentPage}==${pi.maxPage}){
+  			let moreBtn = document.querySelector('#moreBtn');
+  			moreBtn.setAttribute('disabled',true);
+  				
+  		    }
 
             function CSdeleteBtn(cs,uno){
            	 console.log(cs);

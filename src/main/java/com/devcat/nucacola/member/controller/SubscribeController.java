@@ -39,12 +39,10 @@ public class SubscribeController {
 								int uno, Model model) {
 		int blistCount = mService.countBookmark(uno);
 		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
-		
+		System.out.println(pi);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
-
-		//System.out.println(skills.size()); //조회해온 채용공고관련업무기술 갯수 (이것도 성공하면 지우기)
 		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
 			System.out.println(skills.get(i).getSkillName());
 			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
@@ -63,18 +61,50 @@ public class SubscribeController {
 //			}
 			System.out.println(skillMap.get(1));
 		}
+		model.addAttribute("blistCount", blistCount);
 		model.addAttribute("pi",pi);
 		model.addAttribute("skillMap",skillMap);
 		model.addAttribute("blist",blist);
 		return "/user/userProfile_bookmark";
 	}
+	
+	
+	// bookmark의 more버튼 클릭시 controller
+	@ResponseBody
+	@RequestMapping(value="/loadMore.bk", produces="text/html; charset=utf-8")
+	public void selectBookmark2(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			int uno, Model model) {
+		int blistCount = mService.countBookmark(uno);
+		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
+		
+		HashMap<Integer, List<String>>skillMap =new HashMap<>();
+		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
+		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
+		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
+		System.out.println(skills.get(i).getSkillName());
+		String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
+		
+		List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
+		System.out.println(i);
+		System.out.println(skillsName);
+		int key=skills.get(i).getRecruitNo();
+		skillMap.put(key,skillsName);
+
+		System.out.println(skillMap.get(1));
+
+		model.addAttribute("pi",pi);
+		model.addAttribute("skillMap",skillMap);
+		model.addAttribute("blist",blist);}
+		}
+	
+	
+	
 	// 북마크 취소
 	@ResponseBody
 	@RequestMapping(value="/delete.bk", produces="text/html; charset=utf-8")
 	public void deleteBookmark(Bookmark bm) {
 		System.out.println(bm);
 		int result = mService.deleteBookmark(bm);
-//		System.out.println(result);
 
 //		return "redirect:list.bk?uno="+bm.getRecruitNo();
 //		return "redirect:";
@@ -89,8 +119,13 @@ public class SubscribeController {
 		
 	// 기업 구독 조회
 	@RequestMapping("/list.sub")
-	public String selectSubComp(int uno, Model model) {
-		ArrayList<CompSub> cslist=mService.selectSubComp(uno);
+	public String selectSubComp(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+								int uno, Model model) {
+		int cslistCount = mService.countSubComp(uno);// 해당유저의 구독기업 총개수
+		PageInfo pi = Pagination.getPageInfo(cslistCount, currentPage,1,4);
+		ArrayList<CompSub> cslist=mService.selectSubComp(uno,pi);
+		model.addAttribute("csCount",cslistCount);
+		model.addAttribute("pi",pi);
 		model.addAttribute("cslist",cslist);
 		System.out.println(cslist);
 		return "/user/userProfile_scriptCompany";

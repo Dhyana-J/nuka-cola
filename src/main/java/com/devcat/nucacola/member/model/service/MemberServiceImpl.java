@@ -428,14 +428,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<CompSub> selectSubComp(int uno) {
-		return mDao.selectSubComp(sqlSession, uno);
-	}
-
-	@Override
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+
+	@Override
+	public int countSubComp(int uno) {
+		// TODO Auto-generated method stub
+		return mDao.countSubComp(sqlSession, uno);
+	}
+
+	@Override
+	public ArrayList<CompSub> selectSubComp(int uno, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return mDao.selectSubComp(sqlSession, uno, pi);
+	}
+
+
 
 
 	

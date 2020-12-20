@@ -568,7 +568,7 @@ pageEncoding="UTF-8"%>
 			   location.reload()
 		   })
 		   
-			
+		
 		   
 		  document.querySelector("#user-filed-list").addEventListener("click",function(e) {
 			  /* 삭제할 기술 이름 */
@@ -579,6 +579,23 @@ pageEncoding="UTF-8"%>
 			  document.getElementById(deleteSkill).parentNode.remove();
 			  
 			  /* 백엔드로 삭제할 기술이름 넘겨주기 */
+			  
+			  axios.get("delete.field.us",{
+				  params:{
+					  skillName: deleteSkill,
+					  userNo : ${pUser.userNo}
+					  
+				  }
+			  })
+			  .then(function(response){
+				  	
+				  console.log(response)
+			  })
+			  .catch(function(error){
+				  
+				  console.log(error);
+			  })
+			  
 
 		  })
 		   

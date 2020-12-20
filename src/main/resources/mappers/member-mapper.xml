@@ -239,6 +239,16 @@
 
 
 		</select>
+		
+		
+		<delete id="deleteUserField" parameterType="UserFiled">
+			delete
+		  			
+		  	   from user_fields
+		      where user_no = #{userNo}
+		        and skill_no = #{skillNo}
+		
+		</delete>
 	
 	
 </mapper>

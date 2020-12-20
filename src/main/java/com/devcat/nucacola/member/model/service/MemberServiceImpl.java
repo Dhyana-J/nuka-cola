@@ -32,6 +32,7 @@ import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.TempKey;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -349,9 +350,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int updateUserFiled(int skillNo) {
+	public int deleteUserFiled(UserFiled uf) {
 		// TODO Auto-generated method stub
-		return mDao.updateUserFiled(sqlSession,skillNo);
+		return mDao.deleteUserFiled(sqlSession,uf);
 	}
 
 

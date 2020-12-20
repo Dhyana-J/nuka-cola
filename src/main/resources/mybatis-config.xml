@@ -9,6 +9,7 @@
 	<typeAliases>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.UserFiled" alias="UserFiled"/>
+
 		
 		<typeAlias type="com.devcat.nucacola.company.model.vo.Company" alias="Company"/>
 		

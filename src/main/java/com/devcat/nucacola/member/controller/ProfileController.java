@@ -16,6 +16,7 @@ import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 import com.google.gson.Gson;
 
 @Controller
@@ -137,13 +138,37 @@ public class ProfileController {
 		
 	}
 	
-	
-	// 활동 분야 수정
-	@RequestMapping("/update.field.us")
-	public String updateUserField(int skillNo) {
-		return "/main";
+	// 
+	@ResponseBody
+	@RequestMapping(value="/delete.field.us", produces="text/html; charset=utf-8")
+	public String deleteUserFiled(int userNo, String skillName) {
+		
+		String[] arr = {skillName};
+		//스킬번호 알아오기
+		ArrayList<Skills> list = mService.getSkillNo(arr);
+		
+		System.out.println(list);
+		
+		// 지울 스킬번호와 유저 번호 정보 넣어주기
+		UserFiled uf = new UserFiled();
+		
+		uf.setUserNo(userNo);
+		uf.setSkillNo(list.get(0).getSkillNo());
+		
+		System.out.println(uf);
+		
+		int result = mService.deleteUserFiled(uf);
+		
+		if(result>0) {
+			
+			return new Gson().toJson("삭제 성공");
+		}else {
+			return new Gson().toJson("삭제 실패");
+		}
+		
 	}
 	
+
 
 	// 업무 분야 수정
 	@RequestMapping("/update.position.us")

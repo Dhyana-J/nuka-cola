@@ -2,7 +2,6 @@ package com.devcat.nucacola.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
@@ -12,6 +11,7 @@ import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 
 public interface MemberService {
 	
@@ -79,7 +79,7 @@ public interface MemberService {
 	
 	
 	// 활동 분야 수정
-	int updateUserFiled(int skillNo);
+	int deleteUserFiled(UserFiled uf);
 	
 	
 

@@ -16,6 +16,7 @@ import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 
 @Repository
 public class MemberDao {
@@ -115,10 +116,11 @@ public class MemberDao {
 		
 	}
 
-	public int updateUserFiled(SqlSessionTemplate sqlSession, int skillNo) {
+	public int deleteUserFiled(SqlSessionTemplate sqlSession,UserFiled uf ) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("memberMapper.deleteUserField",uf);
 	}
+	
 	
 	
 	
@@ -218,7 +220,8 @@ public class MemberDao {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectUserSkill", userNo);
 	}
-	
+
+
 	
 	
 	

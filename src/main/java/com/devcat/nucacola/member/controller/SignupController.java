@@ -152,10 +152,14 @@ public class SignupController {
 		Member pUser = mService.selectUserProfile(userNo);
 		// 기술 이름 따로 가져옴
 		ArrayList<Skills> skillList = mService.selectUserSkill(userNo);
-		// 해시맵 담아서
-
 		
-		// 세션에 담아서 리턴
+		// 팔로잉 수 알아오기
+		//int followingCount = mService.countFollowing(userNo);
+		// 팔로워 수 알아오기
+		//int followerCount = mService.countFollower(userNo);
+		// 연결 수 알아오기
+		//int connectionCount = mService.countConnection(userNo);
+		
 		model.addAttribute("pUser",pUser);
 		model.addAttribute("skillList",skillList);
 		

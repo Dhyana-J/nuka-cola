@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
           </div>
           <div>
             <div class="main__info">
-              <input type="hidden" name="uno" value="${pUser.email }" id="main-info-email" />
+              <input type="hidden" name="email" value="${pUser.email }" id="main-info-email" />
               <input type="hidden" name="uno" value="${pUser.userNo }" id="main-info-userno" />
               <strong>${ pUser.userName }</strong> <span>Apple.Inc</span>
               <span>Front-end Amazone AWS, github에 관심</span>
@@ -105,14 +105,15 @@ pageEncoding="UTF-8"%>
                   <i class="material-icons" id="user-filed-btn">create</i>
                 </div>
               </div>
-              <div  id="user-filed-list" class="section__content__box">
+              <ul  id="user-filed-list" class="section__content__box">
               
-               		<c:forEach var="i" items="${skillList}">
-	              	
-	              		<span class="compindus__box">${ i.skillName }</span>
-	              	
+               		<c:forEach var="i" items="${skillList}" varStatus="status">
+               			<li >
+						<span class="compindus__box">${ i.skillName }</span>
+						<i id="${i.skillName }" class="material-icons">close</i>
+						</li>
 	              	</c:forEach>
-              </div>
+              </ul>
               <div id="user-filed-input" class="edit-disable">
               		<!-- 기술 검색  -->
 	              	
@@ -321,8 +322,8 @@ pageEncoding="UTF-8"%>
 	   		const userInfo = document.querySelector("#one-line-user-info").value;
 	   		const userNo = document.querySelector("#main-info-userno").value;
 			const email = document.querySelector("#main-info-email").value;
-	   		
-	   		location.href ="update.us?userInfo=" + userInfo + "&userNo=" + userNo + "&email=" + email;
+	   		console.log(userNo);
+	   		location.href ="update.us?userInfo=" + userInfo + "&userNo=" + Number(userNo) + "&email=" + email;
 			
    		}
 		
@@ -336,7 +337,8 @@ pageEncoding="UTF-8"%>
 	   		location.href ="update.position.us?userPosi=" + userPosi + "&userNo=" + userNo + "&email=" + email;
 			
    		}
-   
+   		
+ 
 
 		/* 한줄 소개 토글 */
         const oneLineToggle = () => {
@@ -521,7 +523,7 @@ pageEncoding="UTF-8"%>
 		      axios.get('insert.field.us',{
 		        params:{
 		          skillName:userSkillList ,
-		          userNo : ${loginUser.userNo}
+		          userNo : ${pUser.userNo}
 		        }
 		      })
 		              .then(function(response){
@@ -566,7 +568,21 @@ pageEncoding="UTF-8"%>
 			   location.reload()
 		   })
 		   
+			
+		   
+		  document.querySelector("#user-filed-list").addEventListener("click",function(e) {
+			  /* 삭제할 기술 이름 */
+			  console.log(e.target.id)
+			  let deleteSkill = e.target.id;
+			  
+			  /* 버튼 클릭시 html에서 사라지게 하기  */
+			  document.getElementById(deleteSkill).parentNode.remove();
+			  
+			  /* 백엔드로 삭제할 기술이름 넘겨주기 */
 
+		  })
+		   
+		
           
       </script>
 

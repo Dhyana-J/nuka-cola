@@ -304,21 +304,21 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int countFollowing(int uno) {
+	public int countFollowing(int userNo) {
 		// TODO Auto-generated method stub
-		return mDao.countFollowing(sqlSession,uno);
+		return mDao.countFollowing(sqlSession,userNo);
 	}
 
 	@Override
-	public int countFollower(int uno) {
+	public int countFollower(int userNo) {
 		// TODO Auto-generated method stub
-		return mDao.countFollower(sqlSession,uno);
+		return mDao.countFollower(sqlSession,userNo);
 	}
 
 	@Override
-	public int countConnection(int uno) {
+	public int countConnection(int userNo) {
 		// TODO Auto-generated method stub
-		return mDao.countConnection(sqlSession,uno);
+		return mDao.countConnection(sqlSession,userNo);
 	}
 
 	@Override

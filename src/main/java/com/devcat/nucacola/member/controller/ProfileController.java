@@ -45,9 +45,11 @@ public class ProfileController {
 			Member loginUser = new Member();
 			loginUser = mService.loginMember(m);
 			
+			//System.out.println(loginUser);
+			
 			session.setAttribute("loginUser", loginUser);
 			
-			return "redirect:profile.me";
+			return "redirect:profile.me?userNo="+loginUser.getUserNo();
 			
 		}else {
 			
@@ -155,7 +157,7 @@ public class ProfileController {
 			
 			session.setAttribute("loginUser", loginUser);
 			
-			return "redirect:profile.me";
+			return "redirect:profile.me?userNo="+loginUser.getUserNo();
 			
 			
 		}else {

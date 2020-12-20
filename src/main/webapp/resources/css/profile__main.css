@@ -166,6 +166,12 @@
   background-color: #30409f;
   color: #fff;
 }
+
+.section__content__box .compindus__box .i {
+	margin-top: 5px;
+}
+
+
 .section__content__box .front-end__box {
   padding: 2px 15px 5px;
   height: 30px;
@@ -380,5 +386,11 @@ a#topBtn {
 .result_tag span {
   font-size: 14px;
   color: #fff;
+}
+
+.section__content__box {
+	display:flex;
+	justify-content: center;
+	gap : 5px;
 }
 

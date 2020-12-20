@@ -108,9 +108,10 @@ public interface MemberService {
 	int insertBookmark(Bookmark b);
 	
 	// 북마크 조회
-	
-	ArrayList<Bookmark> selectBookmark(int uno);
+	int  countBookmark(int uno);
+	ArrayList<Bookmark> selectBookmark(int uno,PageInfo pi);
 	ArrayList<Bookmark> selectRecruitSkills(int uno);
+
 	// 북마크 취소
 	
 	int deleteBookmark(Bookmark bm);

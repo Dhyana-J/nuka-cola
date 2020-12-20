@@ -397,15 +397,20 @@ public class MemberServiceImpl implements MemberService {
 	
 	// 기업구독 및 북마크
 	
+	
 	@Override
 	public int insertBookmark(Bookmark b) {
 		return mDao.insertBookmark(sqlSession, b);
 	}
 	
+	@Override
+	public int countBookmark(int uno) {
+		return mDao.countBookmark(sqlSession, uno);
+	}
 	
 	@Override
-	public ArrayList<Bookmark> selectBookmark(int uno) {
-		return mDao.selectBookmark(sqlSession,uno);
+	public ArrayList<Bookmark> selectBookmark(int uno,PageInfo pi) {
+		return mDao.selectBookmark(sqlSession,uno,pi);
 	}
 	@Override
 	public ArrayList<Bookmark> selectRecruitSkills(int uno) {
@@ -431,7 +436,8 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
-	
+
+
 	
 
 }

@@ -2,6 +2,7 @@ package com.devcat.nucacola.member.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -177,8 +178,13 @@ public class MemberDao {
 	}
 	
 	// 북마크 조회
-	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession,int uno) {
-		return (ArrayList)sqlSession.selectList("memberMapper.selectBookmark", uno);
+	public int countBookmark(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("memberMapper.countBookmark",uno);
+	}
+	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession,int uno,PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBookmark", uno,rowBounds);
 	}
 	public ArrayList<Bookmark> selectRecruitSkills(SqlSessionTemplate sqlSession,int uno) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectRecruitSkills", uno);

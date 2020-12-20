@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.CompSub;
@@ -32,12 +35,16 @@ public class SubscribeController {
 	
 	// 북마크 조회
 	@RequestMapping("/list.bk")
-	public String selectBookmark(int uno, Model model) {
+	public String selectBookmark(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+								int uno, Model model) {
+		int blistCount = mService.countBookmark(uno);
+		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
+		
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
-		ArrayList<Bookmark>blist = mService.selectBookmark(uno);// 채용공고정보
+		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
-		model.addAttribute("skills",skills); // 성공하면 지우기
-		System.out.println(skills.size()); //조회해온 채용공고관련업무기술 갯수 (이것도 성공하면 지우기)
+
+		//System.out.println(skills.size()); //조회해온 채용공고관련업무기술 갯수 (이것도 성공하면 지우기)
 		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
 			System.out.println(skills.get(i).getSkillName());
 			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
@@ -56,6 +63,7 @@ public class SubscribeController {
 //			}
 			System.out.println(skillMap.get(1));
 		}
+		model.addAttribute("pi",pi);
 		model.addAttribute("skillMap",skillMap);
 		model.addAttribute("blist",blist);
 		return "/user/userProfile_bookmark";

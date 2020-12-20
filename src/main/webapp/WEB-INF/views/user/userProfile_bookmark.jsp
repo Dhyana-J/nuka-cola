@@ -113,7 +113,9 @@
                 </div>
                 </c:forEach>
                 
-
+				<div class="more">
+                  <button class="btn">more</button>
+                </div>
             </div>
             </div>
                     

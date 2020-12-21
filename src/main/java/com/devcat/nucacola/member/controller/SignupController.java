@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.service.MemberServiceImpl;
 import com.devcat.nucacola.member.model.vo.Member;
@@ -146,7 +148,7 @@ public class SignupController {
 	
 	// 유저 프로필
 	@RequestMapping("profile.me")
-	public String profileUser(int userNo, Model model) {
+	public String profileUser(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
 		
 		// 유저 정보 전부 가져오기
 		Member pUser = mService.selectUserProfile(userNo);
@@ -163,8 +165,38 @@ public class SignupController {
 		model.addAttribute("pUser",pUser);
 		model.addAttribute("skillList",skillList);
 		
+		
+		//-----------------인맥정보 불러오기-------------
+		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
+		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
+		PageInfo frPi=Pagination.getPageInfo(mService.countFollowers(userNo), currentPage, 1, 3);
+		PageInfo fgPi=Pagination.getPageInfo(mService.countFollowings(userNo), currentPage, 1, 3);
+		PageInfo cnPi=Pagination.getPageInfo(mService.countConnections(userNo), currentPage, 1, 3);
+
+
+		//리스트들을 담을 HashMap을 선언하고
+		HashMap<String,ArrayList<Member>> pCon = new HashMap<>(); //personalConnection = 인맥
+
+		//팔로워,팔로잉,연결 리스트를 각각의 페이지정보만큼 가져온다.
+		//맞는 이름을 붙여 각 리스트를 담아준다.
+		pCon.put("followers",mService.selectFollowers(userNo,frPi));
+		pCon.put("followings", mService.selectFollowings(userNo,fgPi));
+		pCon.put("connections",mService.selectConnections(userNo,cnPi));
+
+		//뷰에서 쓰일 HashMap을 세팅하자.
+		model.addAttribute("pCon", pCon);
+
+		//뷰에서 쓰일 각각의 페이지객체를 세팅하자.
+		model.addAttribute("frPi",frPi);
+		model.addAttribute("fgPi",fgPi);
+		model.addAttribute("cnPi",cnPi);
+		
+		
+		
 		return "user/userProfile";
 	}
+	
+	
 	   //카카오 로그인 
 	@RequestMapping(value="kakaologin.me")
 	public String login(@RequestParam("code") String code, HttpSession session) {

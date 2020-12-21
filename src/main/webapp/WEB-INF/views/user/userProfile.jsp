@@ -397,7 +397,7 @@
 		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
 		if(    ${frPi.currentPage}==${frPi.maxPage}
 				&& ${fgPi.currentPage}==${fgPi.maxPage}
-		&& ${cnPi.currentPage}==${cnPi.maxPage}){
+				&& ${cnPi.currentPage}==${cnPi.maxPage}){
 
 			let moreBtn = document.querySelector('#moreBtn');
 			moreBtn.setAttribute('disabled',true);

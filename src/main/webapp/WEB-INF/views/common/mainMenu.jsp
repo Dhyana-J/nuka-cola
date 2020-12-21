@@ -55,7 +55,7 @@
           <ul>
             <li>알림</li>
             <li>메시지</li>
-            <li onClick='location.href="initConnection.us?userNo=${loginUser.userNo}"'>PROFILE</li>
+            <li onClick='location.href="profile.me?userNo=${loginUser.userNo}"'>PROFILE</li>
             <li onClick='location.href="logout.me"'>LOGOUT</li>
           </ul>
         </div>

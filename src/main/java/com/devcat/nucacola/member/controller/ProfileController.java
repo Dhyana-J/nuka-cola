@@ -278,44 +278,7 @@ public class ProfileController {
 		return "/main";
 	}
 	
-	// 처음 프로필 진입 시 인맥 불러오기
-	@RequestMapping("initConnection.us")
-	public String selectConnectionList(@RequestParam(value="currentPage",defaultValue="1") int currentPage,Member m, Model model){
-		
-		
-		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
-		int countFollowers=mService.countFollowers(m.getUserNo());
-		int countFollowings=mService.countFollowings(m.getUserNo());
-		int countConnections=mService.countConnections(m.getUserNo());
-		
-		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
-		PageInfo frPi=Pagination.getPageInfo(countFollowers, currentPage, 1, 3);
-		PageInfo fgPi=Pagination.getPageInfo(countFollowings, currentPage, 1, 3);
-		PageInfo cnPi=Pagination.getPageInfo(countConnections, currentPage, 1, 3);
-		
-		//팔로워,팔로잉,연결 리스트를 각각의 페이지정보만큼 가져온다.
-		ArrayList<Member> followers = mService.selectFollowers(m.getUserNo(),frPi);
-		ArrayList<Member> followings = mService.selectFollowings(m.getUserNo(),fgPi);
-		ArrayList<Member> connections = mService.selectConnections(m.getUserNo(),cnPi);
-		
-		//위에서 생성한 리스트들을 담을 HashMap을 선언하고
-		HashMap<String,ArrayList<Member>> pCon = new HashMap<>(); //personalConnection = 인맥
-		
-		//맞는 이름을 붙여 각 리스트를 담아준다.
-		pCon.put("followers",followers);
-		pCon.put("followings", followings);
-		pCon.put("connections",connections);
-		
-		//뷰에서 쓰일 HashMap을 세팅하자.
-		model.addAttribute("pCon", pCon);
-
-		//뷰에서 쓰일 각각의 페이지객체를 세팅하자.
-		model.addAttribute("frPi",frPi);
-		model.addAttribute("fgPi",fgPi);
-		model.addAttribute("cnPi",cnPi);
-		
-		return "user/userProfile";
-	}
+	
 	
 	//프로필 인맥 More버튼 클릭 시 실행될 컨트롤러
 	@ResponseBody

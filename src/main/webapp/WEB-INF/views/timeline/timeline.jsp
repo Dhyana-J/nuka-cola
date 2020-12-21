@@ -76,20 +76,42 @@
                 <strong>${p.userName}</strong>
                 <small>${p.userComp}</small>
               </div>
-              <div class="follow__btn">
-                <i class="material-icons">person_add</i>
-                <p>FOLLOW</p>
-              </div>
+              <c:choose>
+                <c:when test="${p.isFollowing eq 0}">
+                  <div class="follow__btn">
+                    <i class="material-icons">person_add</i>
+                    <p>FOLLOW</p>
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <div class="follow__btn">
+                    <i class="material-icons">person_remove</i>
+                    <p>UNFOLLOW</p>
+                  </div>
+                </c:otherwise>
+              </c:choose>
+
             </div>
             <article>
               ${p.postContent}
             </article>
             <span class="post__date">${p.createdAt}</span>
             <div class="post__btn__wrapper">
-              <div class="like_btn">
-                <i class="material-icons"> thumb_up_alt </i>
-                <span>LIKE</span>
-              </div>
+              <c:choose>
+                <c:when test="${p.isLiked eq 0}">
+                  <div class="like_btn">
+                    <i class="material-icons"> thumb_up_alt </i>
+                    <span>LIKE ${p.isLiked}</span>
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <div class="like_btn">
+                    <i class="material-icons"> close </i>
+                    <span>UNLIKE ${p.isLiked}</span>
+                  </div>
+                </c:otherwise>
+              </c:choose>
+
               <div class="comment-open like_btn">
                 <i class="material-icons"> comment </i>
                 <span>COMMENT</span>
@@ -121,17 +143,17 @@
                 <img src="../../assets/avatar.png" alt="" />
               </div>
               <ul>
-                <li><span>팔로워</span> <b>18</b></li>
-                <li><span>팔로잉</span> <b>28</b></li>
-                <li><span>연결</span> <b>8</b></li>
+                <li><span>팔로워</span> <b>${Followers}</b></li>
+                <li><span>팔로잉</span> <b id="follwing-length">${Followings}</b></li>
+                <li><span>연결</span> <b>${Connections}</b></li>
               </ul>
             </div>
             <div class="profile__summary">
               <p>${ loginUser.userName }님</p>
-              <span>MicroSoft@AzureInterfaceEngineer</span>
+              <span>${ loginUser.userComp }</span>
             </div>
             <div class="profile__btn_wrapper">
-              <button class="btn" onclick=' location.href="profile.us" '>PROFILE</button>
+              <button class="btn" onclick=' location.href="profile.me?userNo=${loginUser.userNo}" '>PROFILE</button>
               <button class="btn btn-blue" onClick='location.href="logout.me"'>LOGOUT</button>
             </div>
           </div>
@@ -173,8 +195,6 @@
         </div>
       </div>
     </main>
-    
-    <jsp:include page="../common/footer.jsp"/>
     
   </body>
   <script defer>
@@ -294,6 +314,40 @@
               v.removeEventListener("click",() => commentOpenAll(v,i))
       );
     }
+
+    //팔로우/언팔
+    const addFollow=()=>{
+      document.querySelectorAll('.follow__btn').forEach((v,i)=>{
+        v.addEventListener('click',()=>{
+          const BtnWrapper = document.querySelectorAll('.follow__btn')[i];
+          //BtnWrapper.children[0]
+          console.log(BtnWrapper.children[0])
+          console.log(BtnWrapper.children[1])
+          let followUrl = ''
+          let followingLeng = document.querySelector('#follwing-length').innerText
+          if(BtnWrapper.children[1].innerText==='FOLLOW'){
+            followUrl='addFollowing.conn'
+            BtnWrapper.children[0].innerText='person_remove'
+            BtnWrapper.children[1].innerText = 'UNFOLLOW'
+            document.querySelector('#follwing-length').innerText = parseInt(followingLeng)+1;
+          }else{
+            followUrl='cancelFollowing.conn'
+            BtnWrapper.children[0].innerText='person_add'
+            BtnWrapper.children[1].innerText = 'FOLLOW'
+            document.querySelector('#follwing-length').innerText = parseInt(followingLeng)-1;
+          }
+          axios.get(followUrl,{
+            params:{
+              userNo:document.querySelectorAll('.user_no_input')[i].value,
+              followingNo:'${loginUser.userNo}'
+            }
+          }).then((res)=>{
+            console.log('성공',res.data);
+          })
+        })
+      })
+    }
+
     const createPostItem = (v) =>{
       const contentWrapper = document.createElement('div')
         contentWrapper.classList.add('content__wrapper');
@@ -320,9 +374,18 @@
           followBtn.className='follow__btn'
           const followIcon = document.createElement('i');
           followIcon.className='material-icons'
-          followIcon.innerText = 'person_add'
+
           const followText = document.createElement('p')
-          followText.innerText = 'FOLLOW'
+      if(v.isFollowing===0){
+        followIcon.innerText = 'person_add'
+        followText.innerText = 'FOLLOW'
+      }else{
+        followIcon.innerText = 'person_remove'
+        followText.innerText = 'UNFOLLOW'
+      }
+
+      followBtn.appendChild(followIcon);
+      followBtn.appendChild(followText);
       avatarBox.appendChild(userAvatar);
       userSummary.appendChild(userName);
       userSummary.append(userComp);
@@ -345,9 +408,16 @@
         likeBtn.className='like_btn';
       const likeBtnIcon = document.createElement('i');
         likeBtnIcon.className = 'material-icons';
-        likeBtnIcon.innerText = 'thumb_up_alt';
+
       const likeBtnText = document.createElement('span');
+      if(v.isLiked===0){
+        likeBtnIcon.innerText = 'thumb_up_alt';
         likeBtnText.innerText = 'LIKE';
+      }else{
+        likeBtnIcon.innerText = 'close';
+        likeBtnText.innerText = 'UNLIKE';
+      }
+
       likeBtn.appendChild(likeBtnIcon);
       likeBtn.appendChild(likeBtnText);
       const commentBtn = document.createElement('div');
@@ -414,12 +484,16 @@
           }
         })
         .then((res)=>{
-
+          addFollow();
+          commentOpenWatcher();
+          commentInsertWatcher();
+          loadComment();
           console.log(res.data)
           //timeline__section-left 에 추가
           res.data.forEach(v=>{
             createPostItem(v);
           })
+          addFollow();
           removeCommentOpenWatcher()
           commentOpenWatcher();
           commentInsertWatcher();
@@ -427,6 +501,9 @@
         })
       }
     })
+
+
+    addFollow()
     loadComment();
     commentOpenWatcher()
     commentInsertWatcher()

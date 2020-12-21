@@ -49,7 +49,7 @@ public class SignupController {
 		if(loginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())*/
 				&& loginUser.getEmailAuth().equals("Y")) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("timeline/timeline");
+			mv.setViewName("redirect:/list.pos");
 			System.out.println("로그인");
 			
 		}else if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {

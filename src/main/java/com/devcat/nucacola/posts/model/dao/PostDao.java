@@ -18,13 +18,13 @@ public class PostDao {
 		return sqlSession.selectOne("post-mapper.selectListCount");
 	}
 
-	public ArrayList<Post> selectPostList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Post> selectPostList(SqlSessionTemplate sqlSession, PageInfo pi,int uno) {
 		// TODO Auto-generated method stub
 
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
-		return (ArrayList)sqlSession.selectList("post-mapper.selectPostList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("post-mapper.selectPostList", uno, rowBounds);
 	}
 
 	public int insertPost(SqlSessionTemplate sqlSession, Post p) {

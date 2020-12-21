@@ -28,9 +28,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public ArrayList<Post> selectPostList(PageInfo pi) {
+	public ArrayList<Post> selectPostList(PageInfo pi,int uno) {
 		// TODO Auto-generated method stub
-		return pDao.selectPostList(sqlSession, pi);
+		return pDao.selectPostList(sqlSession, pi,uno);
 	}
 
 	@Override

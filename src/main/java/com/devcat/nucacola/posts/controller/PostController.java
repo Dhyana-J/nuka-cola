@@ -67,7 +67,7 @@ public class PostController {
 	}
 	
 	// 포스트 작성
-	@RequestMapping(value = "insert.pos",method = RequestMethod.GET)
+	@RequestMapping(value = "insert.pos",method = RequestMethod.POST)
 	public String insertPost(Post p, MultipartFile upfile, HttpSession session, Model model) {
 		if(!upfile.getOriginalFilename().equals("")){
 			String changeName = saveFile(session , upfile);

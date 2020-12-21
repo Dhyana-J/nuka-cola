@@ -3,6 +3,8 @@ package com.devcat.nucacola.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.mybatis.spring.SqlSessionTemplate;
+
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.vo.Bookmark;
@@ -32,30 +34,27 @@ public interface MemberService {
 	String checkEmail(String email);
 	
 	
-	// 팔로잉 조회
-	ArrayList<Connection> selectFollowingList(PageInfo pi, int uno);
+	//팔로워(나를팔로우하는사람)조회
+	ArrayList<Member> selectFollowers(int userNo, PageInfo pi);
 	
-	// 팔로잉 취소
-	int deleteFollowing(int followerNo);
+	//팔로잉(내가팔로우하는사람)조회
+	ArrayList<Member> selectFollowings(int userNo, PageInfo pi);
 	
-	// 팔로잉 수 조회
-	int countFollowing(int uno);
-	
-	// 팔로우 조회
-	ArrayList<Connection> selectFollowerList(PageInfo pi, int uno);
-	
-	// 팔로우 취소
-	int deleteFollower(int followingNo);
+	//연결된사람(맞팔)조회
+	ArrayList<Member> selectConnections(int userNo, PageInfo pi);
 	
 	// 팔로워 수 조회
-	int countFollower(int uno);
-	
-	// 연결 조회
-	ArrayList<Connection> selectConnectionList(PageInfo pi, int uno);
-	
+	int countFollowers(int uno);
+	// 팔로잉 수 조회
+	int countFollowings(int uno);
 	// 연결 수 조회
-	int countConnection(int uno);
+	int countConnections(int uno);
 
+	//팔로우 추가(내가 다른사람 팔로우)
+	int addFollowing(Connection conn);
+	//팔로우 취소
+	int cancelFollowing(Connection conn);
+	
 	// 연결 취소는?
 	// 트리거로 알아서 되게끔 구현
 	

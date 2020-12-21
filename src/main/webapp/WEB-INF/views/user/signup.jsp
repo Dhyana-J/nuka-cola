@@ -19,18 +19,12 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/login.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   	
   	<jsp:include page="../common/mainMenu.jsp"/>
   	
-  	<c:if test="${!empty alertMsg }">
-		<script>
-			alert('${alertMsg}');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
 
     <!-- 컨텐츠 -->
     <main>
@@ -143,9 +137,6 @@
         </div>
       </div>
     </main>
-    
-    <!-- 푸터 포함 -->
-    <jsp:include page="../common/footer.jsp"/>
     
     <script defer>
     

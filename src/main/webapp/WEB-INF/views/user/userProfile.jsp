@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>Insert title here</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <link
@@ -20,14 +21,22 @@ pageEncoding="UTF-8"%>
       rel="stylesheet"
     />
     <link rel="stylesheet" href="resources/css/common.css" />
-    <link rel="stylesheet" href="resources/css/profile__main.css" />
+    <link rel="stylesheet" href="resources/css/profile/profile__main.css" />
     <link rel="”stylesheet”" href="”icono.min.css”" />
     <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css" />
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-latest.js"
+    ></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <jsp:include page="../common/mainMenu.jsp" />
-
+  
+  
+    <jsp:include page="../common/mainMenu.jsp"/>
+    
+    
+    
     <section class="visual__section">
       <div class="inner">
         <div class="visual__left">
@@ -248,85 +257,291 @@ pageEncoding="UTF-8"%>
 
 			</div>
 
+			<div class="content__wrapper">
+				<div class="section__content__title">
+				  <strong>인맥</strong>
+				</div>
+				
+				<div class="connection__section__wrapper">
+  
+					<div class="section__member section__connection">
+						<div class="section__header">
+						  <strong>팔로워</strong>
+						</div>
+  
+						<!--팔로워 리스트-->
+						
+						<c:forEach var="follower" items="${pCon.get('followers')}">
+						
+							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
+								<input type="hidden" name="userNo" value="${follower.userNo}"/>
+								<div class="content__profile">
+									<img
+									  class="circle"
+									  src="${pageContext.request.contextPath}/${follower.userAvatar}"
+										 alt="PROFILE"
+									/>
+									<div class="content__introduce">
+									  <strong>${follower.userName}</strong>
+									  <p>${follower.userComp}</p>
+									</div>
+								</div><!--content__profile-->
+							</form>
+						
+						</c:forEach>
+  
+					 
+					  
+					</div><!--section__member-->
+  
+					<div class="section__member section__connection">
+  
+						<div class="section__header">
+						  <strong>팔로잉</strong>
+						</div>
+		
+						<!--팔로잉 리스트-->
+						<c:forEach var="following" items="${pCon.get('followings')}">
+						
+							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
+								<input type="hidden" name="userNo" value="${following.userNo}"/>
+							
+								<div class="content__profile">
+									<img
+									  class="circle"
+									  src="${pageContext.request.contextPath}/${following.userAvatar}"
+									  alt="PROFILE"
+									/>
+									<div class="content__introduce">
+									  <strong>${following.userName}</strong>
+									  <p>${following.userComp}</p>
+									</div>
+								</div><!--content__profile-->
+							</form>
+						
+						</c:forEach>
+  
+						
+					
+					</div><!--section__member-->
+	  
+					<div class="section__member section__connection">
+	  
+						<div class="section__header">
+						  <strong>연결</strong>
+						</div>
+  
+						<!--연결 리스트(자료구조 아님!)-->
+						<c:forEach var="connection" items="${pCon.get('connections') }">
+						
+							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
+								<input type="hidden" name="userNo" value="${connection.userNo}"/>
+								<div class="content__profile">
+									<img
+									  class="circle"
+									  src="${pageContext.request.contextPath}/${connection.userAvatar}"
+									  alt="PROFILE"
+									/>
+									<div class="content__introduce">
+									  <strong>${connection.userName}</strong>
+									  <p>${connection.userComp}</p>
+									</div>
+								</div><!--content__profile-->
+							</form>
+						
+						</c:forEach>
+					
+					</div><!--section__member-->
+  
+  
+				</div><!--connection__section__wrapper-->
+				
+  
+				  <div class="section__more-member">
+					  
+					  <button id="moreBtn" class="btn visual__right" 
+							  onclick="loadMore(${loginUser.userNo},${frPi.currentPage},${frPi.maxPage}
+																	  ,${fgPi.currentPage},${fgPi.maxPage}
+																	  ,${cnPi.currentPage},${cnPi.maxPage});">
+						  MORE
+					   </button>
+					  
+				  </div>
+			  
+			   
+		  
+  
+			  </div><!--content__wrapper-->
+  
             <div class="content__wrapper">
               <div class="section__content__title">
-                <strong>구성원</strong>
-              </div>
-
-              <div class="section__member">
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="../../assets/wonbin.jpeg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>성수지</strong>
-                    <p>프론트엔드 @구글</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="../../assets/JonahHill.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>배진원</strong>
-                    <p>프론트엔드 @구글</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="../../assets/wonbin.jpeg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>유원근</strong>
-                    <p>프론트엔드 @구글</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="../../assets/wonbin.jpeg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>정찬복</strong>
-                    <p>프론트엔드 @구글</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="../../assets/wonbin.jpeg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>김준호</strong>
-                    <p>프론트엔드 @구글</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img class="circle" src="assets/logo.png alt="PROFILE">
-                  <div class="content__introduce">
-                    <strong>손지원</strong>
-                    <p>프론트엔드 @구글</p>
-                  </div>
+                <strong>경력</strong>
+                <div class="edit__field">
+                  <i id="edit__career" class="material-icons">create</i>
                 </div>
               </div>
-
-              <div class="section__more-member">
-                <button class="btn visual__right">MORE</button>
-              </div>
+              <span class="just__text">
+                구글코리아 2002 ~ 2006 프론트엔드 엔지니어<br />
+                야후코리아 2006 ~ 2009 프론트엔드 엔지니어
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       <script>
+
+'use strict';
+      	
+      	//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
+  		if(    ${frPi.currentPage}==${frPi.maxPage} 
+  			&& ${fgPi.currentPage}==${fgPi.maxPage} 
+  			&& ${cnPi.currentPage}==${cnPi.maxPage}){
+  			
+  			let moreBtn = document.querySelector('#moreBtn');
+  			moreBtn.setAttribute('disabled',true);
+  				
+  		}
+      	
+      	//리스트 로드 중지 플래그
+      	let stopFrLoad = false;
+      	let stopFgLoad = false;
+      	let stopCnLoad = false;
+      
+      	//리스트 추가해주는 메소드
+      	const loadList = (list,area)=>{
+	      		list.forEach((v)=>{ //리스트의 각 요소 v에 대해
+	      			
+	      			//유저이미지나 회사 비어있는 경우 ''로 대체
+	      			if(v.userAvatar==undefined) v.userAvatar='';
+	      			if(v.userComp==undefined) v.userComp='';
+	      			
+	      			let profile ='<form action="test.conn" method="post" class="submitNo" onclick="submit();">'
+                   				  +'<input type="hidden" name="userNo" value="'+v.userNo+'"/>'
+	      							+'<div class="content__profile">'
+		      							+'<img'
+		      								+' class="circle"'
+		      								+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
+		      								+' alt="PROFILE"'+'/>'
+		     								+'<div class="content_introduce">'
+		     									+'<strong>'+v.userName+'</strong>'
+		     									+'<p>'+v.userComp+'</p>'
+		   								+'</div>'
+		   							 +'</div>'
+	   							+'</form>';
+						area.insertAdjacentHTML('beforeend',profile);
+	      		});
+      	};
+      	
+    	//팔로워, 팔로잉, 연결 각각의 현재페이지가 마지막페이지면 리스트로드 중지플래그 활성화해주는 메소드
+      	const comparePage = (pCon)=>{
+      		
+      		if(pCon.data.piBox[0].currentPage==pCon.data.piBox[0].maxPage){//follower
+      			stopFrLoad=true;
+      		}
+      		if(pCon.data.piBox[1].currentPage==pCon.data.piBox[1].maxPage){//following
+      			stopFgLoad=true;
+      		}
+      		if(pCon.data.piBox[2].currentPage==pCon.data.piBox[2].maxPage){//connection
+      			stopCnLoad=true;
+      		}
+      		
+      	};
+      	
+      	
+      	//more버튼 속성 변경 메소드
+      	const changeMoreBtn=(pCon)=>{
+      		
+      		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
+            if(    stopFrLoad==true
+              	&& stopFgLoad==true
+              	&& stopCnLoad==true){
+  	            let moreBtn = document.querySelector('#moreBtn');
+  	            moreBtn.setAttribute('disabled',true);
+          	}else{ 
+          		//버튼이 비활성화되어있지 않으면 세팅
+	      		document.querySelector('#moreBtn').setAttribute('onclick',
+	                        'loadMore('+${loginUser.userNo}+','
+	                        +pCon.data.piBox[0].currentPage+','//follower
+	                        +pCon.data.piBox[0].maxPage+','
+	                        +pCon.data.piBox[1].currentPage+','//following
+	                        +pCon.data.piBox[1].maxPage+','
+	                        +pCon.data.piBox[2].currentPage+','//connection
+	                        +pCon.data.piBox[2].maxPage+')'
+	                      );
+            }
+      	}
+      	
+        
+      	//***** Main Method *****
+      	//*이미 불러온페이지와 axios 후 방금 불러온 페이지에 따라 플래그 활성화,비활성화됨. 로직 헷갈릴 수 있다
+      	//more버튼 누를 때 실행되는 메소드
+      	const loadMore = function(userNo,frCp,frMp,fgCp,fgMp,cnCp,cnMp){
+      		
+      		
+      		//이미 불러온페이지가 마지막페이지가 아니면 다음페이지(현재페이지+1) 세팅
+      		//이미 불러온페이지가 마지막페이지면 stopLoad플래그 활성화 (안해주면 axios실행시 똑같은리스트 또불러올수있음)
+      		if(frCp<frMp){
+      			frCp++;//follower
+      		}else{
+      			stopFrLoad=true;
+      		}
+      		if(fgCp<fgMp){
+      			fgCp++;//following
+      		}else{
+      			stopFgLoad=true;
+      		}
+      		if(cnCp<cnMp){
+      			cnCp++;//connection
+      		}else{
+      			stopCnLoad=true;
+      		}
+      		
+      		
+	      	axios.get('loadConnection.us',{
+	      		params:{//유저번호, 불러올 다음페이지 세팅
+	      			userNo:userNo,
+	      			frCp:frCp, 
+	      			fgCp:fgCp, 
+	      			cnCp:cnCp 
+	      		}
+	      	})
+	      	.then(function(pCon){
+	      		
+	      		console.log('loadMore통신 성공');
+	      		
+	      		
+	      		//넘어온 팔로워,팔로잉,연결 리스트 추가해주자 (stopLoad false인 경우만)
+	      		if(!stopFrLoad){
+		      		const frList = pCon.data.followers;//리스트를 출력해줄 구역 Dom 가져오기
+		      		let frArea = document.querySelector(".section__connection:first-child");//팔로워
+		      		loadList(frList,frArea);
+	      		}
+	      		if(!stopFgLoad){
+		      		const fgList = pCon.data.followings;
+		      		let fgArea = document.querySelector(".section__connection:nth-child(2)");//팔로잉
+		      		loadList(fgList,fgArea);
+	      		}
+	      		if(!stopCnLoad){
+		      		const cnList = pCon.data.connections;
+		      		let cnArea = document.querySelector(".section__connection:nth-child(3)");//연결
+		      		loadList(cnList,cnArea);
+	      		}
+	      		
+	      		//팔로잉,팔로워,연결 각각 방금 불러온 페이지가 마지막페이지면 stopLoad 활성화
+	      		comparePage(pCon);
+	      		
+	      		//more버튼 속성 변경(stopLoad전부 활성화되어있으면 disabled)
+	      		//하나라도 비활성화면 매개변수 세팅
+	            changeMoreBtn(pCon);
+	      		
+	      		
+	      		console.log('loadMore통신 마무리!');
+	      	})
+	      	.catch(function (error){
+	      		console.log(error);
+	      	})
+      	};
 
 		/* 항상 실행 */
       	(function(){

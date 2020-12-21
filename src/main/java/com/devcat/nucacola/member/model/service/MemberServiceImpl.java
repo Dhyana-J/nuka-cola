@@ -256,38 +256,17 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	// 연결
+	//팔로잉 추가(내가 다른사람 팔로우)
+	public int addFollowing(Connection conn) {
+		return mDao.addFollowing(sqlSession,  conn);
+	}
+	//팔로우 취소
+	public int cancelFollowing(Connection conn) {
+		return mDao.cancelFollowing(sqlSession,  conn);
+	}
 	
-	
-	
-	@Override
-	public ArrayList<Connection> selectFollowingList(PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return mDao.selectFollowingList(sqlSession,pi,uno);
-	}
 
-	@Override
-	public int deleteFollowing(int followerNo) {
-		// TODO Auto-generated method stub
-		return mDao.deleteFollowing(sqlSession,followerNo);
-	}
 
-	@Override
-	public ArrayList<Connection> selectFollowerList(PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return mDao.selectFollowerList(sqlSession,pi,uno);
-	}
-
-	@Override
-	public int deleteFollower(int followingNo) {
-		// TODO Auto-generated method stub
-		return mDao.deleteFollower(sqlSession,followingNo);
-	}
-
-	@Override
-	public ArrayList<Connection> selectConnectionList(PageInfo pi, int uno) {
-		// TODO Auto-generated method stub
-		return mDao.selectConnectionList(sqlSession,pi,uno);
-	}
 
 	
 	
@@ -296,8 +275,26 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectUserProfile(int userNo) {
 		
 		return mDao.selectUserProfile(sqlSession, userNo);
+	
 	}
 	
+	//팔로워(나를팔로우하는사람)
+	@Override
+	public ArrayList<Member> selectFollowers(int userNo, PageInfo pi){
+		return mDao.selectFollowers(sqlSession, userNo,pi);
+	}
+	//팔로잉(내가팔로우하는사람)
+	@Override
+	public ArrayList<Member> selectFollowings(int userNo, PageInfo pi){
+		return mDao.selectFollowings(sqlSession, userNo,pi);
+	}
+	//연결된사람(맞팔)
+	@Override
+	public ArrayList<Member> selectConnections(int userNo, PageInfo pi){
+		return mDao.selectConnections(sqlSession, userNo, pi);
+	}
+	
+	//팔로잉 수 조회
 	@Override
 	public ArrayList<Skills> selectUserSkill(int userNo) {
 		
@@ -309,11 +306,25 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.countFollowing(sqlSession,userNo);
 	}
+	public int countFollowings(int uno) {
+		return mDao.countFollowings(sqlSession,uno);
+	}
 
+	//팔로워 수 조회
+	@Override
+	public int countFollowers(int uno) {
+		return mDao.countFollowers(sqlSession,uno);
+	}
+
+	//연결된 사람 수 조회
 	@Override
 	public int countFollower(int userNo) {
 		// TODO Auto-generated method stub
 		return mDao.countFollower(sqlSession,userNo);
+
+	}
+	public int countConnections(int uno) {
+		return mDao.countConnections(sqlSession,uno);
 	}
 
 	@Override
@@ -446,6 +457,8 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+
+
 	
 
 }

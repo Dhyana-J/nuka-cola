@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 import org.springframework.stereotype.Service;
+
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 

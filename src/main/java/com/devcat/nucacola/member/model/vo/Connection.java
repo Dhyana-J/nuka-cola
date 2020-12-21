@@ -17,5 +17,13 @@ public class Connection {
 	private int followerNo;
 	private int followingNo;
 	private String createdAt;
+	
+	public Connection(int followerNo, int followingNo) {
+		super();
+		this.followerNo = followerNo;
+		this.followingNo = followingNo;
+	}
+	
+	
 
 }

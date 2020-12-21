@@ -40,6 +40,5 @@ public class Member {
 		this.emailAuth = emailAuth;
 	}
 	
-	
 
 }

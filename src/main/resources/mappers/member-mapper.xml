@@ -19,6 +19,7 @@
 		<result column="certify_ques" property="certifyQues"/>
 		<result column="certify_ans" property="certifyAns"/>
 		<result column="email_auth" property="emailAuth"/>
+		<result column="user_comp" property="userComp"/>
 	</resultMap>
 	
 	<resultMap id="skillResultSet" type="Skills">
@@ -55,11 +56,19 @@
 			 , certify_ques
 			 , certify_ans
 			 , email_auth
+			 , user_comp
 	      from users
 	     where user_status != 1
+<<<<<<< HEAD
 
            		and user_email=#{email}
 				
+=======
+           and user_email=#{email}
+           <!-- 
+            and user_pwd=#{userPwd}
+            -->
+>>>>>>> origin/Dhyana-J
 	</select>
 	
 	<insert id="insertMember"
@@ -269,5 +278,110 @@
 		
 		</delete>
 	
+	<!-- 프로필 인맥(팔로워, 팔로잉, 연결) 조회용 -->
+	<!-- 팔로워(나를팔로우하는사람) -->
+	<select id="selectFollowers"
+			parameterType="_int"
+			resultMap="memberResultSet">
+			select *
+				from users
+				where user_no in(
+					select follower_no
+					from connections
+					where following_no=#{userNo}
+				)
+				order by user_name
+	</select>
+	<select id="countFollowers"
+			parameterType="_int"
+			resultType="_int">
+			select count(*)
+				from users
+				where user_no in(
+					select follower_no
+					from connections
+					where following_no=#{userNo}
+				)
+	</select>
+	<!-- 팔로잉(내가팔로우하는사람) -->
+	<select id="selectFollowings"
+			parameterType="_int"
+			resultMap="memberResultSet">
+			select *
+				from users
+				where user_no in(
+					select following_no
+					from connections
+					where follower_no=#{userNo}
+				)
+				order by user_name
+	</select>
+	<select id="countFollowings"
+			parameterType="_int"
+			resultType="_int">
+			select count(*)
+				from users
+				where user_no in(
+					select following_no
+					from connections
+					where follower_no=#{userNo}
+				)
+	</select>
+	<!-- 연결된사람(서로팔로우) -->
+	<select id="selectConnections"
+			parameterType="_int"
+			resultMap="memberResultSet">
+			select *
+				from users
+				where user_no in( <!--나를 팔로우건사람의 유저번호-->
+					select 
+							follower_no
+						from connections
+						where following_no=#{userNo}
+				) and user_no in( <!--내가 팔로우건사람의 유저번호-->
+			        select 
+			        		following_no
+						from connections
+						where follower_no=#{userNo}
+			    )
+			    order by user_name
+	</select>
+	<select id="countConnections"
+			parameterType="_int"
+			resultType="_int">
+			select count(*)
+				from users
+				where user_no in( <!--나를 팔로우건사람의 유저번호-->
+					select 
+							follower_no
+						from connections
+						where following_no=#{userNo}
+				) and user_no in( <!--내가 팔로우건사람의 유저번호-->
+			        select 
+			        		following_no
+						from connections
+						where follower_no=#{userNo}
+			    )
+	</select>
+	
+	<!-- 팔로잉 추가 -->
+	<insert id="addFollowing"
+			parameterType="Connection">
+			insert 
+					into connections 
+					values(
+						#{followerNo},
+						#{followingNo},
+						sysdate
+					)
+	</insert>
+	<!-- 팔로잉 취소 -->
+	<delete id="cancelFollowing"
+			parameterType="Connection">
+			delete
+				  from connections
+				  where follower_no=#{followerNo}
+				  	and following_no=#{followingNo}
+	</delete>
 	
 </mapper>

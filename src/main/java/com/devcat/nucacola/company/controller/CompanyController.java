@@ -47,7 +47,7 @@ public class CompanyController {
 	
 	// 회사 등록
 	@RequestMapping("insert.co")
-	public void insertCompany(Company c) {
+	public void insertCompany(Company c ) {
 		System.out.println(c);
 	}
 	/*

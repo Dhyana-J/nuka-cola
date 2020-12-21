@@ -42,6 +42,7 @@
           <span>기업등록</span>
         </div>
       <form method="post" action="insert.co" enctype="multipart/form-data">
+      <input type="hidden" value="${ loginUser.userNo }" name = userNo />
         <div class="main__main__section">
           <div class="main__section__content">
             <div class="content__wrapper">
@@ -51,8 +52,8 @@
                 </div>
                 <div class="main__info">
                   <strong>로고</strong>
-                  <input type="file" id="compLogo" name="compLogo" style="display:none;" />
-                  <label class="btn__attachment" for="compLogo">찾아보기</label>
+                  <input type="file" id="upfile" name="upfile" style="display:none;" />
+                  <label class="btn__attachment" for="upfile">찾아보기</label>
                   <strong>설립일</strong>
                   <input
                     type="text"
@@ -167,42 +168,42 @@
                   <input
                   type="radio"
                   id="ten"
-                  name="headcount"
+                  name="headCount"
                   value="1~10명"
                 />
                 <label for="ten">1~10명</label>
                 <input
                   type="radio"
                   id="hundred"
-                  name="headcount"
+                  name="headCount"
                   value="11~100명"
                 />
                 <label for="hundred">11~100명</label>
                 <input
                   type="radio"
                   id="fivehundred"
-                  name="headcount"
+                  name="headCount"
                   value="101~500명"
                 />
                 <label for="fivehundred">101~500명</label>
                 <input 
                   type="radio"
                   id="thousand" 
-                  name="headcount" 
+                  name="headCount" 
                   value="501~1000명"
                 />
                 <label for="thousand">501~1000명</label>
                 <input 
                   type="radio" 
                   id="fivethousand" 
-                  name="headcount" 
+                  name="headCount" 
                   value="1001~5000명"
                 />
                 <label for="fivethousand">1001~5000명</label>
                 <input
                   type="radio"
                   id="fivethousandover"
-                  name="headcount"
+                  name="headCount"
                   value="5000명 초과"
                 />
                 <label for="fivethousandover">5000명 초과</label>
@@ -272,5 +273,18 @@
       </form>
       </div>
     </main>
+    
+    <script defer>
+    $(function() {
+		//구성원값 가져오기 
+		var headCount = ${headCount};
+		
+		$("input[type=radio]").each(function(){
+			
+			if(headCount.search($(this).val()) != -1) {
+				$(this).attr("checked", true);
+			}
+		});
+    </script>
   </body>
 </html>

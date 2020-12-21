@@ -60,10 +60,10 @@
 	                            ,default
 	                            ,default
 	                           )
-	    WHEN 4 in (select comp_no from companys) and 
+	    WHEN #{compNo} in (select comp_no from companys) and 
 	    (select indus_no from industries where indus_name = '핀테크2') not in (select indus_no from compindus) THEN      
 	    INTO COMPINDUS VALUES(
-	                             4
+	                             #{compNo}
 	                            ,(select indus_no from industries where indus_name = '핀테크2')
 	                          )
 	    WHEN '기술테스트용2' not in (select SKILL_NAME from skills) THEN

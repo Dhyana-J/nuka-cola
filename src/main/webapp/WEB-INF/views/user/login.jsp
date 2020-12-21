@@ -64,10 +64,16 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               >
                 로그인
               </button>
-              <button class="btn btn-facebook"></button>
+              <a 
+               class="btn btn-facebook"
+               href="javascript:void(0);"
+               onclick="fbLoginAction();"
+               >
+			 </a>
+              
               <a
                 class="btn btn-katok"
-                href="https://kauth.kakao.com/oauth/authorize?client_id=9cbaf3231e03e46ca8f9be8ce62f4866&redirect_uri=http://localhost:2020/nucacola/kakaologin.me&response_type=code"
+                href="https://kauth.kakao.com/oauth/authorize?client_id=9cbaf3231e03e46ca8f9be8ce62f4866&redirect_uri=http://localhost:8888/nukacola/kakaologin.me&response_type=code"
               ></a>
             </div>
           </form>
@@ -263,6 +269,58 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             document.querySelector("#alert_check_pwd").style.display = "none";
           }
         });
+      
+      // 페이스북
+      
+      	 (function(d, s, id){
+		     var js, fjs = d.getElementsByTagName(s)[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "//connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+      
+		  window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '730629367865439',
+		      cookie     : true,
+		      xfbml      : true,
+		      version    : 'v9.0'
+		    });
+		  
+
+		  FB.getLoginStatus(function(response) {
+			  
+				console.log('statusChangeCallback');
+				console.log(response);
+				
+				if(response.status === 'connected') {
+					$("#result").append("status : connected");	
+				}else{
+					$("#result").append(response);
+				}
+		  	});
+		  };
+  
+		  function fbLoginAction() {
+			  FB.login(function(response) {
+				  var fbname;
+			  	  var accessToken = response.authResponse.accessToken;
+			  	  FB.api('/me?fields=id,name,age_range,birthday,gender,email', function(response){
+			  		  var fb_data = jQuery.parseJSON(JSON.stringify(response));
+			  		  var data = "<br/>fb_id : " + fb_data.id;
+			  		  data += "<br/>email : " + fb_data.email;
+			  		  data += "<br/>name : " + fb_data.name;
+			  		  
+			  		  $("#result").append(data);
+			  		  
+			  	  });
+			  
+			  }, {scope: 'public_profile, email'});
+			  	  
+		  }
+
+
     </script>
   </body>
 </html>

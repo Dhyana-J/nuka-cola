@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.dao.CompanyDao;
 import com.devcat.nucacola.company.model.vo.Company;
 
@@ -18,8 +19,13 @@ public class CompanyServiceImpl implements CompanyService{
 	private CompanyDao cDao;
 
 	@Override
-	public ArrayList<Company> selectCompanyList() {
-		return cDao.selectCompanyList(sqlSession);
+	public int selectListCount() {
+		return cDao.selectListCount(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Company> selectCompanyList(PageInfo pi) {
+		return cDao.selectCompanyList(sqlSession, pi);
 	}
 
 	@Override

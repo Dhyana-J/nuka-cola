@@ -1,5 +1,9 @@
 package  com.devcat.nucacola.company.model.vo;
 
+import java.util.ArrayList;
+
+import com.devcat.nucacola.common.model.vo.Skills;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +23,16 @@ public class Company {
 	private String compEmail;
 	private String compAddress;
 	private String compLogo;
-	private int headCount;
+	private String headCount;
 	private String compBirth;
 	private String createdAt;
 	private String updatedAt;
 	private int userNo;
 	private int compPm;
-
+	
+	// 여러개의 산업분야
+	private ArrayList<Industries> industryList;
+	// 여러개의 테크스택
+	private ArrayList<Skills> skillList;
+	
 }

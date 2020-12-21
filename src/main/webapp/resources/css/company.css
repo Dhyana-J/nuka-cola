@@ -1,3 +1,5 @@
+
+
 .content__section {
   margin-top: 60px;
 }
@@ -399,6 +401,19 @@ input[type="text"]:focus {
   box-sizing: border-box;
   transition: 0.3s;
 }
+
+.content__wrapper .section__headCount {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 40px;
+  margin-top: 30px;
+}
+.section__headCount input[type="radio"] {
+  height: 18px;
+  width: 18px;
+}
+
 .content__wrapper .section__compAddress {
   display: flex;
   flex-direction: column;
@@ -851,3 +866,5 @@ input[type="text"]:focus {
   --s: 10px;
   --b: var(--dot);
 }
+
+

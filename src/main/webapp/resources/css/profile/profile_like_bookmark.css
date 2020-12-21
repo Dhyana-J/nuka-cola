@@ -251,7 +251,6 @@
   top: 0px;
 }
 .main__section__right .content__wrapper {
-  height: 1000px;
 }
 .section__content__title__cencle {
   display: flex;
@@ -267,13 +266,17 @@
 }
 .sysdate {
   font-size: 8px;
-  height: 50px;
+  padding:5px 0px;
   margin-top: 5px;
   color: rgba(3, 3, 3, 3);
 }
 
 .content__wrapper .just__text {
   border-bottom: 1px solid #eeeeee;
+}
+.content__wrapper .more{
+	display:flex;
+	justify-content: center;
 }
 
 /*아이콘 줄여주는거 */

@@ -115,7 +115,11 @@ public class MemberServiceImpl implements MemberService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=9cbaf3231e03e46ca8f9be8ce62f4866");
+<<<<<<< HEAD
 			sb.append("&redirect_uri=http://localhost:8888/nukacola/kakaologin.me");
+=======
+			sb.append("&redirect_uri=http://localhost:3000/nukacola/kakaologin.me");
+>>>>>>> origin/sungsuzi
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -425,22 +429,31 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	// 기업구독 및 좋아요
+	// 기업구독 및 북마크
+	
 	
 	@Override
 	public int insertBookmark(Bookmark b) {
 		return mDao.insertBookmark(sqlSession, b);
 	}
 	
+	@Override
+	public int countBookmark(int uno) {
+		return mDao.countBookmark(sqlSession, uno);
+	}
 	
 	@Override
-	public ArrayList<Bookmark> selectBookmark(PageInfo pi) {
-		return mDao.selectBookmark(sqlSession, pi);
+	public ArrayList<Bookmark> selectBookmark(int uno,PageInfo pi) {
+		return mDao.selectBookmark(sqlSession,uno,pi);
 	}
-
 	@Override
-	public int deleteBookmark(int bno) {
-		return mDao.deleteBookmark(sqlSession, bno);
+	public ArrayList<Bookmark> selectRecruitSkills(int uno) {
+		return mDao.selectRecruitSkills(sqlSession,uno);
+	}
+	@Override
+	public int deleteBookmark(Bookmark bm) {
+		return mDao.deleteBookmark(sqlSession, bm);
+		
 	}
 
 	@Override
@@ -449,14 +462,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<CompSub> selectSubComp(PageInfo pi) {
-		return mDao.selectSubComp(sqlSession, pi);
-	}
-
-	@Override
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+
+	@Override
+	public int countSubComp(int uno) {
+		// TODO Auto-generated method stub
+		return mDao.countSubComp(sqlSession, uno);
+	}
+
+	@Override
+	public ArrayList<CompSub> selectSubComp(int uno, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return mDao.selectSubComp(sqlSession, uno, pi);
+	}
+
+
 
 
 	

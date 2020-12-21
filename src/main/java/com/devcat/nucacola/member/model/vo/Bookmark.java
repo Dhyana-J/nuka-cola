@@ -13,8 +13,21 @@ import lombok.ToString;
 @ToString
 public class Bookmark {
 
-	private int userNo;
-	private int recruitNo;
-	private String createdAt;
+	private int userNo;//유저 고유번호
+	private int recruitNo;//공고고유번호
+	private String recruitTitle;//공고제목
+	private int recruitRequ;//공고채용조건
+	private String compName;//공고등록회사
+	private String createdAt;//공고마감일
+	private String skillName; // 업무관련스킬
+	
+	
+	public Bookmark(int userNo, int recruitNo) {
+		super();
+		this.userNo = userNo;
+		this.recruitNo = recruitNo;
+	}
 
 }
+
+

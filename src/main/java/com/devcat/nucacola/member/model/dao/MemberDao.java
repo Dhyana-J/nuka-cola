@@ -136,30 +136,42 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	// 북마크 조회
+	public int countBookmark(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("memberMapper.countBookmark",uno);
+	}
+	//북마크 페이징 처리
+	public ArrayList<Bookmark> selectBookmark(SqlSessionTemplate sqlSession,int uno,PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBookmark", uno,rowBounds);
+	}
+	public ArrayList<Bookmark> selectRecruitSkills(SqlSessionTemplate sqlSession,int uno) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectRecruitSkills", uno);
 	}
 
-	public int deleteBookmark(SqlSessionTemplate sqlSession, int bno) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteBookmark(SqlSessionTemplate sqlSession, Bookmark bno) {
+		return sqlSession.delete("memberMapper.deleteBookmark",bno);
 	}
 
+	//기업구독
 	public int insertSubComp(SqlSessionTemplate sqlSession, CompSub cs) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
+	// 기업구독 조회
+	public int countSubComp(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("memberMapper.countSubComp",uno);
+	}
+	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, int uno, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSubComp",uno);
 	}
 
 	public int deleteSubComp(SqlSessionTemplate sqlSession, CompSub cs) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("memberMapper.deleteSubComp", cs);
 	}
 
 	public String selectUserInfo(SqlSessionTemplate sqlSession, int userNo) {

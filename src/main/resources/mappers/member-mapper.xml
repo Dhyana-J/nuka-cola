@@ -26,14 +26,29 @@
 		<result column="skill_no" property="skillNo"/>
 		<result column="skill_name" property="skillName"/>
 	</resultMap>
-	
-	
 	<resultMap id="userFiledSet" type="UserFiled">
 		<result column="user_no" property="userNo"/>
 		<result column="skill_no" property="skillNo"/>
 	</resultMap>
-	
-	
+	<resultMap id="bookmarkResultSet" type="Bookmark">
+		<result column="user_no" property="userNo"/>
+		<result column="recruit_no" property="recruitNo"/>
+		<result column="recruit_title" property="recruitTitle"/>
+		<result column="recruit_requ" property="recruitRequ"/>
+		<result column="comp_name" property="compName"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="skill_name" property="skillName"/>
+	</resultMap>
+	<resultMap id="ComSubResultSet" type="CompSub">
+		<result column="user_no" property="userNo"/>
+		<result column="comp_no" property="compNo"/>
+		<result column="comp_name" property="compName"/>
+		<result column="comp_info" property="compInfo"/>
+		<result column="comp_logo" property="compLogo"/>
+		<result column="comp_birth" property="compBirth"/>
+		<result column="comp_headcount" property="compHeadcount"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
 	
 	<select id="loginMember"
 		    parameterType="Member"
@@ -59,16 +74,10 @@
 			 , user_comp
 	      from users
 	     where user_status != 1
-<<<<<<< HEAD
-
-           		and user_email=#{email}
-				
-=======
            and user_email=#{email}
            <!-- 
             and user_pwd=#{userPwd}
             -->
->>>>>>> origin/Dhyana-J
 	</select>
 	
 	<insert id="insertMember"
@@ -144,6 +153,28 @@
 		 where user_email=#{email}
 		   and login_type='local'
 		   and user_status in(0,2)
+	</select>
+	<select id="countBookmark" parameterType="_int" resultType="_int">
+	select count(*)
+    from bookmarks
+    where user_no=#{uno}
+	</select>
+	
+	<!-- 북마크리스트 조회 -->
+	<select id="selectBookmark" parameterType="_int" resultMap="bookmarkResultSet">
+		select 
+		b.user_no,
+		recruit_no,
+		to_char(r.created_at, 'YYYY-MM-DD') "created_at",
+		r.recruit_title,
+		r.recruit_requ,
+		c.comp_name
+		from bookmarks b
+		left join recruits r using(recruit_no)
+		left join companys c on(r.comp_no = c.comp_no)
+		where b.user_no=#{uno}
+		order by b.created_at
+		
 	</select>
 	
 	<!-- 최종학력 조회 -->
@@ -384,4 +415,51 @@
 				  	and following_no=#{followingNo}
 	</delete>
 	
+	<!-- 업무관련 기술조회 -->
+	<select id="selectRecruitSkills" parameterType="_int" resultMap="bookmarkResultSet">
+	select
+          LISTAGG(SKILL_NAME,',')within group(order by skill_no) SKILL_NAME, recruit_no
+          from recruit_skills
+          join skills s using(SKILL_NO)
+          where recruit_no in(select recruit_no
+                                 from bookmarks b
+                                 left join recruits r using(recruit_no)
+                                 where user_no=#{uno})
+          group by recruit_no
+	</select>
+	
+	<delete id="deleteBookmark" parameterType="Bookmark">
+		delete 
+		from bookmarks 
+		 where RECRUIT_NO=#{recruitNo} and
+		 USER_NO=#{userNo}
+	</delete>
+	<!-- 구독기업 리스트 조회 -->
+	<select id="countSubComp" parameterType="_int" resultType="_int">
+	select count(*)
+    from comp_sub
+    where user_no=#{uno}
+	</select>
+	<select id="selectSubComp" parameterType="_int" resultMap="ComSubResultSet">
+		select 
+		cs.user_no,
+		comp_no,
+		comp_name,
+		comp_info,
+		comp_logo,
+		substr(c.comp_birth,1,4) "COMP_BIRTH",
+		cs.CREATED_AT,
+		substr(COMP_HEADCOUNT,1,instr(COMP_HEADCOUNT,'명')-1) COMP_HEADCOUNT
+		from comp_sub cs
+		join companys c using(comp_no)
+		where cs.user_no=#{uno}
+		order by cs.created_at
+	</select>
+	<!-- 기업구독 취소 -->
+	<delete id="deleteSubComp" parameterType="CompSub">
+		delete
+		from comp_sub
+		where comp_no=#{compNo} and
+		user_no=#{userNo}
+	</delete>
 </mapper>

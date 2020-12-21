@@ -122,4 +122,29 @@
 		   and user_status in(0,2)
 	</select>
 	
+	<!-- 최종학력 조회 -->
+	
+	<select id="selectUserEdu" parameterType="_int"
+			resultType="string">
+		
+		select
+			   user_edu
+		  from users
+		 where user_no = #{userNo}
+	
+	</select>
+	
+	
+	
+	<!-- 최종학력 업데이트 -->
+	<update id="updateUserEdu" parameterType="Member">
+	
+		update 
+			   users
+		   set user_edu = #{userEdu}
+		 where user_no = #{userNo}
+	</update>
+
+	
+	
 </mapper>

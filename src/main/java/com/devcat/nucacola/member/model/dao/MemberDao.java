@@ -138,25 +138,32 @@ public class MemberDao {
 	
 	//프로젝트
 	public int insertProject(SqlSessionTemplate sqlSession, Project p) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return sqlSession.insert("projectMapper.insertUserProject", p);
 	}
-
+	// 프로젝트수정
 	public int updateProject(SqlSessionTemplate sqlSession, Project p) {
-		// TODO Auto-generated method stub
+		return sqlSession.update("projectMapper.updateUserProject", p);
+	}
+	
+
+	// 학력
+	public int insertUserEdu(SqlSessionTemplate sqlSession, Member m) {
 		return 0;
 	}
 	
 	
-	// 학력
-	public int insertUserEdu(SqlSessionTemplate sqlSession, String userEdu) {
-		// TODO Auto-generated method stub
-		return 0;
+	// 학력 조회
+	public String selectUserEdu(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.selectUserEdu", userNo);
 	}
 
-	public int updateUserEdu(SqlSessionTemplate sqlSession, String userEdu) {
-		// TODO Auto-generated method stub
-		return 0;
+
+	public int updateUserEdu(SqlSessionTemplate sqlSession,Member m) {
+		
+		return sqlSession.update("memberMapper.updateUserEdu", m);
+
 	}
 
 	

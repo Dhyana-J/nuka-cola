@@ -113,7 +113,7 @@ public class MemberServiceImpl implements MemberService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=9cbaf3231e03e46ca8f9be8ce62f4866");
-			sb.append("&redirect_uri=http://localhost:2020/nucacola/kakaologin.me");
+			sb.append("&redirect_uri=http://localhost:8888/nukacola/kakaologin.me");
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -362,21 +362,31 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateProject(Project p) {
-		// TODO Auto-generated method stub
+
 		return mDao.updateProject(sqlSession,p);
 	}
-
+	
+	
+	// 최종학력 조회
 	@Override
-	public int insertUserEdu(String userEdu) {
-		// TODO Auto-generated method stub
-		return mDao.insertUserEdu(sqlSession,userEdu);
+	public String selectUserEdu(int userNo) {
+
+		return mDao.selectUserEdu(sqlSession, userNo);
+	}
+	
+	// 최종학력 추가
+	@Override
+	public int insertUserEdu(Member m) {
+		return mDao.insertUserEdu(sqlSession,m);
+	}
+	
+	// 최종학력 수정
+	@Override
+	public int updateUserEdu(Member m) {
+		
+		return mDao.updateUserEdu(sqlSession,m);
 	}
 
-	@Override
-	public int updateUserEdu(String userEdu) {
-		// TODO Auto-generated method stub
-		return mDao.updateUserEdu(sqlSession,userEdu);
-	}
 
 	@Override
 	public int insertCarrer(Carrer c) {
@@ -427,6 +437,8 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
+
+
 	
 	
 

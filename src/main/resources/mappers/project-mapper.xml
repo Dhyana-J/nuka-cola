@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="projectMapper">
+	<resultMap id="projectResultSet" type="project">
+		<result column="project_id" property="projectId"/>
+		<result column="project_name" property="projectName"/>
+		<result column="project_position" property="projectPosition"/>
+		<result column="project_start" property="projectStart"/>
+		<result column="project_end" property="projectEnd"/>
+		<result column="user_no" property="userNo"/>
+	</resultMap>
+	
+	
+	<!-- 프로젝트 수정 -->
+	
+	<insert id="insertUserProject" parameterType="Project" >
+		
+		insert 
+			  into projects
+			      (
+			       proejct_name
+			     , project_position
+			     , project_start
+			     , project_end
+			      )
+			    values
+			      (
+			      #{projectName}
+			    , #{projectPosition}
+			    , #{projectStart}
+			    , #{projectEnd}
+			      )
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

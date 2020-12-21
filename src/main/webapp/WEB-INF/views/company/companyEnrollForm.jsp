@@ -122,21 +122,28 @@
               <div class="section__techstack">
                 <strong>테크스택</strong>
                 <span>FRONT-END</span>
-                <input type="text" />
+                <input type="text" name="skillList[0].skillName"/>
                 <div class="section__techstack__btn">
                   <button class="techstack__btn">Node.js</button>
                   <button class="techstack__btn">Express.js</button>
                   <button class="techstack__btn">Deno</button>
                 </div>
                 <span>BACK-END</span>
-                <input type="text" />
+                <input type="text" name="skillList[1].skillName"/>
                 <div class="section__techstack__btn">
                   <button class="techstack__btn">Node.js</button>
                   <button class="techstack__btn">Express.js</button>
                   <button class="techstack__btn">Deno</button>
                 </div>
-                <span>DEV-OPS</span>
-                <input type="text" />
+                <span>DEV-OPS</span>S
+                <input type="text" name="skillList[2].skillName"/>
+                <div class="section__techstack__btn">
+                  <button class="techstack__btn">Node.js</button>
+                  <button class="techstack__btn">Express.js</button>
+                  <button class="techstack__btn">Deno</button>
+                </div>
+                <span>기타</span>
+                <input type="text" name="skillList[3].skillName"/>
                 <div class="section__techstack__btn">
                   <button class="techstack__btn">Node.js</button>
                   <button class="techstack__btn">Express.js</button>
@@ -156,36 +163,50 @@
             </div>
             <div class="content__wrapper">
               <strong>구성원</strong>
-              <div class="mdc-slider mdc-slider--range">
-                <div class="mdc-slider__track">
-                  <div class="mdc-slider__track--inactive"></div>
-                  <div class="mdc-slider__track--active">
-                    <div class="mdc-slider__track--active_fill"></div>
-                  </div>
+                <div class="section__headCount">
+                  <input
+                  type="radio"
+                  id="ten"
+                  name="headcount"
+                  value="1~10명"
+                />
+                <label for="ten">1~10명</label>
+                <input
+                  type="radio"
+                  id="hundred"
+                  name="headcount"
+                  value="11~100명"
+                />
+                <label for="hundred">11~100명</label>
+                <input
+                  type="radio"
+                  id="fivehundred"
+                  name="headcount"
+                  value="101~500명"
+                />
+                <label for="fivehundred">101~500명</label>
+                <input 
+                  type="radio"
+                  id="thousand" 
+                  name="headcount" 
+                  value="501~1000명"
+                />
+                <label for="thousand">501~1000명</label>
+                <input 
+                  type="radio" 
+                  id="fivethousand" 
+                  name="headcount" 
+                  value="1001~5000명"
+                />
+                <label for="fivethousand">1001~5000명</label>
+                <input
+                  type="radio"
+                  id="fivethousandover"
+                  name="headcount"
+                  value="5000명 초과"
+                />
+                <label for="fivethousandover">5000명 초과</label>
                 </div>
-                <div
-                  class="mdc-slider__thumb"
-                  role="slider"
-                  tabindex="0"
-                  aria-label="Continuous range slider demo"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  aria-valuenow="30"
-                >
-                  <div class="mdc-slider__thumb-knob"></div>
-                </div>
-                <div
-                  class="mdc-slider__thumb"
-                  role="slider"
-                  tabindex="0"
-                  aria-label="Continuous range slider demo"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  aria-valuenow="70"
-                >
-                  <div class="mdc-slider__thumb-knob"></div>
-                </div>
-              </div>
             </div>
             <div class="content__wrapper">
               <div class="section__compAddress">

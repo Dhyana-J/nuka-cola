@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Company;
 
@@ -23,13 +26,17 @@ public class CompanyController {
 	@Autowired
 	private CompanyService cService;
 	
+	// 회사 전체 조회
 	@RequestMapping("list.co")
-	public String selectCompanyList(Model model) {
+	public String selectCompanyList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			Model model)
+	{
+		int listCount = cService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		ArrayList<Company> list = cService.selectCompanyList(pi);
 		
-		ArrayList<Company> list = cService.selectCompanyList();
-		
+		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
-		
 		return "company/companyListView";
 	}
 	
@@ -38,14 +45,16 @@ public class CompanyController {
 		return "company/companyEnrollForm";
 	}
 	
+	// 회사 등록
 	@RequestMapping("insert.co")
+	public void insertCompany(Company c) {
+		System.out.println(c);
+	}
+	/*
 	public String insertCompany(Company c, MultipartFile upfile,
 								HttpSession session, Model model) {
-	
 		if(!upfile.getOriginalFilename().equals("")) {
-			
 			String changeName = saveFile(session, upfile);
-			
 			c.setCompLogo("resources/assets/" + changeName);
 		}
 		
@@ -59,7 +68,7 @@ public class CompanyController {
 			return "common/errorPage";
 		}
 	}
-
+	*/
 	
 	// 첨부파일 업로드 메소드
 	private String saveFile(HttpSession session, MultipartFile upfile) {

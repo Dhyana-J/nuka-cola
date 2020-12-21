@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="companyMapper">
-	<resultMap id="CompanyResultSet" type="Company">
+<mapper namespace="companymapper">
+
+	<resultMap id="companyResultSet" type="Company">
 		<result column="comp_no" property="compNo"/>
 		<result column="comp_name" property="compName"/>
 		<result column="comp_info" property="compInfo"/>
@@ -15,7 +16,15 @@
 		<result column="user_no" property="userNo"/>
 		<result column="comp_pm" property="compPm"/>
 	</resultMap>
-	<select id="selectCompanyList" resultMap="CompanyResultSet">
+	
+	<select id="selectListCount" resultType="_int">
+		select
+			   count(*)
+		from   nukacola.companys
+	</select>
+	
+	
+	<select id="selectCompanyList" resultMap="companyResultSet">
 		 select
 		        comp_no
 		      , comp_info
@@ -26,38 +35,52 @@
 		  order
 		     by created_at desc
 	</select>
+	
 	<insert id="insertCompany" parameterType="Company">
-		insert
-		  into companys
-		  (
-		  	 comp_no
-		   , comp_name
-		   , comp_info
-		   , comp_email
-		   , comp_address
-		   , comp_logo
-		   , comp_headcount
-		   , comp_birth
-		   , created_at
-		   , updated_at
-		   , uesr_no
-		   , comp_pm
-		  )
-		  values
-		  (
-		  	 seq_comp.nextval
-		   , #{compName}
-		   , #{compInfo}
-		   , #{compEmail}
-		   , #{compAddress}
-		   , #{compLogo}
-		   , #{headCount}
-		   , #{compBirth}
-		   , #{createdAt}
-		   , #{updatedAt}
-		   , #{userNo}
-		   , #{compPm}
-		  )
+	INSERT ALL
+	    WHEN #{compName} not in (select comp_name from companys) THEN
+	    INTO COMPANYS VALUES(
+	                          (select max(COMP_NO)+1 from companys)
+	                        ,#{compName}
+	                        ,#{compInfo}
+	                        ,#{compEmail}
+	                        ,#{compAddress}
+	                        ,#{compLogo}
+	                        ,#{headCount}
+	                        ,#{compBirth}
+	                        , default
+	                        , default
+	                        ,#{userNo}
+	                        ,#{userNo}
+	                        )
+	    WHEN '핀테크2' not in (select indus_name from industries) THEN
+	    INTO INDUSTRIES VALUES(
+	                            (select max(INDUS_NO)+1 from industries)
+	                            ,'핀테크2'
+	                            ,default
+	                            ,default
+	                           )
+	    WHEN 4 in (select comp_no from companys) and 
+	    (select indus_no from industries where indus_name = '핀테크2') not in (select indus_no from compindus) THEN      
+	    INTO COMPINDUS VALUES(
+	                             4
+	                            ,(select indus_no from industries where indus_name = '핀테크2')
+	                          )
+	    WHEN '기술테스트용2' not in (select SKILL_NAME from skills) THEN
+	    INTO SKILLS VALUES(
+	                        (select max(SKILL_NO)+1 from skills)
+	                        ,'기술테스트용2'
+	                        ,default
+	                       )
+	    WHEN 5 in (select comp_no from companys) and 
+	    (select skill_no from skills where skill_name = 'JAVA') not in (select skill_no from tech_stacks) THEN   
+	    INTO TECH_STACKS VALUES(
+	                             5
+	                            ,(select skill_no from skills where skill_name = 'JAVA')
+	                            , 1
+	                            , sysdate
+	                            )
+	    SELECT * FROM DUAL;
 	</insert>
 	
 	

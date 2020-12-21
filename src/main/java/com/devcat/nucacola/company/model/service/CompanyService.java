@@ -2,12 +2,14 @@ package com.devcat.nucacola.company.model.service;
 
 import java.util.ArrayList;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.vo.Company;
 
 public interface CompanyService {
 	
 	//1.  기업 리스트 조회용 서비스
-	ArrayList<Company> selectCompanyList();
+	int selectListCount();
+	ArrayList<Company> selectCompanyList(PageInfo pi);
 	
 	//2. 기업등록용 서비스
 	int insertCompany(Company c);

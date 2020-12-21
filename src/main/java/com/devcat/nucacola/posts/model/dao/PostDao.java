@@ -2,6 +2,7 @@ package com.devcat.nucacola.posts.model.dao;
 
 import java.util.ArrayList;
 
+import com.devcat.nucacola.posts.model.vo.Like;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -53,4 +54,19 @@ public class PostDao {
 		return sqlSession.insert("post-mapper.insertComment",c);
 	}
 
+
+	public int toggleLike(SqlSessionTemplate sqlSession, int userNo, int postNo, int islike) {
+//		안되면 해쉬맵에 담자
+		Like like = new Like();
+		like.setPostNo(postNo);
+		like.setUserNo(userNo);
+		if(islike == 0){
+//			좋아요
+			return sqlSession.insert("post-mapper.likePost",like);
+		}else{
+//			좋아요취소
+			return sqlSession.delete("post-mapper.unlikePost",like);
+		}
+
+	}
 }

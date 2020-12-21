@@ -33,6 +33,7 @@ public interface PostService {
 	ArrayList<Comment> selectCommentList(int bno);
 	// 댓글 작성
 	int insertComment(Comment c);
-	
-	
+
+
+	int toggleLike(int userNo, int postNo, int islike);
 }

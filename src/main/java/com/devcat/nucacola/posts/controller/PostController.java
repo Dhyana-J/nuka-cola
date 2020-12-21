@@ -3,6 +3,7 @@ package com.devcat.nucacola.posts.controller;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.posts.model.vo.Comment;
 import com.devcat.nucacola.posts.model.vo.Post;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Controller
 public class PostController {
@@ -118,9 +120,19 @@ public class PostController {
 	}
 	
 	//포스트 좋아요
+	@ResponseBody
 	@RequestMapping("like.pos")
-	public String likePost() {
-		return "/main";
+	public HashMap<String,Integer> addFollowing(int userNo, int postNo, int islike) {
+
+		int result = pService.toggleLike(userNo,postNo,islike);
+		HashMap<String,Integer> list = new HashMap<>();//뷰로 리턴할 HashMap
+		if(result>0) {//팔로잉 추가 성공시
+			list.put("result",result);
+			return list;
+		}else{//팔로잉 추가 실패시
+			list.put("result",result);
+			return list;
+		}
 	}
 
 

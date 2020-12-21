@@ -78,4 +78,14 @@ where POST_NO = #{pno}
         INSERT INTO COMMENTS (COMMENT_NO, COMMENT_CONTENT, USER_NO, POST_NO)
         VALUES (SEQ_COMMENT.nextval, #{commentContent}, #{userNo}, #{postNo})
     </insert>
+
+    <insert id="likePost">
+        insert INTO LIKES (USER_NO, POST_NO) VALUES (#{userNo},#{postNo})
+    </insert>
+    <delete id="unlikePost">
+        DELETE
+        FROM NUKACOLA.LIKES
+        WHERE USER_NO = #{userNo}
+          AND POST_NO = #{postNo}
+    </delete>
 </mapper>

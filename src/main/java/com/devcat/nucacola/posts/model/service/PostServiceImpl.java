@@ -71,5 +71,9 @@ public class PostServiceImpl implements PostService {
 
 	}
 
+	@Override
+	public int toggleLike(int userNo, int postNo, int islike){
+		return pDao.toggleLike(sqlSession, userNo, postNo,islike);
+	}
 
 }

@@ -99,15 +99,15 @@
             <div class="post__btn__wrapper">
               <c:choose>
                 <c:when test="${p.isLiked eq 0}">
-                  <div class="like_btn">
+                  <div class="like_btn toggle_like">
                     <i class="material-icons"> thumb_up_alt </i>
-                    <span>LIKE ${p.isLiked}</span>
+                    <span>LIKE</span>
                   </div>
                 </c:when>
                 <c:otherwise>
-                  <div class="like_btn">
+                  <div class="like_btn toggle_like">
                     <i class="material-icons"> close </i>
-                    <span>UNLIKE ${p.isLiked}</span>
+                    <span>UNLIKE</span>
                   </div>
                 </c:otherwise>
               </c:choose>
@@ -348,6 +348,37 @@
       })
     }
 
+    //좋아요/좋아요취소
+    const addLike =()=>{
+      document.querySelectorAll('.toggle_like').forEach((v,i)=>{
+        v.addEventListener('click',()=>{
+          const BtnWrapper = document.querySelectorAll('.toggle_like')[i];
+          console.log(BtnWrapper.children[0])
+          console.log(BtnWrapper.children[1])
+          let likeUrl = 'like.pos'
+          let islike = 0;
+          if(BtnWrapper.children[1].innerText==='LIKE'){
+            islike = 0;
+            BtnWrapper.children[0].innerText=' close '
+            BtnWrapper.children[1].innerText = 'UNLIKE'
+          }else{
+            islike = 1;
+            BtnWrapper.children[0].innerText=' thumb_up_alt '
+            BtnWrapper.children[1].innerText = 'LIKE'
+          }
+          axios.get('like.pos',{
+            params:{
+              postNo:document.querySelectorAll('.post-id')[i].value,
+              userNo:'${loginUser.userNo}',
+              islike:islike,
+            }
+          }).then((res)=>{
+            console.log('성공',res.data);
+          })
+        })
+      })
+    }
+
     const createPostItem = (v) =>{
       const contentWrapper = document.createElement('div')
         contentWrapper.classList.add('content__wrapper');
@@ -405,7 +436,7 @@
         postBtnWrapper.className = 'post__btn__wrapper';
 
       const likeBtn = document.createElement('div');
-        likeBtn.className='like_btn';
+        likeBtn.className='like_btn toggle_like';
       const likeBtnIcon = document.createElement('i');
         likeBtnIcon.className = 'material-icons';
 
@@ -484,6 +515,7 @@
           }
         })
         .then((res)=>{
+          addLike();
           addFollow();
           commentOpenWatcher();
           commentInsertWatcher();
@@ -493,6 +525,7 @@
           res.data.forEach(v=>{
             createPostItem(v);
           })
+          addLike()
           addFollow();
           removeCommentOpenWatcher()
           commentOpenWatcher();
@@ -502,7 +535,7 @@
       }
     })
 
-
+    addLike()
     addFollow()
     loadComment();
     commentOpenWatcher()

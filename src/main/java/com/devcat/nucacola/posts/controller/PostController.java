@@ -79,7 +79,6 @@ public class PostController {
 
 		int result = pService.insertPost(p);
 		if(result>0){
-			session.setAttribute("alertMsg","게시글작성 성공");
 			return "redirect:list.pos";
 		}else{
 			model.addAttribute("errorMsg","작성실패!");

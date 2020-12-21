@@ -82,6 +82,9 @@
 	                            )
 	    SELECT * FROM DUAL;
 	</insert>
+	<insert>
+
+	</insert>
 	
 	
 </mapper>

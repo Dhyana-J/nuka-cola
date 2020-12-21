@@ -26,6 +26,14 @@ public class CompanyDao {
 	}
 
 	public int insertCompany(SqlSessionTemplate sqlSession, Company c) {
-		return sqlSession.insert("companymapper.insertCompany", c);
+		sqlSession.insert("companymapper.insertCompany", c);
+		//	int compNo = 위에서 등록된 회사 조회
+		//		서비스 분야를 블 forEach( v
+		//		[1,3] 이 배열을 반복시켜서
+		//   	반복문 척 순회시 mapper로  1, compNo
+		//		반복문 두번째 순회시 mapper로  3, compNo
+		// 			v ,comNo 두개를
+		// )
+
 	}
 }

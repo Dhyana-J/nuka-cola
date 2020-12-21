@@ -115,11 +115,8 @@ public class MemberServiceImpl implements MemberService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=9cbaf3231e03e46ca8f9be8ce62f4866");
-<<<<<<< HEAD
 			sb.append("&redirect_uri=http://localhost:8888/nukacola/kakaologin.me");
-=======
-			sb.append("&redirect_uri=http://localhost:3000/nukacola/kakaologin.me");
->>>>>>> origin/sungsuzi
+
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -306,35 +303,24 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int countFollowing(int userNo) {
+	public int countFollowings(int userNo) {
 		// TODO Auto-generated method stub
-		return mDao.countFollowing(sqlSession,userNo);
-	}
-	public int countFollowings(int uno) {
-		return mDao.countFollowings(sqlSession,uno);
+		return mDao.countFollowings(sqlSession,userNo);
 	}
 
-	//팔로워 수 조회
-	@Override
-	public int countFollowers(int uno) {
-		return mDao.countFollowers(sqlSession,uno);
-	}
 
 	//연결된 사람 수 조회
 	@Override
-	public int countFollower(int userNo) {
+	public int countFollowers(int userNo) {
 		// TODO Auto-generated method stub
-		return mDao.countFollower(sqlSession,userNo);
+		return mDao.countFollowers(sqlSession,userNo);
 
-	}
-	public int countConnections(int uno) {
-		return mDao.countConnections(sqlSession,uno);
 	}
 
 	@Override
-	public int countConnection(int userNo) {
+	public int countConnections(int userNo) {
 		// TODO Auto-generated method stub
-		return mDao.countConnection(sqlSession,userNo);
+		return mDao.countConnections(sqlSession,userNo);
 	}
 
 	@Override

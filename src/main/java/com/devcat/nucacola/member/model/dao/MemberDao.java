@@ -1,17 +1,22 @@
 package com.devcat.nucacola.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 
 @Repository
 public class MemberDao {
@@ -94,33 +99,28 @@ public class MemberDao {
 
 	
 	// 한줄 소개
-	public int insertUserInfo(SqlSessionTemplate sqlSession, String userInfo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateUserInfo(SqlSessionTemplate sqlSession,Member m) {
+		return sqlSession.update("memberMapper.updateUserInfo",m);
 	}
 
-	public int updateUserInfo(SqlSessionTemplate sqlSession, String userInfo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
 	
 	//활동 분야, 기술
-	public int checkSkill(SqlSessionTemplate sqlSession, String skillName) {
-		// TODO Auto-generated method stub
-		return 0;
+	public ArrayList<Skills> checkSkill(SqlSessionTemplate sqlSession, String skillName) {
+
+		return (ArrayList)sqlSession.selectList("memberMapper.checkSkill",skillName);
 	}
 
-	public int insertUserFiled(SqlSessionTemplate sqlSession, int skillNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertUserFiled(SqlSessionTemplate sqlSession, HashMap<String,Object> hm) {
+		
+		return sqlSession.insert("memberMapper.insertUserFiled", hm);
+		
 	}
 
-	public int updateUserFiled(SqlSessionTemplate sqlSession, int skillNo) {
+	public int deleteUserFiled(SqlSessionTemplate sqlSession,UserFiled uf ) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("memberMapper.deleteUserField",uf);
 	}
+	
 	
 	
 	
@@ -130,9 +130,9 @@ public class MemberDao {
 		return 0;
 	}
 
-	public int updateUserPosi(SqlSessionTemplate sqlSession, String userPosi) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateUserPosi(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.update("memberMapper.updateUserPosi",m);
 	}
 	
 	
@@ -207,7 +207,28 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
+	public String selectUserInfo(SqlSessionTemplate sqlSession, int userNo) {
+
+		return sqlSession.selectOne("memberMapper.selectUserInfo", userNo);
+	}
+
+	public ArrayList<Skills> getSkillNo(SqlSessionTemplate sqlSession, String[] arr) {
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.getSkillNo",arr);
+	}
+
+	public Member selectUserProfile(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.selectUserProfile", userNo);
+	}
+
+	public ArrayList<Skills> selectUserSkill(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectUserSkill", userNo);
+	}
+
+
 	
 	
 	

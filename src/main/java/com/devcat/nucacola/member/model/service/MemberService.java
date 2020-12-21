@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 
 public interface MemberService {
 	
@@ -58,30 +60,35 @@ public interface MemberService {
 	// 트리거로 알아서 되게끔 구현
 	
 	
-	// 한줄 소개 입력
-	int insertUserInfo(String UserInfo);
 	
 	// 한줄 소개 수정
-	int updateUserInfo(String UserInfo);
+	int updateUserInfo(Member m);
+	
+
 	
 	
-	// 기술 유무 체크 => count로 체크하는건 어떄?
+	// 스킬 검색목록 불러오기
+	ArrayList<Skills> checkSkill(String skillName);
 	
-	int checkSkill(String skillName);
+	// 스킬 번호 알아오기
+	ArrayList<Skills> getSkillNo(String[] arr);
 	
 	
 	// 활동 분야 입력
-	int insertUserFiled(int skillNo);
+	int insertUserFiled(HashMap<String, Object> hm);
 	
 	
 	// 활동 분야 수정
-	int updateUserFiled(int skillNo);
+	int deleteUserFiled(UserFiled uf);
 	
 	
-	// 업무 분야 입력
-	int insertUserPosi(String userPosi);
+
 	// 업무 분야 수정
-	int updateUserPosi(String userPosi);
+	int updateUserPosi(Member m);
+	
+	
+	
+	
 	
 	// 프로젝트 입력
 	int insertProject(Project p);
@@ -131,6 +138,18 @@ public interface MemberService {
 
 
 
+	
+	
+	
+	
+	// 유저 프로필 가져오기
+	Member selectUserProfile(int userNo);
+	
+	// 유저 프로필용 기술 가져오기
+	ArrayList<Skills> selectUserSkill(int userNo);
+
+	
+	
 	
 	
 	

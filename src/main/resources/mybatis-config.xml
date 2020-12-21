@@ -8,11 +8,18 @@
 
 	<typeAliases>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Member" alias="Member"/>
-		<typeAlias type="com.devcat.nucacola.company.model.vo.Company" alias="Company"/>
+		<typeAlias type="com.devcat.nucacola.member.model.vo.UserFiled" alias="UserFiled"/>
 
+		
+		<typeAlias type="com.devcat.nucacola.company.model.vo.Company" alias="Company"/>
+		
+		<typeAlias type="com.devcat.nucacola.common.model.vo.Skills" alias="Skills"/>
+		
+		
 		<typeAlias type="com.devcat.nucacola.posts.model.vo.Post" alias="Post"/>
 		<typeAlias type="com.devcat.nucacola.posts.model.vo.Comment" alias="Comment"/>
 		<typeAlias type="com.devcat.nucacola.posts.model.vo.Like" alias="Like"/>
+		
 
 	</typeAliases>
 	

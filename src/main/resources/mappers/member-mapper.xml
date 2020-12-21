@@ -21,6 +21,19 @@
 		<result column="email_auth" property="emailAuth"/>
 	</resultMap>
 	
+	<resultMap id="skillResultSet" type="Skills">
+		<result column="skill_no" property="skillNo"/>
+		<result column="skill_name" property="skillName"/>
+	</resultMap>
+	
+	
+	<resultMap id="userFiledSet" type="UserFiled">
+		<result column="user_no" property="userNo"/>
+		<result column="skill_no" property="skillNo"/>
+	</resultMap>
+	
+	
+	
 	<select id="loginMember"
 		    parameterType="Member"
 		    resultMap="memberResultSet">
@@ -44,7 +57,9 @@
 			 , email_auth
 	      from users
 	     where user_status != 1
-           and user_email=#{email}
+
+           		and user_email=#{email}
+				
 	</select>
 	
 	<insert id="insertMember"
@@ -131,6 +146,35 @@
 			   user_edu
 		  from users
 		 where user_no = #{userNo}
+	</select>
+	
+	<update id="updateUserInfo" parameterType="Member">
+		
+		update
+				users
+		set user_info = #{userInfo}
+		where user_no = #{userNo}
+
+	</update>
+	
+	<update id="updateUserPosi" parameterType="Member">
+		
+		update
+				users
+		set user_posi = #{userPosi}
+		where user_no = #{userNo}
+
+	</update>
+	
+	
+	<select id="checkSkill" parameterType="string" resultMap="skillResultSet">
+	
+		select
+			   skill_no
+			 , skill_name
+		from skills
+		where skill_name like '%' || #{skillName} || '%'
+	
 	
 	</select>
 	
@@ -145,6 +189,85 @@
 		 where user_no = #{userNo}
 	</update>
 
+	<select id="getSkillNo" parameterType="map" resultMap ="skillResultSet">
+		
+		
+		select
+			    skill_no
+			  , skill_name
+		from skills		  
+		where skill_name in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+
+	</select>
+	
+	<update id="insertUserFiled">
+			<!-- collection = 반복문 돌릴 list의 이름 item : list안에서 순차적으로 접근할 값 변수명-->
+		 <foreach collection="skillsNo" item="no" open="insert all" close="SELECT * FROM DUAL">
+			
+			into user_fields
+			(
+				 user_no
+			   , skill_no
+			)
+			values
+			(
+				 #{userNo}
+				,#{no}
+			)
+			
+		</foreach>
+	
+	
+	</update>
+	
+	
+	
+	<select id="selectUserProfile" parameterType="_int" resultMap ="memberResultSet">
+		
+		select
+			   user_no
+			 , login_type
+			 , user_email
+			 , user_pwd
+			 , user_name
+			 , user_birth
+			 , user_posi
+			 , user_status
+			 , user_info
+			 , user_edu
+			 , user_avatar
+	      from users
+	     where user_status != 1
+         and user_no = #{userNo}
+	
+
+	</select>
+	
+	
+		<select id="selectUserSkill" parameterType="_int" resultMap ="skillResultSet">
+			
+						select
+							  skill_no
+				             ,skill_name
+					      from user_fields
+				          join skills using(skill_no)
+					     where user_no = #{userNo}
+
+
+		</select>
+		
+		
+		<delete id="deleteUserField" parameterType="UserFiled">
+			delete
+		  			
+		  	   from user_fields
+		      where user_no = #{userNo}
+		        and skill_no = #{skillNo}
+		
+		</delete>
 	
 	
 </mapper>

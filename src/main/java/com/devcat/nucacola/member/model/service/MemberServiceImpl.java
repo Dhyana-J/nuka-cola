@@ -23,6 +23,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Carrer;
@@ -31,6 +32,7 @@ import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.TempKey;
+import com.devcat.nucacola.member.model.vo.UserFiled;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -290,68 +292,75 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	/// 프로필
+	@Override
+	public Member selectUserProfile(int userNo) {
+		
+		return mDao.selectUserProfile(sqlSession, userNo);
+	}
 	
+	@Override
+	public ArrayList<Skills> selectUserSkill(int userNo) {
+		
+		return mDao.selectUserSkill(sqlSession, userNo);
+	}
 	
+	@Override
+	public int countFollowing(int userNo) {
+		// TODO Auto-generated method stub
+		return mDao.countFollowing(sqlSession,userNo);
+	}
+
+	@Override
+	public int countFollower(int userNo) {
+		// TODO Auto-generated method stub
+		return mDao.countFollower(sqlSession,userNo);
+	}
+
+	@Override
+	public int countConnection(int userNo) {
+		// TODO Auto-generated method stub
+		return mDao.countConnection(sqlSession,userNo);
+	}
+
+	@Override
+	public int updateUserInfo(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserInfo(sqlSession,m);
+	}
 	
+
 	
-	@Override
-	public int countFollowing(int uno) {
-		// TODO Auto-generated method stub
-		return mDao.countFollowing(sqlSession,uno);
-	}
 
 	@Override
-	public int countFollower(int uno) {
-		// TODO Auto-generated method stub
-		return mDao.countFollower(sqlSession,uno);
-	}
-
-	@Override
-	public int countConnection(int uno) {
-		// TODO Auto-generated method stub
-		return mDao.countConnection(sqlSession,uno);
-	}
-
-	@Override
-	public int insertUserInfo(String userInfo) {
-		// TODO Auto-generated method stub
-		return mDao.insertUserInfo(sqlSession,userInfo);
-	}
-
-	@Override
-	public int updateUserInfo(String userInfo) {
-		// TODO Auto-generated method stub
-		return mDao.updateUserInfo(sqlSession,userInfo);
-	}
-
-	@Override
-	public int checkSkill(String skillName) {
+	public ArrayList<Skills> checkSkill(String skillName) {
 		// TODO Auto-generated method stub
 		return mDao.checkSkill(sqlSession,skillName);
 	}
+	
+	@Override
+	public ArrayList<Skills> getSkillNo(String[] arr) {
+		return mDao.getSkillNo(sqlSession,arr);
+	}
+	
 
 	@Override
-	public int insertUserFiled(int skillNo) {
+	public int insertUserFiled(HashMap<String,Object> hm) {
 		// TODO Auto-generated method stub
-		return mDao.insertUserFiled(sqlSession,skillNo);
+		return mDao.insertUserFiled(sqlSession,hm);
 	}
 
 	@Override
-	public int updateUserFiled(int skillNo) {
+	public int deleteUserFiled(UserFiled uf) {
 		// TODO Auto-generated method stub
-		return mDao.updateUserFiled(sqlSession,skillNo);
+		return mDao.deleteUserFiled(sqlSession,uf);
 	}
 
-	@Override
-	public int insertUserPosi(String userPosi) {
-		// TODO Auto-generated method stub
-		return mDao.insertUserPosi(sqlSession,userPosi);
-	}
+
 
 	@Override
-	public int updateUserPosi(String userPosi) {
+	public int updateUserPosi(Member m) {
 		// TODO Auto-generated method stub
-		return mDao.updateUserPosi(sqlSession,userPosi);
+		return mDao.updateUserPosi(sqlSession,m);
 	}
 
 	@Override
@@ -437,9 +446,6 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
-
-
-	
 	
 
 }

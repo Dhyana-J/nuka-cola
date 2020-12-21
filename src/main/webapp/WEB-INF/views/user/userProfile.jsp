@@ -51,9 +51,9 @@
               <span>Front-end Amazone AWS, github에 관심</span>
             </div>
             <ul class="people__info">
-              <li>팔로잉 <strong>102</strong></li>
-              <li>팔로워 <strong>502</strong></li>
-              <li>연결 <strong>102</strong></li>
+              <li>팔로잉 <strong>${countFollowings }</strong></li>
+              <li>팔로워 <strong>${countFollowers }</strong></li>
+              <li>연결 <strong>${countConnections }</strong></li>
             </ul>
           </div>
         </div>
@@ -67,7 +67,10 @@
           <ul>
             <li class="nav-active">PROFILE</li>
             <li>POST</li>
+            <!-- 
             <li onClick='location.href="list.bk?uno=${loginUser.userNo}"'>LIKE</a></li>
+             -->
+            <li onClick='location.href="initFollowing.us?userNo=${loginUser.userNo}"'>LIKE</a></li>
           </ul>
         </div>
 

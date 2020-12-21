@@ -151,10 +151,6 @@
   font-size: 16px;
   color: #707070;
 }
-.content__wrapper .section__content__box {
-  margin-bottom: 10px;
-  margin-top: 0px;
-}
 .section__content__box .compindus__box,
 .back-end__box {
   padding: 3px 15px 5px;
@@ -233,22 +229,45 @@
 .content__wrapper .just__text__item {
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: 10px;
-  gap: 8px;
 }
-.just__text__item .just__text__title {
+.just__text__item .bookmark__item__box{
+	display:flex;
+	padding:5px;
+	border-bottom: 1px solid rgb(202, 202, 202);
+	transition: all 0.4s;
+
+}
+/*
+.just__text__item .bookmark__item__box:hover{
+	cursor:pointer;
+	background:rgb(202, 202, 202);
+
+}*/
+.bookmark__item__box .bookmark__item__box__right{
+	display:flex;
+	flex:9;
+	flex-direction:column;
+	gap:4px;
+}
+.bookmark__item__box .bookmark__item__box__left{
+	display:flex;
+	flex:1;
+	flex-direction:column;
+	gap:3px;
+}
+.bookmark__item__box__right .just__text__title {
   font-size: 12px;
 }
-.just__text__item .just__text__content strong {
+.bookmark__item__box__right .just__text__content strong {
   font-size: 14px;
 }
-.just__text__item .just__text__recruit {
+.bookmark__item__box__right .just__text__recruit {
   font-size: 12px;
 }
-.content__wrapper .section__content__box {
-  position: relative;
-  top: 0px;
+.bookmark__item__box__right .section__content__box {
+display:flex;
+margin-top:5px;
+gap:7px;
 }
 .main__section__right .content__wrapper {
 }
@@ -256,19 +275,19 @@
   display: flex;
   justify-content: flex-end;
   color: #9b0404;
-  position: relative;
-  bottom: 20px;
   font-size: 12px;
   cursor: pointer;
 }
 .section__content__title__cencle:hover {
   color: #410202;
 }
-.sysdate {
+.date{
   font-size: 8px;
   padding:5px 0px;
   margin-top: 5px;
   color: rgba(3, 3, 3, 3);
+  border-style:none;
+  margin:0px;
 }
 
 .content__wrapper .just__text {

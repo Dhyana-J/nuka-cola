@@ -37,10 +37,25 @@
 	</select>
 	
 	<insert id="insertCompany" parameterType="Company">
-	INSERT ALL
-	    WHEN #{compName} not in (select comp_name from companys) THEN
-	    INTO COMPANYS VALUES(
-	                          (select max(COMP_NO)+1 from companys)
+					insert
+					   into nukacola.companys
+						  (
+						  	 comp_no
+						   , comp_name
+						   , comp_info
+						   , comp_email
+						   , comp_address
+						   , comp_logo
+						   , comp_headcount
+						   , comp_birth
+						   , created_at
+						   , updated_at
+						   , user_no
+						   , comp_pm
+						  )
+						  values
+						  (
+						  	 seq_comp.nextval
 	                        ,#{compName}
 	                        ,#{compInfo}
 	                        ,#{compEmail}

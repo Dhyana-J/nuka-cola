@@ -237,12 +237,12 @@
 	transition: all 0.4s;
 
 }
-/*
+
 .just__text__item .bookmark__item__box:hover{
 	cursor:pointer;
-	background:rgb(202, 202, 202);
+	/*background:rgb(202, 202, 202);*/
 
-}*/
+}
 .bookmark__item__box .bookmark__item__box__right{
 	display:flex;
 	flex:9;

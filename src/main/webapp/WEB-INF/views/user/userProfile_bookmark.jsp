@@ -108,8 +108,7 @@
 	                	</div> 
 		                <div class="bookmark__item__box__left">
 		                	<a class="section__content__title__cencle" onclick="deleteBtn(${b.recruitNo},${b.userNo});">북마크 제외</a>
-		                </div>
-		                
+		                </div>           
                 </div>
                 </c:forEach>
                 </div>

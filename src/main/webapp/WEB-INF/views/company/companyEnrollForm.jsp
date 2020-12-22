@@ -78,7 +78,7 @@
                 <input
                   type="text"
                   name="compInfo"
-                  placeholder=" 기업을 소개해주세요"
+                  placeholder="기업을 소개해주세요"
                 />
               </div>
             </div>
@@ -87,34 +87,34 @@
               <div class="section__compindus">
                 <input
                   type="checkbox"
-                  id="webservice"
+                  class="comp-indus"
                   name="compindus"
-                  value="웹서비스"
+                  value="0"
                 />
                 <label for="webservice">웹서비스</label>
                 <input
                   type="checkbox"
-                  id="mobile"
+                  class="comp-indus"
                   name="compindus"
-                  value="모바일"
+                  value="1"
                 />
                 <label for="mobile">모바일</label>
                 <input
                   type="checkbox"
-                  id="E-service"
+                  class="comp-indus"
                   name="compindus"
-                  value="E-service"
+                  value="2"
                 />
                 <label for="E-service">E-service</label>
-                <input type="checkbox" id="IoT" name="compindus" value="IoT" />
+                <input type="checkbox" class="comp-indus" name="compindus" value="3" />
                 <label for="IoT">IoT</label>
-                <input type="checkbox" id="o2o" name="compindus" value="o2o" />
+                <input type="checkbox" class="comp-indus" name="compindus" value="4" />
                 <label for="o2o">o2o</label>
                 <input
                   type="checkbox"
-                  id="fintech"
+                  class="comp-indus"
                   name="compindus"
-                  value="fintech"
+                  value="5"
                 />
                 <label for="fintech">핀테크</label>
               </div>
@@ -123,7 +123,7 @@
               <div class="section__techstack">
                 <strong>테크스택</strong>
                 <span>FRONT-END</span>
-                <input type="text" name="skillList[0].skillName"/>
+                <input type="text" name="skillList[0].skillName" onfocus="add1()"/>
                 <div class="section__techstack__btn">
                   <button class="techstack__btn">Node.js</button>
                   <button class="techstack__btn">Express.js</button>
@@ -273,18 +273,23 @@
       </form>
       </div>
     </main>
-    
     <script defer>
-    $(function() {
-		//구성원값 가져오기 
-		var headCount = ${headCount};
-		
-		$("input[type=radio]").each(function(){
-			
-			if(headCount.search($(this).val()) != -1) {
-				$(this).attr("checked", true);
-			}
-		});
+   		let arr1 = [];
+	    const checkBox = document.querySelectorAll(".comp-indus");
+	    checkBox.forEach((v) =>
+	      v.addEventListener("change", (e) => {
+	        if (v.checked) {
+	          arr1.push(parseInt(v.value));
+	        } else {
+	          const newArr = arr1.filter((item) => item !== parseInt(v.value));
+	          arr1 = newArr;
+	        }
+	      })
+	    );
+	    
+	    function add1() {
+	        axios.get("insert.blah?arr=" + JSON.stringify(arr1));
+	      }
     </script>
   </body>
 </html>

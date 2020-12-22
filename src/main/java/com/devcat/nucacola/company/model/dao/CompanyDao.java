@@ -1,13 +1,18 @@
 package com.devcat.nucacola.company.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.company.model.vo.CompIndus;
 import com.devcat.nucacola.company.model.vo.Company;
+import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.company.model.vo.TechStack;
 
 @Repository
 public class CompanyDao {
@@ -26,14 +31,36 @@ public class CompanyDao {
 	}
 
 	public int insertCompany(SqlSessionTemplate sqlSession, Company c) {
-		sqlSession.insert("companymapper.insertCompany", c);
-		//	int compNo = 위에서 등록된 회사 조회
-		//		서비스 분야를 블 forEach( v
-		//		[1,3] 이 배열을 반복시켜서
-		//   	반복문 척 순회시 mapper로  1, compNo
-		//		반복문 두번째 순회시 mapper로  3, compNo
-		// 			v ,comNo 두개를
-		// )
-
+		
+		return sqlSession.insert("companymapper.insertCompany", c);
 	}
+	
+	//산업분야식별자 
+	public ArrayList<Industries> getIndusNo(SqlSessionTemplate sqlSession, String[] arr){
+		
+		return (ArrayList)sqlSession.selectList("companymapper.getIndusNo", arr);
+	}
+	
+	public int insertCompindus(SqlSessionTemplate sqlSession, HashMap<String,Object> hm) {
+		
+		return sqlSession.insert("companymapper.insertCompindus", hm);
+		
+	}
+	// 회사 번호 알아오기
+	public Company selectCompanyNo(SqlSessionTemplate sqlSession, String compName) {
+		
+		return sqlSession.selectOne("companymapper.selectCompanyNo", compName);
+	}
+	
+	
+		//sqlSession.insert("companymapper.insertCompany", c);
+				//	int compNo = 위에서 등록된 회사 조회
+				//		서비스 분야를 블 forEach( v
+				//		[1,3] 이 배열을 반복시켜서
+				//   	반복문 척 순회시 mapper로  1, compNo
+				//		반복문 두번째 순회시 mapper로  3, compNo
+				// 			v ,comNo 두개를
+				// )
+
+	
 }

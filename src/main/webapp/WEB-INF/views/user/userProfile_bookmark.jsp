@@ -86,6 +86,7 @@
                 <div class="just__text__item">
                 <c:forEach var="b" items="${blist}">
                 	<div class="bookmark__item__box">
+                	<input class='user-no' type="hidden" name="postNo" value='${loginUser.userNo }'>
 	                	<div class="bookmark__item__box__right" onclick='location.href="detail.re?rno=${b.recruitNo}"'>
 		                    <span class="just__text__title">${b.compName}</span>
 		                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
@@ -112,15 +113,7 @@
                 </div>
                 </c:forEach>
                 </div>
-                
-                <c:if test="${!empty blist && blistCount>pi.boardLimit}">
-					<div class="more">
-	                  <button class="btn" id="moreBtn" onclick="moreList(${loginUser.userNo},${pi.currentPage});">more</button>
-	                </div>
-                </c:if>
-                <c:if test="${empty blist}">
 					
-                </c:if>
             </div>
             </div>
                     
@@ -128,19 +121,76 @@
 
         </div>
     </div>
-            <script>
+            <script defer>
+            
+            const createBookmarkItem = (v,c)=>{
+            	const bookmarkItemBox = document.querySelector('.bookmark__item__box')
+            	/*북마크 공고 정보(회사,소개, 관련업무분야,마감일)*/
+            	const bookmarkItemRight = document.createElement('div');
+            		bookmarkItemRight.className='bookmark__item__box__right';
+            	const title= document.createElement('span');
+	            	title.className='just__text__title';
+	            	title.innerText=v.compName;
+            	const content = document.createElement('span');
+            		content.className='just__text__content';
+            	const contentTextStrong = document.createElement('strong');
+            		contentTextStrong.innerText=v.recruitTitle;
+            	let recruit = document.createElement('span');
+            		recruit.className='just__text__recruit';
+            		const recruitRequ = v.recruitRequ;           	
+            		if(v.recruitRequ =='0'){
+            			recruit.innerText='신입'
+            		}else if(v.recruitRequ =='1'){
+            			recruit.innerText='경력'
+            		}else if(v.recruitRequ =='2'){
+            			recruit.innerText='신입 경력'
+            		}
+            	const skillBox = document.createElement("div");
+            		skillBox.className='section__content__box';
+            	const skill = document.createElement('span');
+            		skill.className='compindus__box';
+            		skill.innerText=c
+            	const date = document.createElement('div');
+            		date.className='date'
+            		date.innerHtml=v.createdAt
+            		
+            	/*북마크 취소*/
+            	const bookmarkLeft = document.createElement('div');
+            		bookmarkLeft.className='bookmark__item__box__left';
+            	const bookmarkCencle = document.createElement('a');
+            		bookmarkCencle.className='section__content__title__cencle';
+            		bookmarkCencle.innerText='북마크 제외';
+            		
+            	content.appendChild(contentTextStrong);
+            	skillBox.appendChild(skill);	
+            	bookmarkLeft.appendChild(bookmarkCencle);
+            	bookmarkItemRight.appendChild(title);
+            	bookmarkItemRight.appendChild(content);
+            	bookmarkItemRight.appendChild(recruit);
+            	bookmarkItemRight.appendChild(skillBox);
+            	
+            	
+            }
             
           	
+            
+            
+            
             let currentPageNum = 2;
             window.addEventListener('scroll',()=>{
               if(window.pageYOffset + document.documentElement.clientHeight >
                       document.documentElement.scrollHeight - 1){
                 console.log('로드!')
-                axios.get('load.pos', {
+                axios.get('load.bk', {
                   params: {
                     currentPage: currentPageNum++
                   }
-                })
+                }) .then((result)=>{
+
+                    console.log(result);
+                  })
+                }
+              })
             
 
              function deleteBtn(bno,uno){

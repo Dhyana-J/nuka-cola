@@ -5,10 +5,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,6 +20,7 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.CompSub;
+import com.devcat.nucacola.member.model.vo.Member;
 
 @Controller
 public class SubscribeController {
@@ -69,33 +73,38 @@ public class SubscribeController {
 	}
 	
 	
-	// bookmark의 more버튼 클릭시 controller
-	@ResponseBody
-	@RequestMapping(value="/loadMore.bk", produces="text/html; charset=utf-8")
-	public void selectBookmark2(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-			int uno, Model model) {
+	
+	@RequestMapping(value = "load.bk",method = RequestMethod.GET)
+	public HashMap<String, Object> loadBookmark(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+								Model model,HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		int uno = m.getUserNo();
 		int blistCount = mService.countBookmark(uno);
 		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
-		
+		System.out.println(pi);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
 		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
-		System.out.println(skills.get(i).getSkillName());
-		String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
-		
-		List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
-		System.out.println(i);
-		System.out.println(skillsName);
-		int key=skills.get(i).getRecruitNo();
-		skillMap.put(key,skillsName);
+			System.out.println(skills.get(i).getSkillName());
+			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
+			
+			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
+				System.out.println(skillsName);
+				int key=skills.get(i).getRecruitNo();
+				skillMap.put(key,skillsName);
 
-		System.out.println(skillMap.get(1));
-
-		model.addAttribute("pi",pi);
-		model.addAttribute("skillMap",skillMap);
-		model.addAttribute("blist",blist);}
+			System.out.println(skillMap.get(1));
 		}
+		
+		HashMap<String, Object> result=new HashMap<>();
+		result.put("blistCount",blistCount);
+		result.put("skillMap",skillMap);
+		result.put("blist",blist);
+		
+		System.out.println(result);
+		return result;
+	}
 	
 	
 	

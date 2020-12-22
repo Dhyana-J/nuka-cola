@@ -92,8 +92,8 @@
 		 where comp_name = #{compName}
 	</select>
 	
-	<update id="insertCompindus">
-		 <foreach collection="indusNo" item="no" open="insert all" close="SELECT * FROM DUAL">
+	<insert id="insertCompindus" parameterType="CompIndus">
+   		 insert
    		  into compindus
    			 (
 		   		comp_no
@@ -104,8 +104,7 @@
                #{compNo}
              , #{indusNo}
              )
-         </foreach>
-	</update>
+	</insert>
 	
 	
 </mapper>

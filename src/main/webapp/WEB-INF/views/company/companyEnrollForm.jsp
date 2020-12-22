@@ -273,23 +273,5 @@
       </form>
       </div>
     </main>
-    <script defer>
-   		let arr1 = [];
-	    const checkBox = document.querySelectorAll(".comp-indus");
-	    checkBox.forEach((v) =>
-	      v.addEventListener("change", (e) => {
-	        if (v.checked) {
-	          arr1.push(parseInt(v.value));
-	        } else {
-	          const newArr = arr1.filter((item) => item !== parseInt(v.value));
-	          arr1 = newArr;
-	        }
-	      })
-	    );
-	    
-	    function add1() {
-	        axios.get("insert.blah?arr=" + JSON.stringify(arr1));
-	      }
-    </script>
   </body>
 </html>

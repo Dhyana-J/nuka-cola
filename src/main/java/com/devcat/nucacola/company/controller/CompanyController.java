@@ -57,7 +57,8 @@ public class CompanyController {
 		System.out.println(c);
 	}
 	*/
-	public String insertCompany(Company c,MultipartFile upfile,
+	public String insertCompany(@RequestParam(value ="compindus", required = false)String[]arr,
+								Company c,MultipartFile upfile,
 								HttpSession session, Model model) {
 		System.out.println(c);
 		//넘어온 파일이 있으면 파일명 수정
@@ -65,24 +66,22 @@ public class CompanyController {
 			String changeName = saveFile(session, upfile);
 			c.setCompLogo("resources/assets/" + changeName);
 		}
-		
 		// 회사테이블 insert
 		int result = cService.insertCompany(c);
-		
+		// 생성된 회사 조회
 		Company nc = new Company();
 		nc = cService.selectCompanyNo(c.getCompName());
-		// 분야식별자 번호를 알아오는 리스트 (기업식별자, 분야식별자)
 		if(result > 0) { //회사 insert 성공 시
-
+			
+		for(String e:arr) { //arr이란 배열에 반복문돌려서 담음 ex) [1,4] , [1,2]
 			// HashMap에 회사의 산업분야 컬럼값 담아둠
 			HashMap<String, Object> hm = new HashMap<String, Object>();
-			
 			hm.put("compNo", nc.getCompNo());
-			hm.put("indusNo", c.getIndusNo());
-			
+			hm.put("indusNo", Integer.parseInt(e));
+			System.out.println(e);
 			System.out.println(hm);
 			int result2 = cService.insertCompindus(hm);
-			
+		}
 			session.setAttribute("alertMsg", "성공적으로 회사가 등록되었습니다.");
 			return "redirect:list.co";
 		}else {

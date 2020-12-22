@@ -29,7 +29,7 @@ public class Company {
 	private String updatedAt;
 	private int userNo;
 	private int compPm;
-	//private int indusNo;   //산업분야 radio 추가 
+	private int indusNo;   //산업분야 radio 추가 
 
 	
 	

@@ -2,6 +2,8 @@ package com.devcat.nucacola.member.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,15 +62,18 @@ public class ConnectionController {
 		
 		int result = mService.cancelFollowing(new Connection(userNo,followingNo));
 		
+		int connectionCount = mService.countConnections(userNo);//팔로잉 삭제 후 연결된 사람 수(profile_following.jsp에서쓰임)
+		
 		HashMap<String,Integer> list = new HashMap<>();//뷰로 리턴할 HashMap
 		
-		if(result>0) {//팔로잉 추가 성공시
+		if(result>0) {//팔로잉 삭제 성공시
 			list.put("result",result);
 			list.put("followerNo",userNo);
 			list.put("followingNo",followingNo);
+			list.put("connectionCount",connectionCount);
 			return list;
 			
-		}else{//팔로잉 추가 실패시
+		}else{//팔로잉 삭제 실패시
 			list.put("result",result);
 			return list;
 		}

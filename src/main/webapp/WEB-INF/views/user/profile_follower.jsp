@@ -45,8 +45,8 @@
                 <span>Front-end Amazone AWS, github에 관심</span>
               </div>
               <ul class="people__info">
-                <li>팔로잉 <strong>${countFollowers }</strong></li>
-                <li>팔로워 <strong>${countFollowings }</strong></li>
+                <li>팔로워 <strong>${countFollowers }</strong></li>
+                <li>팔로잉 <strong>${countFollowings }</strong></li>
                 <li>연결 <strong>${countConnections }</strong></li>
               </ul>
             </div>
@@ -88,22 +88,32 @@
                         <strong>FOLLOWER</strong>
                     </div><br>
                           <span class="following__much">&nbsp;
-                            <strong>${count}</strong> 명을 팔로잉
+                            <strong>${count}</strong> 명이 팔로우
                           </span>
                     <br><br>
                     
                     <c:forEach var="userInfo" items="${follower}">
                     
-                      <div class="content__profile">
-                        <img class="circle" src="" alt="PROFILE">
-                        <div class="content__introduce">
-                            <strong>${userInfo.userName }</strong>
-                            <p>${userInfo.userComp}</p>
-                        </div>
-                   	  </div><!-- content__profile -->
-                        <span class="toProfile" onclick="location.href=''">프로필</span> &nbsp;
-                        <span class="toProfile">취소</span>
-                        
+	                    
+	                      <div class="content__profile">
+	                      
+	                      <c:choose>
+	                      	<c:when test="${userInfo.userAvatar eq null }">
+		                        <img class="circle" src="resources/assets/moomin.jpg" alt="img">
+	                      	</c:when>
+	                      	<c:otherwise>
+		                        <img class="circle" src="${pageContext.request.contextPath}/${userInfo.userAvatar} " alt="img">
+	                      	</c:otherwise>
+	                      </c:choose>
+	                      
+	                        <div class="content__introduce">
+	                            <strong>${userInfo.userName }</strong>
+	                            <p>${userInfo.userComp}</p>
+	                        </div>
+	                   	  </div><!-- content__profile -->
+	                        <span class="toProfile" onclick="location.href=''">프로필</span> &nbsp;
+	                        
+                    
                     </c:forEach>
                     
               
@@ -118,7 +128,9 @@
 
 
           </main>
-          
+
+
+<!-- 유저리스트 불러오는 자바스크립트 -->
 <script defer>
 
 	let userNo = ${loginUser.userNo};
@@ -132,24 +144,39 @@
 	const loadList = (list,area)=>{
 		list.forEach((v)=>{ //리스트의 각 요소 v에 대해
 
-			//유저이미지나 회사 비어있는 경우 ''로 대체
-			if(v.userAvatar==undefined) v.userAvatar='';
+			
+			//유저회사 비어있는 경우 ''로 대체
 			if(v.userComp==undefined) v.userComp='';
 
-			let profile =
-					 '<div class="content__profile">'
+			
+			let profile = '<div class="profile-wrapper">'
+					+'<div class="content__profile">';
+					
+				//유저이미지 없으면 기본이미지 세팅해준다.
+				if(v.userAvatar==undefined){
+					profile = profile
+					+'<img'
+					+' class="circle"'
+					+' src="resources/assets/moomin.jpg"'
+					+' alt="img"'+'/>';
+				}else{
+					profile = profile
 					+'<img'
 					+' class="circle"'
 					+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
-					+' alt="img"'+'/>'
+					+' alt="img"'+'/>';
+				}
+				
+				profile = profile
 					+'<div class="content_introduce">'
 					+'<strong>'+v.userName+'</strong>'
 					+'<p>'+v.userComp+'</p>'
 					+'</div>'
 					+'</div>'
-					+'<span class="toProfile" onclick="location.href='+'""'+'>프로필</span>&nbsp;'
-					+'<span class="toProfile">취소</span>';
+					+'<span class="toProfile" onclick="location.href='+'""'+'>프로필</span>';
+				+'</div>';
 			area.insertAdjacentHTML('beforeend',profile);
+
 		});
 	};
 	
@@ -185,9 +212,8 @@
 	  }
 	});
 		  
-
 </script>
-            	  
+
 
 </body>
 </html>

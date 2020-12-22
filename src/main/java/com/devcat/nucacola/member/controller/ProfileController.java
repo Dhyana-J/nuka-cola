@@ -4,20 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.devcat.nucacola.common.model.vo.Skills;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Carrer;
@@ -280,6 +277,25 @@ public class ProfileController {
 	
 	
 	
+	
+	//Test
+	   //https://stackoverflow.com/questions/37359851/how-to-receive-html-check-box-value-in-spring-mvc-controller
+	   //@RequestParam의 value는 넘어오는 input의 name속성과 맞춰주면됩니다
+	   //required = false는 이 값이 안넘어와도 예외발생 안하도록해주는거에용
+	   //https://velog.io/@hellozin/RequestParamrequired-false-%EC%A3%BC%EC%9D%98%ED%95%A0-%EC%A0%90
+	/*
+	 * @RequestMapping("testArray.us") public void testArray(@RequestParam(value =
+	 * "colors", required = false)String[] arr) {
+	 * 
+	 * System.out.println("testArray.us 실행됨");
+	 * 
+	 * for(String e:arr){ System.out.println(e); }
+	 * 
+	 * }
+	 */
+	
+	
+	
 	//프로필 인맥 More버튼 클릭 시 실행될 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="loadConnection.us",produces="application/json;charset=utf-8")
@@ -402,6 +418,8 @@ public class ProfileController {
 		PageInfo frPi=Pagination.getPageInfo(count, currentPage, 1, 3);
 		
 		ArrayList<Member> follower = mService.selectFollowers(userNo, frPi);
+		
+		System.out.println(follower.get(0).getUserAvatar());
 		
 		//뷰에서 쓰일 리스트카운트 세팅
 		model.addAttribute("count",count);

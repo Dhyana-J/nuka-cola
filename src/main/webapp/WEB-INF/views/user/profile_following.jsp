@@ -45,9 +45,9 @@
                 <span>Front-end Amazone AWS, github에 관심</span>
               </div>
               <ul class="people__info">
-               	<li>팔로잉 <strong>${countFollowers }</strong></li>
-                <li>팔로워 <strong>${countFollowings }</strong></li>
-                <li>연결 <strong>${countConnections }</strong></li>
+               	<li>팔로워 <strong>${countFollowers }</strong></li>
+                <li>팔로잉 <strong class="following-count">${countFollowings }</strong></li>
+                <li>연결 <strong class="connection-count">${countConnections }</strong></li>
               </ul>
             </div>
           </div>
@@ -88,21 +88,34 @@
                         <strong>FOLLOWING</strong>
                     </div><br>
                           <span class="following__much">&nbsp;
-                            <strong>${count}</strong> 명을 팔로잉
+                            <strong class="following-count">${count}</strong> 명을 팔로잉
                           </span>
                     <br><br>
                     
                     <c:forEach var="userInfo" items="${following}">
                     
-                      <div class="content__profile">
-                        <img class="circle" src="" alt="PROFILE">
-                        <div class="content__introduce">
-                            <strong>${userInfo.userName }</strong>
-                            <p>${userInfo.userComp}</p>
-                        </div>
-                   	  </div><!-- content__profile -->
-                        <span class="toProfile" onclick="location.href=''">프로필</span> &nbsp;
-                        <span class="toProfile">취소</span>
+	                	<div class="profile-wrapper">
+	                	
+		                      <div class="content__profile">
+		                      
+		                         <c:choose>
+			                      	<c:when test="${userInfo.userAvatar eq null }">
+				                        <img class="circle" src="resources/assets/conn.png" alt="img">
+			                      	</c:when>
+			                      	<c:otherwise>
+				                        <img class="circle" src="${pageContext.request.contextPath}/${userInfo.userAvatar} " alt="img">
+			                      	</c:otherwise>
+			                      </c:choose>
+			                      
+		                        <div class="content__introduce">
+		                            <strong>${userInfo.userName }</strong>
+		                            <p>${userInfo.userComp}</p>
+		                        </div>
+		                   	  </div><!-- content__profile -->
+		                        <span class="toProfile" onclick="location.href=''">프로필</span> &nbsp;
+		                        <span class="toProfile" onclick="cancelFollowing(event.target,${loginUser.userNo},${userInfo.userNo });">취소</span>
+		                        
+	                	</div>     
                         
                     </c:forEach>
                     
@@ -118,7 +131,8 @@
 
 
           </main>
-          
+
+<!-- 유저리스트 불러오는 자바스크립트 -->
 <script defer>
 
 	let userNo = ${loginUser.userNo};
@@ -131,25 +145,40 @@
 	//리스트 추가해주는 메소드
 	const loadList = (list,area)=>{
 		list.forEach((v)=>{ //리스트의 각 요소 v에 대해
-
-			//유저이미지나 회사 비어있는 경우 ''로 대체
-			if(v.userAvatar==undefined) v.userAvatar='';
+			
+			//유저회사 비어있는 경우 ''로 대체
 			if(v.userComp==undefined) v.userComp='';
 
-			let profile =
-					 '<div class="content__profile">'
+			
+			let profile = '<div class="profile-wrapper">'
+					+'<div class="content__profile">';
+					
+				//유저이미지 없으면 기본이미지 세팅해준다.
+				if(v.userAvatar==undefined){
+					profile = profile
+					+'<img'
+					+' class="circle"'
+					+' src="resources/assets/conn.png"'
+					+' alt="img"'+'/>';
+				}else{
+					profile = profile
 					+'<img'
 					+' class="circle"'
 					+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
-					+' alt="img"'+'/>'
+					+' alt="img"'+'/>';
+				}
+				
+				profile = profile
 					+'<div class="content_introduce">'
 					+'<strong>'+v.userName+'</strong>'
 					+'<p>'+v.userComp+'</p>'
 					+'</div>'
 					+'</div>'
-					+'<span class="toProfile" onclick="location.href='+'""'+'>프로필</span>&nbsp;'
-					+'<span class="toProfile">취소</span>';
+					+'<span class="toProfile" onclick="location.href='+'""'+'>프로필 &nbsp;&nbsp;&nbsp;</span>'
+					+'<span class="toProfile" onclick="cancelFollowing(event.target,${loginUser.userNo},'+v.userNo+');">취소</span>'
+				+'</div>';
 			area.insertAdjacentHTML('beforeend',profile);
+			
 		});
 	};
 	
@@ -166,17 +195,14 @@
 	    })
 	    .then(function(loadedInfo){
 	  	  	
-	    	let pi = loadedInfo.data.piBox[0];
-	    	let list = loadedInfo.data.following;
-	    	let area = document.querySelector('.following-list');
-	    	console.log('list출력');
-	    	console.log(list);
-	    	console.log('area출력');
-	    	console.log(area);
+	    	let pi = loadedInfo.data.piBox[0];//넘어온 페이지인포객체
+	    	let list = loadedInfo.data.following; //넘어온 following리스트
+	    	let area = document.querySelector('.following-list');//following리스트 담아줄 구역
+	    	
 	    	
 	    	loadList(list,area);
 	    	
-	    	if(pi.currentPage==pi.maxPage) stopLoad=true;
+	    	if(pi.currentPage==pi.maxPage) stopLoad=true; //현재페이지가 마지막페이지면 로드를 멈춰라!
 	    	
 		})
 		.catch(function(error){
@@ -187,7 +213,47 @@
 		  
 
 </script>
-            	  
+
+
+<!-- 팔로잉 취소 누르면 리스트에서 삭제해주는 자바스크립트 -->
+<script defer>
+
+	const cancelFollowing = (v,userNo,followingNo)=>{
+		
+		axios.get('cancelFollowing.conn',{
+			params:{
+				userNo:userNo,
+				followingNo:followingNo
+			}
+		})
+		.then(function(res){
+			if(res.data.result>0){
+				console.log('팔로잉 취소 성공!')
+				console.log(res.data.connectionCount);
+				//클릭된 버튼을 포함한 유저정보 요소를 화면에서 지워준다.(.profile-wrapper 요소들 모두 삭제)
+				v.parentNode.remove();
+				
+				// 뷰에 표시되는 팔로잉하는 사람 숫자 1 감소시켜준다.
+				document.querySelectorAll('.following-count').forEach((v)=>{
+					v.innerText--;
+				})
+				// 뷰에 표시되는 연결된 사람 숫자 업데이트
+				document.querySelector('.connection-count').innerText=res.data.connectionCount;
+				
+			}else{
+				alert('문제가 발생했습니다.');
+			}
+			
+			
+		})
+		.catch(function(error){
+			console.log(error);
+		});
+		
+		
+	}
+	
+</script>            	  
 
 </body>
 </html>

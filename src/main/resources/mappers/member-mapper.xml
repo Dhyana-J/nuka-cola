@@ -279,6 +279,7 @@
 			 , user_info
 			 , user_edu
 			 , user_avatar
+			 , user_comp
 	      from users
 	     where user_status != 1
          and user_no = #{userNo}

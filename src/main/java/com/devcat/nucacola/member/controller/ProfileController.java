@@ -57,14 +57,8 @@ public class ProfileController {
 		
 		if(result>0) {
 
-			Member loginUser = new Member();
-			loginUser = mService.loginMember(m);
 			
-			//System.out.println(loginUser);
-			
-			session.setAttribute("loginUser", loginUser);
-			
-			return "redirect:profile.me?userNo="+loginUser.getUserNo();
+			return "redirect:profile.me?userNo="+m.getUserNo();
 			
 		}else {
 			

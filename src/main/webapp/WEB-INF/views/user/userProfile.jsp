@@ -41,19 +41,20 @@
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="resources/assets/profile.png" alt="logo" />
+            <img id="profileAvatar" src="resources/assets/profile.png" alt="logo" />
+            <input type="file" name="avatarFile" id="avatar-file"/>
           </div>
           <div>
             <div class="main__info">
               <input type="hidden" name="email" value="${pUser.email }" id="main-info-email" />
               <input type="hidden" name="uno" value="${pUser.userNo }" id="main-info-userno" />
-              <strong>${ pUser.userName }</strong> <span>Apple.Inc</span>
+              <strong>${ pUser.userName }</strong> <span>${ pUser.userComp }</span>
               <span>Front-end Amazone AWS, github에 관심</span>
             </div>
             <ul class="people__info">
-              <li>팔로잉 <strong>102</strong></li>
-              <li>팔로워 <strong>502</strong></li>
-              <li>연결 <strong>102</strong></li>
+              <li>팔로잉 <strong>${ countFollowers ne null ? countFollowers : 0 }</strong></li>
+              <li>팔로워 <strong>${ countFollowings ne null ? countFollowings : 0 }</strong></li>
+              <li>연결 <strong>${ countConnections ne null ? countConnections : 0 }</strong></li>
             </ul>
           </div>
         </div>
@@ -891,9 +892,13 @@
 		}
 
 
-
-
-
+		/* 프로필 이미지 변경 */
+		
+		document.querySelector("#profileAvatar").addEventListener("click", () => {
+				
+			document.querySelector("#avatar-file").click();
+		
+		})
 
 	</script>
   </body>

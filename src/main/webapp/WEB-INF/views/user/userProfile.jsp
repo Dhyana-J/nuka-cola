@@ -924,6 +924,22 @@
 						
 					}
 					
+					/* 이제 이미지를 컨트롤러에 넘겨주기 위해 담아주자 */
+					const formData = new FormData();
+					
+					const image = fileList[0];
+					
+					// upfile로 파일 담아주기
+					formData.append('upfile',image);
+					formData.append('userNo',${pUser.userNo});
+					
+					axios.post('insert.ava',formData).then(()=>{})
+					.catch(function(error) {
+						console.log(error);
+					});
+					
+					
+					
 				}else {
 					
 					document.querySelector("#profileAvatar").setAttribute("src", "resources/assets/profile.png");

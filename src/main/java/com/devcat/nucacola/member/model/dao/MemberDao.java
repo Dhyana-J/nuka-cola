@@ -258,6 +258,11 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.cancelFollowing",conn);
 	}
 
+	public int insertAvatar(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.update("memberMapper.insertAvatar", m);
+	}
+
 	
 	
 	

@@ -12,7 +12,7 @@
 		<result column="user_status" property="status"/>
 		<result column="user_info" property="userInfo"/>
 		<result column="user_edu" property="userEdu"/>
-		<result column="user_avatar" property="userEdu"/>
+		<result column="user_avatar" property="userAvatar"/>
 		<result column="created_at" property="createdAt"/>
 		<result column="updated_at" property="updatedAt"/>
 		<result column="access_token" property="accessToken"/>
@@ -463,4 +463,17 @@
 		where comp_no=#{compNo} and
 		user_no=#{userNo}
 	</delete>
+	
+	
+	<update id="insertAvatar" parameterType="Member">
+	
+		update 
+			   users
+		   set user_avatar = #{userAvatar}
+		 where user_no = #{userNo}
+
+	</update>
+	
+	
+	
 </mapper>

@@ -4,20 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.devcat.nucacola.common.model.vo.Skills;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Carrer;
@@ -322,6 +318,28 @@ public class ProfileController {
 	}
 
 	
+	
+	
+	@RequestMapping("insert.ava")
+	public void insertAvatar(MultipartFile upfile, int userNo) {
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			
+			
+			Member m = new Member();
+			
+			String userAvatar = "resources/assets/" + upfile.getOriginalFilename();
+			
+			m.setUserAvatar(userAvatar);
+			m.setUserNo(userNo);
+			
+			int result = mService.insertAvatar(m);
+			
+			
+		}
+		
+		
+	}
 	
 	
 	

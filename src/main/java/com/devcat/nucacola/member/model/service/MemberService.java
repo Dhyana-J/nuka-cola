@@ -147,6 +147,8 @@ public interface MemberService {
 	// 유저 프로필용 기술 가져오기
 	ArrayList<Skills> selectUserSkill(int userNo);
 
+	int insertAvatar(Member m);
+
 	
 	
 	

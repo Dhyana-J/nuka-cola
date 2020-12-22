@@ -464,6 +464,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectSubComp(sqlSession, uno, pi);
 	}
 
+	@Override
+	public int insertAvatar(Member m) {
+		return mDao.insertAvatar(sqlSession, m);
+	}
+
 
 
 

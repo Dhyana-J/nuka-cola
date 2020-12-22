@@ -40,10 +40,15 @@
     <section class="visual__section">
       <div class="inner">
         <div class="visual__left">
+        
+        
           <div class="avatar">
-            <img id="profileAvatar" src="resources/assets/profile.png" alt="logo" />
-            <input type="file" name="avatarFile" id="avatar-file"/>
+            <img id="profileAvatar" alt="logo" src=" ${pUser.userAvatar eq null ? 'resources/assets/profile.png' : pUser.userAvatar  } "/>
+            <!-- 이미지 파일만 담을 수 있다. -->
+            <input type="file" name="avatarFile" id="avatar-file" accept="image/*"/>
           </div>
+          
+          
           <div>
             <div class="main__info">
               <input type="hidden" name="email" value="${pUser.email }" id="main-info-email" />
@@ -897,8 +902,46 @@
 		document.querySelector("#profileAvatar").addEventListener("click", () => {
 				
 			document.querySelector("#avatar-file").click();
+			
+			
+			document.querySelector("#avatar-file").addEventListener("change", (input) => {
+				
+				
+				
+					
+				let fileList = document.querySelector("#avatar-file").files;
+					
+				if(fileList.length == 1) {
+					// 파일 읽을 객체 생성
+					let reader = new FileReader();
+					
+					// 파일을 읽는 순간 고유한 url 부여
+					reader.readAsDataURL(fileList[0]);
+						
+					// 파일 읽기 완료시 실행할 함수
+					reader.onload = function(){
+						document.querySelector("#profileAvatar").setAttribute("src", reader.result);
+						
+					}
+					
+				}else {
+					
+					document.querySelector("#profileAvatar").setAttribute("src", "resources/assets/profile.png");
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+			})
+					
+
+			});
 		
-		})
+		
 
 	</script>
   </body>

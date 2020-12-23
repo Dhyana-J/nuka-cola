@@ -40,7 +40,9 @@ public class SubscribeController {
 	// 북마크 조회
 	@RequestMapping("/list.bk")
 	public String selectBookmark(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-								int uno, Model model) {
+								 Model model,HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		int uno = m.getUserNo();
 		int blistCount = mService.countBookmark(uno);
 		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
 		System.out.println(pi);
@@ -73,7 +75,7 @@ public class SubscribeController {
 	}
 	
 	
-	
+	@ResponseBody
 	@RequestMapping(value = "load.bk",method = RequestMethod.GET)
 	public HashMap<String, Object> loadBookmark(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 								Model model,HttpSession session) {
@@ -81,7 +83,6 @@ public class SubscribeController {
 		int uno = m.getUserNo();
 		int blistCount = mService.countBookmark(uno);
 		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
-		System.out.println(pi);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
@@ -90,7 +91,6 @@ public class SubscribeController {
 			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
 			
 			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
-				System.out.println(skillsName);
 				int key=skills.get(i).getRecruitNo();
 				skillMap.put(key,skillsName);
 
@@ -98,7 +98,6 @@ public class SubscribeController {
 		}
 		
 		HashMap<String, Object> result=new HashMap<>();
-		result.put("blistCount",blistCount);
 		result.put("skillMap",skillMap);
 		result.put("blist",blist);
 		
@@ -111,8 +110,11 @@ public class SubscribeController {
 	// 북마크 취소
 	@ResponseBody
 	@RequestMapping(value="/delete.bk", produces="text/html; charset=utf-8")
-	public void deleteBookmark(Bookmark bm) {
-		System.out.println(bm);
+	public void deleteBookmark(Bookmark bm,HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		bm.setUserNo(m.getUserNo());
+		System.out.println("넘어온 ㅠㅡ:"+bm);
 		int result = mService.deleteBookmark(bm);
 
 //		return "redirect:list.bk?uno="+bm.getRecruitNo();

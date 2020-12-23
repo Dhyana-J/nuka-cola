@@ -86,8 +86,8 @@
                 <div class="just__text__item">
                 <c:forEach var="b" items="${blist}">
                 	<div class="bookmark__item__box">
-                	<input class='user-no' type="hidden" name="postNo" value='${loginUser.userNo }'>
-	                	<div class="bookmark__item__box__right" onclick='location.href="detail.re?rno=${b.recruitNo}"'>
+                	<input class='recruit-no' type="hidden" name="recruitNo" value='${b.recruitNo}'>
+	                	<div class="bookmark__item__box__right">
 		                    <span class="just__text__title">${b.compName}</span>
 		                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
 		                    
@@ -108,7 +108,7 @@
 							<div class="date">${b.createdAt}</div>
 	                	</div> 
 		                <div class="bookmark__item__box__left">
-		                	<a class="section__content__title__cencle" onclick="deleteBtn(${b.recruitNo},${b.userNo});">북마크 제외</a>
+		                	<a class="section__content__title__cencel">북마크 제외</a>
 		                </div>           
                 </div>
                 </c:forEach>
@@ -123,8 +123,15 @@
     </div>
             <script defer>
             
-            const createBookmarkItem = (v,c)=>{
-            	const bookmarkItemBox = document.querySelector('.bookmark__item__box')
+            const createBookmarkItem =(v,i)=>{
+            	console.log(i);
+            	const itemList = document.querySelector('.just__text__item');
+            	const bookmarkItemBox = document.createElement('div');
+            		bookmarkItemBox.className='bookmark__item__box';
+            	const recruitNo = document.createElement('input')
+            		recruitNo.className="recruit-no";
+            		recruitNo.value=v.recruitNo;
+            		recruitNo.type="hidden";
             	/*북마크 공고 정보(회사,소개, 관련업무분야,마감일)*/
             	const bookmarkItemRight = document.createElement('div');
             		bookmarkItemRight.className='bookmark__item__box__right';
@@ -139,43 +146,51 @@
             		recruit.className='just__text__recruit';
             		const recruitRequ = v.recruitRequ;           	
             		if(v.recruitRequ =='0'){
-            			recruit.innerText='신입'
+            			recruit.innerText='신입';
             		}else if(v.recruitRequ =='1'){
-            			recruit.innerText='경력'
+            			recruit.innerText='경력';
             		}else if(v.recruitRequ =='2'){
-            			recruit.innerText='신입 경력'
+            			recruit.innerText='신입 경력';
             		}
             	const skillBox = document.createElement("div");
-            		skillBox.className='section__content__box';
-            	const skill = document.createElement('span');
-            		skill.className='compindus__box';
-            		skill.innerText=c
+            		  skillBox.className = "section__content__box";
+            		  i.forEach((v) => {
+            		    const skill = document.createElement("span");
+            		    skill.className = "compindus__box";
+            		    skill.innerText = "" + v;
+            		    skillBox.appendChild(skill);
+            		  });
+
             	const date = document.createElement('div');
-            		date.className='date'
-            		date.innerHtml=v.createdAt
+            		date.className='date';
+            		date.innerText=v.createdAt;
             		
             	/*북마크 취소*/
             	const bookmarkLeft = document.createElement('div');
             		bookmarkLeft.className='bookmark__item__box__left';
             	const bookmarkCencle = document.createElement('a');
-            		bookmarkCencle.className='section__content__title__cencle';
+            		bookmarkCencle.className='section__content__title__cencel';
             		bookmarkCencle.innerText='북마크 제외';
             		
-            	content.appendChild(contentTextStrong);
-            	skillBox.appendChild(skill);	
+            	content.appendChild(contentTextStrong);	
             	bookmarkLeft.appendChild(bookmarkCencle);
             	bookmarkItemRight.appendChild(title);
             	bookmarkItemRight.appendChild(content);
             	bookmarkItemRight.appendChild(recruit);
             	bookmarkItemRight.appendChild(skillBox);
-            	
-            	
+            	bookmarkItemRight.appendChild(date);
+            	bookmarkItemBox.appendChild(bookmarkItemRight);
+            	bookmarkItemBox.appendChild(bookmarkLeft);
+            	itemList.appendChild(bookmarkItemBox);
+
+
             }
             
           	
             
             
-            
+            /*페이지*/
+
             let currentPageNum = 2;
             window.addEventListener('scroll',()=>{
               if(window.pageYOffset + document.documentElement.clientHeight >
@@ -187,28 +202,57 @@
                   }
                 }) .then((result)=>{
 
-                    console.log(result);
+                    result.data["blist"].forEach((v) => {
+                      createBookmarkItem(v, result.data["skillMap"][v.recruitNo]);
+                    });
+                    window.load = check();
                   })
                 }
-              })
+              });
             
+            
+            const cancel =()=>{
+			  document.querySelectorAll('.section__content__title__cencel').forEach((v,i)=>{
+				  console.log(v);
+		            v.addEventListener('click',()=>{
+		          	  
+			              let item = document.querySelectorAll('.bookmark__item__box')[i];
+			              let rno = item.querySelector('.recruit-no');
+			              console.log(rno);
+			              /*
+			              axios.get('delete.bk',{
+			         		 params:{
+			         			recruitNo:document.querySelectorAll('.recruit-no')[i].value
+			         		 }
+			         	 })
+			         	 .then(function(){
+			         		 alert("북마크가 취소되었습니다.");	
+			         	 });
+			              */
+			              item.remove(); 
 
-             function deleteBtn(bno,uno){
-            	 console.log(bno);
-            	 console.log(uno);
-            	 axios.get('delete.bk',{
-            		 params:{
-            			 userNo:uno,
-            			 recruitNo:bno,
-            		 }
-            	 })
-            	 .then(function(){
-            		 alert("북마크취소 되었습니다.");
-            		 location.href="list.bk?uno="+uno;
-            	 })
-            	 
+		       	    });
+		  	      });
+            }		  
+            const href =()=>{
+					 document.querySelectorAll('.bookmark__item__box__right').forEach((v,i)=>{
+			              v.addEventListener('click',()=>{
+				              let rno = document.querySelectorAll('.recruit-no')[i];
+				              console.log(rno);
+				             //location.href="detail.re?rno="+rno;
+				         	 
+			         	    });
+			    	      });
             }
+            
+            const check = ()=>{cancel(); href(); }
+
             </script>
+
+
+
+  	      
+
           </main>
           <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -105,14 +105,6 @@
                           </div>
 
                    	 </c:forEach>
-                   	<c:if test="${empty cslist}">
-						
-	                </c:if>
-	                <c:if test="${!empty cslist && csCount>pi.boardLimit}}">
-						<div class="more">
-		                  <button class="btn" id="moreBtn" onclick="moreList(${loginUser.userNo},${pi.currentPage});">more</button>
-		                </div>
-	                </c:if>
 
 
 
@@ -124,14 +116,12 @@
 
 
             <script der>
+            const createScriptItem = (v,i,c=0)=>{
+            const itemList= document.querySelect(".content__wrapper");
+            const itemBox = document.createElement(".");
+            }
             
             
-            
-            if(${pi.currentPage== pi.maxPage}){
-  			let moreBtn = document.querySelector('#moreBtn');
-  			moreBtn.setAttribute('disabled',true);
-  				
-  		    }
 
             function CSdeleteBtn(cs,uno){
            	 console.log(cs);

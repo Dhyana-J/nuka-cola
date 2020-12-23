@@ -271,14 +271,14 @@ gap:7px;
 }
 .main__section__right .content__wrapper {
 }
-.section__content__title__cencle {
+.section__content__title__cencel {
   display: flex;
   justify-content: flex-end;
   color: #9b0404;
   font-size: 12px;
   cursor: pointer;
 }
-.section__content__title__cencle:hover {
+.section__content__title__cencel:hover {
   color: #410202;
 }
 .date{

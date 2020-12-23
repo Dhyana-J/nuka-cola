@@ -92,7 +92,7 @@
             </div>
             <div class="section__search-result">
               <div class="section__search-result-top">
-                <span>검색결과 (${ fn:length(list)}개)</span>
+                <span id="search-result-length">검색결과 (${ fn:length(list)}개)</span>
                 <div class="section__sort">
                   <a href="">최신순</a>
                   <a href="">인기순</a>
@@ -181,6 +181,7 @@
         	res.data.forEach(v=>{
         		makeElement(v);
         	})
+            document.querySelector('#search-result-length').innerText = "검색결과("+ document.querySelectorAll('.section__result__detail').length +")"
           })
       	}
     })

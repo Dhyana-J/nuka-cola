@@ -34,7 +34,7 @@
       <div class="inner">
         <div class="page-route"><span>HOME/PARTNER</span></div>
       </div>
-    </div>
+
       <section class="connecting__section">
         <div class="inner">
           <div class="connecting__left">
@@ -243,11 +243,10 @@
               </div>
             </div>
 
-
+            </div>
         </div>
       </main>
-      
-      <button type="button" class="btn" onclick="addFollowing(${loginUser.userNo},37,event);">테스트야!</button>
+
       <!-- 푸터 포함 -->
       <jsp:include page="../common/footer.jsp"/>
       

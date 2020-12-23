@@ -535,7 +535,7 @@
 				}
 						
 					profile = profile 
-						+'<div class="content_introduce">'
+						+'<div class="content__introduce">'
 						+'<strong>'+v.userName+'</strong>'
 						+'<p>'+v.userComp+'</p>'
 						+'</div>'
@@ -680,18 +680,6 @@
 
 
 
-		/* 한줄 소개 토글 */
-		const oneLineToggle = () => {
-			document
-					.querySelector("#one-line-info")
-					.classList.toggle("edit-disable");
-			document
-					.querySelector("#one-line-input")
-					.classList.toggle("edit-disable");
-
-         location.href ="update.position.us?userPosi=" + userPosi + "&userNo=" + userNo + "&email=" + email;
-
-      }
 
 
 

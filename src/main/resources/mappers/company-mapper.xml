@@ -107,4 +107,29 @@
 	</insert>
 	
 	
+	<update id="insertTech">
+			<!-- collection = 반복문 돌릴 list의 이름 item : list안에서 순차적으로 접근할 값 변수명-->
+		<foreach collection="skillsNo" item="no" open="insert all" close="SELECT * FROM DUAL">
+			
+			into tech_stacks
+			(
+			   comp_no
+			 , skill_no
+			 , stacks_posi
+			 , created_at
+			)
+			values
+			(
+			   #{compNo}
+			  ,#{no}
+			  ,#{backNo}
+			  ,default
+			)
+		
+		</foreach>
+
+	</update>
+	
+	
+	
 </mapper>

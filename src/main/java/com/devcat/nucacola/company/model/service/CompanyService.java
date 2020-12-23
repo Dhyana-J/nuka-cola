@@ -35,6 +35,10 @@ public interface CompanyService {
 	int deleteCompany(int cno);
 	
 	
+	//6. 이게 뭔줄 아느냐? 바로 기업 테크스택 등록용
+	int insertTech(HashMap<String, Object> backMap);
+	
+	
 	
 	
 }

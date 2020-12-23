@@ -51,6 +51,11 @@ public class CompanyDao {
 		
 		return sqlSession.selectOne("companymapper.selectCompanyNo", compName);
 	}
+
+	public int insertTech(SqlSessionTemplate sqlSession, HashMap<String, Object> backMap) {
+		
+		return sqlSession.insert("companymapper.insertTech",backMap);
+	}
 	
 	
 		//sqlSession.insert("companymapper.insertCompany", c);

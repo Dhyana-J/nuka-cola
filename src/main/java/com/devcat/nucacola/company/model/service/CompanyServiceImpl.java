@@ -69,6 +69,12 @@ public class CompanyServiceImpl implements CompanyService{
 		return cDao.selectCompanyNo(sqlSession, compName);
 	}
 
+	@Override
+	public int insertTech(HashMap<String, Object> backMap) {
+		
+		return cDao.insertTech(sqlSession,backMap);
+	}
+
 
 
 	

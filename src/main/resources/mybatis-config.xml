@@ -18,6 +18,8 @@
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Bookmark" alias="Bookmark"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.CompSub" alias="CompSub"/>
 		<typeAlias type="com.devcat.nucacola.company.model.vo.CompIndus" alias="CompIndus"/>
+		<typeAlias type="com.devcat.nucacola.member.model.vo.Project" alias="Project"/>
+		<typeAlias type="com.devcat.nucacola.member.model.vo.Career" alias="Career"/>
 	</typeAliases>
 	
 	<!-- 원래 DB접속 관련된 내용들을 작성했으나 다룬곳에서 작성 -->
@@ -25,5 +27,6 @@
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/company-mapper.xml"/>
 		<mapper resource="/mappers/post-mapper.xml"/>
+		<mapper resource="/mappers/project-mapper.xml"/>
 	</mappers>
 </configuration>

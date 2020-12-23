@@ -24,9 +24,10 @@ import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.member.model.vo.Bookmark;
-import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
@@ -357,19 +358,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
-
+	
 	@Override
 	public int updateUserPosi(Member m) {
 		// TODO Auto-generated method stub
 		return mDao.updateUserPosi(sqlSession,m);
 	}
-
+	// 프로젝트 입력
 	@Override
 	public int insertProject(Project p) {
 		// TODO Auto-generated method stub
 		return mDao.insertProject(sqlSession,p);
 	}
-
+	// 프로젝트 수정
 	@Override
 	public int updateProject(Project p) {
 
@@ -397,17 +398,17 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateUserEdu(sqlSession,m);
 	}
 
-
+	// 경력 입력
 	@Override
-	public int insertCarrer(Carrer c) {
+	public int insertCareer(Career c) {
 		// TODO Auto-generated method stub
-		return mDao.insertCarrer(sqlSession,c);
+		return mDao.insertCareer(sqlSession,c);
 	}
 
 	@Override
-	public int updateCarrer(Carrer c) {
+	public int updateCareer(Career c) {
 		// TODO Auto-generated method stub
-		return mDao.updateCarrer(sqlSession,c);
+		return mDao.updateCareer(sqlSession,c);
 	}
 
 
@@ -468,6 +469,23 @@ public class MemberServiceImpl implements MemberService {
 	public int insertAvatar(Member m) {
 		return mDao.insertAvatar(sqlSession, m);
 	}
+
+	public ArrayList<Project> selectProjectList(int userNo) {
+		// TODO Auto-generated method stub
+		return mDao.selectProjectList(sqlSession, userNo);
+	}
+
+	@Override
+	public ArrayList<Career> selectCareerList(int userNo) {
+		return mDao.selectCareerList(sqlSession, userNo);
+	}
+
+	@Override
+	public Company selectComNo(int userNo) {
+		return mDao.selectCompNo(sqlSession, userNo);
+	}
+
+
 
 
 

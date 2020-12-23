@@ -7,8 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.vo.Bookmark;
-import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
@@ -88,7 +89,8 @@ public interface MemberService {
 	
 	
 	
-	
+	// 프로젝트 조회
+	ArrayList<Project> selectProjectList(int userNo);
 	// 프로젝트 입력
 	int insertProject(Project p);
 	// 프로젝트 수정
@@ -104,13 +106,13 @@ public interface MemberService {
 	String selectUserEdu(int userNo);
 
 	// 경력 입력
-	int insertCarrer(Carrer c);
+	int insertCareer(Career c);
 	// 경력 수정
-	int updateCarrer(Carrer c);
+	int updateCareer(Career c);
+
 	
-	
-	
-	
+	// 경력 조회
+	ArrayList<Career> selectCareerList(int userNo);
 	
 	// 북마크 추가
 
@@ -133,19 +135,19 @@ public interface MemberService {
 	
 	// 기업 구독 취소	
 	int deleteSubComp(CompSub cs);
-	
 
-
-
-	
-	
-	
-	
 	// 유저 프로필 가져오기
 	Member selectUserProfile(int userNo);
 	
 	// 유저 프로필용 기술 가져오기
 	ArrayList<Skills> selectUserSkill(int userNo);
+	
+	// 기업식별자 가져오기
+	Company selectComNo(int userNo);
+	
+
+
+	
 
 	int insertAvatar(Member m);
 

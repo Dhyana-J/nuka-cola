@@ -18,7 +18,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
-import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
@@ -174,7 +174,7 @@ public class ProfileController {
 		
 	}
 	
-
+	
 
 	// 업무 분야 수정
 	@RequestMapping("/update.position.us")
@@ -200,7 +200,7 @@ public class ProfileController {
 		
 	}
 	
-	
+
 	// 프로젝트 입력
 	@RequestMapping("/insert.project.us")
 	public String insertProject(Project p, Model model) {
@@ -208,23 +208,23 @@ public class ProfileController {
 		int result = mService.insertProject(p);
 		
 		if(result >0) {
-			return "redirect:profile.me";
+			return "redirect:profile.me?userNo="+p.getUserNo();
 		}else {
 			model.addAttribute("errorMsg","입력실패");
 			return "common/errorPage";
-		}
-		
+		}	
 	}
 	
+
 	// 프로젝트 수정
 	@RequestMapping("/update.project.us")
 	public String updateProject(Project p, HttpSession session, Model model) {
 		
+		System.out.println(p);
 		int result = mService.updateProject(p);
-		
+				
 		if(result > 0) {
-
-			return "redirect:profile.me";
+			return "redirect:profile.me?userNo="+p.getUserNo();
 		}else {
 			model.addAttribute("errorMsg","입력 실패");
 			return "common/errorPage";
@@ -240,19 +240,10 @@ public class ProfileController {
 		
 		int result = mService.updateUserEdu(m);
 		
-		
 		if(result > 0) {
-			
-			Member loginUser = new Member();
-			loginUser = mService.loginMember(m);
-			
-			session.setAttribute("loginUser", loginUser);
-			
-			return "redirect:profile.me";
-			
+			return "redirect:profile.me?userNo="+ m.getUserNo();
 		}else {
 			model.addAttribute("errorMsg","입력 실패");
-			
 			return "common/errorPage";
 		}
 		
@@ -261,12 +252,24 @@ public class ProfileController {
 
 	// 경력 입력
 	@RequestMapping("/insert.career.us")
-	public String insertCareer(Carrer c) {
-		return "/main";
+	public String insertCareer(Career c, HttpSession session, Model model) {
+	
+		int result = mService.insertCareer(c);
+		
+		if(result >0) {
+			return "redirect:profile.me?userNo="+c.getUserNo();
+		}else {
+			model.addAttribute("errorMsg","입력실패");
+			return "common/errorPage";
+			
+		}
 	}
+	
+
+	
 	// 경력 수정
 	@RequestMapping("/update.career.us")
-	public String updateCareer(Carrer c) {
+	public String updateCareer(Career c) {
 		return "/main";
 	}
 	

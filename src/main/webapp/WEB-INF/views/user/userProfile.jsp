@@ -22,7 +22,7 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/profile/profile__main.css" />
-    <link rel="”stylesheet”" href="”icono.min.css”" />
+    <link rel="stylesheet" href="icono.min.css" />
     <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css" />
     <script
       type="text/javascript"
@@ -88,8 +88,8 @@
             </div>
           </div>
           <span class="just__text" id="one-line-info">
-		
-            		${pUser.userInfo}<br />
+      
+                  ${pUser.userInfo}<br />
 
           </span>
           <div id="one-line-input" class="edit-disable">
@@ -125,34 +125,34 @@
               </div>
               <ul  id="user-filed-list" class="section__content__box">
               
-               		<c:forEach var="i" items="${skillList}" varStatus="status">
-               			<li >
-						<span class="compindus__box">${ i.skillName }</span>
-						<i id="${i.skillName }" class="material-icons">close</i>
-						</li>
-	              	</c:forEach>
+                     <c:forEach var="i" items="${skillList}" varStatus="status">
+                        <li >
+                  <span class="compindus__box">${ i.skillName }</span>
+                  <i id="${i.skillName }" class="material-icons">close</i>
+                  </li>
+                    </c:forEach>
               </ul>
               <div id="user-filed-input" class="edit-disable">
-              		<!-- 기술 검색  -->
-	              	
-	              	
-	              	
-	              	<input type="text" id="user-filed-search" />
-	              
-	              	<!-- 기술 관련 검색어 자리  -->
-	              	<div id="user-filed-search-list">
-					
+                    <!-- 기술 검색  -->
+                    
+                    
+                    
+                    <input type="text" id="user-filed-search" />
+                 
+                    <!-- 기술 관련 검색어 자리  -->
+                    <div id="user-filed-search-list">
+               
 
-					
-	              	</div>
-	              	
-	              	<br />
-	              	<!-- 기술 관련 검색어 입력 결과자리  -->
-						<ul class="result_tag"></ul>
-	              	
-	              	<br />
-					
-					<button type="button" id="user-filed-final-btn" class="btn">등록</button>
+               
+                    </div>
+                    
+                    <br />
+                    <!-- 기술 관련 검색어 입력 결과자리  -->
+                  <ul class="result_tag"></ul>
+                    
+                    <br />
+               
+               <button type="button" id="user-filed-final-btn" class="btn">등록</button>
 
               </div>
             </div>
@@ -168,147 +168,206 @@
               </div>
               
               <span class="just__text" id="position-name"> 
-				<c:choose>
-					<c:when test="${pUser.userPosi eq '0' }">
-						기획자
-					</c:when>
-					
-					<c:when test="${pUser.userPosi eq '1' }">
-						개발자
-					</c:when>
-					
-					<c:when test="${pUser.userPosi eq '2' }">
-						디자이너
-					</c:when>
-					
-				</c:choose>		
+            <c:choose>
+               <c:when test="${pUser.userPosi eq '0' }">
+                  기획자
+               </c:when>
+               
+               <c:when test="${pUser.userPosi eq '1' }">
+                  개발자
+               </c:when>
+               
+               <c:when test="${pUser.userPosi eq '2' }">
+                  디자이너
+               </c:when>
+               
+            </c:choose>      
               </span>
-            	
-	           <div id="position-input" class="edit-disable">
-	           <!-- select 박스 크기 조정 하는방법 -->
-	            <select id="position-num">
-	            	<option value="0">기획자</option>
-	            	<option value="1">개발자</option>
-	            	<option value="2">디자이너</option>
-	            
-	            </select>
-	            <button type="button" onclick="sendUserPosi();" class="btn">등록</button>
-	          </div>
-	          
+               
+              <div id="position-input" class="edit-disable">
+              <!-- select 박스 크기 조정 하는방법 -->
+               <select id="position-num">
+                  <option value="0">기획자</option>
+                  <option value="1">개발자</option>
+                  <option value="2">디자이너</option>
+               
+               </select>
+               <button type="button" onclick="sendUserPosi();" class="btn">등록</button>
+             </div>
+             
             </div>
             
             
             
+         <!-- 프로젝트 입력폼 -->
+         <div class="content__wrapper">
+
+            <div class="section__content__title">
+
+               <strong>프로젝트</strong>
+
+               <div onclick="projectToggle()" class="edit__field">
+                  <i id="project-btn" class="material-icons">create</i>
+               </div>
+               
+            </div>
+            <span class="just__text" id="project-name">
             
-			<div class="content__wrapper">
+            <c:forEach var="p" items="${ projectList }">
+              <div>
+               <ul class="user__project__section">
+                 <li>${p.projectName }</li>
+                 <li>${p.projectPosition }</li>
+                 <li>${p.projectStart } ~ ${p.projectEnd }</li>
+               </ul> 
+              </div>
+             </c:forEach>
+            </span>
+            
+            <div class="edit-disable" id="project-input">
+			<br><br>
+              <form action="insert.project.us" method="post">
+               	<input type="hidden" name="userNo" value="${ pUser.userNo }">
+                 
+                 <span>프로젝트명 :</span>
+                 <input type="text" name="projectName" placeholder="예) 야후코리아 폐쇄">
+                 <br>
+                 <br>
+                
+                 <span>주요업무 : </span> 
+                 <input type="text" name="projectPosition" placeholder=" 주요업무를 입력해주세요 예) Front-end"> 
+                 <br>
+                 <br>
+               
+                 <span>기간 : </span>
+                 <input type="text" name="projectStart" placeholder="시작기간을 입력해주세요 예) 2020.01.01"> ~
+                 <input type="text" name="projectEnd" placeholder="마친기간을 입력해주세요">
+                 <br> <br><br>
+                 
+                 
+                  <div>
+                    <button type="submit" class="btn">등록</button>
+                  </div>
+               
+              </form>
+            </div>
+         </div>
+         <!-- 학력폼 -->
+         <div class="content__wrapper">
+            <div class="section__content__title">
+               <strong>최종학력</strong>
+               <div onclick="threeLineToggle()" class="edit__field">
+                  <i id="one-line-btn" class="material-icons">create</i>
+               </div>
+            </div>
+            
+            <span class="just__text" id="three-line-edu">
 
-				<div class="section__content__title">
+               ${pUser.userEdu} </span>
 
-					<strong>프로젝트</strong>
+            <div id="three-line-input" class="edit-disable">
+               <textarea name="userEdu" id="three-line-user-edu"
+                  placeholder="예) 한국대학교 이순신학과 졸업"></textarea>
+               <button type="button" class="btn" onclick="sendUserEdu();">등록</button>
+            </div>
 
-					<div onclick="projectToggle()" class="edit__field">
-						<i id="project-btn" class="material-icons">create</i>
-					</div>
-					
-				</div>
-				<span class="just__text" id="project-name">
-				  <div>
-					<ul class="user__project__section">
-					  <li>야후코리아 페쇄</li>
-					  <li>백엔드</li>
-					  <li>2020/01/01 ~ 2020/04/05</li>
-					</ul> 
-				  </div>
-				</span>
-				<div class="edit-disable" id="project-input">
-
-				  <form action="update.project" method="post">
-					
-					  <span>프로젝트명 : </span>
-					  <input type="text" name="projectName" placeholder="예) 야후코리아 폐쇄">
-					  <br>
-					  <br>
-					 
-					  <span>주요업무 : </span> 
-					  <input type="text" name="pPosition" placeholder=" 주요업무를 입력해주세요 예) Front-end"> 
-					  <br>
-					  <br>
-					
-					  <span>기간 : </span>
-					  <input type="text" name="projectStart" placeholder="시작기간을 입력해주세요 예) 2020.01.01"> ~
-					  <input type="text" name="projectEnd" placeholder="마친기간을 입력해주세요">
-					  <br> <br><br>
-						<div id="">
-						  <button type="button" onclick="sendUserProject();" class="btn">등록</button>
-						</div>
-				   
-				  </form>
-
-				</div>
-
-			</div>
-			<div class="content__wrapper">
-				<div class="section__content__title">
-					<strong>최종학력</strong>
-					<div onclick="threeLineToggle()" class="edit__field">
-						<i id="one-line-btn" class="material-icons">create</i>
-					</div>
-				</div>
-				<span class="just__text" id="three-line-edu">
-
-					${loginUser.userEdu} </span>
-
-				<div id="three-line-input" class="edit-disable">
-					<textarea name="userEdu" id="three-line-user-edu"
-						placeholder="예) 한국대학교 이순신학과 졸업"></textarea>
-					<button type="button" class="btn" onclick="sendUserEdu();">등록</button>
-				</div>
-
-			</div>
-
-			<div class="content__wrapper">
-				<div class="section__content__title">
-				  <strong>인맥</strong>
-				</div>
-				
-				<div class="connection__section__wrapper">
+         </div>
+	
+		<!-- 경력 폼 -->
+         <div class="content__wrapper">
+	         <div class="section__content__title">
+	            <strong>경력</strong>
+	            <div onclick="careerToggle()" class="edit__field" >
+	               <i id="career-btn" class="material-icons">create</i>
+	             </div>
+	           </div>
+	           <span class="just__text" id="career-name">
+	           <c:forEach var="c" items="${ careerList }">
+	              <div>
+	               <ul class="user__career__section">
+	                 <li>스타벅스 </li>
+	                 <li>${ c.careerPosi }</li>
+	                 <li>${ c.enteredAt } ~ ${ c.updatedAt}</li>
+	               </ul> 
+	              </div>
+	           </c:forEach>
+            	</span>
+	         
+	         <div class="edit-disable" id="career-input">
+			 <br><br>
+              <form action="insert.career.us" method="post">
+              
+               	<input type="hidden" name="userNo" value="${ pUser.userNo }">
+                 <input type="hidden" name="compNo" value="">
+                 <span>기업명 :</span>
+                 <input type="text" name="compName" placeholder="예) 구글코리아">
+                 <br>
+                 <br>
+                
+                 <span>포지션 : </span> 
+                 <input type="text" name="careerPosi" placeholder=" 주요업무를 입력해주세요 예) Front-end"> 
+                 <br>
+                 <br>
+               
+                 <span>기간 : </span>
+                 <input type="text" name="enteredAt" placeholder="시작기간을 입력해주세요 예) 2020.01.01"> ~
+                 <input type="text" name="updatedAt" placeholder="마친기간을 입력해주세요">
+                 <br> <br><br>
   
-					<div class="section__member section__connection">
-						<div class="section__header">
-						  <strong>팔로워</strong>
-						</div>
+                 <div>
+                   <button type="submit" class="btn">등록</button>
+                 </div>   
+              </form>
+            </div>
+              	
+          </div>
+         
+         
+         
+         
+
+         	<div class="content__wrapper">
+            <div class="section__content__title">
+              <strong>인맥</strong>
+            </div>
+            
+            
+            <div class="connection__section__wrapper">
   
-						<!--팔로워 리스트-->
-						
-						<c:forEach var="follower" items="${pCon.get('followers')}">
-						
-							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
-								<input type="hidden" name="userNo" value="${follower.userNo}"/>
-								<div class="content__profile">
-								
-									<c:choose>
-				                      	<c:when test="${follower.userAvatar eq null }">
-					                        <img class="circle" src="resources/assets/moomin.jpg" alt="img">
-				                      	</c:when>
-				                      	<c:otherwise>
-					                        <img class="circle" src="${pageContext.request.contextPath}/${follower.userAvatar} " alt="img">
-				                      	</c:otherwise>
-			                      	</c:choose>
-			                      	
-									<div class="content__introduce">
-									  <strong>${follower.userName}</strong>
-									  <p>${follower.userComp}</p>
-									</div>
-								</div><!--content__profile-->
-							</form>
-						
-						</c:forEach>
+               <div class="section__member section__connection">
+                  <div class="section__header">
+                    <strong>팔로워</strong>
+                  </div>
   
-					 
-					  
-					</div><!--section__member-->
+                  <!--팔로워 리스트-->
+                  
+                  <c:forEach var="follower" items="${pCon.get('followers')}">
+                  
+                     <form action="test.conn" method="post" class="submitNo" onclick="submit();">
+                        <input type="hidden" name="userNo" value="${follower.userNo}"/>
+                        <div class="content__profile">
+                           <c:choose>
+                              <c:when test="${follower.userAvatar eq null }">
+                                <img class="circle" src="resources/assets/moomin.jpg" alt="img">
+                              </c:when>
+                              <c:otherwise>
+                                <img class="circle" src="${pageContext.request.contextPath}/${follower.userAvatar} " alt="img">
+                              </c:otherwise>
+                           </c:choose>
+                           <div class="content__introduce">
+                             <strong>${follower.userName}</strong>
+                             <p>${follower.userComp}</p>
+                           </div>
+                        </div><!--content__profile-->
+                     </form>
+                  
+                  
+                  
+                  </c:forEach>
+
+               </div><!--section__member-->
   
-					<div class="section__member section__connection">
+               <div class="section__member section__connection">
   
 						<div class="section__header">
 						  <strong>팔로잉</strong>
@@ -340,15 +399,15 @@
 						
 						</c:forEach>
   
-						
-					
-					</div><!--section__member-->
-	  
-					<div class="section__member section__connection">
-	  
-						<div class="section__header">
-						  <strong>연결</strong>
-						</div>
+                  
+               
+               </div><!--section__member-->
+     
+               <div class="section__member section__connection">
+     
+                  <div class="section__header">
+                    <strong>연결</strong>
+                  </div>
   
 						<!--연결 리스트(자료구조 아님!)-->
 						<c:forEach var="connection" items="${pCon.get('connections') }">
@@ -378,37 +437,28 @@
 					</div><!--section__member-->
   
   
-				</div><!--connection__section__wrapper-->
-				
+            </div><!--connection__section__wrapper-->
+            
   
-				  <div class="section__more-member">
-					  
-					  <button id="moreBtn" class="btn visual__right" 
-							  onclick="loadMore(${loginUser.userNo},${frPi.currentPage},${frPi.maxPage}
-																	  ,${fgPi.currentPage},${fgPi.maxPage}
-																	  ,${cnPi.currentPage},${cnPi.maxPage});">
-						  MORE
-					   </button>
-					  
-				  </div>
-			  
-			   
-		  
-  
-			  </div><!--content__wrapper-->
-  
-            <div class="content__wrapper">
-              <div class="section__content__title">
-                <strong>경력</strong>
-                <div class="edit__field">
-                  <i id="edit__career" class="material-icons">create</i>
-                </div>
+              <div class="section__more-member">
+                 
+                 <button id="moreBtn" class="btn visual__right" 
+                       onclick="loadMore(${loginUser.userNo},${frPi.currentPage},${frPi.maxPage}
+                                                     ,${fgPi.currentPage},${fgPi.maxPage}
+                                                     ,${cnPi.currentPage},${cnPi.maxPage});">
+                    MORE
+                  </button>
+                 
               </div>
-              <span class="just__text">
-                구글코리아 2002 ~ 2006 프론트엔드 엔지니어<br />
-                야후코리아 2006 ~ 2009 프론트엔드 엔지니어
-              </span>
-            </div>
+           
+            
+        
+  
+           	</div><!--content__wrapper-->
+  
+	            
+            	
+            	
           </div>
         </div>
       </div>
@@ -639,331 +689,325 @@
 					.querySelector("#one-line-input")
 					.classList.toggle("edit-disable");
 
-			if (document.querySelector("#one-line-btn").innerText === "create") {
-				document.querySelector("#one-line-btn").innerText = "close";
-			} else {
-				document.querySelector("#one-line-btn").innerText = "create";
-			}
-		};
+         location.href ="update.position.us?userPosi=" + userPosi + "&userNo=" + userNo + "&email=" + email;
 
+      }
 
-		/* 포지션용 토글  */
-		const positionToggle = () => {
-			document
-					.querySelector("#position-name")
-					.classList.toggle("edit-disable");
-			document
-					.querySelector("#position-input")
-					.classList.toggle("edit-disable");
 
-			if (document.querySelector("#position-btn").innerText === "create") {
-				document.querySelector("#position-btn").innerText = "close";
-			} else {
-				document.querySelector("#position-btn").innerText = "create";
-			}
-		};
 
+      /* 한줄 소개 토글 */
+      const oneLineToggle = () => {
+         document
+               .querySelector("#one-line-info")
+               .classList.toggle("edit-disable");
+         document
+               .querySelector("#one-line-input")
+               .classList.toggle("edit-disable");
 
-		/*유저사용기술 토글 */
-		const userFiledToggle = () => {
-			document
-					.querySelector("#user-filed-list")
-					.classList.toggle("edit-disable");
-			document
-					.querySelector("#user-filed-input")
-					.classList.toggle("edit-disable");
+         if (document.querySelector("#one-line-btn").innerText === "create") {
+            document.querySelector("#one-line-btn").innerText = "close";
+         } else {
+            document.querySelector("#one-line-btn").innerText = "create";
+         }
+      };
 
-			if (document.querySelector("#user-filed-btn").innerText === "create") {
-				document.querySelector("#user-filed-btn").innerText = "close";
-			} else {
-				document.querySelector("#user-filed-btn").innerText = "create";
-			}
-		};
 
+      /* 포지션용 토글  */
+      const positionToggle = () => {
+         document
+               .querySelector("#position-name")
+               .classList.toggle("edit-disable");
+         document
+               .querySelector("#position-input")
+               .classList.toggle("edit-disable");
 
+         if (document.querySelector("#position-btn").innerText === "create") {
+            document.querySelector("#position-btn").innerText = "close";
+         } else {
+            document.querySelector("#position-btn").innerText = "create";
+         }
+      };
 
 
-		document.querySelector("#user-filed-search").addEventListener("keyup", () => {
+      /*유저사용기술 토글 */
+      const userFiledToggle = () => {
+         document
+               .querySelector("#user-filed-list")
+               .classList.toggle("edit-disable");
+         document
+               .querySelector("#user-filed-input")
+               .classList.toggle("edit-disable");
 
-			const skill = document.querySelector("#user-filed-search").value;
-			console.log(skill);
-			console.log(skill.length);
+         if (document.querySelector("#user-filed-btn").innerText === "create") {
+            document.querySelector("#user-filed-btn").innerText = "close";
+         } else {
+            document.querySelector("#user-filed-btn").innerText = "create";
+         }
+      };
 
-			if(skill.length>0)	{
 
-				axios.get('search.sk', {
-					params: {
-						skillName: skill
-					}
-				})
-						.then(function (response) {
 
-							let searchResult = "";
-							response.data.forEach(v=>{
 
-								searchResult += "<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
+      document.querySelector("#user-filed-search").addEventListener("keyup", () => {
 
-							})
+         const skill = document.querySelector("#user-filed-search").value;
+         console.log(skill);
+         console.log(skill.length);
 
+         if(skill.length>0)   {
 
-							document.getElementById("user-filed-search-list").innerHTML = searchResult
+            axios.get('search.sk', {
+               params: {
+                  skillName: skill
+               }
+            })
+                  .then(function (response) {
 
+                     let searchResult = "";
+                     response.data.forEach(v=>{
 
-						})
-						.catch(function (error) {
-							console.log(error);
-						})
-						.then(function () {
-							// ...
-						});
+                        searchResult += "<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
 
-			}
+                     })
 
 
-		});
+                     document.getElementById("user-filed-search-list").innerHTML = searchResult
 
 
-		/* 2. result tag에 버튼 만들어주기 */
-		document.querySelector("#user-filed-search-list").addEventListener("click", function (e) {
-			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+                  })
+                  .catch(function (error) {
+                     console.log(error);
+                  })
+                  .then(function () {
+                     // ...
+                  });
 
-			let tagName = e.target.innerText;
+         }
 
-			createTag(tagName);
 
+      });
 
 
-		})
+      /* 2. result tag에 버튼 만들어주기 */
+      document.querySelector("#user-filed-search-list").addEventListener("click", function (e) {
+         /* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
 
+         let tagName = e.target.innerText;
 
-		/* resultTag 생성용 함수 */
-		let tagList = document.querySelector(".result_tag");
-		let TagList = [];
-		const TAG_LS = "tag";
+         createTag(tagName);
 
-		function filter(toDo) {
-			return toDo.id === 1;
-		}
 
-		/* 태그 삭제용 함수 */
-		function deleteTag(event) {
-			const btn = event.target;
-			const li = btn.parentNode;
-			tagList.removeChild(li);
 
-			const cleanTag = TagList.filter(function(toDo) {
-				return toDo.id !== parseInt(li.id);
-			});
-			TagList = cleanTag;
-			saveTag();
-		}
+      })
 
-		function saveTag() {
-			localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
-		}
 
-		function handleSubmit(event) {
+      /* resultTag 생성용 함수 */
+      let tagList = document.querySelector(".result_tag");
+      let TagList = [];
+      const TAG_LS = "tag";
 
-			document.querySelector(".result_tag").innerHTML= "";
-		}
+      function filter(toDo) {
+         return toDo.id === 1;
+      }
 
+      /* 태그 삭제용 함수 */
+      function deleteTag(event) {
+         const btn = event.target;
+         const li = btn.parentNode;
+         tagList.removeChild(li);
 
-		/* 태그 생성용 함수 */
-		function createTag(tagName) {
-			const li = document.createElement("li");
-			const delBtn = document.createElement("i");
+         const cleanTag = TagList.filter(function(toDo) {
+            return toDo.id !== parseInt(li.id);
+         });
+         TagList = cleanTag;
+         saveTag();
+      }
 
-			delBtn.innerText = "close";
-			delBtn.className = "material-icons"
+      function saveTag() {
+         localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
+      }
 
-			const span = document.createElement("span");
-			const newId = TagList.length + 1;
-			span.innerText = tagName;
-			li.appendChild(span);
-			li.appendChild(delBtn);
-			li.id = newId;
+      function handleSubmit(event) {
 
-			delBtn.addEventListener("click", deleteTag);
-			tagList.appendChild(li);
+         document.querySelector(".result_tag").innerHTML= "";
+      }
 
-			const TagObj = {
-				skillName : tagName,
-				id: newId
-			};
 
-			TagList.push(TagObj);
-			saveTag();
+      /* 태그 생성용 함수 */
+      function createTag(tagName) {
+         const li = document.createElement("li");
+         const delBtn = document.createElement("i");
 
-		}
+         delBtn.innerText = "close";
+         delBtn.className = "material-icons"
 
+         const span = document.createElement("span");
+         const newId = TagList.length + 1;
+         span.innerText = tagName;
+         li.appendChild(span);
+         li.appendChild(delBtn);
+         li.id = newId;
 
+         delBtn.addEventListener("click", deleteTag);
+         tagList.appendChild(li);
 
-		const loadSkills = ()=>{
+         const TagObj = {
+            skillName : tagName,
+            id: newId
+         };
 
+         TagList.push(TagObj);
+         saveTag();
 
-			let userSkillList = "";
+      }
 
-			TagList.forEach(s => {
 
-				userSkillList += s.skillName +" "
 
-			})
+      const loadSkills = ()=>{
 
 
-			axios.get('insert.field.us',{
-				params:{
-					skillName:userSkillList ,
-					userNo : ${pUser.userNo}
-				}
-			})
-					.then(function(response){
+         let userSkillList = "";
 
-						console.log(response)
+         TagList.forEach(s => {
 
-						let skillList = response.data
+            userSkillList += s.skillName +" "
 
-						/* 설정한 태그를 지워주는 함수 */
+         })
 
 
-						/* 종료후 토글 바꿔주기 */
-						document
-								.querySelector("#user-filed-list")
-								.classList.toggle("edit-disable");
-						document
-								.querySelector("#user-filed-input")
-								.classList.toggle("edit-disable");
+         axios.get('insert.field.us',{
+            params:{
+               skillName:userSkillList ,
+               userNo : ${pUser.userNo}
+            }
+         })
+               .then(function(response){
 
+                  console.log(response)
 
-						if (document.querySelector("#user-filed-btn").innerText === "create") {
-							document.querySelector("#user-filed-btn").innerText = "close";
-						} else {
-							document.querySelector("#user-filed-btn").innerText = "create";
-						}
+                  let skillList = response.data
 
-						/* 활동 분야에 값 넣어주기 */
+                  /* 설정한 태그를 지워주는 함수 */
 
 
-					})
-					.catch(function(error){
-						console.log(error);
+                  /* 종료후 토글 바꿔주기 */
+                  document
+                        .querySelector("#user-filed-list")
+                        .classList.toggle("edit-disable");
+                  document
+                        .querySelector("#user-filed-input")
+                        .classList.toggle("edit-disable");
 
-					})
 
+                  if (document.querySelector("#user-filed-btn").innerText === "create") {
+                     document.querySelector("#user-filed-btn").innerText = "close";
+                  } else {
+                     document.querySelector("#user-filed-btn").innerText = "create";
+                  }
 
-		}
+                  /* 활동 분야에 값 넣어주기 */
 
-		document.querySelector("#user-filed-final-btn").addEventListener("click", (e) => {
 
-			loadSkills();
-			location.reload()
-		})
+               })
+               .catch(function(error){
+                  console.log(error);
 
+               })
 
 
-		document.querySelector("#user-filed-list").addEventListener("click",function(e) {
-			/* 삭제할 기술 이름 */
-			console.log(e.target.id)
-			let deleteSkill = e.target.id;
+      }
 
-			/* 버튼 클릭시 html에서 사라지게 하기  */
-			document.getElementById(deleteSkill).parentNode.remove();
+      document.querySelector("#user-filed-final-btn").addEventListener("click", (e) => {
 
-			/* 백엔드로 삭제할 기술이름 넘겨주기 */
+         loadSkills();
+         location.reload()
+      })
 
-			axios.get("delete.field.us",{
-				params:{
-					skillName: deleteSkill,
-					userNo : ${pUser.userNo}
 
-				}
-			})
-					.then(function(response){
 
-						console.log(response)
-					})
-					.catch(function(error){
+      document.querySelector("#user-filed-list").addEventListener("click",function(e) {
+         /* 삭제할 기술 이름 */
+         console.log(e.target.id)
+         let deleteSkill = e.target.id;
 
-						console.log(error);
-					})
+         /* 버튼 클릭시 html에서 사라지게 하기  */
+         document.getElementById(deleteSkill).parentNode.remove();
 
+         /* 백엔드로 삭제할 기술이름 넘겨주기 */
 
-		})
+         axios.get("delete.field.us",{
+            params:{
+               skillName: deleteSkill,
+               userNo : ${pUser.userNo}
 
+            }
+         })
+               .then(function(response){
 
-		/* 최종학력 */
+                  console.log(response)
+               })
+               .catch(function(error){
 
-		function sendUserEdu() {
+                  console.log(error);
+               })
+      })
 
-			const userEdu = document.querySelector("#three-line-user-edu").value;
-			const userNo = document.querySelector("#main-info-userno").value;
-			const email = document.querySelector("#main-info-email").value;
 
-			location.href ="update.edu.us?userEdu=" + userEdu + "&userNo=" + userNo + "&email=" + email;
 
-		}
 
-		/*프로젝트 */
+      /* 최종학력 */
 
-		function sendUserProject() {
-			const projectName = document.querySelector("#projectName").value;
-			const position = document.querySelector("#pPosition").value;
-			const pStart = document.querySelector("projectStart").value;
-			const pEnd = document.querySelector("projectEnd").value;
-			location.href="insert.project.us?userProject=" + projectName + "&userNo" + userNo;
+      function sendUserEdu() {
 
-		}
+         const userEdu = document.querySelector("#three-line-user-edu").value;
+         const userNo = document.querySelector("#main-info-userno").value;
+         const email = document.querySelector("#main-info-email").value;
+         location.href ="update.edu.us?userEdu=" + userEdu + "&userNo=" + userNo + "&email=" + email;
+      }
 
 
+      /*최종학력 아이콘 버튼용*/
+      const threeLineToggle = () => {
+         document
+               .querySelector("#three-line-edu")
+               .classList.toggle("edit-disable");
 
-		/*최종학력 아이콘 버튼용*/
-		const threeLineToggle = () => {
+         document
+               .querySelector("#three-line-input")
+               .classList.toggle("edit-disable");
 
-			document
-					.querySelector("#three-line-edu")
-					.classList.toggle("edit-disable");
+         if (document.querySelector("#one-line-btn").innerText === "create") {
+            document.querySelector("#one-line-btn").innerText = "close";
+         } else {
+            document.querySelector("#one-line-btn").innerText = "create";
+         }
+      };
 
-			document
-					.querySelector("#three-line-input")
-					.classList.toggle("edit-disable");
+      /* 프로젝트 아이콘 버튼용*/
 
-			if (document.querySelector("#one-line-btn").innerText === "create") {
-				document.querySelector("#one-line-btn").innerText = "close";
-			} else {
-				document.querySelector("#one-line-btn").innerText = "create";
-			}
-		};
+      const projectToggle = () => {
+         document
+               .querySelector("#project-name")
+               .classList.toggle("edit-disable");
 
-		/* 프로젝트 아이콘 버튼용*/
+         document
+               .querySelector("#project-input")
+               .classList.toggle("edit-disable");
 
-		const projectToggle = () => {
-			document
-					.querySelector("#project-name")
-					.classList.toggle("edit-disable");
-
-			document
-					.querySelector("#project-input")
-					.classList.toggle("edit-disable");
-
-			if(document.querySelector("#project-btn").innerText === "create") {
-				document.querySelector("#project-btn").innerText = "close"
-			}else{
-				document.querySelector("#project-btn").innerText = "create";
-			}
-		}
-
+         if(document.querySelector("#project-btn").innerText === "create") {
+            document.querySelector("#project-btn").innerText = "close"
+         }else{
+            document.querySelector("#project-btn").innerText = "create";
+         }
+      }
+	
+	
 
 		/* 프로필 이미지 변경 */
 		
 		document.querySelector("#profileAvatar").addEventListener("click", () => {
-				
 			document.querySelector("#avatar-file").click();
-			
-			
 			document.querySelector("#avatar-file").addEventListener("change", (input) => {
-				
-				
-				
-					
 				let fileList = document.querySelector("#avatar-file").files;
 					
 				if(fileList.length == 1) {
@@ -978,10 +1022,8 @@
 						document.querySelector("#profileAvatar").setAttribute("src", reader.result);
 						
 					}
-					
 					/* 이제 이미지를 컨트롤러에 넘겨주기 위해 담아주자 */
 					const formData = new FormData();
-					
 					const image = fileList[0];
 					
 					// upfile로 파일 담아주기
@@ -992,28 +1034,31 @@
 					.catch(function(error) {
 						console.log(error);
 					});
-					
-					
-					
 				}else {
-					
 					document.querySelector("#profileAvatar").setAttribute("src", "resources/assets/profile.png");
-					
 				}
-				
-				
-				
-				
-				
-				
-				
 			})
-					
+		});				
 
-			});
+const careerToggle = () => {
+			document
+	        	.querySelector("#career-name")
+	        	.classList.toggle("edit-disable");
+		    document
+		        .querySelector("#career-input")
+		        .classList.toggle("edit-disable");
+		
+		    if(document.querySelector("#career-btn").innerText === "create") {
+		       document.querySelector("#career-btn").innerText = "close"
+		    }else{
+		       document.querySelector("#career-btn").innerText = "create";
+		    }
+	 }
+
 		
 		
+		
 
-	</script>
+   </script>
   </body>
 </html>

@@ -16,10 +16,10 @@ public class Project {
 
 	private int projectId;
 	private String projectName;
-	private String prjectPosition;
+	private String projectPosition;
 	private int userNo;
 	private String projectStart;
 	private String projectEnd;
 	
-	private ArrayList<Project> projectList;
+	//private ArrayList<Project> projectList;
 }

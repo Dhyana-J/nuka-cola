@@ -19,9 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.service.MemberServiceImpl;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.Project;
 
 @Controller
 public class SignupController {
@@ -155,21 +158,27 @@ public class SignupController {
 		// 기술 이름 따로 가져옴
 		ArrayList<Skills> skillList = mService.selectUserSkill(userNo);
 		
+		//유저 프로젝트 정보
+		ArrayList<Project> projectList = mService.selectProjectList(userNo); 
 		
-		// 팔로워수, 팔로잉수, 연결 수 가져오기
-		int countFollowers=mService.countFollowers(userNo);
-		int countFollowings=mService.countFollowings(userNo);
-		int countConnections=mService.countConnections(userNo);
+		//유저경력을 가져오는  select문
+		ArrayList<Career> careerList = mService.selectCareerList(userNo);
+		System.out.println(careerList);
+		//기업식별자를 알아오는 select문 
+		Company compNo = mService.selectComNo(userNo);
 		
-		model.addAttribute("countFollowers",countFollowers);
-		model.addAttribute("countFollowings",countFollowings);
-		model.addAttribute("countConnections",countConnections);
-
+		
+		// 팔로잉 수 알아오기
+		//int followingCount = mService.countFollowing(userNo);
+		// 팔로워 수 알아오기
+		//int followerCount = mService.countFollower(userNo);
+		// 연결 수 알아오기
+		//int connectionCount = mService.countConnection(userNo);
 		
 		model.addAttribute("pUser",pUser);
 		model.addAttribute("skillList",skillList);
-		
-		
+		model.addAttribute("projectList", projectList);
+		model.addAttribute("careerList",careerList);
 		//-----------------인맥정보 불러오기-------------
 		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
 		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅

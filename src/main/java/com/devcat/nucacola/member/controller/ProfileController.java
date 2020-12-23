@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -270,6 +272,25 @@ public class ProfileController {
 	
 	
 	
+	
+	//Test
+	   //https://stackoverflow.com/questions/37359851/how-to-receive-html-check-box-value-in-spring-mvc-controller
+	   //@RequestParam의 value는 넘어오는 input의 name속성과 맞춰주면됩니다
+	   //required = false는 이 값이 안넘어와도 예외발생 안하도록해주는거에용
+	   //https://velog.io/@hellozin/RequestParamrequired-false-%EC%A3%BC%EC%9D%98%ED%95%A0-%EC%A0%90
+	/*
+	 * @RequestMapping("testArray.us") public void testArray(@RequestParam(value =
+	 * "colors", required = false)String[] arr) {
+	 * 
+	 * System.out.println("testArray.us 실행됨");
+	 * 
+	 * for(String e:arr){ System.out.println(e); }
+	 * 
+	 * }
+	 */
+	
+	
+	
 	//프로필 인맥 More버튼 클릭 시 실행될 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="loadConnection.us",produces="application/json;charset=utf-8")
@@ -315,6 +336,168 @@ public class ProfileController {
 		pCon.put("piBox", piBox);
 		
 		return pCon;
+	}
+	
+	//----팔로잉 리스트 페이지
+	
+	//처음 페이지 로드 시 실행되는 컨트롤러
+	@RequestMapping("initFollowing.us")
+	public String initFollowing(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
+		
+		//뷰에서쓰일 각각 개수 세팅
+		int countFollowers = mService.countFollowers(userNo);
+		int countFollowings = mService.countFollowings(userNo);
+		int countConnections = mService.countConnections(userNo);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
+		//팔로잉하고있는 회원 수 저장
+		int count = mService.countFollowings(userNo);
+		
+		//페이지인포객체 세팅
+		PageInfo fgPi=Pagination.getPageInfo(count, currentPage, 1, 3);
+		
+		ArrayList<Member> following = mService.selectFollowings(userNo, fgPi);
+		
+		//뷰에서 쓰일 리스트카운트 세팅
+		model.addAttribute("count",count);
+		
+		//뷰에서 쓰일 리스트 세팅
+		model.addAttribute("following",following);
+		
+		//뷰에서 쓰일 페이지객체 세팅
+		model.addAttribute("fgPi",fgPi);
+		
+		
+		return "user/profile_following";
+	}
+	
+	//스크롤 내렸을 때 실행되는 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="loadFollowingList.us",produces="application/json;charset=utf-8")
+	public HashMap<String, ArrayList<?extends Object>> loadFollowingList(int userNo,int currentPage ){
+		
+		PageInfo pi=Pagination.getPageInfo(mService.countFollowings(userNo), currentPage, 1, 3);
+		ArrayList<Member> following = mService.selectFollowings(userNo,pi);
+		ArrayList<PageInfo> piBox = new ArrayList<>(); //HashMap으로 리턴하기 위해 pi객체를 한번 감싼다.
+		piBox.add(pi);
+		
+		HashMap<String,ArrayList<?extends Object>> loadedInfo = new HashMap<>();
+		
+		loadedInfo.put("following",following);
+		loadedInfo.put("piBox",piBox);
+		
+		return loadedInfo;
+		
+	}
+	
+	//----팔로워 리스트 
+	@RequestMapping("initFollower.us")
+	public String initFollower(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
+		
+		//뷰에서쓰일 각각 개수 세팅
+		int countFollowers = mService.countFollowers(userNo);
+		int countFollowings = mService.countFollowings(userNo);
+		int countConnections = mService.countConnections(userNo);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
+		//팔로워수 저장
+		int count = mService.countFollowers(userNo);
+		
+		//페이지인포객체 세팅
+		PageInfo frPi=Pagination.getPageInfo(count, currentPage, 1, 3);
+		
+		ArrayList<Member> follower = mService.selectFollowers(userNo, frPi);
+		
+		System.out.println(follower.get(0).getUserAvatar());
+		
+		//뷰에서 쓰일 리스트카운트 세팅
+		model.addAttribute("count",count);
+		
+		//뷰에서 쓰일 리스트 세팅
+		model.addAttribute("follower",follower);
+		
+		//뷰에서 쓰일 페이지객체 세팅
+		model.addAttribute("frPi",frPi);
+		
+		
+
+		return "user/profile_follower";
+	}
+	//스크롤 내렸을 때 실행되는 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="loadFollowerList.us",produces="application/json;charset=utf-8")
+	public HashMap<String, ArrayList<?extends Object>> loadFollowerList(int userNo,int currentPage ){
+		
+		PageInfo pi=Pagination.getPageInfo(mService.countFollowers(userNo), currentPage, 1, 3);
+		ArrayList<Member> follower = mService.selectFollowers(userNo,pi);
+		ArrayList<PageInfo> piBox = new ArrayList<>(); //HashMap으로 리턴하기 위해 pi객체를 한번 감싼다.
+		piBox.add(pi);
+		
+		HashMap<String,ArrayList<?extends Object>> loadedInfo = new HashMap<>();
+		
+		loadedInfo.put("follower",follower);
+		loadedInfo.put("piBox",piBox);
+		
+		return loadedInfo;
+		
+	}
+	
+	//----연결된 사람 리스트
+	@RequestMapping("initConnect.us")
+	public String initConnection(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
+		
+		//뷰에서쓰일 각각 개수 세팅
+		int countFollowers = mService.countFollowers(userNo);
+		int countFollowings = mService.countFollowings(userNo);
+		int countConnections = mService.countConnections(userNo);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
+		//팔로워수 저장
+		int count = mService.countConnections(userNo);
+		
+		//페이지인포객체 세팅
+		PageInfo cnPi=Pagination.getPageInfo(count, currentPage, 1, 3);
+		
+		ArrayList<Member> connection = mService.selectConnections(userNo, cnPi);
+		
+		//뷰에서 쓰일 리스트카운트 세팅
+		model.addAttribute("count",count);
+		
+		//뷰에서 쓰일 리스트 세팅
+		model.addAttribute("connection",connection);
+		
+		//뷰에서 쓰일 페이지객체 세팅
+		model.addAttribute("cnPi",cnPi);
+		
+		
+		return "user/profile_connect";
+	}
+	//스크롤 내렸을 때 실행되는 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="loadConnectionList.us",produces="application/json;charset=utf-8")
+	public HashMap<String, ArrayList<?extends Object>> loadConnectionList(int userNo,int currentPage ){
+		
+		PageInfo pi=Pagination.getPageInfo(mService.countConnections(userNo), currentPage, 1, 3);
+		ArrayList<Member> connection = mService.selectConnections(userNo,pi);
+		ArrayList<PageInfo> piBox = new ArrayList<>(); //HashMap으로 리턴하기 위해 pi객체를 한번 감싼다.
+		piBox.add(pi);
+		
+		HashMap<String,ArrayList<?extends Object>> loadedInfo = new HashMap<>();
+		
+		loadedInfo.put("connection",connection);
+		loadedInfo.put("piBox",piBox);
+		
+		return loadedInfo;
+		
 	}
 
 	

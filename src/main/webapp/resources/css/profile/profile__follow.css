@@ -145,9 +145,9 @@
   display: flex;
   flex-direction: row;
 }
-.content__wrapper + .content__profile {
+/* .content__wrapper + .content__profile {
   border-bottom: 1px solid red;
-}
+} */
 .content__wrapper .techstack__sort {
   font-size: 16px;
   color: #707070;
@@ -231,9 +231,9 @@
   cursor: pointer;
   color: #30409f;
 }
-.content__wrapper .content__profile + .content__profile {
+/* .content__wrapper .content__profile + .content__profile {
   border-bottom: 1px solid red;
-}
+} */
 
 /*아이콘 줄여주는거 */
 .material-icons {

@@ -173,9 +173,18 @@ public class SignupController {
 		//-----------------인맥정보 불러오기-------------
 		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
 		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
-		PageInfo frPi=Pagination.getPageInfo(mService.countFollowers(userNo), currentPage, 1, 3);
-		PageInfo fgPi=Pagination.getPageInfo(mService.countFollowings(userNo), currentPage, 1, 3);
-		PageInfo cnPi=Pagination.getPageInfo(mService.countConnections(userNo), currentPage, 1, 3);
+		int countFollowers = mService.countFollowers(userNo);
+		int countFollowings = mService.countFollowings(userNo);
+		int countConnections = mService.countConnections(userNo);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
+		
+		PageInfo frPi=Pagination.getPageInfo(countFollowers, currentPage, 1, 3);
+		PageInfo fgPi=Pagination.getPageInfo(countFollowings, currentPage, 1, 3);
+		PageInfo cnPi=Pagination.getPageInfo(countConnections, currentPage, 1, 3);
 
 
 		//리스트들을 담을 HashMap을 선언하고

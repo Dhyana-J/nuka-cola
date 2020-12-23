@@ -73,7 +73,10 @@
           <ul>
             <li class="nav-active">PROFILE</li>
             <li>POST</li>
+            <!-- 
             <li onClick='location.href="list.bk?uno=${loginUser.userNo}"'>LIKE</a></li>
+             -->
+            <li onClick='location.href="initFollowing.us?userNo=${loginUser.userNo}"'>LIKE</a></li>
           </ul>
         </div>
 
@@ -282,11 +285,16 @@
 							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
 								<input type="hidden" name="userNo" value="${follower.userNo}"/>
 								<div class="content__profile">
-									<img
-									  class="circle"
-									  src="${pageContext.request.contextPath}/${follower.userAvatar}"
-										 alt="PROFILE"
-									/>
+								
+									<c:choose>
+				                      	<c:when test="${follower.userAvatar eq null }">
+					                        <img class="circle" src="resources/assets/moomin.jpg" alt="img">
+				                      	</c:when>
+				                      	<c:otherwise>
+					                        <img class="circle" src="${pageContext.request.contextPath}/${follower.userAvatar} " alt="img">
+				                      	</c:otherwise>
+			                      	</c:choose>
+			                      	
 									<div class="content__introduce">
 									  <strong>${follower.userName}</strong>
 									  <p>${follower.userComp}</p>
@@ -313,11 +321,16 @@
 								<input type="hidden" name="userNo" value="${following.userNo}"/>
 							
 								<div class="content__profile">
-									<img
-									  class="circle"
-									  src="${pageContext.request.contextPath}/${following.userAvatar}"
-									  alt="PROFILE"
-									/>
+								
+									<c:choose>
+				                      	<c:when test="${following.userAvatar eq null }">
+					                        <img class="circle" src="resources/assets/conn.png" alt="img">
+				                      	</c:when>
+				                      	<c:otherwise>
+					                        <img class="circle" src="${pageContext.request.contextPath}/${following.userAvatar} " alt="img">
+				                      	</c:otherwise>
+			                      	</c:choose>
+			                      	
 									<div class="content__introduce">
 									  <strong>${following.userName}</strong>
 									  <p>${following.userComp}</p>
@@ -343,11 +356,16 @@
 							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
 								<input type="hidden" name="userNo" value="${connection.userNo}"/>
 								<div class="content__profile">
-									<img
-									  class="circle"
-									  src="${pageContext.request.contextPath}/${connection.userAvatar}"
-									  alt="PROFILE"
-									/>
+								
+									<c:choose>
+				                      	<c:when test="${connection.userAvatar eq null }">
+					                        <img class="circle" src="resources/assets/juckerbug.jpg" alt="img">
+				                      	</c:when>
+				                      	<c:otherwise>
+					                        <img class="circle" src="${pageContext.request.contextPath}/${connection.userAvatar} " alt="img">
+				                      	</c:otherwise>
+			                      	</c:choose>
+			                      	
 									<div class="content__introduce">
 									  <strong>${connection.userName}</strong>
 									  <p>${connection.userComp}</p>
@@ -396,6 +414,30 @@
       </div>
 
     </main>
+    
+    <!-- <form action="testArray.us" method="post" enctype="multipart/form-data">
+    	<fieldset>
+    		<legend>테스트</legend>
+		    <label>
+		    	black
+		    <input type="checkbox" name="colors" value="black"/>
+		    </label>
+		     <label>
+		     white
+		    <input type="checkbox" name="colors" value="white"/>
+		    </label>
+			 <label>
+			 blue
+		    <input type="checkbox" name="colors" value="blue"/>
+		    </label>
+		     <label>
+		     black
+		    <input type="checkbox" name="colors" value="black"/>
+		    </label>
+		    <button>제출~</button>
+    	</fieldset>
+    </form> -->
+        
 	<jsp:include page="../common/footer.jsp" />
 	<script defer>
 
@@ -419,17 +461,30 @@
 		const loadList = (list,area)=>{
 			list.forEach((v)=>{ //리스트의 각 요소 v에 대해
 
-				//유저이미지나 회사 비어있는 경우 ''로 대체
-				if(v.userAvatar==undefined) v.userAvatar='';
+				//유저 회사 비어있는 경우 ''로 대체
 				if(v.userComp==undefined) v.userComp='';
+				
+				//유저이미지 없으면 기본이미지 세팅해준다.
 
 				let profile ='<form action="test.conn" method="post" class="submitNo" onclick="submit();">'
 						+'<input type="hidden" name="userNo" value="'+v.userNo+'"/>'
-						+'<div class="content__profile">'
+						+'<div class="content__profile">';
+						
+				if(v.userAvatar==undefined){
+					profile = profile
+						+'<img'
+						+' class="circle"'
+						+' src="resources/assets/elon.jpg"'
+						+' alt="img"'+'/>';
+				}else{
+					profile = profile
 						+'<img'
 						+' class="circle"'
 						+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
-						+' alt="PROFILE"'+'/>'
+						+' alt="img"'+'/>';
+				}
+						
+					profile = profile 
 						+'<div class="content_introduce">'
 						+'<strong>'+v.userName+'</strong>'
 						+'<p>'+v.userComp+'</p>'

@@ -10,10 +10,15 @@ import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
@@ -22,6 +27,9 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.company.model.vo.TechStack;
+import com.google.gson.Gson;
 
 @Controller
 public class CompanyController {
@@ -38,12 +46,26 @@ public class CompanyController {
 			Model model)
 	{
 		int listCount = cService.selectListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 100);
 		ArrayList<Company> list = cService.selectCompanyList(pi);
+		System.out.println(list);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
-		return "company/companyListView";
+		return "/company/companyListView";
+	}
+	@RequestMapping("load.comp")
+	public ResponseEntity<String> loadCompList(
+				@RequestParam(value="currentPage", defaultValue="1") int currentPage
+	){
+				System.out.println(currentPage);
+				HttpHeaders responseHeaders = new HttpHeaders();
+				int listCount = cService.selectListCount();
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 100);
+				ArrayList<Company> list = cService.selectCompanyList(pi);
+				responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+				String json = new Gson().toJson(list);
+				return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
 	}
 	
 	@RequestMapping("enrollForm.co")
@@ -53,11 +75,6 @@ public class CompanyController {
 	
 	// 회사 등록
 	@RequestMapping("insert.co")
-	/*
-	public void insertCompany(Company c) {
-		System.out.println(c);
-	}
-	*/
 	public String insertCompany(@RequestParam(value ="compindus", required = false)String[]arr,
 								Company c,MultipartFile upfile,
 								HttpSession session, Model model) {

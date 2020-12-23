@@ -94,7 +94,7 @@
 .section__select-info select {
   margin-right: 30px;
 }
-.section__search-info .section__search-btn {
+.section__search-info .section__search-span {
   width: 100%;
   padding: 25px 30px;
   background: #fff;
@@ -103,12 +103,44 @@
   box-sizing: border-box;
   margin-top: 10px;
 }
-.section__search-btn button {
-  width: 100px;
-  height: 30px;
+.section__search-span .search-span {
   background-color: #30409f;
   color: #fff;
-  border: 1px solid #30409f;
+  border: none;
+  border-radius:8px;
+  margin:10px;
+  font-size:12px;
+  padding:5px 8px;
+}
+/* X버튼*/
+.section__search-span .search-span .material-icons {
+  font-size: 15px;
+  margin-bottom:13px;
+}
+.section__search-span .search-span .material-icons:hover {
+  cursor: pointer;
+}
+/*검색어 */
+
+.section__search-span .keyword{
+  position:relative;
+  align-items:center;
+  width:100%;
+  height:30px;
+  margin-top:20px;
+}
+.section__search-span .keyword input{
+  width:100%;
+  height:100%;
+  outline:none;
+}
+.section__search-span i{
+  position: absolute;
+  right:1%;
+  top:10%;
+}
+.section__search-span i:hover{
+  cursor:pointer;
 }
 .main__section__content .section__search-result {
   width: 100%;
@@ -866,5 +898,55 @@ input[type="text"]:focus {
   --s: 10px;
   --b: var(--dot);
 }
+
+
+#front-search, #back-search, #dev-search, #etc-search {
+  width: 40%;
+  height: 30px;
+  resize: none;
+  padding: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 0px;
+}
+
+
+.front_result, .back_result, .dev_result, .etc_result {
+  width: 80%;
+  height: 40px;
+  padding: 5px;
+  border: solid 1px #e5e5e5;
+  border-radius: 0 2px 2px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom : 10px;
+  align-items: center;
+}
+
+.front_result li, .back_result li, .dev_result li, .etc_result li {
+  height : 20px;
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 3px;
+  background-color: #30409f;
+  background-size: contain;
+}
+.front_result i:hover, .back_result i:hover, .dev_result i:hover, .etc_result i:hover {
+  cursor: pointer;
+}
+.front_result span, .back_result span, .dev_result span, .etc_result span {
+  font-size: 14px;
+  color: #fff;
+  margin : 0px;
+}
+
+.section__content__box {
+	display:flex;
+	justify-content: center;
+	gap : 5px;
+}
+
 
 

@@ -29,10 +29,18 @@ public class Company {
 	private String updatedAt;
 	private int userNo;
 	private int compPm;
+	private int indusNo;   //산업분야 radio 추가 
+
+	
 	
 	// 여러개의 산업분야
 	private ArrayList<Industries> industryList;
-	// 여러개의 테크스택
+	
+	// 여러개의 기술
 	private ArrayList<Skills> skillList;
+	// 여러개의 테크스택 
+	//private ArrayList<TechStack> teckstackList;
+	// 여러개의 회사의 산업분야 
+	//private ArrayList<CompIndus> compindusList;
 	
 }

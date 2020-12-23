@@ -17,6 +17,11 @@
 		<result column="comp_pm" property="compPm"/>
 	</resultMap>
 	
+	<resultMap id="skillResultSet" type="Skills">
+		<result column="skill_no" property="skillNo"/>
+		<result column="skill_name" property="skillName"/>
+	</resultMap>
+	
 	<select id="selectListCount" resultType="_int">
 		select
 			   count(*)
@@ -37,50 +42,94 @@
 	</select>
 	
 	<insert id="insertCompany" parameterType="Company">
-	INSERT ALL
-	    WHEN #{compName} not in (select comp_name from companys) THEN
-	    INTO COMPANYS VALUES(
-	                          (select max(COMP_NO)+1 from companys)
-	                        ,#{compName}
-	                        ,#{compInfo}
-	                        ,#{compEmail}
-	                        ,#{compAddress}
-	                        ,#{compLogo}
-	                        ,#{headCount}
-	                        ,#{compBirth}
-	                        , default
-	                        , default
-	                        ,#{userNo}
-	                        ,#{userNo}
-	                        )
-	    WHEN '핀테크2' not in (select indus_name from industries) THEN
-	    INTO INDUSTRIES VALUES(
-	                            (select max(INDUS_NO)+1 from industries)
-	                            ,'핀테크2'
-	                            ,default
-	                            ,default
-	                           )
-	    WHEN #{compNo} in (select comp_no from companys) and 
-	    (select indus_no from industries where indus_name = '핀테크2') not in (select indus_no from compindus) THEN      
-	    INTO COMPINDUS VALUES(
-	                             #{compNo}
-	                            ,(select indus_no from industries where indus_name = '핀테크2')
-	                          )
-	    WHEN '기술테스트용2' not in (select SKILL_NAME from skills) THEN
-	    INTO SKILLS VALUES(
-	                        (select max(SKILL_NO)+1 from skills)
-	                        ,'기술테스트용2'
-	                        ,default
-	                       )
-	    WHEN 5 in (select comp_no from companys) and 
-	    (select skill_no from skills where skill_name = 'JAVA') not in (select skill_no from tech_stacks) THEN   
-	    INTO TECH_STACKS VALUES(
-	                             5
-	                            ,(select skill_no from skills where skill_name = 'JAVA')
-	                            , 1
-	                            , sysdate
-	                            )
-	    SELECT * FROM DUAL;
+		insert
+		into companys
+			(
+			  comp_no
+			, comp_name
+			, comp_info
+			, comp_email
+			, comp_address
+			, comp_logo
+			, comp_headcount
+			, comp_birth
+			, created_at
+			, updated_at
+			, user_no
+			, comp_pm
+			)
+			values
+			(
+			   seq_comp.nextval
+	         , #{compName}
+	         , #{compInfo}
+	         , #{compEmail}
+	         , #{compAddress}
+	         , #{compLogo}
+	         , #{headCount}
+	         , #{compBirth}
+	         , default
+	         , default
+	         , #{userNo}
+	         , #{userNo}
+	        )
 	</insert>
+	
+	<!--기술식별자 가져오기 -->
+	<select id="checkSkill" parameterType="string" resultMap="skillResultSet">
+		select
+			   skill_no
+			 , skill_name
+		from skills
+		where skill_name like '%' || #{skillName} || '%'
+	</select>
+	
+	<!-- 회사번호 알아오기 -->
+	<select id="selectCompanyNo" parameterType="string" resultMap="companyResultSet">
+		select
+				comp_no
+		  from companys
+		 where comp_name = #{compName}
+	</select>
+	
+	<insert id="insertCompindus" parameterType="CompIndus">
+   		 insert
+   		  into compindus
+   			 (
+		   		comp_no
+		   	  , indus_no
+		   	 )
+   			 values
+   			 (
+               #{compNo}
+             , #{indusNo}
+             )
+	</insert>
+	
+	
+	<update id="insertTech">
+			<!-- collection = 반복문 돌릴 list의 이름 item : list안에서 순차적으로 접근할 값 변수명-->
+		<foreach collection="skillsNo" item="no" open="insert all" close="SELECT * FROM DUAL">
+			
+			into tech_stacks
+			(
+			   comp_no
+			 , skill_no
+			 , stacks_posi
+			 , created_at
+			)
+			values
+			(
+			   #{compNo}
+			  ,#{no}
+			  ,#{backNo}
+			  ,default
+			)
+		
+		</foreach>
 
+	</update>
+	
+	
+	
 </mapper>

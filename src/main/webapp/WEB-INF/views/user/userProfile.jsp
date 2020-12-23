@@ -22,7 +22,6 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/profile/profile__main.css" />
-    <link rel="stylesheet" href="icono.min.css" />
     <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css" />
     <script
       type="text/javascript"
@@ -677,22 +676,6 @@
 			location.href ="update.position.us?userPosi=" + userPosi + "&userNo=" + userNo + "&email=" + email;
 
 		}
-
-
-
-		/* 한줄 소개 토글 */
-		const oneLineToggle = () => {
-			document
-					.querySelector("#one-line-info")
-					.classList.toggle("edit-disable");
-			document
-					.querySelector("#one-line-input")
-					.classList.toggle("edit-disable");
-
-         location.href ="update.position.us?userPosi=" + userPosi + "&userNo=" + userNo + "&email=" + email;
-
-      }
-
 
 
       /* 한줄 소개 토글 */

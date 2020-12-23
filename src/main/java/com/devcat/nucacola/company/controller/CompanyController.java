@@ -48,7 +48,7 @@ public class CompanyController {
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
 		ArrayList<Company> list = cService.selectCompanyList(pi);
-		System.out.println(list);
+		//System.out.println(list);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
@@ -119,7 +119,7 @@ public class CompanyController {
 		
 		HashMap<String, Object> frontMap = makeMap(frontSkillList,nc);
 		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
-		backMap.put("backNo", 1);
+		frontMap.put("backNo", 1);
 		int frontSuccess = cService.insertTech(frontMap);
 		System.out.println(frontMap);
 		System.out.println("프론트 성공 결과 : " + frontSuccess);

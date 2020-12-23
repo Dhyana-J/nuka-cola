@@ -74,10 +74,20 @@
                   <option value="">핀테크</option>
                 </select>
               </div>
-              <div class="section__search-btn">
-                <button>서울특별시</button>
-                <button>101~500명</button>
-                <button>웹서비스</button>
+              <div class="section__search-span">
+                <span class="search-span">서울특별시
+                <span class="material-icons">clear</span>
+                </span>
+                <span class="search-span">101~500명
+                <span class="material-icons">clear</span>
+                </span>
+                <span class="search-span">웹서비스
+                <span class="material-icons">clear</span>
+                </span>
+                <div class="keyword">
+                  <input type="search" placeholder="검색어를 입력하세요">
+                  <i class="material-icons">search</i>
+                </div>
               </div>
             </div>
             <div class="section__search-result">

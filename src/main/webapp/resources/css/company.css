@@ -94,7 +94,7 @@
 .section__select-info select {
   margin-right: 30px;
 }
-.section__search-info .section__search-btn {
+.section__search-info .section__search-span {
   width: 100%;
   padding: 25px 30px;
   background: #fff;
@@ -103,12 +103,44 @@
   box-sizing: border-box;
   margin-top: 10px;
 }
-.section__search-btn button {
-  width: 100px;
-  height: 30px;
+.section__search-span .search-span {
   background-color: #30409f;
   color: #fff;
-  border: 1px solid #30409f;
+  border: none;
+  border-radius:8px;
+  margin:10px;
+  font-size:12px;
+  padding:5px 8px;
+}
+/* X버튼*/
+.section__search-span .search-span .material-icons {
+  font-size: 15px;
+  margin-bottom:13px;
+}
+.section__search-span .search-span .material-icons:hover {
+  cursor: pointer;
+}
+/*검색어 */
+
+.section__search-span .keyword{
+  position:relative;
+  align-items:center;
+  width:100%;
+  height:30px;
+  margin-top:20px;
+}
+.section__search-span .keyword input{
+  width:100%;
+  height:100%;
+  outline:none;
+}
+.section__search-span i{
+  position: absolute;
+  right:1%;
+  top:10%;
+}
+.section__search-span i:hover{
+  cursor:pointer;
 }
 .main__section__content .section__search-result {
   width: 100%;

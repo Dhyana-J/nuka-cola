@@ -43,7 +43,7 @@ public class CompanyController {
 			Model model)
 	{
 		int listCount = cService.selectListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 100);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
 		ArrayList<Company> list = cService.selectCompanyList(pi);
 		System.out.println(list);
 		
@@ -58,7 +58,7 @@ public class CompanyController {
 				System.out.println(currentPage);
 				HttpHeaders responseHeaders = new HttpHeaders();
 				int listCount = cService.selectListCount();
-				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 100);
+				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
 				ArrayList<Company> list = cService.selectCompanyList(pi);
 				responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 				String json = new Gson().toJson(list);

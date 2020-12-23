@@ -33,5 +33,7 @@ public class Post {
 	private String userPosi;
 	private String userComp;
 	private String userAvatar;
+	private int isFollowing;
+	private int isLiked;
 	
 }

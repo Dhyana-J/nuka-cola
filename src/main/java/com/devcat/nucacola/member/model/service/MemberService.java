@@ -151,14 +151,6 @@ public interface MemberService {
 
 	int insertAvatar(Member m);
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
 }

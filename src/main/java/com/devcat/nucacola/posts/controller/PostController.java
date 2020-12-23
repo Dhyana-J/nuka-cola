@@ -2,6 +2,9 @@ package com.devcat.nucacola.posts.controller;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Connection;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.posts.model.vo.Comment;
 import com.devcat.nucacola.posts.model.vo.Post;
 import com.google.gson.Gson;
@@ -23,13 +26,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Controller
 public class PostController {
 
 	@Autowired
 	private PostService pService;
-	
+	@Autowired
+	private MemberService mService;
 	
 	// 포스트 조회
 	@RequestMapping("list.cou")
@@ -39,28 +44,40 @@ public class PostController {
 	
 	@RequestMapping("list.pos")
 	public String selectPostList(
-			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-			Model model
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,HttpSession session
+			,Model model
 	) {
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+
+		int countFollowers=mService.countFollowers(m.getUserNo());
+		int countFollowings=mService.countFollowings(m.getUserNo());
+		int countConnections=mService.countConnections(m.getUserNo());
+
 		//System.out.println(currentPage);
 		int listCount = pService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		ArrayList<Post> list = pService.selectPostList(pi);
+		ArrayList<Post> list = pService.selectPostList(pi,uno);
 
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
+		model.addAttribute("Followers", countFollowers);
+		model.addAttribute("Followings", countFollowings);
+		model.addAttribute("Connections", countConnections);
 		return "/timeline/timeline";
 	}
 
 	@RequestMapping("load.pos")
 	public ResponseEntity<String> loadPostList(
-			@RequestParam(value="currentPage", defaultValue="1") int currentPage
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,HttpSession session
 	) {
-		System.out.println(currentPage);
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+
 		HttpHeaders responseHeaders = new HttpHeaders();
 		int listCount = pService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		ArrayList<Post> list = pService.selectPostList(pi);
+		ArrayList<Post> list = pService.selectPostList(pi,uno);
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 		String json = new Gson().toJson(list);
 		return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
@@ -103,9 +120,19 @@ public class PostController {
 	}
 	
 	//포스트 좋아요
+	@ResponseBody
 	@RequestMapping("like.pos")
-	public String likePost() {
-		return "/main";
+	public HashMap<String,Integer> addFollowing(int userNo, int postNo, int islike) {
+
+		int result = pService.toggleLike(userNo,postNo,islike);
+		HashMap<String,Integer> list = new HashMap<>();//뷰로 리턴할 HashMap
+		if(result>0) {//팔로잉 추가 성공시
+			list.put("result",result);
+			return list;
+		}else{//팔로잉 추가 실패시
+			list.put("result",result);
+			return list;
+		}
 	}
 
 

@@ -11,7 +11,7 @@ public interface PostService {
 	
 	//포스트 조회
 	int selectListCount();
-	ArrayList<Post> selectPostList(PageInfo pi);
+	ArrayList<Post> selectPostList(PageInfo pi,int uno);
 	
 	// 포스트 작성
 	int insertPost(Post p);
@@ -33,6 +33,7 @@ public interface PostService {
 	ArrayList<Comment> selectCommentList(int bno);
 	// 댓글 작성
 	int insertComment(Comment c);
-	
-	
+
+
+	int toggleLike(int userNo, int postNo, int islike);
 }

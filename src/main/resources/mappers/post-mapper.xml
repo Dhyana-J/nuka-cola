@@ -13,6 +13,8 @@
         <result column="user_posi" property="userPosi"/>
         <result column="user_comp" property="userComp"/>
         <result column="user_avatar" property="userAvatar"/>
+        <result column="ISFOLLOWING" property="isFollowing"/>
+        <result column="ISLIKED" property="isLiked"/>
     </resultMap>
     <resultMap id="commentResultSet" type="Comment">
         <result column="comment_no" property="commentNo"/>
@@ -32,19 +34,23 @@
         from NUKACOLA.POSTS
     </select>
 
-    <select id="selectPostList" resultMap="postResultSet">
-        select POST_NO
-     , POST_CONTENT
-     , POST_IMAGE
-     , to_char(P.created_at, 'YYYY-MM-DD') "created_date"
-     , to_char(P.updated_at, 'YYYY-MM-DD') "updated_at"
-     , u.user_no
-     , USER_NAME
-     , USER_POSI
-     , USER_COMP,
-            U.USER_AVATAR
+    <select id="selectPostList" resultMap="postResultSet" parameterType="_int">
+        select P.POST_NO
+             , POST_CONTENT
+             , POST_IMAGE
+             , to_char(P.created_at, 'YYYY-MM-DD') "created_date"
+             , to_char(P.updated_at, 'YYYY-MM-DD') "updated_at"
+             , u.user_no
+             , USER_NAME
+             , USER_POSI
+             , USER_COMP
+             , U.USER_AVATAR
+             , C2.FOLLOWER_NO as isFollowing
+             , C3.POST_NO as isLiked
         from Posts P
-         left join USERS U on U.USER_NO = P.USER_NO
+                 left join USERS U on U.USER_NO = P.USER_NO
+                 left join (select FOLLOWER_NO,FOLLOWING_NO from CONNECTIONS where FOLLOWING_NO = #{uno}) C2 on P.USER_NO = C2.FOLLOWER_NO
+                 left join (select POST_NO from LIKES where USER_NO = #{uno}) C3 on P.POST_NO = C3.POST_NO
         order by post_no desc
     </select>
 
@@ -72,4 +78,14 @@ where POST_NO = #{pno}
         INSERT INTO COMMENTS (COMMENT_NO, COMMENT_CONTENT, USER_NO, POST_NO)
         VALUES (SEQ_COMMENT.nextval, #{commentContent}, #{userNo}, #{postNo})
     </insert>
+
+    <insert id="likePost">
+        insert INTO LIKES (USER_NO, POST_NO) VALUES (#{userNo},#{postNo})
+    </insert>
+    <delete id="unlikePost">
+        DELETE
+        FROM NUKACOLA.LIKES
+        WHERE USER_NO = #{userNo}
+          AND POST_NO = #{postNo}
+    </delete>
 </mapper>

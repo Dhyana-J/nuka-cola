@@ -46,7 +46,7 @@ main .inner {
   align-items: center;
   position: relative;
   transition: all 0.3s;
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 .post_form_wrapper .post_form {
   height: 0;

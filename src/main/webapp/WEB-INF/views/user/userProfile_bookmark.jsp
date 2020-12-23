@@ -128,10 +128,12 @@
             	const itemList = document.querySelector('.just__text__item');
             	const bookmarkItemBox = document.createElement('div');
             		bookmarkItemBox.className='bookmark__item__box';
-            	const recruitNo = document.createElement('input')
-            		recruitNo.className="recruit-no";
+            	const recruitNo = document.createElement('input');
+        			recruitNo.type='hidden';
+        			recruitNo.name='recruitNo';
+            		recruitNo.className='recruit-no';
             		recruitNo.value=v.recruitNo;
-            		recruitNo.type="hidden";
+
             	/*북마크 공고 정보(회사,소개, 관련업무분야,마감일)*/
             	const bookmarkItemRight = document.createElement('div');
             		bookmarkItemRight.className='bookmark__item__box__right';
@@ -172,6 +174,8 @@
             		bookmarkCencle.className='section__content__title__cencel';
             		bookmarkCencle.innerText='북마크 제외';
             		
+            		
+            	
             	content.appendChild(contentTextStrong);	
             	bookmarkLeft.appendChild(bookmarkCencle);
             	bookmarkItemRight.appendChild(title);
@@ -179,6 +183,7 @@
             	bookmarkItemRight.appendChild(recruit);
             	bookmarkItemRight.appendChild(skillBox);
             	bookmarkItemRight.appendChild(date);
+            	bookmarkItemBox.appendChild(recruitNo);	
             	bookmarkItemBox.appendChild(bookmarkItemRight);
             	bookmarkItemBox.appendChild(bookmarkLeft);
             	itemList.appendChild(bookmarkItemBox);
@@ -204,48 +209,59 @@
 
                     result.data["blist"].forEach((v) => {
                       createBookmarkItem(v, result.data["skillMap"][v.recruitNo]);
+                    
                     });
-                    window.load = check();
+
+                  }).catch(function(error){
+                	  console.log(error);
+                  })
+                  .then(function(){
+                	  cancel();
+                  	  href();
                   })
                 }
               });
             
             
-            const cancel =()=>{
+			const cancel=()=>{
 			  document.querySelectorAll('.section__content__title__cencel').forEach((v,i)=>{
 				  console.log(v);
 		            v.addEventListener('click',()=>{
-		          	  
+
 			              let item = document.querySelectorAll('.bookmark__item__box')[i];
-			              let rno = item.querySelector('.recruit-no');
+
+			              let rno = document.querySelectorAll('.recruit-no')[i].value
 			              console.log(rno);
-			              /*
+			              console.log(item);
+			              
 			              axios.get('delete.bk',{
 			         		 params:{
-			         			recruitNo:document.querySelectorAll('.recruit-no')[i].value
+			         			recruitNo:rno
 			         		 }
 			         	 })
 			         	 .then(function(){
-			         		 alert("북마크가 취소되었습니다.");	
 			         	 });
-			              */
+			              
 			              item.remove(); 
 
 		       	    });
 		  	      });
-            }		  
-            const href =()=>{
+
+			}
+            let href =()=>{
 					 document.querySelectorAll('.bookmark__item__box__right').forEach((v,i)=>{
 			              v.addEventListener('click',()=>{
 				              let rno = document.querySelectorAll('.recruit-no')[i];
 				              console.log(rno);
-				             //location.href="detail.re?rno="+rno;
+				             location.href="detail.re?rno="+rno.value;
 				         	 
 			         	    });
 			    	      });
             }
             
-            const check = ()=>{cancel(); href(); }
+            
+            href();
+            cancel();
 
             </script>
 

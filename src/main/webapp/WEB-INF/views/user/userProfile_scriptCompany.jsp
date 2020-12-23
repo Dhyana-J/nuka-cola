@@ -88,7 +88,7 @@
                           </span>
                     <br><br>
                     	<c:forEach var="cs" items="${cslist}">
-                          <div class="script__company__box" onclick='location.href="list.co?cno=${cs.compNo}"'>
+                          <div class="script__company__box" onclick='location.href="profileMain.co?cno=${cs.compNo}"'>
                             <div class="company__box__left">
                                 <div class="company__img__box">
                                 <img src="resources/assets/${cs.compLogo}" alt="">
@@ -105,14 +105,7 @@
                           </div>
 
                    	 </c:forEach>
-                   	 
-                   	 <c:if test="${cslist != null || csCount<pi.boardLimit}">
-						<div class="more">
-		                  <button class="btn" id="moreBtn" onclick="moreList(${loginUser.userNo},${pi.currentPage});">more</button>
-		                </div>
-	                </c:if>
-	                <c:if test="${cslist == null}">
-                    </c:if>
+
 
 
 
@@ -122,15 +115,13 @@
             </div>
 
 
-            <a id="topBtn" href="#"><img id="logoDesign"src="../../assets/avatar.png" alt=""></a>
-
             <script der>
+            const createScriptItem = (v,i,c=0)=>{
+            const itemList= document.querySelect(".content__wrapper");
+            const itemBox = document.createElement(".");
+            }
             
-            if(${pi.currentPage}==${pi.maxPage}){
-  			let moreBtn = document.querySelector('#moreBtn');
-  			moreBtn.setAttribute('disabled',true);
-  				
-  		    }
+            
 
             function CSdeleteBtn(cs,uno){
            	 console.log(cs);
@@ -147,97 +138,9 @@
            	 })
            	 
            }
-            
-            
-            
-            
-            
-            
-            $(function() { 
-              $(window).scroll(function() { 
-                if ($(this).scrollTop() > 1000) { 
-                  $('#topBtn').fadeIn(); } 
-                  else { $('#topBtn').fadeOut(); } }); 
-
-              $("#topBtn").click(function() { 
-                $('html, body').animate({ 
-                  scrollTop : 0 
-               }, 400); 
-              return false; }); });
-
-
-
 
 
             </script>
-
-            <div id="my_modal">
-              지원이력 페이지로 가시겠습니까?
-              <a class="modal_close_btn"><i class="icono-crossCircle"></i></a> 
-            </div>
-
-
-
-
-          <!-- 모달창 자바스크립트 -->
-          <script>
-            function modal(id) {
-                var zIndex = 9999;
-                var modal = document.getElementById(id);
-
-                // 모달 div 뒤에 희끄무레한 레이어
-                var bg = document.createElement('div');
-                bg.setStyle({
-                    position: 'fixed',
-                    zIndex: zIndex,
-                    left: '0px',
-                    top: '0px',
-                    width: '100%',
-                    height: '100%',
-                    overflow: 'auto',
-                    // 레이어 색갈은 여기서 바꾸면 됨
-                    backgroundColor: 'rgba(0,0,0,0.4)'
-                });
-                document.body.append(bg);
-
-                // 링크가기, 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-                    bg.remove();
-                    modal.style.display = 'none';
-                });
-               
-
-                modal.setStyle({
-                    position: 'fixed',
-                    display: 'block',
-                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-                    
-                    // 시꺼먼 레이어 보다 한칸 위에 보이기
-                    zIndex: zIndex + 1,
-                    
-                    // div 정렬
-                    top: '20%',
-                    left: '70%',
-                    transform: 'translate(-50%, -50%)',
-                    msTransform: 'translate(-50%, -50%)',
-                    webkitTransform: 'translate(-50%, -50%)'
-                });
-            }
-
-            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-            Element.prototype.setStyle = function(styles) {
-                for (var k in styles) this.style[k] = styles[k];
-                return this;
-            };
-
-            document.getElementById('popup_open_btn').addEventListener('click', function() {
-                // 모달창 띄우기
-                modal('my_modal');
-            });
-        </script>
-
-
-
 
           </main>
           

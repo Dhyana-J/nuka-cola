@@ -22,24 +22,7 @@
     <link rel="stylesheet" href="../../css/profile/profile(employ).css" />
   </head>
   <body>
-    <header>
-      <div class="inner">
-        <div class="left__header">
-          <div class="logo">
-            <img src="../../assets/logo.png" alt="logo" />
-          </div>
-          <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
-            <li class="header__nav-item">COMPANY</li>
-            <li class="header__nav-item">EMPLOYMENT</li>
-          </ul>
-        </div>
-        <div class="right__header">
-          <i class="material-icons">menu</i>
-          <span>MENU</span>
-        </div>
-      </div>
-    </header>
+<jsp:include page="../common/mainMenu.jsp"/>
     <section class="visual__section">
       <div class="inner">
         <div class="visual__left">
@@ -129,6 +112,8 @@
             <div id ="employ__box__end" class="employ__box__end">
               <h2>모집완료</h2>
               <!-- 모집완료한 채용공고 for문 -->
+              <c:forEach>
+              </c:forEach>
               <div class="content__wrapper">
                 <ul class="employ__box__info">
                   <li>리디북스(RIDI books)</li>

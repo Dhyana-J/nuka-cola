@@ -82,45 +82,38 @@
                     <strong>북마크한 채용공고</strong>  
                 </div>
                 <div class="just__text">${blistCount}개의 공고</div>
-				<c:forEach var="b" items="${blist}">
-				<div onclick='location.href="detail.re?rno=${b.recruitNo}"'>
+				
                 <div class="just__text__item">
-                    <span class="just__text__title">${b.compName}</span>
-                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
-                    
-                    <c:if test="${b.recruitRequ eq '0'}">
-                    	<span class="just__text__recruit">신입</span>
-                    </c:if>
-                    <c:if test="${b.recruitRequ eq '1'}">
-                    	<span class="just__text__recruit">경력</span>
-                    </c:if>
-                    <c:if test="${b.recruitRequ eq '2'}">
-                    	<span class="just__text__recruit">신입 경력</span>
-                    </c:if>
-                    
-                    
-                    <a class="section__content__title__cencle" onclick="deleteBtn(${b.recruitNo},${b.userNo});">북마크 제외</a>
-                </div>
-                <div class="section__content__box">
-					<c:forEach var="skill" items="${skillMap.get(b.recruitNo)}">
-                    <span class="compindus__box">${skill}</span>
-					</c:forEach>
-
-
-					
-                </div> 
-                <div class="sysdate">${b.createdAt}</div>
+                <c:forEach var="b" items="${blist}">
+                	<div class="bookmark__item__box">
+                	<input class='recruit-no' type="hidden" name="recruitNo" value='${b.recruitNo}'>
+	                	<div class="bookmark__item__box__right">
+		                    <span class="just__text__title">${b.compName}</span>
+		                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
+		                    
+		                    <c:if test="${b.recruitRequ eq '0'}">
+		                    	<span class="just__text__recruit">신입</span>
+		                    </c:if>
+		                    <c:if test="${b.recruitRequ eq '1'}">
+		                    	<span class="just__text__recruit">경력</span>
+		                    </c:if>
+		                    <c:if test="${b.recruitRequ eq '2'}">
+		                    	<span class="just__text__recruit">신입 경력</span>
+		                    </c:if>
+			                <div class="section__content__box">
+								<c:forEach var="skill" items="${skillMap.get(b.recruitNo)}">
+			                    <span class="compindus__box">${skill}</span>
+								</c:forEach>
+							</div>
+							<div class="date">${b.createdAt}</div>
+	                	</div> 
+		                <div class="bookmark__item__box__left">
+		                	<a class="section__content__title__cencel">북마크 제외</a>
+		                </div>           
                 </div>
                 </c:forEach>
-                
-                <c:if test="${blist != null}">
-					<div class="more">
-	                  <button class="btn" id="moreBtn" onclick="moreList(${loginUser.userNo},${pi.currentPage});">more</button>
-	                </div>
-                </c:if>
-                <c:if test="${blist == null}">
+                </div>
 					
-                </c:if>
             </div>
             </div>
                     
@@ -128,144 +121,153 @@
 
         </div>
     </div>
-                
-            <a id="topBtn" href="#"><img id="logoDesign"src="../../assets/avatar.png" alt=""></a>
+            <script defer>
+            
+            const createBookmarkItem =(v,i)=>{
+            	console.log(i);
+            	const itemList = document.querySelector('.just__text__item');
+            	const bookmarkItemBox = document.createElement('div');
+            		bookmarkItemBox.className='bookmark__item__box';
+            	const recruitNo = document.createElement('input');
+        			recruitNo.type='hidden';
+        			recruitNo.name='recruitNo';
+            		recruitNo.className='recruit-no';
+            		recruitNo.value=v.recruitNo;
 
-            <script>
-            
-            
-          	'use strict';
-          	
-          	//북마크의 현재페이지가 마지막 페이지면 more버튼 비활성화.
-      		if(${pi.currentPage}==${pi.maxPage}){
-      			let moreBtn = document.querySelector('#moreBtn');
-      			moreBtn.setAttribute('disabled',true);	
-      		}
-          	
-            
-            
-            
-            let btn = document.getElementsByClassName("list_more");
-            console.log(btn.value());
-            const moreList=(uno,currentPage)=>{
-            	axios.get('loadMore.bk',{
-            		params:{
-            		currentPage:crrentPage,
-            		userNo:uno
+            	/*북마크 공고 정보(회사,소개, 관련업무분야,마감일)*/
+            	const bookmarkItemRight = document.createElement('div');
+            		bookmarkItemRight.className='bookmark__item__box__right';
+            	const title= document.createElement('span');
+	            	title.className='just__text__title';
+	            	title.innerText=v.compName;
+            	const content = document.createElement('span');
+            		content.className='just__text__content';
+            	const contentTextStrong = document.createElement('strong');
+            		contentTextStrong.innerText=v.recruitTitle;
+            	let recruit = document.createElement('span');
+            		recruit.className='just__text__recruit';
+            		const recruitRequ = v.recruitRequ;           	
+            		if(v.recruitRequ =='0'){
+            			recruit.innerText='신입';
+            		}else if(v.recruitRequ =='1'){
+            			recruit.innerText='경력';
+            		}else if(v.recruitRequ =='2'){
+            			recruit.innerText='신입 경력';
             		}
-            	})
-            	.then(function(){
-            		 alert("북마크취소 되었습니다.");
-            	 })
+            	const skillBox = document.createElement("div");
+            		  skillBox.className = "section__content__box";
+            		  i.forEach((v) => {
+            		    const skill = document.createElement("span");
+            		    skill.className = "compindus__box";
+            		    skill.innerText = "" + v;
+            		    skillBox.appendChild(skill);
+            		  });
+
+            	const date = document.createElement('div');
+            		date.className='date';
+            		date.innerText=v.createdAt;
+            		
+            	/*북마크 취소*/
+            	const bookmarkLeft = document.createElement('div');
+            		bookmarkLeft.className='bookmark__item__box__left';
+            	const bookmarkCencle = document.createElement('a');
+            		bookmarkCencle.className='section__content__title__cencel';
+            		bookmarkCencle.innerText='북마크 제외';
+            		
+            		
+            	
+            	content.appendChild(contentTextStrong);	
+            	bookmarkLeft.appendChild(bookmarkCencle);
+            	bookmarkItemRight.appendChild(title);
+            	bookmarkItemRight.appendChild(content);
+            	bookmarkItemRight.appendChild(recruit);
+            	bookmarkItemRight.appendChild(skillBox);
+            	bookmarkItemRight.appendChild(date);
+            	bookmarkItemBox.appendChild(recruitNo);	
+            	bookmarkItemBox.appendChild(bookmarkItemRight);
+            	bookmarkItemBox.appendChild(bookmarkLeft);
+            	itemList.appendChild(bookmarkItemBox);
+
+
             }
             
+          	
+            
+            
+            /*페이지*/
 
-             function deleteBtn(bno,uno){
-            	 console.log(bno);
-            	 console.log(uno);
-            	 axios.get('delete.bk',{
-            		 params:{
-            			 userNo:uno,
-            			 recruitNo:bno,
-            		 }
-            	 })
-            	 .then(function(){
-            		 alert("북마크취소 되었습니다.");
-            		 location.href="list.bk?uno="+uno;
-            	 })
-            	 
+            let currentPageNum = 2;
+            window.addEventListener('scroll',()=>{
+              if(window.pageYOffset + document.documentElement.clientHeight >
+                      document.documentElement.scrollHeight - 1){
+                console.log('로드!')
+                axios.get('load.bk', {
+                  params: {
+                    currentPage: currentPageNum++
+                  }
+                }) .then((result)=>{
+
+                    result.data["blist"].forEach((v) => {
+                      createBookmarkItem(v, result.data["skillMap"][v.recruitNo]);
+                    
+                    });
+
+                  }).catch(function(error){
+                	  console.log(error);
+                  })
+                  .then(function(){
+                	  cancel();
+                  	  href();
+                  })
+                }
+              });
+            
+            
+			const cancel=()=>{
+			  document.querySelectorAll('.section__content__title__cencel').forEach((v,i)=>{
+				  console.log(v);
+		            v.addEventListener('click',()=>{
+
+			              let item = document.querySelectorAll('.bookmark__item__box')[i];
+
+			              let rno = document.querySelectorAll('.recruit-no')[i].value
+			              console.log(rno);
+			              console.log(item);
+			              
+			              axios.get('delete.bk',{
+			         		 params:{
+			         			recruitNo:rno
+			         		 }
+			         	 })
+			         	 .then(function(){
+			         	 });
+			              
+			              item.remove(); 
+
+		       	    });
+		  	      });
+
+			}
+            let href =()=>{
+					 document.querySelectorAll('.bookmark__item__box__right').forEach((v,i)=>{
+			              v.addEventListener('click',()=>{
+				              let rno = document.querySelectorAll('.recruit-no')[i];
+				              console.log(rno);
+				             location.href="detail.re?rno="+rno.value;
+				         	 
+			         	    });
+			    	      });
             }
             
             
-            
-            
-            
-            
-            $(function() { 
-              $(window).scroll(function() { 
-                if ($(this).scrollTop() > 1000) { 
-                  $('#topBtn').fadeIn(); } 
-                  else { $('#topBtn').fadeOut(); } }); 
-
-              $("#topBtn").click(function() { 
-                $('html, body').animate({ 
-                  scrollTop : 0 
-               }, 400); 
-              return false; }); });
-
-
-
-
+            href();
+            cancel();
 
             </script>
 
-            <div id="my_modal">
-              지원이력 페이지로 가시겠습니까?
-              <a class="modal_close_btn"><i class="icono-crossCircle"></i></a> 
-            </div>
 
 
-
-
-          <!-- 모달창 자바스크립트 -->
-          <script>
-            function modal(id) {
-                var zIndex = 9999;
-                var modal = document.getElementById(id);
-
-                // 모달 div 뒤에 희끄무레한 레이어
-                var bg = document.createElement('div');
-                bg.setStyle({
-                    position: 'fixed',
-                    zIndex: zIndex,
-                    left: '0px',
-                    top: '0px',
-                    width: '100%',
-                    height: '100%',
-                    overflow: 'auto',
-                    // 레이어 색갈은 여기서 바꾸면 됨
-                    backgroundColor: 'rgba(0,0,0,0.4)'
-                });
-                document.body.append(bg);
-
-                // 링크가기, 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-                    bg.remove();
-                    modal.style.display = 'none';
-                });
-               
-
-                modal.setStyle({
-                    position: 'fixed',
-                    display: 'block',
-                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-                    
-                    // 시꺼먼 레이어 보다 한칸 위에 보이기
-                    zIndex: zIndex + 1,
-                    
-                    // div 정렬
-                    top: '20%',
-                    left: '70%',
-                    transform: 'translate(-50%, -50%)',
-                    msTransform: 'translate(-50%, -50%)',
-                    webkitTransform: 'translate(-50%, -50%)'
-                });
-            }
-
-            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-            Element.prototype.setStyle = function(styles) {
-                for (var k in styles) this.style[k] = styles[k];
-                return this;
-            };
-
-            document.getElementById('popup_open_btn').addEventListener('click', function() {
-                // 모달창 띄우기
-                modal('my_modal');
-            });
-        </script>
-
-
-
+  	      
 
           </main>
           <jsp:include page="../common/footer.jsp"/>

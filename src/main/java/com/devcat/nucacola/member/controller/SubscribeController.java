@@ -8,6 +8,10 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,7 @@ import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.google.gson.Gson;
 
 @Controller
 public class SubscribeController {
@@ -114,7 +119,7 @@ public class SubscribeController {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		bm.setUserNo(m.getUserNo());
-		System.out.println("넘어온 ㅠㅡ:"+bm);
+		
 		int result = mService.deleteBookmark(bm);
 
 //		return "redirect:list.bk?uno="+bm.getRecruitNo();
@@ -131,7 +136,9 @@ public class SubscribeController {
 	// 기업 구독 조회
 	@RequestMapping("/list.sub")
 	public String selectSubComp(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-								int uno, Model model) {
+								HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		int uno = m.getUserNo();
 		int cslistCount = mService.countSubComp(uno);// 해당유저의 구독기업 총개수
 		PageInfo pi = Pagination.getPageInfo(cslistCount, currentPage,1,4);
 		ArrayList<CompSub> cslist=mService.selectSubComp(uno,pi);
@@ -144,10 +151,34 @@ public class SubscribeController {
 	
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping(value="load.sub",method = RequestMethod.GET)
+	public  ResponseEntity<HashMap<String, Object>> loadSubComp(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+									HttpSession session, Model model) {
+		HttpHeaders responseHeaders = new HttpHeaders();
+		Member m = (Member)session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		int cslistCount = mService.countSubComp(uno);// 해당유저의 구독기업 총개수
+		PageInfo pi = Pagination.getPageInfo(cslistCount, currentPage,1,4);
+		ArrayList<CompSub> cslist=mService.selectSubComp(uno,pi);
+		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+		HashMap<String, Object> result=new HashMap<>();
+		result.put("csCount",cslistCount);
+		result.put("cslist",cslist);
+
+		return new ResponseEntity<HashMap<String, Object>>(result, responseHeaders, HttpStatus.CREATED);
+		
+	
+	}
+	
 	// 기업 구독 취소	
 	@ResponseBody
 	@RequestMapping(value="/delete.sub")
-	public void deleteSubComp(CompSub cs) {
+	public void deleteSubComp(CompSub cs, HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		cs.setUserNo(m.getUserNo());
+		System.out.println("넘어온 ㅠㅡ:"+cs);
 		int result = mService.deleteSubComp(cs);
 		
 //		return "/main";

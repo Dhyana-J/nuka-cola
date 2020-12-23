@@ -70,7 +70,7 @@
                 <li>팔로잉</li>
                 <li>팔로워</li>
                 <li>북마크</li>
-                <li onClick='location.href="list.sub?uno=${loginUser.userNo}"'>구독기업</li>
+                <li onClick='location.href="list.sub"'>구독기업</li>
                 <li>좋아요게시글</li>
                 <li>연결</li>
               </ul>
@@ -230,9 +230,7 @@
 
 			              let item = document.querySelectorAll('.bookmark__item__box')[i];
 
-			              let rno = document.querySelectorAll('.recruit-no')[i].value
-			              console.log(rno);
-			              console.log(item);
+			              let rno = document.querySelectorAll('.recruit-no')[i].value;
 			              
 			              axios.get('delete.bk',{
 			         		 params:{

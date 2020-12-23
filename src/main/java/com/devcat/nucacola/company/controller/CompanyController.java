@@ -25,8 +25,8 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
-import com.devcat.nucacola.company.model.vo.CompIndus;
 import com.devcat.nucacola.company.model.vo.Company;
+import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
 import com.google.gson.Gson;
@@ -36,6 +36,9 @@ public class CompanyController {
 	
 	@Autowired
 	private CompanyService cService;
+	
+	@Autowired
+	private MemberService mService;
 	
 	// 회사 전체 조회
 	@RequestMapping("list.co")
@@ -97,6 +100,56 @@ public class CompanyController {
 			System.out.println(hm);
 			int result2 = cService.insertCompindus(hm);
 		}
+		
+		
+		//테크스텍 테이블에 insert
+		// 백 엔드 기술 0
+		String[] backSkillList = c.getSkillList().get(1).getSkillName().split(" ");
+		// 백 앤드 해시맵 출격!
+		HashMap<String, Object> backMap = makeMap(backSkillList,nc);
+		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+		backMap.put("backNo", 0);
+		int backSuccess = cService.insertTech(backMap);
+		System.out.println(backMap);
+		System.out.println("백 성공 결과 : " + backSuccess);
+		
+		
+		// 프론트 엔드 기술 1 python node.js kotlin 
+		String[] frontSkillList = c.getSkillList().get(0).getSkillName().split(" ");
+		
+		HashMap<String, Object> frontMap = makeMap(frontSkillList,nc);
+		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+		backMap.put("backNo", 1);
+		int frontSuccess = cService.insertTech(frontMap);
+		System.out.println(frontMap);
+		System.out.println("프론트 성공 결과 : " + frontSuccess);
+		
+		
+		
+		// 데브 기술 2
+		String[] devSkillList = c.getSkillList().get(2).getSkillName().split(" ");
+		
+		HashMap<String, Object> devMap = makeMap(devSkillList,nc);
+		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+		devMap.put("backNo", 1);
+		int devSuccess = cService.insertTech(devMap);
+		System.out.println(devMap);
+		System.out.println("데브 성공 결과 : " + devSuccess);
+		
+		
+		// 기타 기술 3
+		String[] etcSkillList = c.getSkillList().get(3).getSkillName().split(" ");
+		
+		HashMap<String, Object> etcMap = makeMap(etcSkillList,nc);
+		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+		etcMap.put("backNo", 1);
+		int etcSuccess = cService.insertTech(etcMap);
+		System.out.println(etcMap);
+		System.out.println("기타 성공 결과 : " + etcSuccess);
+		
+
+		
+		
 			session.setAttribute("alertMsg", "성공적으로 회사가 등록되었습니다.");
 			return "redirect:list.co";
 		}else {
@@ -126,6 +179,31 @@ public class CompanyController {
 		
 		return changeName;
 	
+	}
+	
+	// 해시맵 만들어주는 메소드~
+	private HashMap<String, Object> makeMap(String[] skillList, Company nc) {
+		
+		// 기술 번호를 알아오기 위한 리스트 생성
+		ArrayList<Skills> list = new ArrayList<>();
+		//hashMap에 넣을 기술번호들을 담을 리스트 생성
+		ArrayList<Integer> skillsNo = new ArrayList<>();
+		
+		//기술이름 => 기술번호, 기술 이름 알아옴
+		list = mService.getSkillNo(skillList);
+		
+		for(int i =0; i<list.size(); i++) {
+			// 기술번호만 골라서 skillNo 담아준다!
+			skillsNo.add(list.get(i).getSkillNo());
+		}
+		
+		// 기업식별자와, 기술번호를 한번에 담은 해시맵이다 이마리야
+		HashMap<String, Object> ts = new HashMap<String, Object>();
+		
+		ts.put("compNo", nc.getCompNo());
+		ts.put("skillsNo",skillsNo);
+		
+		return ts;
 	}
 	
 	// 프로필 메인화면

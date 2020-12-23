@@ -48,7 +48,7 @@
             <div class="content__wrapper">
               <div class="section__compLogo">
                 <div class="avatar__company">
-                  <img src="../../assets/avatar.png" alt="comapnyLogo" />
+                  <img src="resources/assets/avatar.png" alt="comapnyLogo" id="companyLogo"/>
                 </div>
                 <div class="main__info">
                   <strong>로고</strong>
@@ -122,34 +122,63 @@
             <div class="content__wrapper">
               <div class="section__techstack">
                 <strong>테크스택</strong>
+                
+                
                 <span>FRONT-END</span>
-                <input type="text" name="skillList[0].skillName" onfocus="add1()"/>
-                <div class="section__techstack__btn">
-                  <button class="techstack__btn">Node.js</button>
-                  <button class="techstack__btn">Express.js</button>
-                  <button class="techstack__btn">Deno</button>
-                </div>
+                <input type="hidden" name="skillList[0].skillName" id="front-skill-list"/>
+                <input type="text" id="front-search"/>         
+                <div id="front-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="front_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+				
+				
                 <span>BACK-END</span>
-                <input type="text" name="skillList[1].skillName"/>
-                <div class="section__techstack__btn">
-                  <button class="techstack__btn">Node.js</button>
-                  <button class="techstack__btn">Express.js</button>
-                  <button class="techstack__btn">Deno</button>
-                </div>
-                <span>DEV-OPS</span>S
-                <input type="text" name="skillList[2].skillName"/>
-                <div class="section__techstack__btn">
-                  <button class="techstack__btn">Node.js</button>
-                  <button class="techstack__btn">Express.js</button>
-                  <button class="techstack__btn">Deno</button>
-                </div>
+                <input type="hidden" name="skillList[1].skillName" id="back-skill-list"/>
+                <input type="text" id="back-search"/>
+
+                <div id="back-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="back_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+                
+                
+                <!--  -->  
+                <span>DEV-OPS</span>
+                <input type="hidden" name="skillList[2].skillName" id="dev-skill-list"/>
+                <input type="text" id="dev-search"/>
+
+                <div id="dev-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="dev_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+                
+                
+                
                 <span>기타</span>
-                <input type="text" name="skillList[3].skillName"/>
-                <div class="section__techstack__btn">
-                  <button class="techstack__btn">Node.js</button>
-                  <button class="techstack__btn">Express.js</button>
-                  <button class="techstack__btn">Deno</button>
-                </div>
+                <input type="hidden" name="skillList[3].skillName" id="etc-skill-list"/>
+                <input type="text" id="etc-search"/>
+                <div id="etc-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="etc_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+                
               </div>
             </div>
             <div class="content__wrapper">
@@ -274,4 +303,288 @@
       </div>
     </main>
   </body>
+  
+  <script defer>
+  	'use strict'
+  			/* 프로필 이미지 변경 */
+		
+				document.querySelector("#upfile").addEventListener("change", (input) => {
+	
+					let fileList = document.querySelector("#upfile").files;
+					
+					if(fileList.length == 1) {
+						// 파일 읽을 객체 생성
+						let reader = new FileReader();
+						
+						// 파일을 읽는 순간 고유한 url 부여
+						reader.readAsDataURL(fileList[0]);
+							
+						// 파일 읽기 완료시 실행할 함수
+						reader.onload = function(){
+							document.querySelector("#companyLogo").setAttribute("src", reader.result);
+							
+						}
+	
+			
+					}else {
+						// 파일 업로드 취소할시 다시 원상복귀
+						document.querySelector("#companyLogo").setAttribute("src", "resources/assets/avatar.png");
+						
+					}
+				
+				
+				})
+					
+
+				
+				
+			/* 프론트 엔드 기술 체크 부분 */	
+			document.querySelector("#front-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+			console.log(skill);
+			console.log(skill.length);
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+  	
+  	
+  	
+			/* 백 엔드 기술 체크 부분 */	
+			document.querySelector("#back-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+			
+			
+			/* 데브옵스 기술 체크 부분 */	
+			document.querySelector("#dev-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+			
+			/* 기타 기술 체크 부분 */	
+			document.querySelector("#etc-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+ 	
+				// 스킬 리스트 검사용 axios
+			const checkSkill = (skill,e)=>{
+
+				   axios.get('search.sk', {
+						params: {
+							skillName: skill
+						}
+					})
+						   .then(function (response) {
+		
+								let searchResult = "";
+								response.data.forEach(v=>{
+		
+									searchResult += "<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
+		
+								})
+								
+								/* 기술 목록 리스트 보여주기 용 */
+								/* #???-search-list */
+								let skillSearchList = e.target.nextSibling.nextSibling.id;
+								
+								document.getElementById(skillSearchList).innerHTML = searchResult
+
+							})
+							.catch(function (error) {
+								console.log(error);
+							})
+							.then(function () {
+								// ...
+							});
+
+			}
+				   
+		
+		/* 1. front result tag에 버튼 만들어주기 */
+		document.querySelector("#front-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".front_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let frontSkill = document.querySelectorAll(".front_result li>span");
+			let frontSkillList = "";
+			frontSkill.forEach(s => {
+				frontSkillList += s.innerText + " ";
+			})
+			
+			console.log(frontSkillList);
+			
+			document.querySelector("#front-skill-list").value = frontSkillList;
+	
+			
+			document.querySelector("#front-search").value = " ";
+			
+		});
+	
+		/* 2. back result tag에 버튼 만들어주기 */
+		document.querySelector("#back-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".back_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let backSkill = document.querySelectorAll(".back_result li>span");
+			let backSkillList = "";
+			backSkill.forEach(s => {
+				backSkillList += s.innerText + " ";
+			})
+			
+			console.log(backSkillList);
+			
+			document.querySelector("#back-skill-list").value = backSkillList;
+						
+			document.querySelector("#back-search").value = " ";
+		});
+		
+		/* 2. dev result tag에 버튼 만들어주기 */
+		document.querySelector("#dev-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".dev_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let devSkill = document.querySelectorAll(".dev_result li>span");
+			let devSkillList = "";
+			devSkill.forEach(s => {
+				devSkillList += s.innerText + " ";
+			})
+			
+			console.log(devSkillList);
+			
+			document.querySelector("#dev-skill-list").value = devSkillList;
+			
+			
+			document.querySelector("#dev-search").value = " ";
+		});
+		
+		/* 2. etc result tag에 버튼 만들어주기 */
+		document.querySelector("#etc-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".etc_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let etcSkill = document.querySelectorAll(".etc_result li>span");
+			let etcSkillList = "";
+			etcSkill.forEach(s => {
+				etcSkillList += s.innerText + " ";
+			})
+			
+			console.log(etcSkillList);
+			
+			document.querySelector("#etc-skill-list").value = etcSkillList;
+			
+
+			document.querySelector("#etc-search").value = " ";
+		});
+		
+		
+
+		let tagList = "";
+		let TagList = [];
+		const TAG_LS = "tag";
+		
+		
+		
+
+		const filter = (toDo) => {
+			return toDo.id === 1;
+		}
+
+		/* 태그 삭제용 함수 */
+		const deleteTag = (event) => {
+			const btn = event.target;
+			const li = btn.parentNode;
+			tagList.removeChild(li);
+
+			const cleanTag = TagList.filter(function(toDo) {
+				return toDo.id !== parseInt(li.id);
+			});
+			TagList = cleanTag;
+			saveTag();
+		}
+
+		const saveTag = () => {
+			localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
+		}
+
+
+		/* 태그 생성용 함수 */
+		const createTag = (tagName) => {
+	
+			const li = document.createElement("li");
+			const delBtn = document.createElement("i");
+
+			delBtn.innerText = "close";
+			delBtn.className = "material-icons"
+
+			const span = document.createElement("span");
+			const newId = TagList.length + 1;
+			span.innerText = tagName;
+			li.appendChild(span);
+			li.appendChild(delBtn);
+			li.id = newId;
+
+			delBtn.addEventListener("click", deleteTag);
+			tagList.appendChild(li);
+
+			const TagObj = {
+				skillName : tagName,
+				id: newId
+			};
+
+			TagList.push(TagObj);
+			saveTag();
+
+		}
+		
+		
+
+			
+		
+
+  </script>
+  
 </html>

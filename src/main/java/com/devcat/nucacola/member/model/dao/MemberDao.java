@@ -2,8 +2,6 @@ package com.devcat.nucacola.member.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,8 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.vo.Bookmark;
-import com.devcat.nucacola.member.model.vo.Carrer;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
@@ -45,13 +44,6 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.checkEmail", email);
 	}
 
-	
-	
-	
-	
-
-
-	
 	// 한줄 소개
 	public int updateUserInfo(SqlSessionTemplate sqlSession,Member m) {
 		return sqlSession.update("memberMapper.updateUserInfo",m);
@@ -74,9 +66,7 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("memberMapper.deleteUserField",uf);
 	}
-	
-	
-	
+
 	
 	// 업무분야
 	public int insertUserPosi(SqlSessionTemplate sqlSession, String userPosi) {
@@ -88,16 +78,16 @@ public class MemberDao {
 		
 		return sqlSession.update("memberMapper.updateUserPosi",m);
 	}
-	
-	
-	//프로젝트
+
+
+	//프로젝트 추가
 	public int insertProject(SqlSessionTemplate sqlSession, Project p) {
-		
 		return sqlSession.insert("projectMapper.insertUserProject", p);
+		
 	}
 	// 프로젝트수정
 	public int updateProject(SqlSessionTemplate sqlSession, Project p) {
-		return sqlSession.update("projectMapper.updateUserProject", p);
+		return sqlSession.update("projectMapper.updateProject", p);
 	}
 	
 
@@ -122,12 +112,12 @@ public class MemberDao {
 
 	
 	// 경력
-	public int insertCarrer(SqlSessionTemplate sqlSession, Carrer c) {
+	public int insertCareer(SqlSessionTemplate sqlSession, Career c) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int updateCarrer(SqlSessionTemplate sqlSession, Carrer c) {
+	public int updateCareer(SqlSessionTemplate sqlSession, Career c) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -257,7 +247,23 @@ public class MemberDao {
 	public int cancelFollowing(SqlSessionTemplate sqlSession, Connection conn) {
 		return sqlSession.delete("memberMapper.cancelFollowing",conn);
 	}
+	// 유저 프로젝트 알아오기 
+	public ArrayList<Project> selectProjectList(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("projectMapper.selectProjectList", userNo);
+	}
+	
+	// 경력 알아오기
+	public ArrayList<Career> selectCareerList(SqlSessionTemplate sqlSession, int userNo) {
 
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCareerList", userNo);
+	}
+	
+	// 기업식별자 알아오기
+	public Company selectCompNo(SqlSessionTemplate sqlSession, int userNo) {
+		return null;
+	}
+	
 	
 	
 	

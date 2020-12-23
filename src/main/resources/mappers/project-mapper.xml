@@ -11,31 +11,58 @@
 	</resultMap>
 	
 	
-	<!-- 프로젝트 수정 -->
+	<!-- 프로젝트 추가 -->
 	
 	<insert id="insertUserProject" parameterType="Project" >
 		
-		insert 
+		insert
 			  into projects
 			      (
-			       proejct_name
+			       project_id
+			     , user_no  
+			     , project_name
 			     , project_position
 			     , project_start
 			     , project_end
 			      )
 			    values
 			      (
-			      #{projectName}
+			      seq_project.nextval 
+			    , #{userNo}
+			    , #{projectName}
 			    , #{projectPosition}
 			    , #{projectStart}
 			    , #{projectEnd}
 			      )
+			      
 	</insert>
+	<!-- 프로젝트 조회 -->
+	<select id="selectProjectList" parameterType="Project" resultMap="projectResultSet">
+		select
+			   project_id
+		     , project_name
+		     , project_position
+		     , project_start
+		     , project_end
+		 from projects
+		 where user_no = #{userNo}
+	</select>
 	
+	<!-- 프로젝트 수정 -->
+	<update id="updateProject" parameterType="Project">
+		
+		update 
+        			projects
+			  	set   
+			        PROJECT_NAME
+			       ,PROJECT_POSITION
+			       ,PROJECT_START
+			       ,PROJECT_END
+			  where user_no = #{userNo}
+	</update>
 	
+
 	
-	
-	
-	
+
 	
 </mapper>

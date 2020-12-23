@@ -50,6 +50,17 @@
 		<result column="created_at" property="createdAt"/>
 	</resultMap>
 	
+	<resultMap id="CareerResultSet" type="Career">
+		<result column="user_no" property="userNo"/>
+		<result column="comp_no" property="compNo"/>
+		<result column="career_posi" property="careerPosi"/>
+		<result column="career_state" property="careerState"/>
+		<result column="updated_at" property="updatedAt"/>
+		<result column="entered_at" property="enteredAt"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
+	
+	
 	<select id="loginMember"
 		    parameterType="Member"
 		    resultMap="memberResultSet">
@@ -177,16 +188,7 @@
 		
 	</select>
 	
-	<!-- 최종학력 조회 -->
-	
-	<select id="selectUserEdu" parameterType="_int"
-			resultType="string">
-		
-		select
-			   user_edu
-		  from users
-		 where user_no = #{userNo}
-	</select>
+
 	
 	<update id="updateUserInfo" parameterType="Member">
 		
@@ -218,7 +220,16 @@
 	
 	</select>
 	
+	<!-- 최종학력 조회 -->
 	
+	<select id="selectUserEdu" parameterType="_int"
+			resultType="string">
+		
+		select
+			   user_edu
+		  from users
+		 where user_no = #{userNo}
+	</select>
 	
 	<!-- 최종학력 업데이트 -->
 	<update id="updateUserEdu" parameterType="Member">
@@ -462,4 +473,22 @@
 		where comp_no=#{compNo} and
 		user_no=#{userNo}
 	</delete>
+	
+	<!-- 경력 조회해오기 -->
+	<select id="selectCareerList" parameterType="Career"
+			resultMap="CareerResultSet">
+		select
+				x.user_no
+		      , x.comp_no
+		      , comp_name
+		      , career_posi
+		      , to_char(x.updated_at, 'YYYY-MM-DD') "updated_at"
+		      , to_char(x.entered_at, 'YYYY-MM-DD') "entered_at"
+		from careers x
+		join companys c on (x.comp_no = c.comp_no) 
+		where x.user_no = 30	
+			
+	</select>
+	
+	
 </mapper>

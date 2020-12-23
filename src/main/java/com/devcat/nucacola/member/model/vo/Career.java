@@ -11,14 +11,14 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Carrer {
+public class Career {
 
 
 	private int userNo;
 	private int compNo;
-	private String carrerPosi;
-	private int carrerState;
-	private String udatedAt;
+	private String careerPosi;
+	private int careerState;
+	private String updatedAt;
 	private String enteredAt;
 	private String createdAt;
 	

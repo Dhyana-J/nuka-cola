@@ -52,7 +52,8 @@
             <div class="section__search-info">
               <strong>기업 정보 검색</strong>
               <div class="section__select-info">
-                <select name="" id="">
+                <select name="" id="headcount-list">
+                  <option value="" selected disabled hidden>구성원</option>
                   <option value="">1~10명</option>
                   <option value="">11~100명</option>
                   <option value="">101~500명</option>
@@ -60,12 +61,14 @@
                   <option value="">1001~5000명</option>
                   <option value="">5000명 초과</option>
                 </select>
-                <select name="" id="">
+                <select name="" id="local-list">
+                  <option value="" selected disabled hidden>지역</option>
                   <option value="">서울시</option>
                   <option value="">경기도</option>
                   <option value="">인천</option>
                 </select>
-                <select name="" id="">
+                <select name="" id="indus-list">
+                	<option value="" selected disabled hidden>산업분야</option>
                   <option value="">웹서비스</option>
                   <option value="">모바일</option>
                   <option value="">e-commerce</option>
@@ -74,18 +77,11 @@
                   <option value="">핀테크</option>
                 </select>
               </div>
-              <div class="section__search-span">
-                <span class="search-span">서울특별시
-                <span class="material-icons">clear</span>
-                </span>
-                <span class="search-span">101~500명
-                <span class="material-icons">clear</span>
-                </span>
-                <span class="search-span">웹서비스
-                <span class="material-icons">clear</span>
-                </span>
+              <div class="section__search-span" id ="search-span-field">
+                <div class="tag-field"> <!-- 태그 들어갈 부분 -->
+                </div>
                 <div class="keyword">
-                  <input type="search" placeholder="검색어를 입력하세요">
+                  <input type="text" placeholder="검색어를 입력하세요">
                   <i class="material-icons">search</i>
                 </div>
               </div>
@@ -185,5 +181,91 @@
           })
       	}
     })
+    
+
+    // 각각의 selectbox
+    	let countSelect = document.querySelector("#headcount-list");
+    	let localSelect = document.querySelector("#local-list");
+    	let indusSelect = document.querySelector("#indus-list")
+    
+   	// 구성원 선택 시 option 값 담아주기
+		document.querySelector("#headcount-list").addEventListener("change", function (e) {
+    	
+    	tagList = document.querySelector(".tag-field");
+    	
+    	let tagName = countSelect.options[countSelect.selectedIndex].text;
+    	
+    	createTag(tagName);
+    	
+    	let headcount = document.querySelectorAll(".tag-field");
+    	let headcountList = "";
+    	headcount.forEach(s => {
+    		headcountList += s.innerText + " ";
+    	})
+    	
+    	console.log(headcountList);
+    })
+    
+    //지역 선택 시 option 값 담아주기
+    	document.querySelector("#local-list").addEventListener("change", function (e) {
+    	
+    	tagList = document.querySelector(".tag-field");
+    	
+    	let tagName = localSelect.options[localSelect.selectedIndex].text;
+    	
+    	createTag(tagName);
+    	
+    	let headcount = document.querySelectorAll(".tag-field");
+    	let headcountList = "";
+    	headcount.forEach(s => {
+    		headcountList += s.innerText + " ";
+    	})
+    	
+    	console.log(headcountList);
+    })
+    // 산업분야 선택 시 option 값 담아주기
+    	
+    	document.querySelector("#indus-list").addEventListener("change", function (e) {
+    	
+    	tagList = document.querySelector(".tag-field");
+    	
+    	let tagName = indusSelect.options[indusSelect.selectedIndex].text;
+    	
+    	createTag(tagName);
+    	
+    	let headcount = document.querySelectorAll(".tag-field");
+    	let headcountList = "";
+    	headcount.forEach(s => {
+    		headcountList += s.innerText + " ";
+    	})
+    	
+    	console.log(headcountList);
+    })
+    // 태그 생성용 함수
+    const createTag = (tagName) => {
+    	
+    	const searchSpan = document.createElement("span");
+    	const delIcon = document.createElement("span");
+    	
+    	searchSpan.className = "search-span";
+    	delIcon.innerText = "clear";
+    	delIcon.className = "material-icons";
+    	searchSpan.innerText = tagName;
+		    	
+    	delIcon.addEventListener("click", deleteTag);
+    	tagList.appendChild(searchSpan);
+    	searchSpan.appendChild(delIcon);
+ 	
+    }
+    
+    // 태그 삭제용 함수
+    const deleteTag = (event) => {
+    	const span = event.target;
+    	const div = span.parentNode;
+    	tagList.removeChild(div);
+    	
+    }
+    
+    
   </script>
 </html>

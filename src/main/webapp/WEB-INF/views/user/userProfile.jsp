@@ -568,7 +568,8 @@
 					&& stopFgLoad==true
 					&& stopCnLoad==true){
 				let moreBtn = document.querySelector('#moreBtn');
-				moreBtn.setAttribute('disabled',true);
+				//moreBtn.setAttribute('disabled',true);
+				 moreBtn.remove();
 			}else{
 				//버튼이 비활성화되어있지 않으면 세팅
 				document.querySelector('#moreBtn').setAttribute('onclick',
@@ -642,7 +643,7 @@
 						//팔로잉,팔로워,연결 각각 방금 불러온 페이지가 마지막페이지면 stopLoad 활성화
 						comparePage(pCon);
 
-						//more버튼 속성 변경(stopLoad전부 활성화되어있으면 disabled)
+						//more버튼 속성 변경(stopLoad전부 활성화되어있으면 버튼 삭제)
 						//하나라도 비활성화면 매개변수 세팅
 						changeMoreBtn(pCon);
 

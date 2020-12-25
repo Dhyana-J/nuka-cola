@@ -270,6 +270,21 @@ public class MemberDao {
 		return null;
 	}
 	
+	//기업 대표 조회용
+	
+	public Member selectHead(SqlSessionTemplate sqlSession, int cno) { 
+		return sqlSession.selectOne("memberMapper.selectHead",cno); 
+	}
+	 
+
+	//기업 구성원 리스트 조회용
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, int cno, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList",cno,rowBounds);
+	}
 	
 	
 	

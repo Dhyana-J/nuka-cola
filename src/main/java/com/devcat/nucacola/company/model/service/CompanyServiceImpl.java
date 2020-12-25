@@ -11,6 +11,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.dao.CompanyDao;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.member.model.vo.Member;
 
 @Service
 public class CompanyServiceImpl implements CompanyService{
@@ -37,8 +38,7 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public Company selectCompany(int cno) {
-		// TODO Auto-generated method stub
-		return null;
+		return cDao.selectCompany(sqlSession,cno);
 	}
 
 	@Override
@@ -74,6 +74,13 @@ public class CompanyServiceImpl implements CompanyService{
 		
 		return cDao.insertTech(sqlSession,backMap);
 	}
+
+	@Override
+	public int selectMemberCount(int cno) {//회사 구성원 수 조회
+		return cDao.selectMemberCount(sqlSession,cno);
+	}
+
+
 
 
 

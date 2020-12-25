@@ -17,18 +17,17 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../company/profile/profile(member-modal).html)" />
-    <link rel="stylesheet" href="../../css/profile/profile(member-modal).css" />
-    <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/profile/profile(member).css" />
- 
+    <link rel="stylesheet" href="resources/css/common.css" />
+    <link rel="stylesheet" href="resources/css/profile/profile(member).css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="resources/js/company/load-more-member.js"></script>
   </head>
   <body>
     <header>
       <div class="inner">
         <div class="left__header">
           <div class="logo">
-            <img src="../../assets/logo.png" alt="logo" />
+            <img src="resources/assets/logo.png" alt="logo" />
           </div>
           <ul class="header__nav">
             <li class="header__nav-item">PARTNER</li>
@@ -46,7 +45,7 @@
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="../../assets/avatar.png" alt="" />
+            <img src="resources/assets/avatar.png" alt="" />
           </div>
           <div>
             <div class="main__info">
@@ -70,7 +69,7 @@
           <ul>
             <li>ABOUT</li>
             <li>채용</li>
-            <li class="nav-active">구성원</li>
+            <li class="nav-active"><a href="profileMember.co?currentPage=1&cno=1">구성원</a></li>
           </ul>
         </div>
         <div class="main__main__section">
@@ -78,7 +77,6 @@
                 <div class="content__wrapper">
                   <ul class="left__info">
                     <li><a href="#"><strong>TOP</strong></a></li>
-                    <li><a href="#">주요구성원</a></li>
                     <li><a href="#">구성원</a></li>
                   </ul>
                 </div>
@@ -92,99 +90,93 @@
                     <h2>대표</h2>
                     <div class="charater__info">
                       <div class="member__avatar">
-                        <img src="../../assets/avatar.png" alt="" />
+	                        <c:choose>
+	                      		<c:when test="${head.userAvatar eq null}">
+			                        <img src="resources/assets/avatar.png" alt="profile" />
+	                      		</c:when>
+	                      		<c:otherwise>
+			                        <img src="${pageContext.request.contextPath}/${head.userAvatar}" alt="profile" />
+	                      		</c:otherwise>
+	                      	</c:choose>
                       </div>
                       <div class="member__info__list">
                         <ul class="member__info">
-                            <li><strong>Elon Reeve Musk</strong></li>
-                            <li>TESLA,SPACE x @CEO</li>
+                            <li><strong>${head.userName}</strong></li>
+                            <li>${head.userComp}</li>
                         </ul>
                       </div>
-                    </div>
-                </div>
+                    </div><!-- charater__info -->
+                </div><!-- main_character__left -->
                 <div class="main_character__right">
                   <h2>채용담당자</h2>
                   <div class="charater__info">
                     <div class="member__avatar">
-                      <img src="../../assets/avatar.png" alt="" />
+                      	<c:choose>
+                      		<c:when test="${head.userAvatar eq null}">
+		                        <img src="resources/assets/avatar.png" alt="profile" />
+                      		</c:when>
+                      		<c:otherwise>
+		                        <img src="${pageContext.request.contextPath}/${head.userAvatar}" alt="profile" />
+                      		</c:otherwise>
+                      	</c:choose>
                     </div>
                     <div class="member__info__list">
                       <ul class="member__info">
-                        <li><strong>Elon Reeve Musk</strong></li>
-                        <li>TESLA,SPACE x @CEO</li>
+                        <li><strong>${head.userName}</strong></li>
+                        <li>${head.userComp}</li>
                       </ul>
                     </div>
-                  </div>
-                </div>
+                  </div><!-- charater__info -->
+                </div><!-- main_character__right -->
               </div>
 
 
               <!-- 구성원 -->
               <div class="member">
                 <h2>구성원</h2>
-                  <div class="box">
+                  <div class="box member-box">
+                  
                     <!-- 구성원 결과 for문 -->
-                    <div class="charater__info">
-                      <div class="member__avatar">
-                        <img src="../../assets/avatar.png" alt="" />
-                      </div>
-                      <div class="member__info__list">
-                        <ul class="member__info">
-                            <li><strong>Elon Reeve Musk</strong></li>
-                            <li>TESLA,SPACE x @CEO</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div class="charater__info">
-                      <div class="member__avatar">
-                        <img src="../../assets/avatar.png" alt="" />
-                      </div>
-                      <div class="member__info__list">
-                        <ul class="member__info">
-                            <li><strong>Elon Reeve Musk</strong></li>
-                            <li>TESLA,SPACE x @CEO</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div class="charater__info">
-                      <div class="member__avatar">
-                        <img src="../../assets/avatar.png" alt="" />
-                      </div>
-                      <div class="member__info__list">
-                        <ul class="member__info">
-                            <li><strong>Elon Reeve Musk</strong></li>
-                            <li>TESLA,SPACE x @CEO</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div class="charater__info">
-                      <div class="member__avatar">
-                        <img src="../../assets/avatar.png" alt="" />
-                      </div>
-                      <div class="member__info__list">
-                        <ul class="member__info">
-                            <li><strong>Elon Reeve Musk</strong></li>
-                            <li>TESLA,SPACE x @CEO</li>
-                        </ul>
-                      </div>
-                    </div>
-
+                    <c:forEach var="member" items="${memberList}">
+	                    <div class="charater__info">
+	                      <div class="member__avatar">
+	                      	<c:choose>
+	                      		<c:when test="${member.userAvatar eq null}">
+			                        <img src="resources/assets/avatar.png" alt="profile" />
+	                      		</c:when>
+	                      		<c:otherwise>
+			                        <img src="${pageContext.request.contextPath}/${member.userAvatar}" alt="profile" />
+	                      		</c:otherwise>
+	                      	</c:choose>
+	                      </div>
+	                      <div class="member__info__list">
+	                        <ul class="member__info">
+	                            <li><strong>${member.userName}</strong></li>
+	                        	<li>${member.userComp}</li>
+	                        </ul>
+	                      </div><!-- member__info__list -->
+	                    </div><!-- charater__info -->
+                    </c:forEach>
                     <!-- 구성원 결과 for문 -->
                   
               </div>
 
+			<!-- 현재페이지가 마지막페이지가 아닌 경우에만 more버튼 출력 -->
+			<c:if test="${pi.currentPage ne pi.maxPage}">
               <div class="member_btn">
-                <button class="btn">more</button>
+              	<!-- 버튼 클릭될 때마다 loadMore 실행된다. 인자로 회사번호 넣어줘야함 -->
+                <button class="btn" onclick="loadMore(1)">more</button>
               </div>
+			</c:if>
+              
             </div>
           </div>
 
         </div>
       </div>
     </main>
+    
+    
     <!-- 구성원 추가 모달 -->
     <div class="modal hidden">
       <div class="modal__overlay"></div>
@@ -202,7 +194,7 @@
                   <div class="charater__info">
                       <div class="charater__info__left">
                           <div class="member__avatar">
-                          <img src="../../assets/avatar.png" alt="" />
+                          <img src="resources/assets/avatar.png" alt="" />
                           </div>
                           <label for="add_option" class="add__member__check">
                           <ul class="add__member__info">
@@ -218,24 +210,7 @@
                   <div class="charater__info">
                       <div class="charater__info__left">
                           <div class="member__avatar">
-                          <img src="../../assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="../../assets/avatar.png" alt="" />
+                          <img src="resources/assets/avatar.png" alt="" />
                           </div>
                           <label for="add_option" class="add__member__check">
                           <ul class="add__member__info">
@@ -252,7 +227,7 @@
                   <div class="charater__info">
                       <div class="charater__info__left">
                           <div class="member__avatar">
-                          <img src="../../assets/avatar.png" alt="" />
+                          <img src="resources/assets/avatar.png" alt="" />
                           </div>
                           <label for="add_option" class="add__member__check">
                           <ul class="add__member__info">
@@ -269,7 +244,24 @@
                   <div class="charater__info">
                       <div class="charater__info__left">
                           <div class="member__avatar">
-                          <img src="../../assets/avatar.png" alt="" />
+                          <img src="resources/assets/avatar.png" alt="" />
+                          </div>
+                          <label for="add_option" class="add__member__check">
+                          <ul class="add__member__info">
+                              <li><strong>Elon Reeve Musk</strong></li>
+                              <li>TESLA,SPACE x @CEO</li>
+                          </ul>
+                          </label>
+                      </div>
+                      <div class="charater__info__right">
+                        <input type="checkbox" id="add_option">
+                      </div>
+                  </div>
+
+                  <div class="charater__info">
+                      <div class="charater__info__left">
+                          <div class="member__avatar">
+                          <img src="resources/assets/avatar.png" alt="" />
                           </div>
                           <label for="add_option" class="add__member__check">
                           <ul class="add__member__info">

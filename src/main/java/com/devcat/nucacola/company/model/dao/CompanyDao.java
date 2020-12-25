@@ -13,6 +13,7 @@ import com.devcat.nucacola.company.model.vo.CompIndus;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
+import com.devcat.nucacola.member.model.vo.Member;
 
 @Repository
 public class CompanyDao {
@@ -20,6 +21,12 @@ public class CompanyDao {
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("companymapper.selectListCount");
+	}
+	
+	//기업 번호로 기업 객체 하나 조회해오는 method
+	public Company selectCompany(SqlSessionTemplate sqlSession,int cno) {
+		
+		return sqlSession.selectOne("companymapper.selectCompany",cno);
 	}
 	
 	public ArrayList<Company> selectCompanyList(SqlSessionTemplate sqlSession, PageInfo pi){
@@ -56,6 +63,16 @@ public class CompanyDao {
 		
 		return sqlSession.insert("companymapper.insertTech",backMap);
 	}
+
+
+	public int selectMemberCount(SqlSessionTemplate sqlSession, int cno) {//회사 구성원 수 조회
+		return sqlSession.selectOne("companymapper.selectMemberCount",cno);
+	}
+
+	
+
+	
+	
 	
 
 }

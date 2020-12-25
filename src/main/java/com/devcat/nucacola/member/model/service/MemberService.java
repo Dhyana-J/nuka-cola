@@ -3,8 +3,6 @@ package com.devcat.nucacola.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.mybatis.spring.SqlSessionTemplate;
-
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.company.model.vo.Company;
@@ -145,9 +143,11 @@ public interface MemberService {
 	// 기업식별자 가져오기
 	Company selectComNo(int userNo);
 	
+	//기업 대표 조회용
+	Member selectHead(int cno);
 
-
-	
+	//기업 구성원리스트 조회용
+	ArrayList<Member> selectMemberList(int cno, PageInfo pi);
 
 	int insertAvatar(Member m);
 

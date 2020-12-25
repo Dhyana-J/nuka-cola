@@ -485,7 +485,17 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectCompNo(sqlSession, userNo);
 	}
 
+	//기업 대표 조회용
+	@Override
+	public Member selectHead(int cno) {
+		return mDao.selectHead(sqlSession, cno);
+	}
 
+	//기업 구성원 리스트 조회용
+	@Override
+	public ArrayList<Member> selectMemberList(int cno, PageInfo pi) {
+		return mDao.selectMemberList(sqlSession, cno, pi);
+	}
 
 
 

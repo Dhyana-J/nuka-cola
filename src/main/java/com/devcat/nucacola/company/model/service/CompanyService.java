@@ -38,6 +38,8 @@ public interface CompanyService {
 	//6. 이게 뭔줄 아느냐? 바로 기업 테크스택 등록용
 	int insertTech(HashMap<String, Object> backMap);
 	
+	//7. 회사 구성원 수 조회
+	int selectMemberCount(int cno);
 	
 	
 	

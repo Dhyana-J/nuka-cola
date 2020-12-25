@@ -28,6 +28,28 @@
 		from   nukacola.companys
 	</select>
 	
+	<!-- 회사정보조회 -->
+	<select id="selectCompany"
+			parameterType="_int"
+			resultMap="companyResultSet">
+		select
+			   *
+		  from company
+		  where company_no=#{cno}
+	</select>
+	
+	<!-- 회사 구성원 수 조회 -->
+	<select id="selectMemberCount"
+			parameterType="_int"
+			resultType="_int">
+		select 
+		      count(*)
+		  from careers
+		 where comp_no=#{cno}
+		   and career_state=0
+	</select>
+
+	
 	
 	<select id="selectCompanyList" resultMap="companyResultSet">
 		 select
@@ -129,6 +151,7 @@
 		</foreach>
 
 	</update>
+	
 	
 	
 	

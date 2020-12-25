@@ -27,8 +27,7 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
-import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.company.model.vo.TechStack;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.google.gson.Gson;
 
 @Controller
@@ -211,6 +210,57 @@ public class CompanyController {
 	public String profileMainCompany(int cno) {
 		return "company/companyProfileMain";
 	}
+	
+	//기업 프로필 - 구성원 화면
+	@RequestMapping("profileMember.co")
+	public String profileMember(int cno, int currentPage, Model model, HttpSession session){
+		
+		//구성원 수 세팅
+		int memberCount = cService.selectMemberCount(cno);
+		
+		//구성원들 리스트의 페이징처리가 필요하다. 대표(채용담당자)는 한명이니까 페이징 처리 필요없음
+		//유저경력테이블에서 해당 회사 재직중인사람 목록 불러오면 됨
+		PageInfo pi = Pagination.getPageInfo(memberCount, currentPage, 1, 2);
+		
+		
+		//위에서 설정한 pi를 가지고 지정된 수의 범위 만큼 구성원 정보를 가져오자
+		ArrayList<Member> memberList = mService.selectMemberList(cno,pi);
+		
+		//대표는 따로불러와야됨! Member객체에 회사대표임을 식별할 수 있는게 없다.
+		//회사테이블의 기업관리자랑 일치하는사람 조회하든, 유저경력테이블의 포지션이 대표인사람 조회하든 해야!
+		Member head = mService.selectHead(cno);
+		
+		model.addAttribute("pi",pi);
+		model.addAttribute("head",head);
+		model.addAttribute("memberList",memberList);
+		
+		
+		return "company/companyProfileMembers";
+	}
+	
+	//기업 구성원 more버튼 클릭 시 실행될 컨트롤러
+	@ResponseBody
+	@RequestMapping("loadMoreMember.co")
+	public HashMap<String,ArrayList<?extends Object>> loadMoreMember(int cno,int currentPage){
+		
+		//페이지인포를 세팅하고 구성원리스트를 세팅한다.
+		PageInfo pi = Pagination.getPageInfo(cService.selectMemberCount(cno), currentPage, 1, 2);
+		ArrayList<Member> memberList = mService.selectMemberList(cno, pi);
+		
+		//페이지인포 객체를 담아준다. (ArrayList를 쓰는 이유는 HashMap에 담아 뷰로 넘겨주기 위함)
+		ArrayList<PageInfo> piBox=new ArrayList();
+		piBox.add(pi);
+		
+		HashMap<String,ArrayList<?extends Object>> loadedInfo = new HashMap<>();
+		
+		loadedInfo.put("piBox",piBox);
+		loadedInfo.put("memberList",memberList);
+		
+		return loadedInfo;
+		
+	}
+	
+	
 	
 	
 }

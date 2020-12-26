@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
@@ -27,8 +28,7 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
-import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.company.model.vo.TechStack;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.google.gson.Gson;
 
 @Controller
@@ -206,10 +206,44 @@ public class CompanyController {
 		return ts;
 	}
 	
-	// 프로필 메인화면
+	// 다른유저 클릭시 프로필 메인화면
 	@RequestMapping("profileMain.co")
-	public String profileMainCompany(int cno) {
+	public String profileMainCompany(int cno, Model model) {
+		model.addAttribute("cno",cno);
 		return "company/companyProfileMain";
+	}
+	
+	// 프로필의 채용공고(진행중, 진행완료)
+	@RequestMapping("recruit.co")
+	public String profileRecruit(@RequestParam(value="currentPage", defaultValue="1") int currentPage
+								 ,Company c, Model model) {
+		int INGcount = cService.INGcount(c);
+		PageInfo pi = Pagination.getPageInfo(INGcount, currentPage,1,4);
+		ArrayList<Recruit> rlist1 = cService.selectCompanyRecruitING(c,pi);
+		System.out.println(rlist1);
+		
+		int ENDcount = cService.ENDcount(c);
+		PageInfo pi2 = Pagination.getPageInfo(ENDcount, currentPage,1,4);
+		ArrayList<Recruit> rlist2 = cService.selectCompanyRecruitEND(c,pi2);
+		System.out.println(rlist2);
+		
+		ArrayList<Recruit> skills = cService.CompanyRecruitSkills(c);
+		HashMap<Integer, List<String>>skillMap =new HashMap<>();
+		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
+			System.out.println(skills.get(i).getSkillName());
+			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력			
+			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
+				int key=skills.get(i).getRecruitNo();
+				skillMap.put(key,skillsName);
+			System.out.println(skillMap.get(2));
+		}
+		
+		model.addAttribute("skills",skills);
+		model.addAttribute("rlist1",rlist1);
+		model.addAttribute("rlist2",rlist2);
+		model.addAttribute("pi1",pi);
+		model.addAttribute("pi2",pi2);
+		return "company/companyProfileRecruit";
 	}
 	
 	

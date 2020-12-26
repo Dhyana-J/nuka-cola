@@ -178,7 +178,6 @@ public class SubscribeController {
 	public void deleteSubComp(CompSub cs, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
 		cs.setUserNo(m.getUserNo());
-		System.out.println("넘어온 ㅠㅡ:"+cs);
 		int result = mService.deleteSubComp(cs);
 		
 //		return "/main";

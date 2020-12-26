@@ -8,11 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.company.model.vo.CompIndus;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.company.model.vo.TechStack;
+import com.devcat.nucacola.member.model.vo.Bookmark;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 @Repository
 public class CompanyDao {
@@ -57,5 +56,28 @@ public class CompanyDao {
 		return sqlSession.insert("companymapper.insertTech",backMap);
 	}
 	
+	public int INGcount(SqlSessionTemplate sqlSession, Company c) {
+		return sqlSession.selectOne("companymapper.INGcount", c);
+	};
+	
+	public ArrayList<Recruit> selectCompanyRecruitING(SqlSessionTemplate sqlSession, Company c, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyRecruitING", c, rowBounds);
+	};
+	
+	public int ENDcount(SqlSessionTemplate sqlSession, Company c) {
+		return sqlSession.selectOne("companymapper.ENDcount", c);
+	};
+	
+	public ArrayList<Recruit> selectCompanyRecruitEND(SqlSessionTemplate sqlSession, Company c, PageInfo pi2) {
+		int offset = (pi2.getCurrentPage() - 1) * pi2.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi2.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyRecruitEND", c, rowBounds);
+	};
+	
+	public ArrayList<Recruit> CompanyRecruitSkills(SqlSessionTemplate sqlSession,Company c) {
+		return (ArrayList)sqlSession.selectList("companymapper.CompanyRecruitSkills", c);
+	}
 
 }

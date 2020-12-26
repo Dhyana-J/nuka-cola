@@ -31,6 +31,7 @@ public class Member {
 	private String certifyAns;
 	private String emailAuth;
 	private String userComp;
+	private int compNo;
 	
 	
 	//이메일 인증용 생성자

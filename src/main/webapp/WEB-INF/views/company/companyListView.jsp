@@ -46,7 +46,9 @@
             >
               기업 정보 등록
             </button>
-            <button class="aside__btn-compinfo">기업 정보</button>
+            <button class="aside__btn-compinfo"
+            onclick='location.href="profileMain.co?cno=${loginUser.compNo}"'>
+            	기업 정보</button>
           </div>
           <div class="main__section__content">
             <div class="section__search-info">

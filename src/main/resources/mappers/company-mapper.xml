@@ -15,11 +15,30 @@
 		<result column="updated_at" property="updatedAt"/>
 		<result column="user_no" property="userNo"/>
 		<result column="comp_pm" property="compPm"/>
+		<result column="skill_name" property="skillName"/>
 	</resultMap>
 	
 	<resultMap id="skillResultSet" type="Skills">
 		<result column="skill_no" property="skillNo"/>
 		<result column="skill_name" property="skillName"/>
+	
+	<!-- 회사채용공고 -->
+	</resultMap>
+		<resultMap id="RecruitResultSet" type="Recruit">
+		<result column="recruit_no" property="recruitNo"/>
+		<result column="recruit_title" property="recruitTitle"/>
+		<result column="recruit_info" property="recruitInfo"/>
+		<result column="recruit_state" property="recruitState"/>
+		<result column="recruit_main" property="recruitMain"/>
+		<result column="recruit_posi" property="recruitPosi"/>
+		<result column="recruit_img" property="recruitImg"/>
+		<result column="recruit_minsalary" property="recruitMinSal"/>
+		<result column="recruit_maxsalary" property="recruitMaxSal"/>
+		<result column="recruit_requ" property="recruitRequ"/>
+		<result column="recruit_dl" property="recruitDl"/>
+		<result column="recruit_count" property="recruitCount"/>
+		<result column="comp_no" property="compNo"/>
+		<result column="created_at" property="createdAt"/>
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -129,7 +148,77 @@
 		</foreach>
 
 	</update>
+	<!-- 회사 채용공고리스트 -->
+	<!-- 진행중인 채용공고 총갯수 -->
+	<select id="INGcount" parameterType="Company" resultType="_int">
+	select count(*)
+		from recruits
+		where comp_no=#{compNo} and
+		to_date(RECRUIT_DL,'MM/DD/YYYY')>=to_char(sysdate,'YYYY-MM-DD')
+	</select>
 	
+	<!-- 진행중인 채용공고리스트 -->
+	<select id="selectCompanyRecruitING" parameterType="Company"
+	resultMap="RecruitResultSet" >
+	select 
+		RECRUIT_NO,
+		RECRUIT_TITLE,
+		RECRUIT_INFO,
+		RECRUIT_STATE,
+		RECRUIT_MAIN,
+		RECURIT_POSI,
+		RECRUIT_IMG,
+		RECRUIT_MINSALARY,
+		RECRUIT_MAXSALARY,
+		RECRUIT_REQU,
+		RECRUIT_DL,
+		RECRUIT_COUNT,
+		COMP_NO,
+		CREATED_AT
+		from recruits
+		where comp_no=#{compNo} and
+		to_date(RECRUIT_DL,'MM/DD/YYYY')>=to_char(sysdate,'YYYY-MM-DD')
+	</select>
 	
+	<!-- 진행완료인 채용공고 총갯수 -->
+	<select id="ENDcount" parameterType="Company" resultType="_int">
+	select count(*)
+		from recruits
+		where comp_no=#{compNo} and
+		to_char(sysdate,'YYYY-MM-DD')>to_date(RECRUIT_DL,'MM/DD/YYYY')
+	</select>
+	
+	<!-- 진행완료인 채용공고리스트 -->
+	<select id="selectCompanyRecruitEND" parameterType="Company"
+	resultMap="RecruitResultSet" >
+	select 
+		RECRUIT_NO,
+		RECRUIT_TITLE,
+		RECRUIT_INFO,
+		RECRUIT_STATE,
+		RECRUIT_MAIN,
+		RECURIT_POSI,
+		RECRUIT_IMG,
+		RECRUIT_MINSALARY,
+		RECRUIT_MAXSALARY,
+		RECRUIT_REQU,
+		RECRUIT_DL,
+		RECRUIT_COUNT,
+		COMP_NO,
+		CREATED_AT
+		from recruits
+		where comp_no=#{compNo} and
+		to_char(sysdate,'YYYY-MM-DD')>to_date(RECRUIT_DL,'MM/DD/YYYY')
+	</select>
+	
+	<select id="CompanyRecruitSkills" parameterType="Company" resultMap="RecruitResultSet">
+	select
+		LISTAGG(skill_name,',')within group(order by skill_no) skillName, recruit_no
+		from recruit_skills
+		join skills using(skill_no)
+		join recruits using(recruit_no)
+		where comp_no=#{compNo}
+		group by recruit_no
+	</select>
 	
 </mapper>

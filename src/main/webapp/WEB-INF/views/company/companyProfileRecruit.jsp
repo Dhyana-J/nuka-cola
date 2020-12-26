@@ -17,9 +17,9 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../css/profile(member-modal).css" />
-    <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/profile/profile(employ).css" />
+    <link rel="stylesheet" href="resources/css/profile/profile(member-modal).css" />
+    <link rel="stylesheet" href="resources/css/common.css" />
+    <link rel="stylesheet" href="resources/css/profile/profile(employ).css" />
   </head>
   <body>
 <jsp:include page="../common/mainMenu.jsp"/>
@@ -112,8 +112,7 @@
             <div id ="employ__box__end" class="employ__box__end">
               <h2>모집완료</h2>
               <!-- 모집완료한 채용공고 for문 -->
-              <c:forEach>
-              </c:forEach>
+
               <div class="content__wrapper">
                 <ul class="employ__box__info">
                   <li>리디북스(RIDI books)</li>
@@ -274,25 +273,7 @@
       </div>
   </div>
 
-  <script defer>
-      window.onload = function() {
-      
-      function onClick() {
-          const modal = document.querySelector(".modal");
-          modal.classList.remove("hidden");
-      }   
-      function offClick() {
-          const modal = document.querySelector(".modal");
-          modal.classList.add("hidden");
-      }
-
-      document.getElementById('add__member__open').addEventListener('click', onClick);
-      document.querySelector('.modal__close').addEventListener('click', offClick);
-
-      };
-
-
-    </script>
+  <script defer src="resources/js/profile/profile(member-modal).js"></script>
 
   <!-- 구성원 추가 모달 -->
   </body>

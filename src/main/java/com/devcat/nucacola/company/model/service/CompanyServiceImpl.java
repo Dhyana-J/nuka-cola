@@ -75,6 +75,21 @@ public class CompanyServiceImpl implements CompanyService{
 		return cDao.insertTech(sqlSession,backMap);
 	}
 
+	@Override
+	public ArrayList<Company> searchCompanyList(PageInfo pi, String keyword) {
+		return cDao.searchCompanyList(sqlSession, pi, keyword);
+	}
+
+	@Override
+	public int countCompany(String keyword) {
+		return cDao.countCompany(sqlSession, keyword);
+	}
+
+	@Override
+	public ArrayList<Company> rankingCompanyList(PageInfo pi) {
+		return cDao.rankingCompanyList(sqlSession, pi);
+	}
+
 
 
 	

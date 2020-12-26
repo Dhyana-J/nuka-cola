@@ -21,6 +21,8 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/company.css" />
+    <!-- jQuery 라이브러리 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
@@ -44,54 +46,57 @@
               class="aside__btn-enrollcomp"
               onclick='location.href="enrollForm.co"'
             >
-              기업 정보 등록
+                               기업 정보 등록
             </button>
-            <button class="aside__btn-compinfo">기업 정보</button>
+            <button 
+               class="aside__btn-compinfo"
+               onclick='location.href="list.co"'
+            >기업 정보</button>
           </div>
           <div class="main__section__content">
-            <div class="section__search-info">
-              <strong>기업 정보 검색</strong>
-              <div class="section__select-info">
-                <select name="" id="headcount-list">
-                  <option value="" selected disabled hidden>구성원</option>
-                  <option value="">1~10명</option>
-                  <option value="">11~100명</option>
-                  <option value="">101~500명</option>
-                  <option value="">501~1000명</option>
-                  <option value="">1001~5000명</option>
-                  <option value="">5000명 초과</option>
-                </select>
-                <select name="" id="local-list">
-                  <option value="" selected disabled hidden>지역</option>
-                  <option value="">서울시</option>
-                  <option value="">경기도</option>
-                  <option value="">인천</option>
-                </select>
-                <select name="" id="indus-list">
-                	<option value="" selected disabled hidden>산업분야</option>
-                  <option value="">웹서비스</option>
-                  <option value="">모바일</option>
-                  <option value="">e-commerce</option>
-                  <option value="">IoT</option>
-                  <option value="">O2O</option>
-                  <option value="">핀테크</option>
-                </select>
-              </div>
-              <div class="section__search-span" id ="search-span-field">
-                <div class="tag-field"> <!-- 태그 들어갈 부분 -->
-                </div>
-                <div class="keyword">
-                  <input type="text" placeholder="검색어를 입력하세요">
-                  <i class="material-icons">search</i>
-                </div>
-              </div>
-            </div>
+	            <div class="section__search-info">
+	              <strong>기업 정보 검색</strong>
+	              <div class="section__select-info">
+	                <select name="" id="headcount-list">
+	                  <option value="" selected disabled hidden>구성원</option>
+	                  <option value="">1~10명</option>
+	                  <option value="">11~100명</option>
+	                  <option value="">101~500명</option>
+	                  <option value="">501~1000명</option>
+	                  <option value="">1001~5000명</option>
+	                  <option value="">5000명 초과</option>
+	                </select>
+	                <select name="" id="local-list">
+	                  <option value="" selected disabled hidden>지역</option>
+	                  <option value="">서울시</option>
+	                  <option value="">경기도</option>
+	                  <option value="">인천</option>
+	                </select>
+	                <select name="" id="indus-list">
+	                	<option value="" selected disabled hidden>산업분야</option>
+	                  <option value="">웹서비스</option>
+	                  <option value="">모바일</option>
+	                  <option value="">e-commerce</option>
+	                  <option value="">IoT</option>
+	                  <option value="">O2O</option>
+	                  <option value="">핀테크</option>
+	                </select>
+	              </div>
+	              <div class="section__search-span" id ="search-span-field">
+	                <div class="tag-field"> <!-- 태그 들어갈 부분 -->
+	                </div>
+	                <div class="keyword">
+	                  <input type="text" placeholder="검색어를 입력하세요" id="keyword" name="keyword">
+	                  <i class="material-icons">search</i>
+	                </div>
+	              </div>
+	            </div>
             <div class="section__search-result">
               <div class="section__search-result-top">
                 <span id="search-result-length">검색결과 (${ fn:length(list)}개)</span>
                 <div class="section__sort">
-                  <a href="">최신순</a>
-                  <a href="">인기순</a>
+                  <a href="list.co">최신순</a>
+                  <a href="sortRanking.co">인기순</a>
                 </div>
               </div>
 
@@ -100,7 +105,7 @@
                   <div class="logo">
                     <img src="${c.compLogo}" alt="logo" />
                   </div>
-                  <div class="comp-info">
+                  <div class="comp-info" onClick='location.href="profileMain.co?cno=${ c.compNo }"'>
                     <strong>${ c.compName }</strong>
                     <span>${ c.compInfo }</span>
                     <span class="comp-info-lo">${ c.compAddress }</span>
@@ -116,7 +121,8 @@
       </div>
     </main>
   </body>
-  <script>
+  <script defer>
+  
     const makeElement = (v) => {
       const box = document.createElement("div");
       box.className = "section__result__detail";
@@ -188,6 +194,9 @@
     	let localSelect = document.querySelector("#local-list");
     	let indusSelect = document.querySelector("#indus-list")
     
+    	let TagList = [];
+    	const TAG_LS = "tag";
+    	
    	// 구성원 선택 시 option 값 담아주기
 		document.querySelector("#headcount-list").addEventListener("change", function (e) {
     	
@@ -204,8 +213,7 @@
     	})
     	
     	console.log(headcountList);
-    })
-    
+	})
     //지역 선택 시 option 값 담아주기
     	document.querySelector("#local-list").addEventListener("change", function (e) {
     	
@@ -241,6 +249,11 @@
     	
     	console.log(headcountList);
     })
+    
+    const saveTag = () => {
+			localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
+		}
+    
     // 태그 생성용 함수
     const createTag = (tagName) => {
     	
@@ -251,21 +264,76 @@
     	delIcon.innerText = "clear";
     	delIcon.className = "material-icons";
     	searchSpan.innerText = tagName;
-		    	
+		
+    	const newId = TagList.length + 1;
+    	
+    	
     	delIcon.addEventListener("click", deleteTag);
     	tagList.appendChild(searchSpan);
     	searchSpan.appendChild(delIcon);
- 	
-    }
+ 		searchSpan.id = newId;
+    	
+    	const TagObj = {
+    		keyword : tagName,	
+    		id : newId
+    	};
+    	
+    	TagList.push(TagObj);
+    	saveTag();
+    	
+    	console.log(TagList);
+    	
+	}
+    
+    const filter = (tagfilter) => {
+		return tagfilter.id === 1;
+	}
     
     // 태그 삭제용 함수
     const deleteTag = (event) => {
     	const span = event.target;
-    	const div = span.parentNode;
-    	tagList.removeChild(div);
-    	
+    	const searchSpan = span.parentNode;
+    	tagList.removeChild(searchSpan);
+		
+    	/*삭제시 list에서 제거*/
+		const cleanTag = TagList.filter(function(tagfilter) {
+			return tagfilter.id !== parseInt(searchSpan.id);
+		});
+		TagList = cleanTag;
+		saveTag();
+		
     }
     
+    var keywordList = []; 
+    var keyword = $("#keyword").val();
+    // ajax로 키워드  담아 controller로 넘기기
+    $(document).on('click', '.material-icons', function(e){
+    	
+    	var keyword
+    	$.ajax({
+    		url:'search.co',
+    		type:'GET',
+    		data: keyword,
+    		success:function(data){
+    			alert("키워드전달성공");
+    		}
+    			
+    	});
+    	
+    	
+    	/*
+    	$.ajax({
+    		method 		: 'POST',
+    		url	   		: 'search.co',
+    		traditional : true,
+    		data		: {'keywordList' : keywordList},
+    		success		: function(data) {alert(data)},
+    		error		: function(request, status, error) {alert('실패')}
+    	});
+    	*/
+    	
+    });
+
     
   </script>
 </html>

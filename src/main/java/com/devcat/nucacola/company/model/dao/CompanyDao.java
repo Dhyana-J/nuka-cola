@@ -56,6 +56,28 @@ public class CompanyDao {
 		
 		return sqlSession.insert("companymapper.insertTech",backMap);
 	}
-	
 
+	//회사 검색
+	public ArrayList<Company> searchCompanyList(SqlSessionTemplate sqlSession, PageInfo pi, String keyword){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("companymapper.searchCompanyList", keyword, rowBounds);
+	}
+
+	//회사 레코드 갯수
+	public int countCompany(SqlSessionTemplate sqlSession, String keyword) {
+		
+		return sqlSession.selectOne("companymapper.countCompany", keyword);
+	}
+	
+	//회사 인기순 정렬
+	public ArrayList<Company> rankingCompanyList(SqlSessionTemplate sqlSession, PageInfo pi){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("companymapper.rankingCompanyList", null, rowBounds);
+	}
 }

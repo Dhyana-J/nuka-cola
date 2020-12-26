@@ -127,9 +127,38 @@
 			)
 		
 		</foreach>
-
 	</update>
+	<select  id="searchCompanyList" resultMap="companyResultSet" >
+		 select
+		        comp_no
+		      , comp_info
+		      , comp_name
+		      , comp_address
+		      , comp_logo
+		   from companys
+		  where comp_name like '%'||#{keyword}||'%'
+		  order
+		     by created_at desc
+	</select>
 	
+	<select id="countCompany" resultType="_int">
+		select 
+			   count(*)
+	      from companys
+		 where comp_name like '%'||#{keyword}||'%'
+		 order
+		    by created_at desc
+	</select>
 	
+	<select id="rankingCompanyList" resultMap="companyResultSet">
+		select rownum,a.*
+          from ( select a.*, 
+                (select "num" from 
+                ( select comp_no, count(*) "num" from comp_sub group by comp_no)
+                where comp_no=a.comp_no) sub_count
+                from companys a
+                order by sub_count desc nulls last
+                )a
+	</select>
 	
 </mapper>

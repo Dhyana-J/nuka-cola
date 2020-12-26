@@ -45,6 +45,7 @@ public class Recruit {
 	private int compNo;
 	private String createdAt;
 	private String skillName;
+	private String compName;
 
 
 }

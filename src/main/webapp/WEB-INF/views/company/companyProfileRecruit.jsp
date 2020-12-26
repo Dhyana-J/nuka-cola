@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -20,6 +19,7 @@
     <link rel="stylesheet" href="resources/css/profile/profile(member-modal).css" />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/profile/profile(employ).css" />
+  	    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
 <jsp:include page="../common/mainMenu.jsp"/>
@@ -65,46 +65,39 @@
                 </div>
               </div>
           <div class="main__section__right">
+          <input type="hidden" class="nowCno" value="${cno}">
             <div class="employ__box__ing">
               <h2>진행중</h2>
               <!-- 진행중인 채용공고 for(문) -->
+              <c:forEach var="rING" items="${rlist1}">
               <div class="content__wrapper">
+              <input type="hidden" class="recruit-no" name="recruitNo" value="${rING.recruitNo}">
                 <ul class="employ__box__info">
-                  <li>리디북스(RIDI books)</li>
-                  <li><strong>전자책 시장을 선도하는기업, 리디에서 프로트 엔드 개발자를 모십니다.</strong></li>
-                  <li>경력 <span>신입</span></li>
+                  <li>${rING.compName}</li>
+                  <li><strong>${rING.recruitTitle}</strong></li>
+                  <c:if test="${rING.recruitRequ eq '0'}">
+		                  <li>신입</li>
+		          </c:if>
+		          <c:if test="${rING.recruitRequ eq '1'}">
+		                  <li>경력</li>
+		          </c:if>
+		          <c:if test="${rING.recruitRequ eq '2'}">
+		                  <li>경력 신입</li>
+		          </c:if>
                 </ul>
                 <div class="tag__box">
-                  <span class="tag">TS</span>
-                  <span class="tag">React.js</span>
-                  <span class="tag">Git</span>
-                  <span class="tag">JS</span>
+                  <c:forEach var="skills" items="${skillMap.get(rING.recruitNo)}">
+			             <span class="tag">${skills}</span>
+				  </c:forEach>
                 </div>
                 <div class="date">
-                  <span>2020-11-31</span>
+                  <span>${rING.createdAt}</span>
                 </div>
               </div>
-
-              <div class="content__wrapper">
-                <ul class="employ__box__info">
-                  <li>리디북스(RIDI books)</li>
-                  <li><strong>전자책 시장을 선도하는기업, 리디에서 프로트 엔드 개발자를 모십니다.</strong></li>
-                  <li>경력 <span>신입</span></li>
-                </ul>
-                <div class="tag__box">
-                  <span class="tag">TS</span>
-                  <span class="tag">React.js</span>
-                  <span class="tag">Git</span>
-                  <span class="tag">JS</span>
-                </div>
-                <div class="date">
-                  <span>2020-11-31</span>
-                </div>
-              </div>
-              
+			  </c:forEach>
               <!-- 진행중인 채용공고for문 -->
               <div class="member_btn">
-                <button class="btn">more</button>
+                <button class="btn more1">more</button>
               </div>
             </div>
 
@@ -112,43 +105,31 @@
             <div id ="employ__box__end" class="employ__box__end">
               <h2>모집완료</h2>
               <!-- 모집완료한 채용공고 for문 -->
-
-              <div class="content__wrapper">
-                <ul class="employ__box__info">
-                  <li>리디북스(RIDI books)</li>
-                  <li><strong>전자책 시장을 선도하는기업, 리디에서 프로트 엔드 개발자를 모십니다.</strong></li>
-                  <li>경력 <span>신입</span></li>
-                </ul>
-                <div class="tag__box">
-                  <span class="tag">TS</span>
-                  <span class="tag">React.js</span>
-                  <span class="tag">Git</span>
-                  <span class="tag">JS</span>
-                </div>
-                <div class="date">
-                  <span>2020-11-31</span>
-                </div>
-              </div>
-
-              <div class="content__wrapper">
-                <ul class="employ__box__info">
-                  <li>리디북스(RIDI books)</li>
-                  <li><strong>전자책 시장을 선도하는기업, 리디에서 프로트 엔드 개발자를 모십니다.</strong></li>
-                  <li>경력 <span>신입</span></li>
-                </ul>
-                <div class="tag__box">
-                  <!-- 채용정보관련 tag for문 -->
-                  <span class="tag">TS</span>
-                  <span class="tag">React.js</span>
-                  <span class="tag">Git</span>
-                  <span class="tag">JS</span>
-                  <!-- 채용정보관련 tag for문 -->
-                </div>
-                <div class="date">
-                  <span>2020-11-31</span>
-                </div>
-              </div>
-              
+			  <c:forEach var="rEND" items="${rlist2}">
+	              <div class="content__wrapper">
+	                <ul class="employ__box__info">
+	                  <li>${rEND.compName}</li>
+	                  <li><strong>${rEND.recruitTitle}</strong></li>
+	                  <c:if test="${rEND.recruitRequ eq '0'}">
+		                  <li>신입</li>
+			          </c:if>
+			          <c:if test="${rEND.recruitRequ eq '1'}">
+			                  <li>경력</li>
+			          </c:if>
+			          <c:if test="${rEND.recruitRequ eq '2'}">
+			                  <li>경력 신입</li>
+			          </c:if>
+		            </ul>
+	                <div class="tag__box">
+	                  <c:forEach var="skills" items="${skillMap.get(rEND.recruitNo)}">
+			             <span class="tag">${skills}</span>
+				  </c:forEach>
+	                </div>
+	                <div class="date">
+	                  <span>${rEND.createdAt}</span>
+	                </div>
+	              </div>
+			  </c:forEach>
               <!-- 진행완료인 채용공고 for문 -->
 
               <div class="member_btn">
@@ -189,7 +170,7 @@
                           </label>
                       </div>
                       <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
+                        <input type="checkbox">
                       </div>
                   </div>
                   <div class="charater__info">
@@ -205,24 +186,7 @@
                           </label>
                       </div>
                       <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="../../assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
+                        <input type="checkbox" >
                       </div>
                   </div>
 
@@ -239,7 +203,7 @@
                           </label>
                       </div>
                       <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
+                        <input type="checkbox" >
                       </div>
                   </div>
 
@@ -256,7 +220,24 @@
                           </label>
                       </div>
                       <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
+                        <input type="checkbox" >
+                      </div>
+                  </div>
+
+                  <div class="charater__info">
+                      <div class="charater__info__left">
+                          <div class="member__avatar">
+                          <img src="../../assets/avatar.png" alt="" />
+                          </div>
+                          <label for="add_option" class="add__member__check">
+                          <ul class="add__member__info">
+                              <li><strong>Elon Reeve Musk</strong></li>
+                              <li>TESLA,SPACE x @CEO</li>
+                          </ul>
+                          </label>
+                      </div>
+                      <div class="charater__info__right">
+                        <input type="checkbox">
                       </div>
                   </div>
                 <!-- 기업의 구성원 for문 -->
@@ -274,7 +255,115 @@
   </div>
 
   <script defer src="resources/js/profile/profile(member-modal).js"></script>
+  <script defer>
+  
+    const recruitItem1 =(v,i)=>{
+  	console.log(i);
+  	const itemList = document.querySelector('.jemploy__box__ing');
+  	const recruitItemBox = document.createElement('div');
+  		recruitItemBox.className='content__wrapper';
+  	const recruitNo = document.createElement('input');
+			recruitNo.type='hidden';
+			recruitNo.name='recruitNo';
+  		recruitNo.className='recruit-no';
+  		recruitNo.value=v.recruitNo;
 
+  	/*채용 공고 정보(회사,소개, 관련업무분야,마감일)*/
+  	const ItemText = document.createElement('ul');
+  		ItemText.className='employ__box__info';
+  	const title= document.createElement('li');
+      	title.innerText=v.compName;
+  	const content = document.createElement('li');
+  	const contentTextStrong = document.createElement('strong');
+  		contentTextStrong.innerText=v.recruitTitle;
+  	let recruit = document.createElement('li');
+  		const recruitRequ = v.recruitRequ;           	
+  		if(v.recruitRequ =='0'){
+  			recruit.innerText='신입';
+  		}else if(v.recruitRequ =='1'){
+  			recruit.innerText='경력';
+  		}else if(v.recruitRequ =='2'){
+  			recruit.innerText='신입 경력';
+  		}
+  	const skillBox = document.createElement("div");
+  		  skillBox.className = "tag__box";
+  		  i.forEach((v) => {
+  		    const skill = document.createElement("span");
+  		    skill.className ="tag";
+  		    skill.innerText = "" + v;
+  		    skillBox.appendChild(skill);
+  		  });
+
+  	const date = document.createElement('div');
+  		date.className='date';
+  	const dateSpan = document.createElement('span');
+  		dateSpan.innerText = v.createdAt;
+  		
+  	content.appendChile(contentTextStrong);
+  	ItemText.appendChile(title);
+  	ItemText.appendChile(content);
+  	ItemText.appendChile(recruit);
+  	skillBox.appendChile(skill);
+  	date.appendChild(dateSpan);	
+  	recruitItemBox.appendChile(recruitNo);
+  	recruitItemBox.appendChile(ItemText);
+  	recruitItemBox.appendChile(skillBox);
+  	recruitItemBox.appendChile(date);
+	itemList.appendChile(recruitItemBox);
+  }
+  
+	
+  
+
+  
+  
+  const IngMoreBtn= document.querySelector('.more1');
+  console.log(IngMoreBtn);
+  const cno = document.querySelector('.nowCno').value;
+  IngMoreBtn.addEventListener('click',()=>{ 
+  let currentPageNum = 2;
+  axios.get('recruitLoad.co', {
+        params: {
+          currentPage: currentPageNum++,
+          compNo:cno
+        }
+      }) .then((result)=>{
+          result.data["rlist1"].forEach((v) => {
+          recruitItem1(v, result.data["skillMap"][v.recruitNo]);
+          currentPageNum = currentPageNum++;
+          console.log(currentPageNum);
+          
+          });
+
+        }).catch(function(error){
+      	  console.log(error);
+        })
+        .then(function(){
+        	  href();
+        })
+      })
+  
+	
+  let href =()=>{
+  		 const ingBox = document.querySelector('.employ__box__ing');
+			 ingBox.querySelectorAll('.content__wrapper').forEach((v,i)=>{
+	              v.addEventListener('click',()=>{
+		              let rno = document.querySelectorAll('.recruit-no')[i];
+		              console.log(rno);
+		             location.href="detail.re?rno="+rno.value;
+		         	 
+	         	    });
+	    	      });
+  }
+  
+  
+  href();
+
+  
+  
+  </script>
   <!-- 구성원 추가 모달 -->
+  <jsp:include page="../common/footer.jsp"/>
   </body>
+  
 </html>

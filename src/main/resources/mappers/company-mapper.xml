@@ -39,6 +39,7 @@
 		<result column="recruit_count" property="recruitCount"/>
 		<result column="comp_no" property="compNo"/>
 		<result column="created_at" property="createdAt"/>
+		<result column="comp_name" property="compName"/>
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -160,24 +161,26 @@
 	<!-- 진행중인 채용공고리스트 -->
 	<select id="selectCompanyRecruitING" parameterType="Company"
 	resultMap="RecruitResultSet" >
-	select 
-		RECRUIT_NO,
-		RECRUIT_TITLE,
-		RECRUIT_INFO,
-		RECRUIT_STATE,
-		RECRUIT_MAIN,
-		RECURIT_POSI,
-		RECRUIT_IMG,
-		RECRUIT_MINSALARY,
-		RECRUIT_MAXSALARY,
-		RECRUIT_REQU,
-		RECRUIT_DL,
-		RECRUIT_COUNT,
-		COMP_NO,
-		CREATED_AT
-		from recruits
-		where comp_no=#{compNo} and
-		to_date(RECRUIT_DL,'MM/DD/YYYY')>=to_char(sysdate,'YYYY-MM-DD')
+		select 
+			RECRUIT_NO,
+			RECRUIT_TITLE,
+			RECRUIT_INFO,
+			RECRUIT_STATE,
+			RECRUIT_MAIN,
+			RECURIT_POSI,
+			RECRUIT_IMG,
+			RECRUIT_MINSALARY,
+			RECRUIT_MAXSALARY,
+			RECRUIT_REQU,
+			RECRUIT_DL,
+			RECRUIT_COUNT,
+			COMP_NO,
+			to_char(r.CREATED_AT,'YYYY-MM-DD') CREATED_AT,
+			c.comp_name
+			from recruits r
+			join companys c using(comp_no)
+			where comp_no=#{compNo} and
+			to_date(RECRUIT_DL,'MM/DD/YYYY')>=to_char(sysdate,'YYYY-MM-DD')
 	</select>
 	
 	<!-- 진행완료인 채용공고 총갯수 -->
@@ -190,25 +193,27 @@
 	
 	<!-- 진행완료인 채용공고리스트 -->
 	<select id="selectCompanyRecruitEND" parameterType="Company"
-	resultMap="RecruitResultSet" >
-	select 
-		RECRUIT_NO,
-		RECRUIT_TITLE,
-		RECRUIT_INFO,
-		RECRUIT_STATE,
-		RECRUIT_MAIN,
-		RECURIT_POSI,
-		RECRUIT_IMG,
-		RECRUIT_MINSALARY,
-		RECRUIT_MAXSALARY,
-		RECRUIT_REQU,
-		RECRUIT_DL,
-		RECRUIT_COUNT,
-		COMP_NO,
-		CREATED_AT
-		from recruits
-		where comp_no=#{compNo} and
-		to_char(sysdate,'YYYY-MM-DD')>to_date(RECRUIT_DL,'MM/DD/YYYY')
+	resultMap="RecruitResultSet" >	
+		select 
+			RECRUIT_NO,
+			RECRUIT_TITLE,
+			RECRUIT_INFO,
+			RECRUIT_STATE,
+			RECRUIT_MAIN,
+			RECURIT_POSI,
+			RECRUIT_IMG,
+			RECRUIT_MINSALARY,
+			RECRUIT_MAXSALARY,
+			RECRUIT_REQU,
+			RECRUIT_DL,
+			RECRUIT_COUNT,
+			COMP_NO,
+			to_char(r.CREATED_AT,'YYYY-MM-DD') CREATED_AT,
+			c.comp_name
+			from recruits r
+			join companys c using(comp_no)
+			where comp_no=#{compNo} and
+			to_char(sysdate,'YYYY-MM-DD')>to_date(RECRUIT_DL,'MM/DD/YYYY')
 	</select>
 	
 	<select id="CompanyRecruitSkills" parameterType="Company" resultMap="RecruitResultSet">

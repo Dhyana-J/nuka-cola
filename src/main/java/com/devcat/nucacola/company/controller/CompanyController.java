@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
@@ -230,15 +231,15 @@ public class CompanyController {
 		ArrayList<Recruit> skills = cService.CompanyRecruitSkills(c);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
-			System.out.println(skills.get(i).getSkillName());
+			System.out.println(skills.get(i).getRecruitNo());
 			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력			
 			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
 				int key=skills.get(i).getRecruitNo();
 				skillMap.put(key,skillsName);
-			System.out.println(skillMap.get(2));
+			System.out.println(skillMap);
 		}
-		
-		model.addAttribute("skills",skills);
+		model.addAttribute("cno",c.getCompNo());
+		model.addAttribute("skillMap",skillMap);
 		model.addAttribute("rlist1",rlist1);
 		model.addAttribute("rlist2",rlist2);
 		model.addAttribute("pi1",pi);
@@ -246,5 +247,35 @@ public class CompanyController {
 		return "company/companyProfileRecruit";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="recruitLoad.co",produces="application/json;charset=utf-8")
+	public HashMap<String, Object> recruitLoadING(@RequestParam(value="currentPage", defaultValue="1") int currentPage
+								 ,Company c, Model model) {
+		int INGcount = cService.INGcount(c);
+		PageInfo pi = Pagination.getPageInfo(INGcount, currentPage,1,4);
+		ArrayList<Recruit> rlist1 = cService.selectCompanyRecruitING(c,pi);
+		System.out.println(rlist1);
+		
+		ArrayList<Recruit> skills = cService.CompanyRecruitSkills(c);
+		HashMap<Integer, List<String>>skillMap =new HashMap<>();
+		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
+			System.out.println(skills.get(i).getRecruitNo());
+			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력			
+			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
+				int key=skills.get(i).getRecruitNo();
+				skillMap.put(key,skillsName);
+			System.out.println(skillMap);
+		}
+		
+		model.addAttribute("skillMap",skillMap);
+		model.addAttribute("rlist1",rlist1);
+		model.addAttribute("pi1",pi);
+		
+		HashMap<String, Object> result=new HashMap<>();
+		result.put("skillMap", skillMap);
+		result.put("rlist1",rlist1);
+
+		return result;
+	}
 	
 }

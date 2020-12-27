@@ -21,8 +21,6 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/company.css" />
-    <!-- jQuery 라이브러리 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
@@ -113,6 +111,7 @@
               </div>
 	              <c:forEach var="c" items="${ list }">
 	                <div class="section__result__detail">
+	                <input type="hidden" class="comp-no" name="compNo" value="${ c.compNo }">
 	                  <div class="logo">
 	                    <img src="${c.compLogo}" alt="logo" />
 	                  </div>
@@ -121,9 +120,20 @@
 	                    <span>${ c.compInfo }</span>
 	                    <span class="comp-info-lo">${ c.compAddress }</span>
 	                  </div>
-	                  <div class="subscribe-btn">
-	                    <button>구독</button>
-	                  </div>
+	                  
+	                  <c:choose>
+	                    <c:when test="${c.subScribed eq 0}">
+		                    <div class="subscribe-btn">
+		                    	<button id="sub" class="toggle_sub">구독</button>
+		                    </div>
+	                    </c:when>
+	                    <c:otherwise>
+	                    	 <div class="subscribe-btn">
+		                    	<button id="sub-cancle" class="toggle_sub">구독취소</button>
+		                    </div>
+	                    </c:otherwise>
+	                  </c:choose>
+	                  
 	                </div>
 	              </c:forEach>
             </div>
@@ -158,12 +168,20 @@
       info.appendChild(span);
       info.appendChild(span2);
 
+      //버튼
       const subBtn = document.createElement("div");
       subBtn.className = "subscribe-btn";
       const realBtn = document.createElement("button");
-      realBtn.innerText = "구독";
-      realBtn.type = "button";
+      realBtn.className = "toggle_sub";
       subBtn.appendChild(realBtn);
+      
+      if(v.subScribed===0){
+    	  realBtn.innerText = "구독";
+    	  realBtn.id = "sub";
+      }else{
+    	  realBtn.innerText = "구독취소";
+    	  realBtn.id = "sub-cancle";
+      }
 
       const compNo = document.createElement("input");
       compNo.type = "hidden";
@@ -184,29 +202,42 @@
     	  location.href = "profileMain.co?cno="+v.compNo; 
       })
       
+      
     };
 
-    //infinite scroll
-   	let currentPageNum = 2;
-    window.addEventListener('scroll',()=>{
-      if(window.pageYOffset + document.documentElement.clientHeight >
-              document.documentElement.scrollHeight - 1){
-        console.log("로드성공")
-        axios.get("load.comp", {
-            params: {
-              currentPage: currentPageNum++
-            }
-          })
-          .then((res)=>{
-        	console.log(res.data);
-        	
-        	res.data.forEach(v=>{
-        		makeElement(v);
-        	})
-            document.querySelector('#search-result-length').innerText = "검색결과("+ document.querySelectorAll('.section__result__detail').length +")"
-          })
-      	}
-    })
+ 	
+    // 기업구독/ 취소
+    const addSubscribe =()=>{
+    	document.querySelectorAll('.subscribe-btn').forEach((v,i)=>{
+    		v.addEventListener('click', () =>{
+    			const BtnWrapper = document.querySelectorAll('.subscribe-btn')[i];
+    			console.log(BtnWrapper.children[0])
+    			
+    			let subUrl = 'insert.sub.co'
+    			let subscribed = 0;
+    			if(BtnWrapper.children[0].innerText==='구독'){
+    				subscribed = 0;
+    				BtnWrapper.children[0].innerText= '구독취소'
+    				BtnWrapper.children[0].id ='sub-cancle'
+    			}else{
+    				subscribed = 1;
+    				BtnWrapper.children[0].innerText = '구독'
+    				BtnWrapper.children[0].id ='sub'
+    			}
+    			
+    			axios.get('insert.sub.co',{
+    				params:{
+    					userNo:'${loginUser.userNo}',
+    					compNo:document.querySelectorAll('.comp-no')[i].value,
+    					subscribed:subscribed
+    				}
+    			})
+    			.then((res)=>{
+    				console.log('구독성공', res.data);
+    			})
+    		   })
+    	    })
+           }
     
 
     // 각각의 selectbox
@@ -333,9 +364,10 @@
     			  }
     		  })
     		  .then((res) =>{		 
+    			  
+    			  
     			  var header = document.querySelector(".section__result__detail");
 				  var body = document.querySelector(".section__search-result");
-				  
 				  
 				  document.querySelectorAll('.section__result__detail').forEach(v=>v.remove())
 				  
@@ -343,9 +375,34 @@
 					  
     				  makeElement(v);
     			 })
-    			 
+    		  	 	addSubscribe()
     		 	 })
     	  });
-		 
+    
+    
+    
+    //infinite scroll
+   	let currentPageNum = 2;
+    window.addEventListener('scroll',()=>{
+      if(window.pageYOffset + document.documentElement.clientHeight >
+              document.documentElement.scrollHeight - 1){
+        console.log("로드성공")
+        axios.get("load.comp", {
+            params: {
+              currentPage: currentPageNum++
+            }
+          })
+          .then((res)=>{
+        	console.log(res.data);
+        	
+        	res.data.forEach(v=>{
+        		makeElement(v);
+        	})
+            document.querySelector('#search-result-length').innerText = "검색결과("+ document.querySelectorAll('.section__result__detail').length +")"
+            addSubscribe()
+          })
+      	}
+    })
+		addSubscribe()
   </script>
 </html>

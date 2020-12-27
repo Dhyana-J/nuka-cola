@@ -22,12 +22,12 @@ public class CompanyDao {
 		return sqlSession.selectOne("companymapper.selectListCount");
 	}
 	
-	public ArrayList<Company> selectCompanyList(SqlSessionTemplate sqlSession, PageInfo pi){
+	public ArrayList<Company> selectCompanyList(SqlSessionTemplate sqlSession, PageInfo pi , int uno){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyList", uno, rowBounds);
 	}
 
 	public int insertCompany(SqlSessionTemplate sqlSession, Company c) {

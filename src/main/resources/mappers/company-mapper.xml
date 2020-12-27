@@ -15,6 +15,7 @@
 		<result column="updated_at" property="updatedAt"/>
 		<result column="user_no" property="userNo"/>
 		<result column="comp_pm" property="compPm"/>
+		<result column="subscribed" property="subScribed"/>
 	</resultMap>
 	
 	<resultMap id="skillResultSet" type="Skills">
@@ -30,15 +31,19 @@
 	
 	
 	<select id="selectCompanyList" resultMap="companyResultSet">
-		 select
-		        comp_no
-		      , comp_info
-		      , comp_name
-		      , comp_address
-		      , comp_logo
-		   from companys
+		select
+                c.comp_no
+		      , c.comp_info
+		      , c.comp_name
+		      , c.comp_address
+              , u.user_no
+		      , c.comp_logo
+              , c2.comp_no as subScribed
+		   from companys c
+      left join users u on u.user_no = c.user_no
+      left join (select comp_no from comp_sub where user_no = #{uno}) c2 on c.comp_no = c2.comp_no
 		  order
-		     by created_at desc
+		     by c.created_at desc
 	</select>
 	
 	<insert id="insertCompany" parameterType="Company">

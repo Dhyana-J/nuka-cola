@@ -26,8 +26,8 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 	
 	@Override
-	public ArrayList<Company> selectCompanyList(PageInfo pi) {
-		return cDao.selectCompanyList(sqlSession, pi);
+	public ArrayList<Company> selectCompanyList(PageInfo pi, int uno) {
+		return cDao.selectCompanyList(sqlSession, pi, uno);
 	}
 
 	@Override

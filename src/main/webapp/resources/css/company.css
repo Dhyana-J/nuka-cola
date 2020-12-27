@@ -214,18 +214,35 @@
   flex-direction: column;
   justify-content: center;
 }
-.subscribe-btn button {
+.subscribe-btn #sub {
   width: 80px;
   height: 30px;
   background-color: #c8e4f7;
   color: #000000;
-  border: 1px solid #c8e4f7;
+  border: 2px solid #c8e4f7;
   border-radius: 5px;
   cursor: pointer;
 }
-.subscribe-btn button:hover {
+.subscribe-btn #sub:hover {
   background: #fff;
   color: #000000;
+}
+
+.subscribe-btn #sub-cancle {
+  width: 80px;
+  height: 30px;
+  background-color: #fff;
+  color: #000000;
+  border: 2px solid#30409f;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.subscribe-btn #sub-cancle:hover {
+  background: #c8e4f7;
+  color: #000000;
+}
+.subscribe-btn #sub, #sub-cancle:focus{
+  outline:none;
 }
 .btn__attachment {
   width: 100px;

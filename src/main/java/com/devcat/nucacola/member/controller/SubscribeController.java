@@ -121,10 +121,22 @@ public class SubscribeController {
 //		return "redirect:";
 	}
 	// 기업 구독 추가	
-	@RequestMapping("/insert.sub")
-	public String insertSubComp() {
-		return "/main";
+	@ResponseBody
+	@RequestMapping("insert.sub.co")
+	public HashMap<String, Integer> insertSubComp(int userNo, int compNo, int subscribed) {
+
+		int result = mService.btnSub(userNo, compNo, subscribed);
 		
+		//해쉬맵에 값들 담아주기
+		HashMap<String,Integer> list = new HashMap<>();
+		
+		if(result>0) { //구독 성공
+			list.put("result", result);
+			return list;
+		}else { //구독 실패
+			list.put("result", result);
+			return list;
+		}
 		
 	}	
 		

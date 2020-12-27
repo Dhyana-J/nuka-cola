@@ -28,6 +28,7 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
 import com.google.gson.Gson;
@@ -45,11 +46,16 @@ public class CompanyController {
 	// 회사 전체 조회
 	@RequestMapping("list.co")
 	public String selectCompanyList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-			Model model)
+			HttpSession session, Model model)
 	{
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
-		ArrayList<Company> list = cService.selectCompanyList(pi);
+		
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		
+		
+		ArrayList<Company> list = cService.selectCompanyList(pi, uno);
 		//System.out.println(list);
 		
 		model.addAttribute("pi", pi);
@@ -58,13 +64,16 @@ public class CompanyController {
 	}
 	@RequestMapping("load.comp")
 	public ResponseEntity<String> loadCompList(
-				@RequestParam(value="currentPage", defaultValue="1") int currentPage
+				@RequestParam(value="currentPage", defaultValue="1") int currentPage,HttpSession session
 	){
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		
 				System.out.println(currentPage);
 				HttpHeaders responseHeaders = new HttpHeaders();
 				int listCount = cService.selectListCount();
 				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
-				ArrayList<Company> list = cService.selectCompanyList(pi);
+				ArrayList<Company> list = cService.selectCompanyList(pi,uno);
 				responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 				String json = new Gson().toJson(list);
 				return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);

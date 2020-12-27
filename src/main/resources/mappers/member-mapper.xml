@@ -502,4 +502,31 @@
 	</select>
 	
 	
+	<!--  구독기업 추가 -->
+	<insert id="subComp">
+		insert 
+		  into comp_sub 
+		      (
+		         user_no
+		       , comp_no
+		      )
+		      values
+		      (
+		         #{userNo}
+		       , #{compNo}
+		      )
+	</insert>
+	
+	<delete id="cancleSubComp">
+		delete
+		  from comp_sub
+		 where user_no = #{userNo}
+		   and comp_no = #{compNo}
+	</delete>
+	
+	
+	
+	
+	
+	
 </mapper>

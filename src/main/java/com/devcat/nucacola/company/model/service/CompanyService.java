@@ -11,7 +11,7 @@ public interface CompanyService {
 	
 	//1.  기업 리스트 조회용 서비스
 	int selectListCount();
-	ArrayList<Company> selectCompanyList(PageInfo pi);
+	ArrayList<Company> selectCompanyList(PageInfo pi, int uno);
 	
 	//2. 기업등록용 서비스
 	int insertCompany(Company c);

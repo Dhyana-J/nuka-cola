@@ -1,8 +1,15 @@
 package com.devcat.nucacola.recruits.model.service;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 
+import com.devcat.nucacola.recruits.model.dao.RecruitDao;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
@@ -11,6 +18,12 @@ import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 @Service
 public class RecruitServiceImpl implements RecruitService {
+
+	@Autowired
+	private RecruitDao rDao;
+
+	@Autowired
+	private SqlSessionTemplate sqlSession;
 
 	@Override
 	public int selectListCount() {
@@ -31,11 +44,23 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	@Override
-	public Recruit selectRecruit(int rno) {
+	public RecruitDetail selectRecruitDetail(int rno) {
 		// TODO Auto-generated method stub
-		return null;
+		return rDao.selectRecruitDetail(sqlSession,rno);
 	}
-
+	@Override
+	public ArrayList<RecruitSkill> selectRecruitSkill( int rno) {
+		// TODO Auto-generated method stub
+		return rDao.selectRecruitSkill(sqlSession,rno);
+	}
+	@Override
+	public int selectAppliesCount(int rno){
+		return rDao.selectAppliesCount(sqlSession,rno);
+	}
+	@Override
+	public int insertDeclare(Declare d){
+		return rDao.insertDeclare(sqlSession,d);
+	}
 	@Override
 	public int updateRecruit(Recruit r) {
 		// TODO Auto-generated method stub

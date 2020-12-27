@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="recruit-mapper">
+    <resultMap id="recruitDetailResultSet" type="RecruitDetail">
+        <result column="recruit_no" property="recruitNo"/>
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_info" property="recruitInfo"/>
+        <result column="recruit_state" property="recruitState"/>
+        <result column="recruit_main" property="recruitMain"/>
+        <result column="recruit_posi" property="recruitPosi"/>
+        <result column="recruit_img" property="recruitImg"/>
+        <result column="recruit_minsalary" property="recruitMinSal"/>
+        <result column="recruit_maxsalary" property="recruitMaxSal"/>
+        <result column="recruit_requ" property="recruitRequ"/>
+        <result column="recruit_dl" property="recruitDl"/>
+        <result column="recruit_count" property="recruitCount"/>
+        <result column="comp_no" property="compNo"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="comp_name" property="compName"/>
+        <result column="comp_info" property="compInfo"/>
+        <result column="comp_email" property="compEmail"/>
+        <result column="comp_address" property="compAddress"/>
+        <result column="comp_headcount" property="compHeadCount"/>
+        <result column="comp_birth" property="compBirth"/>
+        <result column="comp_pm" property="compPm"/>
+        <result column="manager_no" property="managerNo"/>
+        <result column="manager_avatar" property="managerAvatar"/>
+        <result column="manager_name" property="managerName"/>
+        <result column="manager_comp" property="managerComp"/>
+    </resultMap>
+    <resultMap id="recruitDetailSkillResultSet" type="RecruitSkill">
+        <result column="skill_name" property="skillName"/>
+        <result column="skill_no" property="skillNo"/>
+    </resultMap>
+
+    <select id="selectRecruitDetail" parameterType="_int" resultMap="recruitDetailResultSet">
+        SELECT RECRUIT_NO,
+               RECRUIT_TITLE,
+               RECRUIT_INFO,
+               RECRUIT_STATE,
+               RECRUIT_MAIN,
+               RECURIT_POSI,
+               RECRUIT_IMG,
+               RECRUIT_MINSALARY,
+               RECRUIT_MAXSALARY,
+               RECRUIT_REQU,
+               RECRUIT_DL,
+               RECRUIT_COUNT,
+               C2.COMP_NO,
+               RECRUITS.CREATED_AT,
+               COMP_NAME,
+               COMP_INFO,
+               COMP_EMAIL,
+               COMP_ADDRESS,
+               COMP_HEADCOUNT,
+               COMP_BIRTH,
+               COMP_PM,
+               U.USER_NO as Manager_No,
+               U.USER_AVATAR  as Manager_Avatar,
+               U.USER_NAME as Manager_Name,
+               U.USER_COMP as Manager_Comp
+        FROM RECRUITS
+                 LEFT JOIN COMPANYS C2 on C2.COMP_NO = RECRUITS.COMP_NO
+                 LEFT JOIN USERS U on U.USER_NO = C2.USER_NO
+        WHERE RECRUIT_NO = #{rno}
+    </select>
+    <select id="selectAppliesCount" resultType="_int" parameterType="_int">
+        select count(*) from APPLIES where RECRUIT_NO = #{rno}
+    </select>
+    <select id="selectDetailSkills" parameterType="_int" resultMap="recruitDetailSkillResultSet">
+        SELECT s.SKILL_NAME, S.SKILL_NO
+        FROM RECRUIT_SKILLS
+                 LEFT JOIN SKILLS S on S.SKILL_NO = RECRUIT_SKILLS.SKILL_NO
+        WHERE RECRUIT_NO = #{rno}
+    </select>
+    <insert id="insertDeclare" parameterType="Declare">
+        INSERT INTO NUKACOLA.DECLARES (USER_NO, RECRUIT_NO, DECLARE_TITLE, CREATED_AT)
+        VALUES (#{userNo}, #{recruitNo}, #{declareTitle}, DEFAULT)
+    </insert>
+</mapper>

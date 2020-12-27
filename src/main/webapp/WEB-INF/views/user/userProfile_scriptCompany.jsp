@@ -69,8 +69,8 @@
                         <li>TOP</li>
                         <li>팔로잉</li>
                         <li>팔로워</li>
-                        <li onClick='location.href="list.bk"'>북마크</li>
-                        <li onClick='location.href="list.sub"'>구독기업</li>
+                        <li onClick='location.href="list.bk?userNo=${loginUser.userNo}"'>북마크</li>
+                        <li onClick='location.href="list.sub?userNo=${loginUser.userNo}"'>구독기업</li>
                         <li>좋아요게시물</li>
                         <li>연결</li>
                       </ul>
@@ -92,7 +92,14 @@
                             <input type="hidden" class="comp-no" name="compNo" value="${cs.compNo}">
                             <div class="company__box__left">
                                 <div class="company__img__box">
-                                <img src="${cs.compLogo}" alt="">
+                                <c:choose>
+                                <c:when test="${empty cs.compLogo}">
+                                	<img src="resources/assets/conn.png" alt="">
+                                </c:when>
+                                <c:otherwise>
+                                	<img src="${cs.compLogo}" alt="">
+                                </c:otherwise>
+                                </c:choose>
                                 </div>
                                 <ul>
                                     <li class="company__info__title">${cs.compName}<span>구성원수[${cs.compHeadcount}]&nbsp;&nbsp;Sinece${cs.compBirth}</span> </li>
@@ -107,7 +114,7 @@
 
                    	 </c:forEach>
 
-
+					
 
 
                    </div>
@@ -115,7 +122,7 @@
               </div>
             </div>
  <script defer>
-            
+ 			
             const createScriptItem =(v)=>{
             	const scriptItemList = document.querySelectorAll('.content__wrapper')[1];
             	const scriptItemBox = document.createElement('div');
@@ -125,14 +132,17 @@
 	            	compNo.name='compNo';
 	            	compNo.className='comp-no';
 	            	compNo.value=v.compNo;
-				console.log
             	/*스크립트 정보(회사,소개)*/
             	const scriptItemLeft = document.createElement('div');
             		scriptItemLeft.className='company__box__left';
             	const imgBox= document.createElement('div');
             		imgBox.className='company__img__box';
 	            const img= document.createElement('img');
+	            	if(v.compLogo==null){
+	            		img.src="resources/assets/conn.png";
+	            	}else{
 	            	img.src=v.compLogo;
+	            	}
             	const ul = document.createElement('ul');
             	const li1 = document.createElement('li');
             		li1.className ='company__info__title';
@@ -169,20 +179,20 @@
             
             /*페이지*/
 
-            let currentPageNum = 2;
+            let currentPageNum = 1;
             window.addEventListener('scroll',()=>{
               if(window.pageYOffset + document.documentElement.clientHeight >
                       document.documentElement.scrollHeight - 1){
                 console.log('로드!')
                 axios.get('load.sub', {
                   params: {
-                    currentPage: currentPageNum++
+                	userNo:${loginUser.userNo},
+                    currentPage: ++currentPageNum
                   }
                 }) .then((result)=>{
 
                     result.data["cslist"].forEach((v) => {
                     	createScriptItem(v);
-                    	
                     });
 
                   }).catch(function(error){
@@ -195,35 +205,41 @@
                 }
               });
             
+
+            
+     		
             
 			const cancel=()=>{
 			  document.querySelectorAll('.cancle-btn').forEach((v,i)=>{
-				  console.log(v);
 		            v.addEventListener('click',()=>{
-
-			              let item = document.querySelectorAll('.script__company__box')[i];
-
-			              let cs = document.querySelectorAll('.comp-no')[i].value;
+			              let item = v.parentNode.parentNode;
+			              let cs = item.querySelector('.comp-no').value; 
 			              console.log(cs);
-			              
+			            
 			              axios.get('delete.sub',{
-			         		 params:{
-			         			compNo:cs
-			         		 }
-			         	 })
-			         	 .then(()=>{
-			         		 /*
-			         		 const listCount= document.querySelector('.following__much');
-			         		 listCount.querySelector("span").innerText=res;
-			         		 */
-			         	 });
+				         		 params:{
+				         			userNo:${loginUser.userNo},
+				         			compNo:cs
+				         		 }
+				         	 })
+				         	 .then(()=>{	 
+				         	 });
 			              
+			              const listCount= document.querySelector('.following__much');
+			              let listCountNum = listCount.querySelector('strong').innerText;
+			       		  listCountNum = parseInt(listCountNum);
+			       		  console.log(listCountNum);
+			       		  listCountNum = --listCountNum;
+		         		  listCount.querySelector('strong').innerText = listCountNum;
 			              item.remove(); 
 
 		       	    });
 		  	      });
 
 			}
+			
+			
+			
             let href =()=>{
 					 document.querySelectorAll('.company__box__left').forEach((v,i)=>{
 			              v.addEventListener('click',()=>{

@@ -174,6 +174,7 @@
         console.log("로드성공")
         axios.get("load.comp", {
             params: {
+              userNo:${loginUser.userNo},
               currentPage: currentPageNum++
             }
           })

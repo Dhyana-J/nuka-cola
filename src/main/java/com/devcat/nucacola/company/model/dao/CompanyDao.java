@@ -59,7 +59,6 @@ public class CompanyDao {
 
 	//회사 검색
 	public ArrayList<Company> searchCompanyList(SqlSessionTemplate sqlSession, PageInfo pi, String keyword){
-		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		

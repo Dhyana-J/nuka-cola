@@ -577,6 +577,8 @@
 
 			TagList.push(TagObj);
 			saveTag();
+			
+			console.log(TagList);
 
 		}
 		

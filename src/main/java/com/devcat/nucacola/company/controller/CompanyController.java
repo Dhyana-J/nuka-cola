@@ -209,9 +209,10 @@ public class CompanyController {
 	}
 	
 	//기업검색
-	@RequestMapping("search.co")
-	public ModelAndView list( // RequestParam으로 키워드,페이지의 기본값을 설정해둔다.
-			@RequestParam(value="keyword", required = false) String keyword,
+	@ResponseBody
+	@RequestMapping(value="/search.co", produces="application/json; charset=utf-8")
+	public String list( // RequestParam으로 키워드,페이지의 기본값을 설정해둔다.
+			String keyword, Model model,
 			@RequestParam(defaultValue="1", value="currentPage") int currentPage) throws Exception{
 		
 		//레코드 개수를 계산
@@ -225,6 +226,10 @@ public class CompanyController {
 		//map에 저장하기 위해 list를 만들어 키워드를 저장
 		ArrayList<Company> list = cService.searchCompanyList(pi, keyword);
 		
+		return new Gson().toJson(list);
+		
+		
+		/*
 		ModelAndView mav = new ModelAndView();
 		
 		//데이터를 맵에 저장
@@ -236,7 +241,7 @@ public class CompanyController {
 		mav.setViewName("/company/companyListView"); // 뷰를 companyListView.jsp로 설정
 		
 		return mav; //해당 페이지로 이동
-		
+		*/
 		
 	}
 	

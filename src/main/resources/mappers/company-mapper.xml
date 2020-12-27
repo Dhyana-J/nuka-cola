@@ -128,14 +128,13 @@
 		
 		</foreach>
 	</update>
-	<select  id="searchCompanyList" resultMap="companyResultSet" >
-		 select
-		        comp_no
+	<select  id="searchCompanyList" parameterType="map" resultMap="companyResultSet" >
+		select  comp_no
 		      , comp_info
 		      , comp_name
 		      , comp_address
 		      , comp_logo
-		   from companys
+		   from companys c
 		  where comp_name like '%'||#{keyword}||'%'
 		  order
 		     by created_at desc

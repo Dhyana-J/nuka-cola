@@ -59,35 +59,47 @@
 	              <div class="section__select-info">
 	                <select name="" id="headcount-list">
 	                  <option value="" selected disabled hidden>구성원</option>
-	                  <option value="">1~10명</option>
-	                  <option value="">11~100명</option>
-	                  <option value="">101~500명</option>
-	                  <option value="">501~1000명</option>
-	                  <option value="">1001~5000명</option>
-	                  <option value="">5000명 초과</option>
+	                  <option value="1~10명">1~10명</option>
+	                  <option value="11~100명">11~100명</option>
+	                  <option value="101~500명">101~500명</option>
+	                  <option value="501~1000명">501~1000명</option>
+	                  <option value="1001~5000명">1001~5000명</option>
+	                  <option value="5000명 초과">5000명 초과</option>
 	                </select>
 	                <select name="" id="local-list">
 	                  <option value="" selected disabled hidden>지역</option>
-	                  <option value="">서울시</option>
-	                  <option value="">경기도</option>
-	                  <option value="">인천</option>
+	                  <option value="서울시">서울시</option>
+	                  <option value="경기도">경기도</option>
+	                  <option value="인천">인천</option>
+	                  <option value="대전">대전</option>
+	                  <option value="광주">광주</option>
+	                  <option value="대구">대구</option>
+	                  <option value="울산">울산</option>
+	                  <option value="부산">부산</option>
+	                  <option value="강원도">강원도</option>
+	                  <option value="충청북도">충청북도</option>
+	                  <option value="충청남도">충청남도</option>
+	                  <option value="전라남도">전라남도</option>
+	                  <option value="전라북도">전라북도</option>
+	                  <option value="경상북도">경상북도</option>
+	                  <option value="경상남도">경상남도</option>
 	                </select>
 	                <select name="" id="indus-list">
 	                	<option value="" selected disabled hidden>산업분야</option>
-	                  <option value="">웹서비스</option>
-	                  <option value="">모바일</option>
-	                  <option value="">e-commerce</option>
-	                  <option value="">IoT</option>
-	                  <option value="">O2O</option>
-	                  <option value="">핀테크</option>
+	                  <option value="0">웹서비스</option>
+	                  <option value="1">모바일</option>
+	                  <option value="2">e-commerce</option>
+	                  <option value="3">IoT</option>
+	                  <option value="4">O2O</option>
+	                  <option value="5">핀테크</option>
 	                </select>
 	              </div>
 	              <div class="section__search-span" id ="search-span-field">
 	                <div class="tag-field"> <!-- 태그 들어갈 부분 -->
 	                </div>
 	                <div class="keyword">
-	                  <input type="text" placeholder="검색어를 입력하세요" id="keyword" name="keyword">
-	                  <i class="material-icons">search</i>
+	                  <input type="text" placeholder="검색어를 입력하세요" id="keyword-search" name="keyword">
+	                  <i class="material-icons" id="search-button">search</i>
 	                </div>
 	              </div>
 	            </div>
@@ -99,22 +111,21 @@
                   <a href="sortRanking.co">인기순</a>
                 </div>
               </div>
-
-              <c:forEach var="c" items="${ list }">
-                <div class="section__result__detail">
-                  <div class="logo">
-                    <img src="${c.compLogo}" alt="logo" />
-                  </div>
-                  <div class="comp-info" onClick='location.href="profileMain.co?cno=${ c.compNo }"'>
-                    <strong>${ c.compName }</strong>
-                    <span>${ c.compInfo }</span>
-                    <span class="comp-info-lo">${ c.compAddress }</span>
-                  </div>
-                  <div class="subscribe-btn">
-                    <button>구독</button>
-                  </div>
-                </div>
-              </c:forEach>
+	              <c:forEach var="c" items="${ list }">
+	                <div class="section__result__detail">
+	                  <div class="logo">
+	                    <img src="${c.compLogo}" alt="logo" />
+	                  </div>
+	                  <div class="comp-info" onClick='location.href="profileMain.co?cno=${ c.compNo }"'>
+	                    <strong>${ c.compName }</strong>
+	                    <span>${ c.compInfo }</span>
+	                    <span class="comp-info-lo">${ c.compAddress }</span>
+	                  </div>
+	                  <div class="subscribe-btn">
+	                    <button>구독</button>
+	                  </div>
+	                </div>
+	              </c:forEach>
             </div>
           </div>
         </div>
@@ -122,17 +133,18 @@
     </main>
   </body>
   <script defer>
+  	
   
     const makeElement = (v) => {
+    
       const box = document.createElement("div");
       box.className = "section__result__detail";
-
+      
       const logoBox = document.createElement("div");
       logoBox.className = "logo";
       const logoImg = document.createElement("img");
       logoImg.src = v.compLogo;
-      logoBox.appendChild(logoImg);
-
+      
       const info = document.createElement("div");
       info.className = "comp-info";
       const strong = document.createElement("strong");
@@ -162,8 +174,16 @@
       box.appendChild(logoBox);
       box.appendChild(info);
       box.appendChild(subBtn);
+      logoBox.appendChild(logoImg);
 
       document.querySelector(".section__search-result").appendChild(box);
+      document.querySelector('#search-result-length').innerText = "검색결과 ("+ document.querySelectorAll('.section__result__detail').length +"개)"
+
+      // 기업 상세페이지 이동
+      info.addEventListener('click', function(event) {
+    	  location.href = "profileMain.co?cno="+v.compNo; 
+      })
+      
     };
 
     //infinite scroll
@@ -212,7 +232,6 @@
     		headcountList += s.innerText + " ";
     	})
     	
-    	console.log(headcountList);
 	})
     //지역 선택 시 option 값 담아주기
     	document.querySelector("#local-list").addEventListener("change", function (e) {
@@ -229,7 +248,6 @@
     		headcountList += s.innerText + " ";
     	})
     	
-    	console.log(headcountList);
     })
     // 산업분야 선택 시 option 값 담아주기
     	
@@ -246,10 +264,8 @@
     	headcount.forEach(s => {
     		headcountList += s.innerText + " ";
     	})
-    	
-    	console.log(headcountList);
     })
-    
+     
     const saveTag = () => {
 			localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
 		}
@@ -304,36 +320,32 @@
 		
     }
     
-    var keywordList = []; 
-    var keyword = $("#keyword").val();
-    // ajax로 키워드  담아 controller로 넘기기
-    $(document).on('click', '.material-icons', function(e){
-    	
-    	var keyword
-    	$.ajax({
-    		url:'search.co',
-    		type:'GET',
-    		data: keyword,
-    		success:function(data){
-    			alert("키워드전달성공");
-    		}
-    			
-    	});
-    	
-    	
-    	/*
-    	$.ajax({
-    		method 		: 'POST',
-    		url	   		: 'search.co',
-    		traditional : true,
-    		data		: {'keywordList' : keywordList},
-    		success		: function(data) {alert(data)},
-    		error		: function(request, status, error) {alert('실패')}
-    	});
-    	*/
-    	
-    });
 
     
+    // axios로 키워드  담아 controller로 넘기기 기업검색
+      document.querySelector("#keyword-search").addEventListener("keyup", () => {
+    	
+    	  const keyword = document.querySelector("#keyword-search").value;   	  
+    	  /*keyword넘기기*/
+    		  axios.get('search.co', {
+    			  params: {
+    				  keyword : keyword
+    			  }
+    		  })
+    		  .then((res) =>{		 
+    			  var header = document.querySelector(".section__result__detail");
+				  var body = document.querySelector(".section__search-result");
+				  
+				  
+				  document.querySelectorAll('.section__result__detail').forEach(v=>v.remove())
+				  
+				  res.data.forEach(v=>{
+					  
+    				  makeElement(v);
+    			 })
+    			 
+    		 	 })
+    	  });
+		 
   </script>
 </html>

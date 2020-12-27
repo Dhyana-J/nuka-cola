@@ -52,8 +52,8 @@
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li class="nav-active">ABOUT</li>
-            <li onclick='location.href="recruit.co?compNo=1"'>채용</li> <%--현재페이지의 회사일련번호 넘겨줘야함 --%>
+            <li class="nav-active" >ABOUT</li>
+            <li onclick='location.href="recruit.co?compNo=${cno}"'>채용</li> <%--현재페이지의 회사일련번호 넘겨줘야함 --%>
             <li>구성원</li>
           </ul>
         </div>

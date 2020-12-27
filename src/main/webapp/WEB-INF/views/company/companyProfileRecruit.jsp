@@ -23,22 +23,22 @@
   </head>
   <body>
 <jsp:include page="../common/mainMenu.jsp"/>
-    <section class="visual__section">
+     <section class="visual__section">
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="../../assets/avatar.png" alt="" />
+            <img src="../../assets/moomin.jpg" alt="logo" />
           </div>
           <div>
             <div class="main__info">
-              <strong>유원근</strong>
-              <span>Apple.inc @ CEO</span>
-              <span>Node.js / React.js / Vue.js / Java</span>
+              <strong>RIDI BOOKS</strong>
+              <span>Since 2017</span>
+              <span>1003 명의 구성원</span>
+              <span>Bookstore@gmail.com</span>
             </div>
             <ul class="people__info">
               <li>팔로우 <strong>102</strong></li>
-              <li>팔로우 <strong>102</strong></li>
-              <li>팔로우 <strong>102</strong></li>
+              <li>채용중인글 <strong>3</strong></li>
             </ul>
           </div>
         </div>
@@ -49,7 +49,7 @@
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li>ABOUT</li>
+            <li onclick='location.href="profileMain.co?cno=${cno}"'>ABOUT</li>
             <li class="nav-active">채용</li>
             <li>구성원</li>
           </ul>
@@ -59,12 +59,13 @@
                 <div class="content__wrapper">
                   <ul class="left__info">
                     <li><a href="#"><strong>TOP</strong></a></li>
-                    <li><a href="#">진행중</a></li>
+                    <li><a href="#employ__box__ing">진행중</a></li>
                     <li><a href="#employ__box__end">모집완료</a></li>
                   </ul>
                 </div>
               </div>
-          <div class="main__section__right">
+          <div id ="employ__box__ing" class="main__section__right">
+          <input type="hidden" class="pi1" value="${pi1.maxPage}">
           <input type="hidden" class="nowCno" value="${cno}">
             <div class="employ__box__ing">
               <h2>진행중</h2>
@@ -96,17 +97,26 @@
               </div>
 			  </c:forEach>
               <!-- 진행중인 채용공고for문 -->
-              <div class="member_btn">
-                <button class="btn more1">more</button>
-              </div>
+
             </div>
+            
+              <div class="member_btn">
+                <c:if test="${empty rlist1}">
+                
+	            </c:if>
+	            <c:if test="${!empty rlist1}">
+	              <button class="btn more1">more</button>
+	            </c:if>
+              </div>
 
 
             <div id ="employ__box__end" class="employ__box__end">
+            <input type="hidden" class="pi2" value="${pi2.maxPage}">
               <h2>모집완료</h2>
               <!-- 모집완료한 채용공고 for문 -->
 			  <c:forEach var="rEND" items="${rlist2}">
 	              <div class="content__wrapper">
+	              <input type="hidden" class="recruit-no" name="recruitNo" value="${rEND.recruitNo}">
 	                <ul class="employ__box__info">
 	                  <li>${rEND.compName}</li>
 	                  <li><strong>${rEND.recruitTitle}</strong></li>
@@ -132,10 +142,16 @@
 			  </c:forEach>
               <!-- 진행완료인 채용공고 for문 -->
 
-              <div class="member_btn">
-                <button class="btn">more</button>
-              </div>
+
             </div>
+              <div class="member_btn">
+              <c:if test="${empty rlist1}">
+                
+              </c:if>
+              <c:if test="${!empty rlist1}">
+              <button class="btn more2">more</button>
+              </c:if>
+              </div>
           </div>
         </div>
 
@@ -253,115 +269,8 @@
           </form>
       </div>
   </div>
-
   <script defer src="resources/js/profile/profile(member-modal).js"></script>
-  <script defer>
-  
-    const recruitItem1 =(v,i)=>{
-  	console.log(i);
-  	const itemList = document.querySelector('.jemploy__box__ing');
-  	const recruitItemBox = document.createElement('div');
-  		recruitItemBox.className='content__wrapper';
-  	const recruitNo = document.createElement('input');
-			recruitNo.type='hidden';
-			recruitNo.name='recruitNo';
-  		recruitNo.className='recruit-no';
-  		recruitNo.value=v.recruitNo;
-
-  	/*채용 공고 정보(회사,소개, 관련업무분야,마감일)*/
-  	const ItemText = document.createElement('ul');
-  		ItemText.className='employ__box__info';
-  	const title= document.createElement('li');
-      	title.innerText=v.compName;
-  	const content = document.createElement('li');
-  	const contentTextStrong = document.createElement('strong');
-  		contentTextStrong.innerText=v.recruitTitle;
-  	let recruit = document.createElement('li');
-  		const recruitRequ = v.recruitRequ;           	
-  		if(v.recruitRequ =='0'){
-  			recruit.innerText='신입';
-  		}else if(v.recruitRequ =='1'){
-  			recruit.innerText='경력';
-  		}else if(v.recruitRequ =='2'){
-  			recruit.innerText='신입 경력';
-  		}
-  	const skillBox = document.createElement("div");
-  		  skillBox.className = "tag__box";
-  		  i.forEach((v) => {
-  		    const skill = document.createElement("span");
-  		    skill.className ="tag";
-  		    skill.innerText = "" + v;
-  		    skillBox.appendChild(skill);
-  		  });
-
-  	const date = document.createElement('div');
-  		date.className='date';
-  	const dateSpan = document.createElement('span');
-  		dateSpan.innerText = v.createdAt;
-  		
-  	content.appendChile(contentTextStrong);
-  	ItemText.appendChile(title);
-  	ItemText.appendChile(content);
-  	ItemText.appendChile(recruit);
-  	skillBox.appendChile(skill);
-  	date.appendChild(dateSpan);	
-  	recruitItemBox.appendChile(recruitNo);
-  	recruitItemBox.appendChile(ItemText);
-  	recruitItemBox.appendChile(skillBox);
-  	recruitItemBox.appendChile(date);
-	itemList.appendChile(recruitItemBox);
-  }
-  
-	
-  
-
-  
-  
-  const IngMoreBtn= document.querySelector('.more1');
-  console.log(IngMoreBtn);
-  const cno = document.querySelector('.nowCno').value;
-  IngMoreBtn.addEventListener('click',()=>{ 
-  let currentPageNum = 2;
-  axios.get('recruitLoad.co', {
-        params: {
-          currentPage: currentPageNum++,
-          compNo:cno
-        }
-      }) .then((result)=>{
-          result.data["rlist1"].forEach((v) => {
-          recruitItem1(v, result.data["skillMap"][v.recruitNo]);
-          currentPageNum = currentPageNum++;
-          console.log(currentPageNum);
-          
-          });
-
-        }).catch(function(error){
-      	  console.log(error);
-        })
-        .then(function(){
-        	  href();
-        })
-      })
-  
-	
-  let href =()=>{
-  		 const ingBox = document.querySelector('.employ__box__ing');
-			 ingBox.querySelectorAll('.content__wrapper').forEach((v,i)=>{
-	              v.addEventListener('click',()=>{
-		              let rno = document.querySelectorAll('.recruit-no')[i];
-		              console.log(rno);
-		             location.href="detail.re?rno="+rno.value;
-		         	 
-	         	    });
-	    	      });
-  }
-  
-  
-  href();
-
-  
-  
-  </script>
+  <script defer src="resources/js/profile/profile-recruit.js"></script>
   <!-- 구성원 추가 모달 -->
   <jsp:include page="../common/footer.jsp"/>
   </body>

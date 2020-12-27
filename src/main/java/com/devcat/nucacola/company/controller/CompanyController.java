@@ -248,7 +248,7 @@ public class CompanyController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="recruitLoad.co",produces="application/json;charset=utf-8")
+	@RequestMapping(value="recruitINGLoad.co",produces="application/json;charset=utf-8")
 	public HashMap<String, Object> recruitLoadING(@RequestParam(value="currentPage", defaultValue="1") int currentPage
 								 ,Company c, Model model) {
 		int INGcount = cService.INGcount(c);
@@ -267,13 +267,37 @@ public class CompanyController {
 			System.out.println(skillMap);
 		}
 		
-		model.addAttribute("skillMap",skillMap);
-		model.addAttribute("rlist1",rlist1);
-		model.addAttribute("pi1",pi);
-		
 		HashMap<String, Object> result=new HashMap<>();
 		result.put("skillMap", skillMap);
 		result.put("rlist1",rlist1);
+
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="recruitENDLoad.co",produces="application/json;charset=utf-8")
+	public HashMap<String, Object> recruitLoadEND(@RequestParam(value="currentPage", defaultValue="1") int currentPage
+								 ,Company c, Model model) {
+		int ENDcount = cService.ENDcount(c);
+		PageInfo pi2 = Pagination.getPageInfo(ENDcount, currentPage,1,4);
+		ArrayList<Recruit> rlist2 = cService.selectCompanyRecruitEND(c,pi2);
+		System.out.println(rlist2);
+		
+		ArrayList<Recruit> skills = cService.CompanyRecruitSkills(c);
+		HashMap<Integer, List<String>>skillMap =new HashMap<>();
+		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
+			System.out.println(skills.get(i).getRecruitNo());
+			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력			
+			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
+				int key=skills.get(i).getRecruitNo();
+				skillMap.put(key,skillsName);
+			System.out.println(skillMap);
+		}
+		
+		
+		HashMap<String, Object> result=new HashMap<>();
+		result.put("skillMap", skillMap);
+		result.put("rlist2",rlist2);
 
 		return result;
 	}

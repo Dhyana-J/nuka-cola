@@ -104,7 +104,7 @@
     background-color: #30409f;
     color: #fff;
   }
-  .employ__box__ing .member_btn, .employ__box__end .member_btn{
+.member_btn{
     display: flex;
     justify-content: center;
     margin-bottom: 20px;

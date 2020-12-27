@@ -1,100 +1,228 @@
-const recruitItem1 =(v,i)=>{
-            	console.log(i);
-            	const itemList = document.querySelector('.jemploy__box__ing');
-            	const recruitItemBox = document.createElement('div');
-            		recruitItemBox.className='content__wrapper';
-            	const recruitNo = document.createElement('input');
-        			recruitNo.type='hidden';
-        			recruitNo.name='recruitNo';
-            		recruitNo.className='recruit-no';
-            		recruitNo.value=v.recruitNo;
+  const recruitItem1 =(v,i)=>{
+  	const itemList = document.querySelector('.employ__box__ing');
+  	const recruitItemBox = document.createElement('div');
+  		recruitItemBox.className='content__wrapper';
+  	const recruitNo = document.createElement('input');
+		recruitNo.type='hidden';
+		recruitNo.name='recruitNo';
+  		recruitNo.className='recruit-no';
+  		recruitNo.value=v.recruitNo;
 
-            	/*채용 공고 정보(회사,소개, 관련업무분야,마감일)*/
-            	const ItemText = document.createElement('ul');
-            		ItemText.className='employ__box__info';
-            	const title= document.createElement('li');
-	            	title.innerText=v.compName;
-            	const content = document.createElement('li');
-            	const contentTextStrong = document.createElement('strong');
-            		contentTextStrong.innerText=v.recruitTitle;
-            	let recruit = document.createElement('li');
-            		const recruitRequ = v.recruitRequ;           	
-            		if(v.recruitRequ =='0'){
-            			recruit.innerText='신입';
-            		}else if(v.recruitRequ =='1'){
-            			recruit.innerText='경력';
-            		}else if(v.recruitRequ =='2'){
-            			recruit.innerText='신입 경력';
-            		}
-            	const skillBox = document.createElement("div");
-            		  skillBox.className = "tag__box";
-            		  i.forEach((v) => {
-            		    const skill = document.createElement("span");
-            		    skill.className ="tag";
-            		    skill.innerText = "" + v;
-            		    skillBox.appendChild(skill);
-            		  });
+  	/*채용 공고 정보(회사,소개, 관련업무분야,마감일)*/
+  	const ItemText = document.createElement('ul');
+  		ItemText.className='employ__box__info';
+  	const title= document.createElement('li');
+      	title.innerText=v.compName;
+  	const content = document.createElement('li');
+  	const contentTextStrong = document.createElement('strong');
+  		contentTextStrong.innerText=v.recruitTitle;
+  	let recruit = document.createElement('li');
+  		const recruitRequ = v.recruitRequ;           	
+  		if(v.recruitRequ =='0'){
+  			recruit.innerText='신입';
+  		}else if(v.recruitRequ =='1'){
+  			recruit.innerText='경력';
+  		}else if(v.recruitRequ =='2'){
+  			recruit.innerText='신입 경력';
+  		}
+  	const skillBox = document.createElement("div");
+  		  skillBox.className = "tag__box";
+  		if(i !=null){
+  		  i.forEach((v) => {
+  		    const skill = document.createElement("span");
+  		    skill.className ="tag";
+  		    skill.innerText = "" + v;
+  		    skillBox.appendChild(skill);
+  		  });
+  		}
+  	const date = document.createElement('div');
+  		date.className='date';
+  	const dateSpan = document.createElement('span');
+  		dateSpan.innerText = v.createdAt;
+  		
+  	content.appendChild(contentTextStrong);
+  	console.log(content);
+  	ItemText.appendChild(title);
+  	ItemText.appendChild(content);
+  	ItemText.appendChild(recruit);
+  	date.appendChild(dateSpan);	
+  	recruitItemBox.appendChild(recruitNo);
+  	recruitItemBox.appendChild(ItemText);
+  	recruitItemBox.appendChild(skillBox);
+  	recruitItemBox.appendChild(date);
+	itemList.appendChild(recruitItemBox);
+  }
+  
+    const recruitItem2 =(v,i)=>{
+      	const itemList = document.querySelector('.employ__box__end');
+      	const recruitItemBox = document.createElement('div');
+      		recruitItemBox.className='content__wrapper';
+      	const recruitNo = document.createElement('input');
+    		recruitNo.type='hidden';
+    		recruitNo.name='recruitNo';
+      		recruitNo.className='recruit-no';
+      		recruitNo.value=v.recruitNo;
 
-            	const date = document.createElement('div');
-            		date.className='date';
-            	const dateSpan = document.createElement('span');
-            		dateSpan.innerText = v.createdAt;
-            		
-            	content.appendChile(contentTextStrong);
-            	ItemText.appendChile(title);
-            	ItemText.appendChile(content);
-            	ItemText.appendChile(recruit);
-            	skillBox.appendChile(skill);
-            	date.appendChild(dateSpan);	
-            	recruitItemBox.appendChile(recruitNo);
-            	recruitItemBox.appendChile(ItemText);
-            	recruitItemBox.appendChile(skillBox);
-            	recruitItemBox.appendChile(date);
-			    itemList.appendChile(recruitItemBox);
-            }
-            
-          	
-            
+      	/*채용 공고 정보(회사,소개, 관련업무분야,마감일)*/
+      	const ItemText = document.createElement('ul');
+      		ItemText.className='employ__box__info';
+      	const title= document.createElement('li');
+          	title.innerText=v.compName;
+      	const content = document.createElement('li');
+      	const contentTextStrong = document.createElement('strong');
+      		contentTextStrong.innerText=v.recruitTitle;
+      	let recruit = document.createElement('li');
+      		const recruitRequ = v.recruitRequ;           	
+      		if(v.recruitRequ =='0'){
+      			recruit.innerText='신입';
+      		}else if(v.recruitRequ =='1'){
+      			recruit.innerText='경력';
+      		}else if(v.recruitRequ =='2'){
+      			recruit.innerText='신입 경력';
+      		}
+      	const skillBox = document.createElement("div");
+      		  skillBox.className = "tag__box";
+      		  if(i !=null){
+	      		  i.forEach((v) => {
+	      		    const skill = document.createElement("span");
+	      		    skill.className ="tag";
+	      		    skill.innerText = "" + v;
+	      		    skillBox.appendChild(skill);
+	      		  });
+      		  }
+
+      	const date = document.createElement('div');
+      		date.className='date';
+      	const dateSpan = document.createElement('span');
+      		dateSpan.innerText = v.createdAt;
+      		
+      	content.appendChild(contentTextStrong);
+      	console.log(content);
+      	ItemText.appendChild(title);
+      	ItemText.appendChild(content);
+      	ItemText.appendChild(recruit);
+      	date.appendChild(dateSpan);	
+      	recruitItemBox.appendChild(recruitNo);
+      	recruitItemBox.appendChild(ItemText);
+      	recruitItemBox.appendChild(skillBox);
+      	recruitItemBox.appendChild(date);
+    	itemList.appendChild(recruitItemBox);
+      }
+  
+
+  
+  <!-- 진행중인 채용공고 load-->
+  const IngMoreBtn1= document.querySelector('.more1');
+  console.log(IngMoreBtn1);
+  let pi1 = document.querySelector('.pi1').value;
+  pi1 = parseInt(pi1);
+  console.log(pi1);
+  let currentPageNum1 = 1;
+  const cno = document.querySelector('.nowCno').value;
+  IngMoreBtn1.addEventListener('click',()=>{ 
+
+ 
+  axios.get('recruitINGLoad.co', {
+        params: {
+          currentPage: ++currentPageNum1,
+          compNo:cno
+        }
+      }) .then((result)=>{
+
+          result.data["rlist1"].forEach((v) => {
+        	console.log(currentPageNum1);
+        	disabledBtn1();
+          recruitItem1(v, result.data["skillMap"][v.recruitNo]);
+          });
+
+        }).catch(function(error){
+      	  console.log(error);
+        })
+        .then(function(){
+        	  href();
+        })
+      })
+      
+   let disabledBtn1 =()=>{
+		if(currentPageNum1 >= pi1){
+		 IngMoreBtn1.disabled=true;
+		 IngMoreBtn1.style.background="#e5e5e5";
+		 IngMoreBtn1.style.color="#30409f";
+		}
+	}     
+      
+
+      
+  <!-- 진행완료인 채용공고 load-->   
+  const IngMoreBtn2= document.querySelector('.more2');
+  console.log(IngMoreBtn2);
+  let pi2 = document.querySelector('.pi2').value;
+  pi2 = parseInt(pi2);
+  console.log("pi2:"+pi2);
+  let currentPageNum2 = 1;
+  console.log("currentPageNum2:"+ currentPageNum2);
+  IngMoreBtn2.addEventListener('click',()=>{ 
+  
+  
+  axios.get('recruitENDLoad.co', {
+        params: {
           
-            
-            
-            const IngMoreBtn= document.querySelector('.more1');
-            console.log(IngMoreBtn);
-            const cno = document.querySelector('.nowCno').value;
-            IngMoreBtn.addEventListener('click',()=>{ 
-            let currentPageNum = 2;
-            axios.get('recruitLoad.co', {
-                  params: {
-                    currentPage: currentPageNum++,
-                    compNo:cno
-                  }
-                }) .then((result)=>{
+          currentPage: ++currentPageNum2,
+          compNo:cno
+        }
+      }) .then((result)=>{
+    	  
+    	  
+          result.data["rlist2"].forEach((v) => {
+        	console.log(currentPageNum2);
+        	disabledBtn2();
+          recruitItem2(v, result.data["skillMap"][v.recruitNo]);
+          });
 
-                    result.data["rlist1"].forEach((v) => {
-                    recruitItem1(v, result.data["skillMap"][v.recruitNo]);
-                    
-                    });
+        }).catch(function(error){
+      	  console.log(error);
+        })
+        .then(function(){
+        	  href();
+        })
+      })
 
-                  }).catch(function(error){
-                	  console.log(error);
-                  })
-                  .then(function(){
-                  	  href();
-                  })
-                })
-            
-			
-            let href =()=>{
-            		 const ingBox = document.querySelector('.employ__box__ing');
-					 ingBox.querySelectorAll('.content__wrapper').forEach((v,i)=>{
-			              v.addEventListener('click',()=>{
-				              let rno = document.querySelectorAll('.recruit-no')[i];
-				              console.log(rno);
-				             location.href="detail.re?rno="+rno.value;
-				         	 
-			         	    });
-			    	      });
-            }
-            
-            
-            href();
+	
+  let href =()=>{
+  		 const ingBox1 = document.querySelector('.employ__box__ing');
+			 ingBox1.querySelectorAll('.content__wrapper').forEach((v,i)=>{
+	              v.addEventListener('click',()=>{
+		              let rno = v.querySelector('.recruit-no').value;
+		              console.log(rno);
+		              location.href="detail.re?rno="+rno;
+		         	 
+	         	    });
+	    	      });
+		const ingBox2 = document.querySelector('.employ__box__end');
+			 ingBox2.querySelectorAll('.content__wrapper').forEach((v,i)=>{
+	              v.addEventListener('click',()=>{
+		              let rno = v.querySelector('.recruit-no').value;
+		              console.log(rno);
+		             location.href="detail.re?rno="+rno;
+		         	 
+	         	    });
+	    	      });		
+  }
+  
+  
+	
+
+	const disabledBtn2 =()=> {
+		if(currentPageNum2 >=pi2){
+		IngMoreBtn2.disabled=true;
+		IngMoreBtn2.style.background="#e5e5e5";
+		IngMoreBtn2.style.color="#30409f";
+		}
+	}
+  
+  disabledBtn1();
+  disabledBtn2();
+  href();
+
+  
+  

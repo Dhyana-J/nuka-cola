@@ -186,7 +186,8 @@
       const compNo = document.createElement("input");
       compNo.type = "hidden";
       compNo.value = v.compNo;
-      compNo.className = "comp-no-input";
+      compNo.className = "comp-no";
+      compNo.name = "compNo";
 
       box.appendChild(compNo);
       box.appendChild(logoBox);
@@ -394,7 +395,7 @@
           })
           .then((res)=>{
         	console.log(res.data);
-        	
+        	addSubscribe()
         	res.data.forEach(v=>{
         		makeElement(v);
         	})

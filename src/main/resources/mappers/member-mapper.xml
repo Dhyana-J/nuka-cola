@@ -531,6 +531,16 @@
 		 )
 	</select>
 	
+	<!-- 이메일로 회원찾기(회사 구성원추가) -->
+	<select id="searchMemberList"
+			parameterType="String"
+			resultMap="memberResultSet">
+		select
+			  *
+		  from users
+		 where user_email like '%'||#{email}||'%'
+	</select>
+	
 		
 	
 </mapper>

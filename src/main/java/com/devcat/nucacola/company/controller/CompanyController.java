@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +28,7 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.google.gson.Gson;
 
@@ -220,7 +222,7 @@ public class CompanyController {
 		
 		//구성원들 리스트의 페이징처리가 필요하다. 대표(채용담당자)는 한명이니까 페이징 처리 필요없음
 		//유저경력테이블에서 해당 회사 재직중인사람 목록 불러오면 됨
-		PageInfo pi = Pagination.getPageInfo(memberCount, currentPage, 1, 2);
+		PageInfo pi = Pagination.getPageInfo(memberCount, currentPage, 1, 1);
 		
 		
 		//위에서 설정한 pi를 가지고 지정된 수의 범위 만큼 구성원 정보를 가져오자
@@ -230,9 +232,15 @@ public class CompanyController {
 		//회사테이블의 기업관리자랑 일치하는사람 조회하든, 유저경력테이블의 포지션이 대표인사람 조회하든 해야!
 		Member head = mService.selectHead(cno);
 		
+		//구성원 추가 포지션 검색시 쓰일 것들
+		ArrayList<String> positionList = cService.selectPositionList(cno);
+		
+
+		model.addAttribute("positionList",positionList);
 		model.addAttribute("pi",pi);
 		model.addAttribute("head",head);
 		model.addAttribute("memberList",memberList);
+		model.addAttribute("cno",cno);
 		
 		
 		return "company/companyProfileMembers";
@@ -244,7 +252,7 @@ public class CompanyController {
 	public HashMap<String,ArrayList<?extends Object>> loadMoreMember(int cno,int currentPage){
 		
 		//페이지인포를 세팅하고 구성원리스트를 세팅한다.
-		PageInfo pi = Pagination.getPageInfo(cService.selectMemberCount(cno), currentPage, 1, 2);
+		PageInfo pi = Pagination.getPageInfo(cService.selectMemberCount(cno), currentPage, 1, 1);
 		ArrayList<Member> memberList = mService.selectMemberList(cno, pi);
 		
 		//페이지인포 객체를 담아준다. (ArrayList를 쓰는 이유는 HashMap에 담아 뷰로 넘겨주기 위함)
@@ -258,6 +266,44 @@ public class CompanyController {
 		
 		return loadedInfo;
 		
+	}
+	
+	//기업 구성원 모달 이메일검색 시 실행될 컨트롤러
+	@ResponseBody
+	@RequestMapping("searchMemberList.co")
+	public ArrayList<Member> searchMemberList(String email){
+		
+		ArrayList<Member> searchedList = mService.searchMemberList(email);
+		
+		return searchedList;
+		
+	}
+	
+	
+	//기업구성원 추가 시 실행될 컨트롤러
+	@RequestMapping("addMember.co")
+	public String addMember(int[] uno, int cno, String position, HttpSession session, Model model) {
+		
+		
+		
+		//insert할 구성원정보를 담을 ArrayList
+		List<Career> memberList = new ArrayList<>();
+		
+		//checked된 유저 수 만큼 객체 추가해준다.
+		for(int userNo : uno) {
+			memberList.add(new Career(userNo,cno,position));
+		}
+		
+		
+		int result = cService.addMember(memberList);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg", "구성원 추가 성공!");
+			return "redirect:profileMember.co?cno=1&currentPage=1";
+		}else {
+			model.addAttribute("errorMsg","구성원 추가 실패");
+			return "common/errorPage";
+		}
 	}
 	
 	

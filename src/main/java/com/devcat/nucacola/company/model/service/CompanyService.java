@@ -2,10 +2,13 @@ package com.devcat.nucacola.company.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.member.model.vo.Career;
 
 public interface CompanyService {
 	
@@ -41,6 +44,11 @@ public interface CompanyService {
 	//7. 회사 구성원 수 조회
 	int selectMemberCount(int cno);
 	
+	//8. 회사 경력테이블 직책들 조회
+	ArrayList<String> selectPositionList(int cno);
+	
+	//9. 구성원 추가
+	int addMember(List<Career> memberList);
 	
 	
 }

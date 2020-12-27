@@ -2,18 +2,17 @@ package com.devcat.nucacola.company.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.company.model.vo.CompIndus;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.company.model.vo.TechStack;
-import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.Career;
 
 @Repository
 public class CompanyDao {
@@ -67,6 +66,14 @@ public class CompanyDao {
 
 	public int selectMemberCount(SqlSessionTemplate sqlSession, int cno) {//회사 구성원 수 조회
 		return sqlSession.selectOne("companymapper.selectMemberCount",cno);
+	}
+
+	public ArrayList<String> selectPositionList(SqlSessionTemplate sqlSession, int cno) {
+		return (ArrayList)sqlSession.selectList("companymapper.selectPositionList",cno);
+	}
+
+	public int addMember(SqlSessionTemplate sqlSession, List<Career> memberList) {
+		return sqlSession.insert("companymapper.addMember", memberList);
 	}
 
 	

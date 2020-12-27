@@ -497,6 +497,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectMemberList(sqlSession, cno, pi);
 	}
 
+	//기업 구성원추가 이메일로 회원찾기용
+	@Override
+	public ArrayList<Member> searchMemberList(String email) {
+		return mDao.searchMemberList(sqlSession, email);
+	}
+
 
 
 

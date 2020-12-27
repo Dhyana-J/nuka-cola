@@ -22,4 +22,13 @@ public class Career {
 	private String enteredAt;
 	private String createdAt;
 	
+	//기업구성원 추가할 때 쓰일 생성자
+	public Career(int userNo, int compNo, String careerPosi) {
+		super();
+		this.userNo = userNo;
+		this.compNo = compNo;
+		this.careerPosi = careerPosi;
+	}
+		
+	
 }

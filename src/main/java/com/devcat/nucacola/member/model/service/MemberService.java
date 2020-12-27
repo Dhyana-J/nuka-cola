@@ -149,7 +149,11 @@ public interface MemberService {
 	//기업 구성원리스트 조회용
 	ArrayList<Member> selectMemberList(int cno, PageInfo pi);
 
+	//기업 구성원추가 이메일로 회원찾기용
+	ArrayList<Member> searchMemberList(String email);
+	
 	int insertAvatar(Member m);
+	
 
 
 

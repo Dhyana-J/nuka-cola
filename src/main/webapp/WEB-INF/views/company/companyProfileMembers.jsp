@@ -19,28 +19,15 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/profile/profile(member).css" />
+    <link rel="stylesheet" href="resources/css/profile/profile(member-modal).css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script defer src="resources/js/company/load-more-member.js"></script>
+    <script defer src="resources/js/company/search-comp-member.js"></script>
   </head>
   <body>
-    <header>
-      <div class="inner">
-        <div class="left__header">
-          <div class="logo">
-            <img src="resources/assets/logo.png" alt="logo" />
-          </div>
-          <ul class="header__nav">
-            <li class="header__nav-item">PARTNER</li>
-            <li class="header__nav-item">COMPANY</li>
-            <li class="header__nav-item">EMPLOYMENT</li>
-          </ul>
-        </div>
-        <div class="right__header">
-          <i class="material-icons">menu</i>
-          <span>MENU</span>
-        </div>
-      </div>
-    </header>
+  
+    <jsp:include page="../common/mainMenu.jsp"/>
+    
     <section class="visual__section">
       <div class="inner">
         <div class="visual__left">
@@ -165,7 +152,7 @@
 			<c:if test="${pi.currentPage ne pi.maxPage}">
               <div class="member_btn">
               	<!-- 버튼 클릭될 때마다 loadMore 실행된다. 인자로 회사번호 넣어줘야함 -->
-                <button class="btn" onclick="loadMore(1)">more</button>
+                <button class="btn" onclick="loadMore(${cno})">more</button>
               </div>
 			</c:if>
               
@@ -181,114 +168,39 @@
     <div class="modal hidden">
       <div class="modal__overlay"></div>
       <div class="modal__content">
-          <form class="content__inner">
+      
+          <form id="add-member" class="content__inner" action="addMember.co" method="get">
+          	  <input type="hidden" name="cno" value="${cno }">
               <div class="modal__title">
                   <h2>구성원 추가</h2>
               </div>
               <div class="email">
                   <p>이메일</p>
-                  <input type="search">
+                  <input type="search" id="find-email">
               </div>
               <div class="modal__member__content">
-                 <!-- 기업의 구성원 for문 -->
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="resources/assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="resources/assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="resources/assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="resources/assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-
-                  <div class="charater__info">
-                      <div class="charater__info__left">
-                          <div class="member__avatar">
-                          <img src="resources/assets/avatar.png" alt="" />
-                          </div>
-                          <label for="add_option" class="add__member__check">
-                          <ul class="add__member__info">
-                              <li><strong>Elon Reeve Musk</strong></li>
-                              <li>TESLA,SPACE x @CEO</li>
-                          </ul>
-                          </label>
-                      </div>
-                      <div class="charater__info__right">
-                        <input type="checkbox" id="add_option">
-                      </div>
-                  </div>
-                  <!-- 기업의 구성원 for문 -->
-              </div>
+                 <p class="no-result">이메일로 검색해보세요 :)</p>
+              </div><!-- modal__member__content -->
               <div class="position">
-                  <p>직책</p>
-                  <input type="search">
+                  <p>포지션</p>
+                  <input type="text" list="posi-list" name="position" value="" placeholder="ex)CEO, 프론트엔드 개발 ...">
+                  <datalist id="posi-list">
+                  	<c:forEach var="position" items="${positionList}">
+                  		<option value="${position }">
+                  	</c:forEach>
+                  </datalist>
               </div>
               <div class="button__box">
                   <button type="button" class="btn modal__close">close</button>
                   <button type="submit" class="btn btn-blue">추가</button>
               </div>
           </form>
+          
       </div>
   </div>
 
   <script>
+  
       window.onload = function() {
       
       function onClick() {
@@ -304,7 +216,6 @@
       document.querySelector('.modal__close').addEventListener('click', offClick);
 
       };
-
 
     </script>
 

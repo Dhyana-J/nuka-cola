@@ -152,6 +152,32 @@
 
 	</update>
 	
+	<select id="selectPositionList"
+			parameterType="_int"
+			resultType="String">
+		select distinct
+			  career_posi
+		  from careers
+		 where comp_no=#{cno}
+	</select>
+	
+	<!-- separator에 쉼표가 들어가버리면 문법 에러난다! -->
+	<insert id="addMember"
+			parameterType="java.util.List">
+			  <foreach collection="list" item="career" open="insert all" close="select * from sys.dual" separator=" ">
+	  		 into careers
+			  values
+			  (
+				#{career.userNo},
+				#{career.compNo},
+				#{career.careerPosi},
+				0,
+				null,
+				sysdate,
+				sysdate
+			  )
+			</foreach>
+	</insert>
 	
 	
 	

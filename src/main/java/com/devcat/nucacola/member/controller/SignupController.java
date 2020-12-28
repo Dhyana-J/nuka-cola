@@ -163,7 +163,6 @@ public class SignupController {
 		
 		//유저경력을 가져오는  select문
 		ArrayList<Career> careerList = mService.selectCareerList(userNo);
-		System.out.println(careerList);
 		//기업식별자를 알아오는 select문 
 		Company compNo = mService.selectComNo(userNo);
 		

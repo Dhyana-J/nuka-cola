@@ -3,6 +3,7 @@ package com.devcat.nucacola.recruits.model.service;
 import java.util.ArrayList;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 
@@ -23,7 +24,9 @@ public interface RecruitService {
 		
 	// 채용 공고 삭제
 		int deleteRecruit(int rno);
-		
+	
+	// 지원 조회
+		ArrayList<Apply> selectApplyList(int rno);
 		
 		
 }

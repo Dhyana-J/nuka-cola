@@ -112,10 +112,10 @@ public class MemberDao {
 	}
 
 	
-	// 경력
+	// 경력추가
 	public int insertCareer(SqlSessionTemplate sqlSession, Career c) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return sqlSession.insert("memberMapper.insertCareer", c);
 	}
 
 	public int updateCareer(SqlSessionTemplate sqlSession, Career c) {
@@ -273,10 +273,10 @@ public class MemberDao {
 	}
 
 
-	
+	/*
 	// 기업식별자 알아오기
 	public Company selectCompNo(SqlSessionTemplate sqlSession, int userNo) {
-		return null;
+		return sqlSession.selectOne("companyMapper.selectCompNo", userNo);
 	}
 	
 	//기업 대표 조회용
@@ -304,6 +304,7 @@ public class MemberDao {
 	public int updateUserComp(SqlSessionTemplate sqlSession, List<Member> updateList) {
 		return sqlSession.update("memberMapper.updateUserComp", updateList);
 	}
+	*/
 	
 	
 	

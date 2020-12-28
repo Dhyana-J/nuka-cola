@@ -330,29 +330,15 @@ a#topBtn {
   flex-direction: column;
   width: 100%;
   margin-right: 10px;
-  margin-left: 0px;
   gap: 5px;
 }
 .content__wrapper #project-name {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
+  
 }
 
-.user__career__section{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-right: 10px;
-  margin-left: 10px;
-  gap: 5px;
-}
-.content__wrapper #career-name {
-  display: flex;
-  justify-content: flex-start;
-}
-
-
-
+/* 경력 input용 css*/
 #career-input span{
 	font-size:14px;
 }
@@ -367,6 +353,21 @@ a#topBtn {
   margin: 5px;
   transition: 0.3s;
 }
+
+.user__career__section{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-right: 10px;
+  gap: 5px;
+}
+.content__wrapper #career-name {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+
 
 
 #position-input {

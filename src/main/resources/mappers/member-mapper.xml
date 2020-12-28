@@ -496,11 +496,39 @@
 		      , career_posi
 		      , to_char(x.updated_at, 'YYYY-MM-DD') "updated_at"
 		      , to_char(x.entered_at, 'YYYY-MM-DD') "entered_at"
+		      , to_char(x.created_at, 'YYYY_MM-DD') "created_at"
 		from careers x
 		join companys c on (x.comp_no = c.comp_no) 
 		where x.user_no = 30	
 			
 	</select>
+
+	
+	<!-- 경력 추가하기 -->
+	<insert id="insertCareer" parameterType="Career">
+		
+		insert 
+			  into careers
+			        ( 
+			         COMP_NO
+			        ,USER_NO
+			        ,CAREER_POSI
+			        ,ENTERED_AT
+			        ,UPDATED_AT    
+			        
+			        ) 
+			        values
+			        
+			        (
+			        #{compNo},
+			        #{userNo},
+			        #{careerPosi},
+			        #{enteredAt},
+			        #{updatedAt}
+			        )
+	</insert>
+
+	
 	
 	<!-- 회사 대표 조회 -->
 	<select id="selectHead"

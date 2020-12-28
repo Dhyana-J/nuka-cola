@@ -153,9 +153,9 @@ public class SubscribeController {
 		model.addAttribute("pi",pi);
 		model.addAttribute("cslist",cslist);
 		System.out.println(cslist);
+		
 		return "/user/userProfile_scriptCompany";
 		
-	
 	}
 	
 	

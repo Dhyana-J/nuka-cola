@@ -557,3 +557,24 @@ header .right__header {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+.login__btn__wrapper{
+  width:100%;
+  margin-top:20px;
+  display:flex;
+  justify-content: space-between;
+}
+.login__btn__wrapper button{
+  width:45%;
+}

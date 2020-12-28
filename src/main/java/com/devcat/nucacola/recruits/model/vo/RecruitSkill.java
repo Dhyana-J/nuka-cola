@@ -15,6 +15,7 @@ public class RecruitSkill {
 
 	private int recruitNo;
 	private int skillNo;
+	private String skillName;
 	private String createdAt;
 	
 }

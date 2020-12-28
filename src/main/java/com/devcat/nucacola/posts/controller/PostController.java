@@ -138,7 +138,7 @@ public class PostController {
 
 	@ResponseBody
 	@RequestMapping("insert.com")
-	public String insertReply(Comment c){
+	public String insertDeclare(Comment c){
 		System.out.println(c);
 		int result = pService.insertComment(c);
 		if(result > 0){

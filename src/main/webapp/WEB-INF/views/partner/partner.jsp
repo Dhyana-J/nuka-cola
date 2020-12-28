@@ -35,7 +35,7 @@
         <div class="page-route"><span>HOME/PARTNER</span></div>
       </div>
 
-      <section class="connecting__section">
+      <section class="connecting__section content__section-change">
         <div class="inner">
           <div class="connecting__left">
             <button class="btn btn-blue">프로필 관리</button>
@@ -48,9 +48,9 @@
             </div>
             <div class="connection__content">
               <ul class="connection__info">
-                <li>기획자 <div class="circle"><span>20</span></div></li>
-                <li>디자이너<div class="circle"><span>20</span></div></li>
-                <li>개발자<div class="circle"><span>20</span></div></li>
+                <li name="userPosi">기획자 <div class="circle"><span>20</span></div></li>
+                <li name="userPosi">디자이너<div class="circle"><span>20</span></div></li>
+                <li name="userPosi">개발자<div class="circle"><span>20</span></div></li>
               </ul>
             </div>
           </div>
@@ -64,17 +64,17 @@
               <h1>파트너 정보검색</h1>
               <form class="search__form" action="" method="post">
                 <div class="search__select">
-                  <select name="recurit_posi">
-                    <option hidden selected>업무분야</option>
-                    <option>개발자</option>
-                    <option>기획자</option>
-                    <option>디자이너</option>
+                  <select class="userPosi" name="userPosi">
+                    <option hidden>업무분야</option>
+                    <option value="1">개발자</option>
+                    <option value="0">기획자</option>
+                    <option value="2">디자이너</option>
                   </select>
-                  <select name="">
+                  <select name="user_fields">
                     <option hidden selected>활동분야</option>
-                    <option>JAVA</option>
-                    <option>React</option>
-                    <option>JavaScript</option>
+                    <option value="skillNo">JAVA</option>
+                    <option value="">React</option>
+                    <option value="">JavaScript</option>
                   </select>
                   <input name="user_edu" type="search" placeholder="학교명">
                 </div>
@@ -241,7 +241,7 @@
 
       <!-- 푸터 포함 -->
       <jsp:include page="../common/footer.jsp"/>
-      
+      <script defer src="resources/js/partner/partner.js"></script>
       
       <script defer>
       

@@ -207,7 +207,6 @@ public class CompanyController {
 		return ts;
 	}
 	
-	// 다른유저 클릭시 프로필 메인화면
 	@RequestMapping("profileMain.co")
 	public String profileMainCompany(int cno, Model model) {
 		model.addAttribute("cno",cno);

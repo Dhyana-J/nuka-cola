@@ -69,8 +69,8 @@
                 <li>TOP</li>
                 <li>팔로잉</li>
                 <li>팔로워</li>
-                <li>북마크</li>
-                <li onClick='location.href="list.sub?uno=${loginUser.userNo}"'>구독기업</li>
+                <li onClick='location.href="list.bk?userNo=${loginUser.userNo}"'>북마크</li>
+                <li onClick='location.href="list.sub?userNo=${loginUser.userNo}"'>구독기업</li>
                 <li>좋아요게시글</li>
                 <li>연결</li>
               </ul>
@@ -81,7 +81,7 @@
                 <div class="section__content__title">
                     <strong>북마크한 채용공고</strong>  
                 </div>
-                <div class="just__text">${blistCount}개의 공고</div>
+                <div class="just__text"> <strong>${blistCount}</strong>개의 공고</div>
 				
                 <div class="just__text__item">
                 <c:forEach var="b" items="${blist}">
@@ -89,7 +89,7 @@
                 	<input class='recruit-no' type="hidden" name="recruitNo" value='${b.recruitNo}'>
 	                	<div class="bookmark__item__box__right">
 		                    <span class="just__text__title">${b.compName}</span>
-		                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
+		                    <span class="just__text__content"><span>${b.recruitTitle}</span></span>
 		                    
 		                    <c:if test="${b.recruitRequ eq '0'}">
 		                    	<span class="just__text__recruit">신입</span>
@@ -196,19 +196,20 @@
             
             /*페이지*/
 
-            let currentPageNum = 2;
+            let currentPageNum = 1;
             window.addEventListener('scroll',()=>{
               if(window.pageYOffset + document.documentElement.clientHeight >
                       document.documentElement.scrollHeight - 1){
                 console.log('로드!')
                 axios.get('load.bk', {
                   params: {
-                    currentPage: currentPageNum++
+                	userNo:${loginUser.userNo},
+                	currentPage: ++currentPageNum
                   }
                 }) .then((result)=>{
 
                     result.data["blist"].forEach((v) => {
-                      createBookmarkItem(v, result.data["skillMap"][v.recruitNo]);
+                    createBookmarkItem(v, result.data["skillMap"][v.recruitNo]);
                     
                     });
 
@@ -222,26 +223,32 @@
                 }
               });
             
+
+
             
 			const cancel=()=>{
 			  document.querySelectorAll('.section__content__title__cencel').forEach((v,i)=>{
 				  console.log(v);
 		            v.addEventListener('click',()=>{
 
-			              let item = document.querySelectorAll('.bookmark__item__box')[i];
-
-			              let rno = document.querySelectorAll('.recruit-no')[i].value
-			              console.log(rno);
-			              console.log(item);
+			              let item =v.parentNode.parentNode;
+			              let rno = item.querySelector('.recruit-no').value;
 			              
 			              axios.get('delete.bk',{
 			         		 params:{
+			         			userNo:${loginUser.userNo},
 			         			recruitNo:rno
 			         		 }
 			         	 })
 			         	 .then(function(){
 			         	 });
-			              
+			              let listCount= document.querySelector('.just__text');
+			       		  let listCountNum = listCount.querySelector('span').innerText;
+			       		  listCountNum=parseInt(listCountNum);
+			       		  console.log(listCountNum);
+			       		  listCountNum = --listCountNum;
+			       		  listCountNum.innerText = listCountNum;
+			       		  listCount.querySelector('span').innerText = listCountNum;
 			              item.remove(); 
 
 		       	    });

@@ -69,8 +69,8 @@
                         <li>TOP</li>
                         <li>팔로잉</li>
                         <li>팔로워</li>
-                        <li>북마크</li>
-                        <li onClick='location.href="insert.sub?uno=${loginUser.userNo}"'>구독기업</li>
+                        <li onClick='location.href="list.bk?userNo=${loginUser.userNo}"'>북마크</li>
+                        <li onClick='location.href="list.sub?userNo=${loginUser.userNo}"'>구독기업</li>
                         <li>좋아요게시물</li>
                         <li>연결</li>
                       </ul>
@@ -88,10 +88,18 @@
                           </span>
                     <br><br>
                     	<c:forEach var="cs" items="${cslist}">
-                          <div class="script__company__box" onclick='location.href="profileMain.co?cno=${cs.compNo}"'>
+                          <div class="script__company__box">
+                            <input type="hidden" class="comp-no" name="compNo" value="${cs.compNo}">
                             <div class="company__box__left">
                                 <div class="company__img__box">
-                                <img src="resources/assets/${cs.compLogo}" alt="">
+                                <c:choose>
+                                <c:when test="${empty cs.compLogo}">
+                                	<img src="resources/assets/conn.png" alt="">
+                                </c:when>
+                                <c:otherwise>
+                                	<img src="${cs.compLogo}" alt="">
+                                </c:otherwise>
+                                </c:choose>
                                 </div>
                                 <ul>
                                     <li class="company__info__title">${cs.compName}<span>구성원수[${cs.compHeadcount}]&nbsp;&nbsp;Sinece${cs.compBirth}</span> </li>
@@ -99,46 +107,153 @@
                                 </ul>
                             </div>
                             <div class="company__box__right">
-                                <span onclick= "CSdeleteBtn(${cs.compNo},${cs.userNo});">삭제</span>
+                                <span class="cancle-btn">삭제</span>
                             </div>
 
                           </div>
 
                    	 </c:forEach>
 
-
+					
 
 
                    </div>
                 </div>
               </div>
             </div>
+ <script defer>
+ 			
+            const createScriptItem =(v)=>{
+            	const scriptItemList = document.querySelectorAll('.content__wrapper')[1];
+            	const scriptItemBox = document.createElement('div');
+            		scriptItemBox.className='script__company__box';
+            	const compNo = document.createElement('input');
+	            	compNo.type='hidden';
+	            	compNo.name='compNo';
+	            	compNo.className='comp-no';
+	            	compNo.value=v.compNo;
+            	/*스크립트 정보(회사,소개)*/
+            	const scriptItemLeft = document.createElement('div');
+            		scriptItemLeft.className='company__box__left';
+            	const imgBox= document.createElement('div');
+            		imgBox.className='company__img__box';
+	            const img= document.createElement('img');
+	            	if(v.compLogo==null){
+	            		img.src="resources/assets/conn.png";
+	            	}else{
+	            	img.src=v.compLogo;
+	            	}
+            	const ul = document.createElement('ul');
+            	const li1 = document.createElement('li');
+            		li1.className ='company__info__title';
+            		li1.innerText=v.compName;
+            	const compCount = document.createElement('span');
+            			const nbsp = String.fromCharCode(160)+String.fromCharCode(160);
+            		compCount.innerText='구성원수'+v.compHeadcount+nbsp+'Sinece'+v.compBirth;
+            	const li2 = document.createElement('li');
+            	    li2.innerText=v.compInfo;
+            	/*북마크 취소*/
+            	const scriptItemRight = document.createElement('div');
+            		scriptItemRight.className='company__box__right';
+            	const cancleBtn = document.createElement('span');
+            		cancleBtn.className='cancle-btn';
+            		cancleBtn.innerText='삭제';
+            		
+            	
+            	imgBox.appendChild(img);	
+            	li1.appendChild(compCount);
+            	ul.appendChild(li1);
+            	ul.appendChild(li2);
+            	scriptItemLeft.appendChild(imgBox);
+            	scriptItemLeft.appendChild(ul);
+            	scriptItemRight.appendChild(cancleBtn);
+            	scriptItemBox.appendChild(scriptItemLeft);
+            	scriptItemBox.appendChild(scriptItemRight);
+            	scriptItemBox.appendChild(compNo);
+            	scriptItemList.appendChild(scriptItemBox);
 
+            }
+            
+          	
+            
+            
+            /*페이지*/
 
-            <script der>
-            const createScriptItem = (v,i,c=0)=>{
-            const itemList= document.querySelect(".content__wrapper");
-            const itemBox = document.createElement(".");
+            let currentPageNum = 1;
+            window.addEventListener('scroll',()=>{
+              if(window.pageYOffset + document.documentElement.clientHeight >
+                      document.documentElement.scrollHeight - 1){
+                console.log('로드!')
+                axios.get('load.sub', {
+                  params: {
+                	userNo:${loginUser.userNo},
+                    currentPage: ++currentPageNum
+                  }
+                }) .then((result)=>{
+
+                    result.data["cslist"].forEach((v) => {
+                    	createScriptItem(v);
+                    });
+
+                  }).catch(function(error){
+                	  console.log(error);
+                  })
+                  .then(function(){
+                	  cancel();
+                  	  href();
+                  })
+                }
+              });
+            
+
+            
+     		
+            
+			const cancel=()=>{
+			  document.querySelectorAll('.cancle-btn').forEach((v,i)=>{
+		            v.addEventListener('click',()=>{
+			              let item = v.parentNode.parentNode;
+			              let cs = item.querySelector('.comp-no').value; 
+			              console.log(cs);
+			            
+			              axios.get('delete.sub',{
+				         		 params:{
+				         			userNo:${loginUser.userNo},
+				         			compNo:cs
+				         		 }
+				         	 })
+				         	 .then(()=>{	 
+				         	 });
+			              
+			              const listCount= document.querySelector('.following__much');
+			              let listCountNum = listCount.querySelector('strong').innerText;
+			       		  listCountNum = parseInt(listCountNum);
+			       		  console.log(listCountNum);
+			       		  listCountNum = --listCountNum;
+		         		  listCount.querySelector('strong').innerText = listCountNum;
+			              item.remove(); 
+
+		       	    });
+		  	      });
+
+			}
+			
+			
+			
+            let href =()=>{
+					 document.querySelectorAll('.company__box__left').forEach((v,i)=>{
+			              v.addEventListener('click',()=>{
+				              let cno = document.querySelectorAll('.comp-no')[i].value;
+				              console.log(cno);
+				             location.href="profileMain.co?cno="+cno;
+				         	 
+			         	    });
+			    	      });
             }
             
             
-
-            function CSdeleteBtn(cs,uno){
-           	 console.log(cs);
-           	 console.log(uno);
-           	 axios.get('delete.sub',{
-           		 params:{
-           			 userNo:uno,
-           			 compNo:cs,
-           		 }
-           	 })
-           	 .then(function(){
-           		 alert("구독이 취소 되었습니다.");
-           		 location.href="list.sub?uno="+uno;
-           	 })
-           	 
-           }
-
+            href();
+            cancel();
 
             </script>
 

@@ -9,6 +9,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.member.model.vo.Career;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 public interface CompanyService {
 	
@@ -64,6 +65,15 @@ public interface CompanyService {
 	
 	//7-1. 기업 레코드 갯수
 	int countCompany(String keyword);
+	// 기업이 등록한 채용정보리스트  총 갯수(진행중)
+	int INGcount(Company c);
+	// 기업이 등록한 채용정보리스트(진행중)
+	ArrayList<Recruit> selectCompanyRecruitING(Company c, PageInfo pi);
+	// 기업이 등록한 채용정보리스트  총 갯수(진행완료)
+	int ENDcount(Company c);
+	// 기업이 등록한 채용정보리스트(진행완료)
+	ArrayList<Recruit> selectCompanyRecruitEND(Company c, PageInfo pi2);
 	
+	ArrayList<Recruit> CompanyRecruitSkills(Company c);
 	
 }

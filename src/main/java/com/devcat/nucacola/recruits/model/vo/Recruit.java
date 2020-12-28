@@ -39,10 +39,13 @@ public class Recruit {
 	private String recruitImg;
 	private int recruitMinSal;
 	private int recruitMaxSal;
+	private int recruitRequ;
 	private String recruitDl;
 	private int recruitCount;
 	private int compNo;
 	private String createdAt;
+	private String skillName;
+	private String compName;
 
 
 }

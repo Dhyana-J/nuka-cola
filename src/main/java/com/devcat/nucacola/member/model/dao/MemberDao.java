@@ -166,7 +166,7 @@ public class MemberDao {
 	public ArrayList<CompSub> selectSubComp(SqlSessionTemplate sqlSession, int uno, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.selectSubComp",uno);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSubComp",uno,rowBounds);
 	}
 
 	public int deleteSubComp(SqlSessionTemplate sqlSession, CompSub cs) {

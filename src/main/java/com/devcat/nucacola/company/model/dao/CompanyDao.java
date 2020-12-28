@@ -13,6 +13,8 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.member.model.vo.Career;
+import com.devcat.nucacola.member.model.vo.Bookmark;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 @Repository
 public class CompanyDao {
@@ -22,17 +24,13 @@ public class CompanyDao {
 		return sqlSession.selectOne("companymapper.selectListCount");
 	}
 	
-<<<<<<< HEAD
 	//기업 번호로 기업 객체 하나 조회해오는 method
 	public Company selectCompany(SqlSessionTemplate sqlSession,int cno) {
 		
 		return sqlSession.selectOne("companymapper.selectCompany",cno);
 	}
 	
-	public ArrayList<Company> selectCompanyList(SqlSessionTemplate sqlSession, PageInfo pi){
-=======
 	public ArrayList<Company> selectCompanyList(SqlSessionTemplate sqlSession, PageInfo pi , int uno){
->>>>>>> jiwonson1
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
@@ -99,6 +97,29 @@ public class CompanyDao {
 	
 	
 	
+	public int INGcount(SqlSessionTemplate sqlSession, Company c) {
+		return sqlSession.selectOne("companymapper.INGcount", c);
+	};
+	
+	public ArrayList<Recruit> selectCompanyRecruitING(SqlSessionTemplate sqlSession, Company c, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyRecruitING", c, rowBounds);
+	};
+	
+	public int ENDcount(SqlSessionTemplate sqlSession, Company c) {
+		return sqlSession.selectOne("companymapper.ENDcount", c);
+	};
+	
+	public ArrayList<Recruit> selectCompanyRecruitEND(SqlSessionTemplate sqlSession, Company c, PageInfo pi2) {
+		int offset = (pi2.getCurrentPage() - 1) * pi2.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi2.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyRecruitEND", c, rowBounds);
+	};
+	
+	public ArrayList<Recruit> CompanyRecruitSkills(SqlSessionTemplate sqlSession,Company c) {
+		return (ArrayList)sqlSession.selectList("companymapper.CompanyRecruitSkills", c);
+	}
 
 	//회사 검색
 	public ArrayList<Company> searchCompanyList(SqlSessionTemplate sqlSession, PageInfo pi, String keyword){

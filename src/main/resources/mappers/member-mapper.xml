@@ -20,6 +20,7 @@
 		<result column="certify_ans" property="certifyAns"/>
 		<result column="email_auth" property="emailAuth"/>
 		<result column="user_comp" property="userComp"/>
+		<result column="comp_no" property="compNo"/>
 	</resultMap>
 	
 	<resultMap id="skillResultSet" type="Skills">
@@ -76,15 +77,15 @@
 			 , user_info
 			 , user_edu
 			 , user_avatar
-			 , created_at
-			 , updated_at
+			 , u.created_at
+			 , u.updated_at
 			 , access_token
 			 , certify_ques
 			 , certify_ans
 			 , email_auth
 			 , user_comp
-	      from users
-	     where user_status != 1
+	      from users u	     
+          where user_status != 1
            and user_email=#{email}
            <!-- 
             and user_pwd=#{userPwd}

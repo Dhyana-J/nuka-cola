@@ -209,41 +209,70 @@ public class CompanyController {
 	
 	// 프로필 메인화면
 	@RequestMapping("profileMain.co")
-	public String profileMainCompany(int cno) {
-		return "company/companyProfileMain";
+	public String profileMainCompany(int cno, Model model) {
+		
+		Company comp = cService.selectCompany(cno);
+		
+		if(comp!=null) {//회사정보가 존재할 경우
+			
+			//회사정보 세팅해준다. (페이지마다 회사정보 필요함)
+			model.addAttribute("company",comp);
+			
+			//구성원 추가 포지션 검색시 쓰일 것들
+			ArrayList<String> positionList = cService.selectPositionList(cno);
+			model.addAttribute("positionList",positionList);
+			
+			return "company/companyProfileMain";
+			
+		}else {//회사정보가 존재하지 않을 경우
+			model.addAttribute("errorMsg","회사 정보가 존재하지 않습니다.");
+			return "common/errorPage";
+		}
+		
 	}
 	
 	//기업 프로필 - 구성원 화면
 	@RequestMapping("profileMember.co")
 	public String profileMember(int cno, int currentPage, Model model, HttpSession session){
 		
-		//구성원 수 세팅
-		int memberCount = cService.selectMemberCount(cno);
+		Company comp = cService.selectCompany(cno);
 		
-		//구성원들 리스트의 페이징처리가 필요하다. 대표(채용담당자)는 한명이니까 페이징 처리 필요없음
-		//유저경력테이블에서 해당 회사 재직중인사람 목록 불러오면 됨
-		PageInfo pi = Pagination.getPageInfo(memberCount, currentPage, 1, 1);
+		if(comp!=null) {//회사정보가 조회된 경우
+			
+			//구성원 수 세팅
+			int memberCount = cService.selectMemberCount(cno);
+			
+			//구성원들 리스트의 페이징처리가 필요하다. 대표(채용담당자)는 한명이니까 페이징 처리 필요없음
+			//유저경력테이블에서 해당 회사 재직중인사람 목록 불러오면 됨
+			PageInfo pi = Pagination.getPageInfo(memberCount, currentPage, 1, 2);
+			
+			
+			//위에서 설정한 pi를 가지고 지정된 수의 범위 만큼 구성원 정보를 가져오자
+			ArrayList<Member> memberList = mService.selectMemberList(cno,pi);
+			
+			//대표는 따로불러와야됨! Member객체에 회사대표임을 식별할 수 있는게 없다.
+			//회사테이블의 기업관리자랑 일치하는사람 조회하든, 유저경력테이블의 포지션이 대표인사람 조회하든 해야!
+			Member head = mService.selectHead(cno);
+			
+			//구성원 추가 포지션 검색시 쓰일 것들
+			ArrayList<String> positionList = cService.selectPositionList(cno);
+			
+			
+			//회사정보 세팅
+			model.addAttribute("company",comp);
+			model.addAttribute("positionList",positionList);
+			model.addAttribute("pi",pi);
+			model.addAttribute("head",head);
+			model.addAttribute("memberList",memberList);
+			
+			
+			return "company/companyProfileMembers";
+			
+		}else {//없는회사정보 조회하는 경우
+			model.addAttribute("errorMsg", "회사 정보가 존재하지 않습니다.");
+			return "common/errorPage";
+		}
 		
-		
-		//위에서 설정한 pi를 가지고 지정된 수의 범위 만큼 구성원 정보를 가져오자
-		ArrayList<Member> memberList = mService.selectMemberList(cno,pi);
-		
-		//대표는 따로불러와야됨! Member객체에 회사대표임을 식별할 수 있는게 없다.
-		//회사테이블의 기업관리자랑 일치하는사람 조회하든, 유저경력테이블의 포지션이 대표인사람 조회하든 해야!
-		Member head = mService.selectHead(cno);
-		
-		//구성원 추가 포지션 검색시 쓰일 것들
-		ArrayList<String> positionList = cService.selectPositionList(cno);
-		
-
-		model.addAttribute("positionList",positionList);
-		model.addAttribute("pi",pi);
-		model.addAttribute("head",head);
-		model.addAttribute("memberList",memberList);
-		model.addAttribute("cno",cno);
-		
-		
-		return "company/companyProfileMembers";
 	}
 	
 	//기업 구성원 more버튼 클릭 시 실행될 컨트롤러
@@ -252,7 +281,7 @@ public class CompanyController {
 	public HashMap<String,ArrayList<?extends Object>> loadMoreMember(int cno,int currentPage){
 		
 		//페이지인포를 세팅하고 구성원리스트를 세팅한다.
-		PageInfo pi = Pagination.getPageInfo(cService.selectMemberCount(cno), currentPage, 1, 1);
+		PageInfo pi = Pagination.getPageInfo(cService.selectMemberCount(cno), currentPage, 1, 2);
 		ArrayList<Member> memberList = mService.selectMemberList(cno, pi);
 		
 		//페이지인포 객체를 담아준다. (ArrayList를 쓰는 이유는 HashMap에 담아 뷰로 넘겨주기 위함)
@@ -284,18 +313,26 @@ public class CompanyController {
 	@RequestMapping("addMember.co")
 	public String addMember(int[] uno, int cno, String position, HttpSession session, Model model) {
 		
-		
+		//회사정보 세팅 (회사이름 가져오기 위함)
+		Company comp = cService.selectCompany(cno);
+		String userComp = comp.getCompName()+"@"+position;
 		
 		//insert할 구성원정보를 담을 ArrayList
 		List<Career> memberList = new ArrayList<>();
 		
-		//checked된 유저 수 만큼 객체 추가해준다.
+		//update할 구성원정보 담을 ArrayList
+		List<Member> updateList=new ArrayList<>();
+		
+		//checked된 유저 수 만큼 각 리스트에 객체를 추가해준다.
 		for(int userNo : uno) {
 			memberList.add(new Career(userNo,cno,position));
+			updateList.add(new Member(userNo,userComp));
 		}
 		
-		
 		int result = cService.addMember(memberList);
+		
+		int result2 = mService.updateUserComp(updateList);
+		
 		
 		if(result>0) {
 			session.setAttribute("alertMsg", "구성원 추가 성공!");

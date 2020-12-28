@@ -2,6 +2,7 @@ package com.devcat.nucacola.member.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -290,6 +291,10 @@ public class MemberDao {
 	//기업 구성원추가 이메일로 회원찾기용
 	public ArrayList<Member> searchMemberList(SqlSessionTemplate sqlSession, String email) {
 		return (ArrayList)sqlSession.selectList("memberMapper.searchMemberList",email);
+	}
+
+	public int updateUserComp(SqlSessionTemplate sqlSession, List<Member> updateList) {
+		return sqlSession.update("memberMapper.updateUserComp", updateList);
 	}
 	
 	

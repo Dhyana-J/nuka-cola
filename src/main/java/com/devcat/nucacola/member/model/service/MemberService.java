@@ -2,6 +2,7 @@ package com.devcat.nucacola.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
@@ -151,6 +152,9 @@ public interface MemberService {
 
 	//기업 구성원추가 이메일로 회원찾기용
 	ArrayList<Member> searchMemberList(String email);
+	
+	//기업 구성원 추가시 유저 회사명 업데이트용
+	public int updateUserComp(List<Member> updateList);
 	
 	int insertAvatar(Member m);
 	

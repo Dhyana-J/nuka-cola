@@ -18,8 +18,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="resources/js/company/search-comp-member.js"></script>
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/company.css" />
+    <link rel="stylesheet" href="resources/css/profile/profile(member-modal).css" />
   </head>
   <body>
  
@@ -54,7 +57,7 @@
           <ul>
             <li class="nav-active">ABOUT</li>
             <li>채용</li>
-            <li>구성원</li>
+            <li><a href="profileMember.co?cno=${company.compNo }&currentPage=1">구성원</a></li>
           </ul>
         </div>
         <div class="content__wrapper">
@@ -227,113 +230,40 @@
     </main>
 
     <!-- 구성원 추가 모달 -->
-    <div class="modal hidden" id="addMemberModal">
+     <!-- 구성원 추가 모달 -->
+    <div class="modal hidden">
       <div class="modal__overlay"></div>
       <div class="modal__content">
-        <form class="content__inner">
-          <div class="modal__title">
-            <h2>구성원 추가</h2>
-          </div>
-          <div class="email">
-            <p>이메일</p>
-            <input type="search" />
-          </div>
-          <div class="modal__member__content">
-            <div class="charater__info">
-              <div class="charater__info__left">
-                <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
-                </div>
-                <label for="add_option" class="add__member__check">
-                  <ul class="add__member__info">
-                    <li><strong>Elon Reeve Musk</strong></li>
-                    <li>TESLA,SPACE x @CEO</li>
-                  </ul>
-                </label>
+      
+          <form id="add-member" class="content__inner" action="addMember.co" method="get">
+          	  <input type="hidden" name="cno" value="${company.compNo }">
+              <div class="modal__title">
+                  <h2>구성원 추가</h2>
               </div>
-              <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
+              <div class="email">
+                  <p>이메일</p>
+                  <input type="search" id="find-email">
               </div>
-            </div>
-            <div class="charater__info">
-              <div class="charater__info__left">
-                <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
-                </div>
-                <label for="add_option" class="add__member__check">
-                  <ul class="add__member__info">
-                    <li><strong>Elon Reeve Musk</strong></li>
-                    <li>TESLA,SPACE x @CEO</li>
-                  </ul>
-                </label>
+              <div class="modal__member__content">
+                 <p class="no-result">이메일로 검색해보세요 :)</p>
+              </div><!-- modal__member__content -->
+              <div class="position">
+                  <p>포지션</p>
+                  <input type="text" list="posi-list" name="position" value="" placeholder="ex)CEO, 프론트엔드 개발 ...">
+                  <datalist id="posi-list">
+                  	<c:forEach var="position" items="${positionList}">
+                  		<option value="${position }">
+                  	</c:forEach>
+                  </datalist>
               </div>
-              <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
+              <div class="button__box">
+                  <button type="button" class="btn modal__close">close</button>
+                  <button type="submit" class="btn btn-blue">추가</button>
               </div>
-            </div>
-
-            <div class="charater__info">
-              <div class="charater__info__left">
-                <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
-                </div>
-                <label for="add_option" class="add__member__check">
-                  <ul class="add__member__info">
-                    <li><strong>Elon Reeve Musk</strong></li>
-                    <li>TESLA,SPACE x @CEO</li>
-                  </ul>
-                </label>
-              </div>
-              <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
-              </div>
-            </div>
-
-            <div class="charater__info">
-              <div class="charater__info__left">
-                <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
-                </div>
-                <label for="add_option" class="add__member__check">
-                  <ul class="add__member__info">
-                    <li><strong>Elon Reeve Musk</strong></li>
-                    <li>TESLA,SPACE x @CEO</li>
-                  </ul>
-                </label>
-              </div>
-              <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
-              </div>
-            </div>
-
-            <div class="charater__info">
-              <div class="charater__info__left">
-                <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
-                </div>
-                <label for="add_option" class="add__member__check">
-                  <ul class="add__member__info">
-                    <li><strong>Elon Reeve Musk</strong></li>
-                    <li>TESLA,SPACE x @CEO</li>
-                  </ul>
-                </label>
-              </div>
-              <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
-              </div>
-            </div>
-          </div>
-          <div class="position">
-            <p>직책</p>
-            <input type="search" />
-          </div>
-          <div class="button__box">
-            <button type="button" class="btn modal__close">close</button>
-            <button type="submit" class="btn btn-blue">추가</button>
-          </div>
-        </form>
+          </form>
+          
       </div>
-    </div>
+  </div>
     <!-- 구성원 추가 모달 -->
 
     <!-- <script>

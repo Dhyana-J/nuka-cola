@@ -34,8 +34,8 @@
 			resultMap="companyResultSet">
 		select
 			   *
-		  from company
-		  where company_no=#{cno}
+		  from companys
+		  where comp_no=#{cno}
 	</select>
 	
 	<!-- 회사 구성원 수 조회 -->

@@ -152,7 +152,7 @@
 			<c:if test="${pi.currentPage ne pi.maxPage}">
               <div class="member_btn">
               	<!-- 버튼 클릭될 때마다 loadMore 실행된다. 인자로 회사번호 넣어줘야함 -->
-                <button class="btn" onclick="loadMore(${cno})">more</button>
+                <button class="btn" onclick="loadMore(${company.compNo})">more</button>
               </div>
 			</c:if>
               
@@ -170,7 +170,7 @@
       <div class="modal__content">
       
           <form id="add-member" class="content__inner" action="addMember.co" method="get">
-          	  <input type="hidden" name="cno" value="${cno }">
+          	  <input type="hidden" name="cno" value="${company.compNo }">
               <div class="modal__title">
                   <h2>구성원 추가</h2>
               </div>

@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -503,7 +504,10 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.searchMemberList(sqlSession, email);
 	}
 
-
+	//기업 구성원 추가시 유저 회사명 업데이트용
+	public int updateUserComp(List<Member> updateList) {
+		return mDao.updateUserComp(sqlSession,updateList);
+	}
 
 
 	

@@ -39,6 +39,17 @@ public class Member {
 		this.email = email;
 		this.emailAuth = emailAuth;
 	}
+
+
+	//기업 구성원 회사 업데이트용 생성자
+	public Member(int userNo, String userComp) {
+		super();
+		this.userNo = userNo;
+		this.userComp = userComp;
+	}
+
+
+	
 	
 
 }

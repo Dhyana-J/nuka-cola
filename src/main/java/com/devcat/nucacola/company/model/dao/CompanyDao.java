@@ -2,17 +2,17 @@ package com.devcat.nucacola.company.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.company.model.vo.CompIndus;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.company.model.vo.TechStack;
+import com.devcat.nucacola.member.model.vo.Career;
 
 @Repository
 public class CompanyDao {
@@ -20,6 +20,12 @@ public class CompanyDao {
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("companymapper.selectListCount");
+	}
+	
+	//기업 번호로 기업 객체 하나 조회해오는 method
+	public Company selectCompany(SqlSessionTemplate sqlSession,int cno) {
+		
+		return sqlSession.selectOne("companymapper.selectCompany",cno);
 	}
 	
 	public ArrayList<Company> selectCompanyList(SqlSessionTemplate sqlSession, PageInfo pi){
@@ -71,6 +77,23 @@ public class CompanyDao {
 		
 		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyIndus",cno);
 	}
+
+	public int selectMemberCount(SqlSessionTemplate sqlSession, int cno) {//회사 구성원 수 조회
+		return sqlSession.selectOne("companymapper.selectMemberCount",cno);
+	}
+
+	public ArrayList<String> selectPositionList(SqlSessionTemplate sqlSession, int cno) {
+		return (ArrayList)sqlSession.selectList("companymapper.selectPositionList",cno);
+	}
+
+	public int addMember(SqlSessionTemplate sqlSession, List<Career> memberList) {
+		return sqlSession.insert("companymapper.addMember", memberList);
+	}
+
+	
+
+	
+	
 	
 
 }

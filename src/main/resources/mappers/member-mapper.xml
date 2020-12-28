@@ -501,5 +501,46 @@
 			
 	</select>
 	
+	<!-- 회사 대표 조회 -->
+	<select id="selectHead"
+			parameterType="_int"
+			resultMap="memberResultSet">
+		select
+				*
+		  from users
+		 where user_no=(
+		 	select user_no
+		 	  from companys
+		 	 where comp_no=#{cno}
+		 )
+	</select>
+	
+	<!-- 회사 구성원 조회 -->
+	<select id="selectMemberList"
+			parameterType="_int"
+			resultMap="memberResultSet">
+		select
+			  *
+		  from users
+		 where user_no in (
+		 	select 
+		 		  user_no
+		 	  from careers
+		 	 where comp_no=#{cno}
+		 	   and career_state=0
+		 )
+	</select>
+	
+	<!-- 이메일로 회원찾기(회사 구성원추가) -->
+	<select id="searchMemberList"
+			parameterType="String"
+			resultMap="memberResultSet">
+		select
+			  *
+		  from users
+		 where user_email like '%'||#{email}||'%'
+	</select>
+	
+		
 	
 </mapper>

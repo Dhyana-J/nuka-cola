@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -485,9 +486,28 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectCompNo(sqlSession, userNo);
 	}
 
+	//기업 대표 조회용
+	@Override
+	public Member selectHead(int cno) {
+		return mDao.selectHead(sqlSession, cno);
+	}
 
+	//기업 구성원 리스트 조회용
+	@Override
+	public ArrayList<Member> selectMemberList(int cno, PageInfo pi) {
+		return mDao.selectMemberList(sqlSession, cno, pi);
+	}
 
+	//기업 구성원추가 이메일로 회원찾기용
+	@Override
+	public ArrayList<Member> searchMemberList(String email) {
+		return mDao.searchMemberList(sqlSession, email);
+	}
 
+	//기업 구성원 추가시 유저 회사명 업데이트용
+	public int updateUserComp(List<Member> updateList) {
+		return mDao.updateUserComp(sqlSession,updateList);
+	}
 
 
 	

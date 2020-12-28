@@ -36,6 +36,28 @@
 		from   nukacola.companys
 	</select>
 	
+	<!-- 회사정보조회 -->
+	<select id="selectCompany"
+			parameterType="_int"
+			resultMap="companyResultSet">
+		select
+			   *
+		  from companys
+		  where comp_no=#{cno}
+	</select>
+	
+	<!-- 회사 구성원 수 조회 -->
+	<select id="selectMemberCount"
+			parameterType="_int"
+			resultType="_int">
+		select 
+		      count(*)
+		  from careers
+		 where comp_no=#{cno}
+		   and career_state=0
+	</select>
+
+	
 	
 	<select id="selectCompanyList" resultMap="companyResultSet">
 		 select
@@ -137,6 +159,33 @@
 		</foreach>
 
 	</update>
+	
+	<select id="selectPositionList"
+			parameterType="_int"
+			resultType="String">
+		select distinct
+			  career_posi
+		  from careers
+		 where comp_no=#{cno}
+	</select>
+	
+	<!-- separator에 쉼표가 들어가버리면 문법 에러난다! -->
+	<insert id="addMember"
+			parameterType="java.util.List">
+			  <foreach collection="list" item="career" open="insert all" close="select * from sys.dual" separator=" ">
+	  		 into careers
+			  values
+			  (
+				#{career.userNo},
+				#{career.compNo},
+				#{career.careerPosi},
+				0,
+				null,
+				sysdate,
+				sysdate
+			  )
+			</foreach>
+	</insert>
 	
 	
 	

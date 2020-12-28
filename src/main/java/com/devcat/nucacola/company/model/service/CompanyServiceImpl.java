@@ -13,6 +13,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.dao.CompanyDao;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
@@ -146,6 +147,34 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public ArrayList<Company> rankingCompanyList(PageInfo pi) {
 		return cDao.rankingCompanyList(sqlSession, pi);
+	}
+
+	@Override
+	public int deleteCompanyIndus(int compNo) {
+		
+		return cDao.deleteCompanyIndus(sqlSession, compNo);
+	}
+
+	@Override
+	public int updateCompindus(HashMap<String, Object> hm) {
+		return cDao.updateCompindus(sqlSession, hm);
+	}
+
+	@Override
+	public int updateCompanyAddress(Company c) {
+		
+		return cDao.updateCompanyAddress(sqlSession, c);
+	}
+
+	@Override
+	public int deleteCompanySkill(int compNo) {
+		
+		return cDao.deleteCompanySkill(sqlSession, compNo);
+	}
+
+	@Override
+	public ArrayList<TechStack> selectTechList(int cno) {
+		return cDao.selectTechList(sqlSession, cno);
 	}
 
 

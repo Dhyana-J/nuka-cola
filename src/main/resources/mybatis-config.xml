@@ -12,7 +12,7 @@
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Connection" alias="Connection"/>
 		<typeAlias type="com.devcat.nucacola.company.model.vo.Company" alias="Company"/>
 		<typeAlias type="com.devcat.nucacola.company.model.vo.Industries" alias="Industries"/>
-		
+		<typeAlias type="com.devcat.nucacola.company.model.vo.TechStack" alias="TechStack"/>
 		<typeAlias type="com.devcat.nucacola.common.model.vo.Skills" alias="Skills"/>
 		<typeAlias type="com.devcat.nucacola.posts.model.vo.Post" alias="Post"/>
 		<typeAlias type="com.devcat.nucacola.posts.model.vo.Comment" alias="Comment"/>

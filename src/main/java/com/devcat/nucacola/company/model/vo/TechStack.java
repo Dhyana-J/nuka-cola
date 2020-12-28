@@ -15,6 +15,7 @@ public class TechStack {
 
 	private int compNo;
 	private int skillNo;
+	private String skillName;
 	private int stackPosi;
 	private String createdAt;
 	

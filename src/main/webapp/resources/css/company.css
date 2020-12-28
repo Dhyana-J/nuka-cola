@@ -682,6 +682,15 @@
   background-color: #eaecff;
   color: #30409f;
 }
+
+.section__content__box .etc-ops__box {
+  padding: 2px 15px 5px;
+  height: 30px;
+  border-radius: 16px;
+  background-color: #c0c0c0;
+  color: #000000;
+}
+
 .content__wrapper .content__profile .circle {
   background-color: gray;
   width: 50px;
@@ -974,7 +983,7 @@
 
 /* 토글 css */
 
-#intro-input {
+#intro-input, #address-input {
   width: 100%;
   resize: none;
   padding: 10px;

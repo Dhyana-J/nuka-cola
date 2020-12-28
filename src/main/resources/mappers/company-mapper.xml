@@ -49,6 +49,14 @@
 		<result column="indus_name" property="indusName"/>
 	</resultMap>
 	
+		<resultMap id="techResultSet" type="TechStack">
+		<result column="comp_no" property="compNo"/>
+		<result column="skill_no" property="skillNo"/>
+		<result column="skill_name" property="skillName"/>
+		<result column="stacks_posi" property="stackPosi"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
+	
 		
 	
 	<select id="selectListCount" resultType="_int">
@@ -338,5 +346,74 @@
                 order by sub_count desc nulls last
                 )a
 	</select>
+	
+	
+	<delete id="deleteCompanyIndus" parameterType="_int">
+	
+		delete
+		from compindus
+	    where comp_no = #{compNo}
+	
+	</delete>
+	
+	
+	<update id="updateCompindus">
+		
+		<foreach collection="indusNums" item="no" open="insert all" close="select * from dual">
+		
+			into compindus
+		    (
+		      comp_no
+		     ,indus_no
+		      
+		    )
+		    values
+		    (
+		     #{compNo}
+		    ,#{no}
+		    )
+		
+		
+		
+		</foreach>
+	
+	
+	
+	</update>
+	
+	
+	<update id="updateCompanyAddress" parameterType="Company">
+		update
+	          companys
+	      set comp_address = #{compAddress}
+	   where comp_no = #{compNo}
+
+	</update>
+	
+	<delete id="deleteCompanySkill">
+	
+		delete
+		from tech_stacks
+	    where comp_no = #{compNo}
+	
+	
+	</delete>
+	
+	
+	<select id="selectTechList" parameterType="_int" resultMap="techResultSet">
+	
+		 	select
+		            skill_name
+		          , stacks_posi 
+		          
+		     from skills
+		     join tech_stacks using(skill_no)
+		     where comp_no = #{cno}
+		     order by stacks_posi
+			
+
+	</select>
+	
+	
 	
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
@@ -138,5 +139,29 @@ public class CompanyDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("companymapper.rankingCompanyList", null, rowBounds);
+	}
+
+	public int deleteCompanyIndus(SqlSessionTemplate sqlSession, int compNo) {
+		
+		return sqlSession.delete("companymapper.deleteCompanyIndus", compNo);
+	}
+
+	public int updateCompindus(SqlSessionTemplate sqlSession, HashMap<String, Object> hm) {
+		
+		return sqlSession.insert("companymapper.updateCompindus", hm);
+	}
+
+	public int updateCompanyAddress(SqlSessionTemplate sqlSession, Company c) {
+		
+		return sqlSession.update("companymapper.updateCompanyAddress", c);
+	}
+
+	public int deleteCompanySkill(SqlSessionTemplate sqlSession, int compNo) {
+		
+		return sqlSession.delete("companymapper.deleteCompanySkill", compNo);
+	}
+
+	public ArrayList<TechStack> selectTechList(SqlSessionTemplate sqlSession, int cno) {
+		return (ArrayList)sqlSession.selectList("companymapper.selectTechList", cno);
 	}
 }

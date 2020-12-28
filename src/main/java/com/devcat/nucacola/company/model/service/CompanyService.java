@@ -8,6 +8,7 @@ import java.util.Map;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
@@ -75,5 +76,20 @@ public interface CompanyService {
 	ArrayList<Recruit> selectCompanyRecruitEND(Company c, PageInfo pi2);
 	
 	ArrayList<Recruit> CompanyRecruitSkills(Company c);
+	
+	// 기업의 등록된 산업분야 지우기
+	int deleteCompanyIndus(int compNo);
+	
+	// 기업의 등록 산업분야 업데이트
+	int updateCompindus(HashMap<String, Object> hm);
+	
+	// 기업 주소 업데이트 
+	int updateCompanyAddress(Company c);
+	
+	// 기업 테크스택 모두 지우기
+	int deleteCompanySkill(int compNo);
+	
+	// 기업 테크스택 가져오기
+	ArrayList<TechStack> selectTechList(int cno);
 	
 }

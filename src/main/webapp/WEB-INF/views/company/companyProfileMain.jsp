@@ -65,19 +65,19 @@
           <ul>
             <li class="nav-active">ABOUT</li>
             <li onclick='location.href="recruit.co?compNo=${cno}"'>채용</li> <%--현재페이지의 회사일련번호 넘겨줘야함 --%>
-            <li><a href="profileMember.co?cno=${company.compNo }&currentPage=1">구성원</a></li>
+            <li><a href="profileMember.co?cno=${c.compNo }&currentPage=1">구성원</a></li>
           </ul>
         </div>
         
         
         <!-- 기업 한줄 소개 -->
         
-        <div class="content__wrapper">
+        <div class="content__wrapper ">
         
-          <div class="section__content__title">
+          <div class="section__content__title" >
           	<input type="hidden" id="comp-no" value="${ c.compNo }" />
             <strong>기업 소개</strong>
-            <div onclick = "companyIntroToggle()" class="edit__field">
+            <div  class="edit__field" onclick = "companyIntroToggle()">
               <i class="material-icons" id="intro-btn">create</i>
             </div>
           </div>
@@ -193,29 +193,113 @@
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>테크스택</strong>
-                <div class="edit__field">
-                  <i class="material-icons">create</i>
+                <div onclick="companyTechToggle();" class="edit__field">
+                  <i class="material-icons" id="tech-btn">create</i>
                 </div>
               </div>
+              
+              <div class="section__content__boxes" id="tech-info">
               <span class="techstack__sort">FRONT-END</span>
               <div class="section__content__box">
-                <span class="front-end__box">Node.js</span>
-                <span class="front-end__box">React.js</span>
-                <span class="front-end__box">Redux</span>
-                <span class="front-end__box">CSSinJS</span>
+              	<c:forEach var = "i" items="${ frontList }">
+              	
+                	<span class="front-end__box">${ i }</span>
+				
+				</c:forEach>
               </div>
               <span class="techstack__sort">BACK-END</span>
               <div class="section__content__box">
-                <span class="back-end__box">Node.js</span>
-                <span class="back-end__box">Express.js</span>
-                <span class="back-end__box">MySQL</span>
+                 <c:forEach var = "i" items="${ backList }">
+                 
+                	<span class="back-end__box">${ i }</span>
+				 	
+				 </c:forEach>
               </div>
               <span class="techstack__sort">DEV_OPS</span>
               <div class="section__content__box">
-                <span class="dev-ops__box">EC2</span>
-                <span class="dev-ops__box">JEST</span>
-                <span class="dev-ops__box">Docker</span>
+              <c:forEach var = "i" items="${ devList }">
+              
+               		<span class="dev-ops__box">${ i }</span>
+				
+				</c:forEach>
               </div>
+              
+              <span class="techstack__sort">ETC</span>
+              <div class="section__content__box">
+              <c:forEach var = "i" items="${ etcList }">
+              
+               		<span class="etc-ops__box">${ i }</span>
+				
+				</c:forEach>
+              </div>
+              </div>
+              
+              <div class="content__wrapper edit-disable" id="tech-input">
+              <form action="updatingTech.co" method="post">
+              <input type="hidden" name="compNo" value="${ c.compNo }" />
+              <div class="section__techstack">
+                <strong>테크스택</strong>
+                
+                
+                <span>FRONT-END</span>
+                <input type="hidden" name="skillList[0].skillName" id="front-skill-list" />
+                <input type="text" id="front-search" required/>         
+                <div id="front-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="front_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+				
+				
+                <span>BACK-END</span>
+                <input type="hidden" name="skillList[1].skillName" id="back-skill-list" />
+                <input type="text" id="back-search" required/>
+
+                <div id="back-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="back_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+                
+                
+                <!--  -->  
+                <span>DEV-OPS</span>
+                <input type="hidden" name="skillList[2].skillName" id="dev-skill-list" />
+                <input type="text" id="dev-search" required/>
+
+                <div id="dev-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="dev_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+                
+                
+                
+                <span>기타</span>
+                <input type="hidden" name="skillList[3].skillName" id="etc-skill-list" />
+                <input type="text" id="etc-search" required/>
+                <div id="etc-search-list">
+					<!-- 기술 관련 검색어 리스트 자리 -->
+	             </div>
+                <br />	
+				<ul class="etc_result">
+					<!-- 기술 관련 검색어 입력 결과자리  -->
+				</ul>
+				<br />
+                
+              </div>
+               <button type="submit"class="btn">등록</button>
+               </form>
+            </div>
             </div>
             
             
@@ -224,14 +308,19 @@
             
             <div class="content__wrapper">
               <div class="section__content__title">
-                <strong>지역</strong>
-                <div class="edit__field">
-                  <i class="material-icons">create</i>
+                <strong>주소</strong>
+                <div onclick="companyAddressToggle();" class="edit__field">
+                  <i class="material-icons"  id="address-btn">create</i>
                 </div>
               </div>
-              <span class="just__text">
-                서울시 서초구 누카빌딩 콜라센터1F
+              <span class="just__text" id="address-info">
+                ${ c.compAddress }
               </span>
+              
+              <div id="address-input" class="edit-disable">
+		            <input type="text" id="address-get-info"></input>
+		            <button type="button"  onclick="sendCompanyAddress();" class="btn">등록</button>
+       		  </div>
             </div>
             
             
@@ -239,75 +328,21 @@
             
             <div class="content__wrapper">
               <div class="section__content__title">
-                <strong>구성원</strong>
+                <strong>대표</strong>
               </div>
               <div class="section__member">
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="resources/assets/juckerbug.jpg"
+                    src="${ head.userAvatar }"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
+                    <strong>${ head.userName }</strong>
+                    <p>${ head.userComp }</p>
                   </div>
                 </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elonk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon</strong>
-                    <p>빅데이터 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
+            
 
               </div>
               
@@ -498,6 +533,8 @@
  		 
  		 	}
  		 /* 산업 분야 조회 체크 현황 구현 */
+ 		 
+ 		  /* 산업 분야 업데이트 */
  		const sendCompanyIndus = () =>{
 
  			const compNo = document.querySelector("#comp-no").value;
@@ -505,20 +542,303 @@
  			location.href ="updateCompanyIndus.co?indusNums=" + indusNums + "&compNo=" + compNo;
 
  		}
- 		 
- 		 /* 산업 분야 업데이트 */
- 		 
- 		 
- 		 
- 		 
- 		 
- 		 
- 		 
+
  		 /* 산업 분야 업데이트 끝 */
  		 
  		 
  		 
  		 
+ 		 /* 기업 주소 토글 */
+ 		 const companyAddressToggle = () => {
+            
+        	document
+                  .querySelector("#address-info")
+                  .classList.toggle("edit-disable");
+            document
+                  .querySelector("#address-input")
+                  .classList.toggle("edit-disable");
+
+            if (document.querySelector("#address-btn").innerText === "create") {
+               document.querySelector("#address-btn").innerText = "close";
+            } else {
+               document.querySelector("#address-btn").innerText = "create";
+            }
+         }
+ 		 /* 기업 주소 토글 끝  */
+ 		 
+ 		 
+ 		 /* 기업 주소 수정  */
+ 		 	const sendCompanyAddress = () =>{
+
+ 			const compNo = document.querySelector("#comp-no").value;
+			const compAddress = document.querySelector("#address-get-info").value;
+ 			location.href ="updateCompanyAddress.co?compAddress=" + compAddress + "&compNo=" + compNo;
+
+ 		}
+
+ 		 /* 기업 주소 수정 끝 */
+ 		 const companyTechToggle = () => {
+            
+        	document
+                  .querySelector("#tech-info")
+                  .classList.toggle("edit-disable");
+            document
+                  .querySelector("#tech-input")
+                  .classList.toggle("edit-disable");
+
+            if (document.querySelector("#tech-btn").innerText === "create") {
+               document.querySelector("#tech-btn").innerText = "close";
+            } else {
+               document.querySelector("#tech-btn").innerText = "create";
+            }
+         }
+ 		 
+ 		 
+ 		 /* 테크스택 */
+ 		 
+ 		 			/* 프론트 엔드 기술 체크 부분 */	
+			document.querySelector("#front-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+			console.log(skill);
+			console.log(skill.length);
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+  	
+  	
+  	
+			/* 백 엔드 기술 체크 부분 */	
+			document.querySelector("#back-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+			
+			
+			/* 데브옵스 기술 체크 부분 */	
+			document.querySelector("#dev-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+			
+			/* 기타 기술 체크 부분 */	
+			document.querySelector("#etc-search").addEventListener("input", (e) => {
+		
+			const skill = e.target.value;	
+
+			if(skill.length>0)	{
+	
+				checkSkill(skill,e);
+
+			}
+
+			});
+ 	
+				// 스킬 리스트 검사용 axios
+			const checkSkill = (skill,e)=>{
+
+				   axios.get('search.sk', {
+						params: {
+							skillName: skill
+						}
+					})
+						   .then(function (response) {
+		
+								let searchResult = "";
+								response.data.forEach(v=>{
+		
+									searchResult += "<span id='" + v.skillName + "'>" + v.skillName + "</span> <br>"
+		
+								})
+								
+								/* 기술 목록 리스트 보여주기 용 */
+								/* #???-search-list */
+								let skillSearchList = e.target.nextSibling.nextSibling.id;
+								
+								document.getElementById(skillSearchList).innerHTML = searchResult
+
+							})
+							.catch(function (error) {
+								console.log(error);
+							})
+							.then(function () {
+								// ...
+							});
+
+			}
+				   
+		
+		/* 1. front result tag에 버튼 만들어주기 */
+		document.querySelector("#front-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".front_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let frontSkill = document.querySelectorAll(".front_result li>span");
+			let frontSkillList = "";
+			frontSkill.forEach(s => {
+				frontSkillList += s.innerText + " ";
+			})
+			
+			console.log(frontSkillList);
+			
+			document.querySelector("#front-skill-list").value = frontSkillList;
+	
+			
+			document.querySelector("#front-search").value = " ";
+			
+		});
+	
+		/* 2. back result tag에 버튼 만들어주기 */
+		document.querySelector("#back-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".back_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let backSkill = document.querySelectorAll(".back_result li>span");
+			let backSkillList = "";
+			backSkill.forEach(s => {
+				backSkillList += s.innerText + " ";
+			})
+			
+			console.log(backSkillList);
+			
+			document.querySelector("#back-skill-list").value = backSkillList;
+						
+			document.querySelector("#back-search").value = " ";
+		});
+		
+		/* 2. dev result tag에 버튼 만들어주기 */
+		document.querySelector("#dev-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".dev_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let devSkill = document.querySelectorAll(".dev_result li>span");
+			let devSkillList = "";
+			devSkill.forEach(s => {
+				devSkillList += s.innerText + " ";
+			})
+			
+			console.log(devSkillList);
+			
+			document.querySelector("#dev-skill-list").value = devSkillList;
+			
+			
+			document.querySelector("#dev-search").value = " ";
+		});
+		
+		/* 2. etc result tag에 버튼 만들어주기 */
+		document.querySelector("#etc-search-list").addEventListener("click", function (e) {
+	
+			tagList = document.querySelector(".etc_result");
+			/* 검색결과리스트의 기술 이름 클릭시 기술이름 값 가져오기 */
+			let tagName = e.target.innerText;
+			
+			createTag(tagName);
+			
+			let etcSkill = document.querySelectorAll(".etc_result li>span");
+			let etcSkillList = "";
+			etcSkill.forEach(s => {
+				etcSkillList += s.innerText + " ";
+			})
+			
+			console.log(etcSkillList);
+			
+			document.querySelector("#etc-skill-list").value = etcSkillList;
+			
+
+			document.querySelector("#etc-search").value = " ";
+		});
+		
+		
+
+		let tagList = "";
+		let TagList = [];
+		const TAG_LS = "tag";
+		
+		
+		
+
+		const filter = (toDo) => {
+			return toDo.id === 1;
+		}
+
+		/* 태그 삭제용 함수 */
+		const deleteTag = (event) => {
+			const btn = event.target;
+			const li = btn.parentNode;
+			tagList.removeChild(li);
+
+			const cleanTag = TagList.filter(function(toDo) {
+				return toDo.id !== parseInt(li.id);
+			});
+			TagList = cleanTag;
+			saveTag();
+		}
+
+		const saveTag = () => {
+			localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
+		}
+
+
+		/* 태그 생성용 함수 */
+		const createTag = (tagName) => {
+	
+			const li = document.createElement("li");
+			const delBtn = document.createElement("i");
+
+			delBtn.innerText = "close";
+			delBtn.className = "material-icons"
+
+			const span = document.createElement("span");
+			const newId = TagList.length + 1;
+			span.innerText = tagName;
+			li.appendChild(span);
+			li.appendChild(delBtn);
+			li.id = newId;
+
+			delBtn.addEventListener("click", deleteTag);
+			tagList.appendChild(li);
+
+			const TagObj = {
+				skillName : tagName,
+				id: newId
+			};
+
+			TagList.push(TagObj);
+			saveTag();
+			
+			console.log(TagList);
+
+		}
  		 
     </script>
 

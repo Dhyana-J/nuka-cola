@@ -295,8 +295,47 @@ public class CompanyController {
 		}
 		model.addAttribute("cno",cno);
 		model.addAttribute("indusNums", indusNums);
+		
+		//대표만 골라 보내주기
+		Member head = mService.selectHead(cno);
+		
+		model.addAttribute("head",head);
+		
+		//회사 테크 스텍 가져오기
+		ArrayList<TechStack> TechList = new ArrayList<>();
+		
+		TechList = cService.selectTechList(cno);
+		
+		System.out.println(TechList);
+		
+		ArrayList<String> backList = new ArrayList<>();
+		ArrayList<String> frontList = new ArrayList<>();
+		ArrayList<String> devList = new ArrayList<>();
+		ArrayList<String> etcList = new ArrayList<>();
+		
+		for(TechStack t : TechList) {
+			
+			if(t.getStackPosi() == 0) { //백
+				
+				backList.add(t.getSkillName());
+				
+			}else if(t.getStackPosi() == 1) { //프론트
+				frontList.add(t.getSkillName());
+				
+			}else if(t.getStackPosi() == 2) { //데브
+				devList.add(t.getSkillName());
+			}else {//기타
+				etcList.add(t.getSkillName());
+			}
 
-	
+		}
+		
+		model.addAttribute("backList",backList);
+		model.addAttribute("frontList",frontList);
+		model.addAttribute("devList",devList);
+		model.addAttribute("etcList",etcList);
+		
+		
 		
 		if(c!=null) {//회사정보가 존재할 경우
 			
@@ -446,30 +485,48 @@ public class CompanyController {
 	
 	// 산업분야 업데이트
 	@RequestMapping("updateCompanyIndus.co")
-	public void updateCompanyIndus(@RequestParam(value ="indusNums", required = false)ArrayList<Integer>indusNums, int compNo) {
+	public String updateCompanyIndus(@RequestParam(value ="indusNums", required = false)ArrayList<Integer>indusNums, int compNo, Model model) {
 		
-		
-		//System.out.println(indusNums); [0,2,1]
-		
-		//산업 분야(번호, 분야명) 가져오기
-		ArrayList<Industries> indusList = cService.selectCompanyIndus(compNo);
-		
-		// 산업 분야 번호만 담은 배열 보내기
-		ArrayList<Integer> beforeindusNums = new ArrayList<Integer>();
-		
-		for(int i = 0; i<indusList.size(); i++) {
-			beforeindusNums.add(indusList.get(i).getIndusNo());
+		if(indusNums.isEmpty()) { //입력하지 않고 등록했을 경우
+			return "redirect:profileMain.co?cno=" + compNo;	
 		}
 		
 		
-		indusNums.removeAll(beforeindusNums);
 		
-		System.out.println(indusNums);
+		int result1 = 1;
 		
+		if(!cService.selectCompanyIndus(compNo).isEmpty()) {
+			// 기존 산업 분야 내용 지우기
+			result1 = cService.deleteCompanyIndus(compNo);
+			
+		}
 		
+	
+		if(result1 > 0) { // 잘 지워졌다면
+			
+			
+			HashMap<String, Object>hm = new HashMap<>();
+
+			hm.put("compNo",compNo);
+			hm.put("indusNums",indusNums);
+			
+			int result2 = cService.updateCompindus(hm);
+			
+			if(result2>0) {// 잘 삽입 되었다면
+				
+			return "redirect:profileMain.co?cno=" + compNo;	
+				
+			}else {
+				model.addAttribute("errorMsg","산업 추가 실패");
+				return "common/errorPage";
+			}
+			
+		}else {
+			model.addAttribute("errorMsg","안지워짐");
+			return "common/errorPage";
+		}
 		
-		
-		//return "redirect:profileMain.co?cno=" + c.getCompNo();	
+
 	}
 	
 	
@@ -564,5 +621,103 @@ public class CompanyController {
 
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("updateCompanyAddress.co")
+	public String updateCompanyAddress(Company c, Model model) {
+		
+		int result = cService.updateCompanyAddress(c);
+		
+		
+		if(result>0) {
+			return "redirect:profileMain.co?cno=" + c.getCompNo();
+		}else {
+			
+			model.addAttribute("errorMsg","안지워짐");
+			return "common/errorPage";
+			
+		}
+		
+	}
+	
+	
+	@RequestMapping("updatingTech.co")
+	public String updatingTech(Company c, Model model) {
+		
+
+			// 기존 산업 분야 내용 지우기
+			System.out.println(c.getCompNo());
+		
+		
+			int result = cService.deleteCompanySkill(c.getCompNo());
+			
+			if(result>0) {
+				
+				//테크스텍 테이블에 insert
+				// 백 엔드 기술 0
+				String[] backSkillList = c.getSkillList().get(1).getSkillName().split(" ");
+				// 백 앤드 해시맵 출격!
+				HashMap<String, Object> backMap = makeMap(backSkillList,c);
+				// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+				backMap.put("backNo", 0);
+				int backSuccess = cService.insertTech(backMap);
+				System.out.println(backMap);
+				System.out.println("백 성공 결과 : " + backSuccess);
+				
+				
+				// 프론트 엔드 기술 1 python node.js kotlin 
+				String[] frontSkillList = c.getSkillList().get(0).getSkillName().split(" ");
+				
+				HashMap<String, Object> frontMap = makeMap(frontSkillList,c);
+				// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+				frontMap.put("backNo", 1);
+				int frontSuccess = cService.insertTech(frontMap);
+				System.out.println(frontMap);
+				System.out.println("프론트 성공 결과 : " + frontSuccess);
+				
+				
+				
+				// 데브 기술 2
+				String[] devSkillList = c.getSkillList().get(2).getSkillName().split(" ");
+				
+				HashMap<String, Object> devMap = makeMap(devSkillList,c);
+				// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+				devMap.put("backNo", 2);
+				int devSuccess = cService.insertTech(devMap);
+				System.out.println(devMap);
+				System.out.println("데브 성공 결과 : " + devSuccess);
+				
+				
+				// 기타 기술 3
+				String[] etcSkillList = c.getSkillList().get(3).getSkillName().split(" ");
+				
+				HashMap<String, Object> etcMap = makeMap(etcSkillList,c);
+				// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
+				etcMap.put("backNo", 3);
+				int etcSuccess = cService.insertTech(etcMap);
+				System.out.println(etcMap);
+				System.out.println("기타 성공 결과 : " + etcSuccess);
+				
+				
+				
+				
+
+				return "redirect:profileMain.co?cno=" + c.getCompNo();
+				
+			}else {
+				
+				model.addAttribute("errorMsg","안지워짐");
+				return "common/errorPage";
+				
+			}
+
+			
+	}
+	
 	
 }

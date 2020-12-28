@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -47,10 +48,17 @@
               <strong>Connecting people</strong>
             </div>
             <div class="connection__content">
+            <input type="hidden" name="Connecting" value="${connecting}">
               <ul class="connection__info">
-                <li name="userPosi">기획자 <div class="circle"><span>20</span></div></li>
-                <li name="userPosi">디자이너<div class="circle"><span>20</span></div></li>
-                <li name="userPosi">개발자<div class="circle"><span>20</span></div></li>
+                <li name="userPosi">기획자 
+                <div class="circle"><span>20</span></div>
+                </li>
+                <li name="userPosi">디자이너
+                <div class="circle"><span>20</span></div>
+                </li>
+                <li name="userPosi">개발자
+                <div class="circle"><span>20</span></div>
+                </li>
               </ul>
             </div>
           </div>
@@ -70,11 +78,12 @@
                     <option value="0">기획자</option>
                     <option value="2">디자이너</option>
                   </select>
-                  <select name="user_fields">
-                    <option hidden selected>활동분야</option>
-                    <option value="skillNo">JAVA</option>
-                    <option value="">React</option>
-                    <option value="">JavaScript</option>
+                  <select class="skillNo" name="skillNo">
+                    <option hidden>활동분야</option>
+                  <c:forEach var="skill" items="${skill}">
+
+                    <option value="${skill.skillNo}">${skill.skillName}</option>
+                  </c:forEach>
                   </select>
                   <input name="user_edu" type="search" placeholder="학교명">
                 </div>

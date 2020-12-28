@@ -1,16 +1,20 @@
 package com.devcat.nucacola.member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Connection;
+import com.devcat.nucacola.member.model.vo.Member;
 
 @Controller
 public class ConnectionController {
@@ -21,7 +25,16 @@ public class ConnectionController {
 	
 
 	@RequestMapping("list.pa")
-	public String partnerForm() {
+	public String partnerForm(HttpSession session,Model model) {
+		Member m = (Member) session.getAttribute("loginUser");
+		int userNo = m.getUserNo();
+		//연결된사람
+		ArrayList<Member> connecting =mService.partnerConnecting(userNo);
+		//활동분야
+		ArrayList<Skills> skill = mService.partnerSearchSkill();
+		//인기 프로필
+		model.addAttribute("connecting",connecting);
+		model.addAttribute("skill",skill);
 		return "partner/partner";
 	}
 	

@@ -508,6 +508,18 @@ public class MemberServiceImpl implements MemberService {
 	public int updateUserComp(List<Member> updateList) {
 		return mDao.updateUserComp(sqlSession,updateList);
 	}
+	
+	
+	// 파트너 검색 연결
+	@Override
+	public ArrayList<Member> partnerConnecting(int userNo) {
+		return mDao.partnerConnecting(sqlSession, userNo);
+	}
+	//파트너 검색 스킬
+	@Override
+	public ArrayList<Skills> partnerSearchSkill() {
+		return  mDao.partnerSearchSkill(sqlSession);
+	}
 
 
 	

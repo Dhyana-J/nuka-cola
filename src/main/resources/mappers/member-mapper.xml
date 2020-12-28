@@ -595,7 +595,31 @@
 	</delete>
 	
 	
+	<!-- 파트너검색 -->
+	<select id="" parameterType="_int" resultMap="_int">
+	select count(*)  
+	from users
+	where user_no in(
+          select 
+          follower_no
+		  from connections
+		  where following_no=#{userNo}
+          ) and user_no in(
+          select 
+			  following_no
+              from connections
+              where follower_no=#{userNo}
+		  ) and USER_POSI=2
 	
+	</select>
+	<!-- 검색리스트 스킬 -->
+	<select id="partnerSearchSkill" resultMap="skillResultSet">
+	select skill_no,
+       skill_name
+	from user_fields
+	join skills using(skill_no)
+	order by skill_no
+	</select>
 	
 	
 	

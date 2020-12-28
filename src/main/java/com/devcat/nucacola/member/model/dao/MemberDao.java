@@ -307,6 +307,15 @@ public class MemberDao {
 
 	
 	
+	// 파트너검색 연결
+	public ArrayList<Member> partnerConnecting(SqlSessionTemplate sqlSession, int userNo){
+		return (ArrayList)sqlSession.selectList("memberMapper.selectConnections",userNo);
+	}
+	//파트너 검색 스킬
+	public ArrayList<Skills> partnerSearchSkill(SqlSessionTemplate sqlSession) {
+		return  (ArrayList)sqlSession.selectList("memberMapper.partnerSearchSkill");
+	}
+	
 	
 	
 	

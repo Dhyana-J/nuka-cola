@@ -159,6 +159,11 @@ public interface MemberService {
 	
 	int insertAvatar(Member m);
 	
+	//파트너 검색 연결된 사람
+	ArrayList<Member>partnerConnecting(int userNo);
+	//파트너 검색 스킬
+	ArrayList<Skills> partnerSearchSkill();
+	
 
 
 

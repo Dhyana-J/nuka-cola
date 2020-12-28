@@ -139,9 +139,9 @@ public class SubscribeController {
 		model.addAttribute("pi",pi);
 		model.addAttribute("cslist",cslist);
 		System.out.println(cslist);
+		
 		return "/user/userProfile_scriptCompany";
 		
-	
 	}
 	
 	// 기업 구독 취소	

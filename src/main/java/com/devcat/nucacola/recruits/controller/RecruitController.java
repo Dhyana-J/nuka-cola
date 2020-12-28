@@ -2,14 +2,19 @@ package com.devcat.nucacola.recruits.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.service.RecruitService;
+import com.devcat.nucacola.recruits.model.vo.Apply;
 
 @Controller
 public class RecruitController {
+	
+	@Autowired
+	private RecruitService rService;
 	
 	// 채용상세페이지
 	@RequestMapping("/detail.re")
@@ -17,13 +22,16 @@ public class RecruitController {
 		return "/main";
 	}
 	
-	/*
-	// 채용관리페이지
-	@RequestMapping("/manage.re")
-	public String selectRecruitManage(int rno) {
-		return "/recruitManageDetail";
+	@RequestMapping(value="list.ap")
+	public String selectApplyList(int rno, Model model) {
+		
+		ArrayList<Apply> ApplyList = rService.selectApplyList(rno);
+		
+		model.addAttribute("ApplyList", ApplyList);
+		
+		System.out.println(ApplyList);
+		return "apply/applyHistory";
+			
 	}
-	*/
-	
 	
 }

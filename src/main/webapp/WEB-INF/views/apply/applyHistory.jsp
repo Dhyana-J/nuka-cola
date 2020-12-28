@@ -100,11 +100,13 @@
                 </button>
               </div>
             </div><!--apply-info-->
+            
+           <c:forEach var="a" items="${ Applylist }">
             <div class="apply-info">
               <div class="apply-info__content">
                 <div class="apply-info__recruit-info">
-                  <span>데브캣개발자모집</span>
-                  <span>신입, 경력</span>
+                  <span>${ a.recruitTitle }</span>
+                  <span>${ a.applyProg  }</span>
                   <span>게시 2020.11.25</span>
                 </div>
                 <div class="apply-info__apply-state">
@@ -126,6 +128,8 @@
                 </button>
               </div>
             </div><!--apply-info-->
+            </c:forEach>
+            
             <div class="apply-info">
               <div class="apply-info__content">
                 <div class="apply-info__recruit-info">

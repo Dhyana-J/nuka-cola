@@ -84,9 +84,7 @@
 			 , certify_ans
 			 , email_auth
 			 , user_comp
-             , c.comp_no
-	      from users u
-          join companys c using(user_no)	     
+	      from users u	     
           where user_status != 1
            and user_email=#{email}
            <!-- 

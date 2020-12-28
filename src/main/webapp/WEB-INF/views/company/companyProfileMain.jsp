@@ -20,21 +20,27 @@
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/company.css" />
+    
   </head>
   <body>
  
+ 	<jsp:include page="../common/mainMenu.jsp"/>
+ 
     <section class="visual__section">
+    
+    	<!--  -->
+    
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="../../assets/moomin.jpg" alt="logo" />
+            <img src="resources/assets/avatar.png" alt="logo" />
           </div>
           <div>
             <div class="main__info">
-              <strong>RIDI BOOKS</strong>
-              <span>Since 2017</span>
-              <span>1003 명의 구성원</span>
-              <span>Bookstore@gmail.com</span>
+              <strong>${ c.compName }</strong>
+              <span>Since ${ c.compBirth }</span>
+              <span>${ c.headCount }</span>
+              <span>${ c.compEmail }</span>
             </div>
             <ul class="people__info">
               <li>팔로우 <strong>102</strong></li>
@@ -46,6 +52,9 @@
           구성원 추가
         </button>
       </div>
+      
+      
+      
     </section>
 
     <main class="content__section">
@@ -57,17 +66,29 @@
             <li>구성원</li>
           </ul>
         </div>
+        
+        
+        <!-- 기업 한줄 소개 -->
+        
         <div class="content__wrapper">
+        
           <div class="section__content__title">
+          	<input type="hidden" id="comp-no" value="${ c.compNo }" />
             <strong>기업 소개</strong>
-            <div class="edit__field">
-              <i class="material-icons">create</i>
+            <div onclick = "companyIntroToggle()" class="edit__field">
+              <i class="material-icons" id="intro-btn">create</i>
             </div>
           </div>
-          <span class="just__text">
-            안녕하세요? <br />
-            리디북스입니다^ㅡㅡ^
+          
+          <span class="just__text" id="intro-info">
+            	${ c.compInfo }
           </span>
+          
+            <div id="intro-input" class="edit-disable">
+            <textarea id="intro-get-info"></textarea>
+            <button type="button"  onclick="sendCompanyInfo();" class="btn">등록</button>
+          </div>
+          
         </div>
         <div class="main__main__section">
           <div class="main__section__left">
@@ -82,20 +103,91 @@
               </ul>
             </div>
           </div>
+          
+          
+          
+          <!-- 산업 분야 -->
+          
+          
           <div class="main__section__right">
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>산업분야</strong>
-                <div class="edit__field">
-                  <i class="material-icons">create</i>
+                <div onclick="indusToggle()" class="edit__field">
+                  <i class="material-icons" id="indus-btn">create</i>
                 </div>
               </div>
-              <div class="section__content__box">
-                <span class="compindus__box">웹서비스</span>
-                <span class="compindus__box">머신런닝</span>
-                <span class="compindus__box">핀테크</span>
+              <div class="section__content__box" id="indus-info">
+              	<c:forEach var="i" items="${ indusList }">
+                <span class="compindus__box" id="${i.indusNo }">${ i.indusName }</span>
+				</c:forEach>
               </div>
+              
+               <div id="indus-input" class="edit-disable">
+               
+		       <div class="section__compindus">
+                <input
+                  type="checkbox"
+                  class="comp-indus"
+                  name="compindus"
+                  value="0"
+                  id="webservice"
+                />
+                <label for="webservice">웹서비스</label>
+                <input
+                  type="checkbox"
+                  class="comp-indus"
+                  name="compindus"
+                  value="1"
+                  id="mobile"
+                />
+                <label for="mobile">모바일</label>
+                <input
+                  type="checkbox"
+                  class="comp-indus"
+                  name="compindus"
+                  value="2"
+                  id="E-service"
+                />
+                <label for="E-service">E-service</label>
+                <input 
+                  type="checkbox" 
+                  class="comp-indus" 
+                  name="compindus" 
+                  value="3"
+                  id="IoT" 
+                />
+                <label for="IoT">IoT</label>
+                <input 
+                  type="checkbox" 
+                  class="comp-indus" 
+                  name="compindus" 
+                  value="4"
+                  id="o2o" 
+                />
+                <label for="o2o">o2o</label>
+                <input
+                  type="checkbox"
+                  class="comp-indus"
+                  name="compindus"
+                  value="5"
+                  id="fintech"
+                />
+                <label for="fintech">핀테크</label>
+              </div>
+              
+		      <button type="button" onclick="sendCompanyIndus();" class="btn">등록</button>
+		            
+          	  </div>
+
             </div>
+            
+            
+            
+            
+            
+            <!-- 테크 스택  -->
+            
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>테크스택</strong>
@@ -123,6 +215,11 @@
                 <span class="dev-ops__box">Docker</span>
               </div>
             </div>
+            
+            
+            <!-- 주소 -->
+            
+            
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>지역</strong>
@@ -134,6 +231,10 @@
                 서울시 서초구 누카빌딩 콜라센터1F
               </span>
             </div>
+            
+            
+            <!-- 구성원  -->
+            
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>구성원</strong>
@@ -142,7 +243,7 @@
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="../../assets/juckerbug.jpg"
+                    src="resources/assets/juckerbug.jpg"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
@@ -153,7 +254,7 @@
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="../../assets/juckerbug.jpg"
+                    src="resources/assets/juckerbug.jpg"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
@@ -164,7 +265,7 @@
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="../../assets/juckerbug.jpg"
+                    src="resources/assets/juckerbug.jpg"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
@@ -175,7 +276,7 @@
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="../../assets/juckerbug.jpg"
+                    src="resources/assets/juckerbug.jpg"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
@@ -186,7 +287,7 @@
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="../../assets/juckerbug.jpg"
+                    src="resources/assets/juckerbug.jpg"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
@@ -197,7 +298,7 @@
                 <div class="content__profile">
                   <img
                     class="circle"
-                    src="../../assets/juckerbug.jpg"
+                    src="resources/assets/juckerbug.jpg"
                     alt="PROFILE"
                   />
                   <div class="content__introduce">
@@ -205,18 +306,11 @@
                     <p>데이터분석 @ 삼성전자</p>
                   </div>
                 </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="../../assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
+
               </div>
+              
+              
+              
               <div class="section__more-member">
                 <button class="btn visual__right">MORE</button>
               </div>
@@ -242,7 +336,7 @@
             <div class="charater__info">
               <div class="charater__info__left">
                 <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
+                  <img src="resources/assets/avatar.png" alt="" />
                 </div>
                 <label for="add_option" class="add__member__check">
                   <ul class="add__member__info">
@@ -252,13 +346,13 @@
                 </label>
               </div>
               <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
+                <input type="checkbox"  />
               </div>
             </div>
             <div class="charater__info">
               <div class="charater__info__left">
                 <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
+                  <img src="resources/assets/avatar.png" alt="" />
                 </div>
                 <label for="add_option" class="add__member__check">
                   <ul class="add__member__info">
@@ -268,31 +362,14 @@
                 </label>
               </div>
               <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
-              </div>
-            </div>
-
-            <div class="charater__info">
-              <div class="charater__info__left">
-                <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
-                </div>
-                <label for="add_option" class="add__member__check">
-                  <ul class="add__member__info">
-                    <li><strong>Elon Reeve Musk</strong></li>
-                    <li>TESLA,SPACE x @CEO</li>
-                  </ul>
-                </label>
-              </div>
-              <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
+                <input type="checkbox"  />
               </div>
             </div>
 
             <div class="charater__info">
               <div class="charater__info__left">
                 <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
+                  <img src="resources/assets/avatar.png" alt="" />
                 </div>
                 <label for="add_option" class="add__member__check">
                   <ul class="add__member__info">
@@ -302,14 +379,14 @@
                 </label>
               </div>
               <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
+                <input type="checkbox"  />
               </div>
             </div>
 
             <div class="charater__info">
               <div class="charater__info__left">
                 <div class="member__avatar">
-                  <img src="../../assets/avatar.png" alt="" />
+                  <img src="resources/assets/avatar.png" alt="" />
                 </div>
                 <label for="add_option" class="add__member__check">
                   <ul class="add__member__info">
@@ -319,7 +396,24 @@
                 </label>
               </div>
               <div class="charater__info__right">
-                <input type="checkbox" id="add_option" />
+                <input type="checkbox"  />
+              </div>
+            </div>
+
+            <div class="charater__info">
+              <div class="charater__info__left">
+                <div class="member__avatar">
+                  <img src="resources/assets/avatar.png" alt="" />
+                </div>
+                <label for="add_option" class="add__member__check">
+                  <ul class="add__member__info">
+                    <li><strong>Elon Reeve Musk</strong></li>
+                    <li>TESLA,SPACE x @CEO</li>
+                  </ul>
+                </label>
+              </div>
+              <div class="charater__info__right">
+                <input type="checkbox"  />
               </div>
             </div>
           </div>
@@ -334,7 +428,12 @@
         </form>
       </div>
     </div>
-    <!-- 구성원 추가 모달 -->
+	<jsp:include page="../common/footer.jsp" />
+  </body>
+  
+	
+	
+	<!-- 구성원 추가 모달 -->
 
     <!-- <script>
 
@@ -349,13 +448,14 @@
           .querySelector(".modal")
           .classList.remove("hidden");
   </script> -->
-    <script>
-      window.onload = function () {
-        function onClick() {
+  
+    <script>     
+    
+        const onClick = () => {
           const modal = document.querySelector(".modal");
           modal.classList.remove("hidden");
         }
-        function offClick() {
+        const offClick = () => {
           const modal = document.querySelector(".modal");
           modal.classList.add("hidden");
         }
@@ -366,7 +466,132 @@
         document
           .querySelector(".modal__close")
           .addEventListener("click", offClick);
-      };
+        
+        
+
+        
+        /* 기업 소개 토글 */
+        const companyIntroToggle = () => {
+            
+        	document
+                  .querySelector("#intro-info")
+                  .classList.toggle("edit-disable");
+            document
+                  .querySelector("#intro-input")
+                  .classList.toggle("edit-disable");
+
+            if (document.querySelector("#intro-btn").innerText === "create") {
+               document.querySelector("#intro-btn").innerText = "close";
+            } else {
+               document.querySelector("#intro-btn").innerText = "create";
+            }
+         };
+         /* 기업 소개 토글 끝 */
+         
+         
+         
+ 		/* 기업소개 업데이트 */
+ 		const sendCompanyInfo = () =>{
+
+ 			const compInfo = document.querySelector("#intro-get-info").value;
+ 			const compNo = document.querySelector("#comp-no").value;
+
+ 			location.href ="updateProfileInfo.co?compInfo=" + compInfo + "&compNo=" + compNo;
+
+ 		}
+ 		/* 기업소개 업데이트 끝 */
+
+ 		
+ 		 /* 산업 분야 토글 */
+ 		 const indusToggle = () => {
+            
+        	document
+                  .querySelector("#indus-info")
+                  .classList.toggle("edit-disable");
+            document
+                  .querySelector("#indus-input")
+                  .classList.toggle("edit-disable");
+
+            if (document.querySelector("#indus-btn").innerText === "create") {
+               document.querySelector("#indus-btn").innerText = "close";
+            } else {
+               document.querySelector("#indus-btn").innerText = "create";
+            }
+         };
+ 		 
+ 		 /* 산업 분야 토글 끝 */
+ 		 
+ 		 /* 산업 분야 조회 현황 구현 */
+ 		 let indusNums = ${ indusNums }
+ 		 
+ 		 document.querySelector("#indus-btn").addEventListener("click",()=> {
+
+ 			 document.querySelectorAll(".comp-indus").forEach(v=>{
+ 				 
+ 			 	//console.log(v.value); // 0 ,1,2,3,4,5
+ 				for(let i=0; i<indusNums.length; i++) {
+ 					
+ 					if(indusNums[i] == v.value) {
+ 						
+ 						v.setAttribute("checked", true);
+					
+ 					}
+ 				}
+				
+
+ 			 })
+ 			 
+ 			checkIndus();
+
+ 		 })
+ 		 
+ 		 /* 산업 분야 조회 현황 구현 */
+ 		 
+ 		 
+ 		 /* 산업 분야 조회 체크 현황 구현 */
+ 		 	const checkIndus = () => {
+ 		 		document.querySelectorAll(".comp-indus").forEach(v=>{
+ 	 		 				// 클릭 이벤트 발생시
+ 	 	 		 			v.addEventListener("click", () => {
+ 	 	 		 				if(v.checked == true) {// checked 속성값 검사 true : 체크됨 false : false
+ 	 	 		 					// 값을 넣어라
+ 	 	 	 		 				indusNums.push(parseInt(v.value));
+ 	 	 	 		 				// 그리고 찍어보니?
+ 	 	 	 		 				console.log(indusNums)
+ 	 	 		 				}else {
+ 	 	 		 					//값을 빼자
+ 	 	 		 					indusNums.pop(parseInt(v.value));
+	 	 	 		 				// 그리고 찍어보니?
+	 	 	 		 				console.log(indusNums)
+ 	 	 		 				}
+ 	 	 		 			})
+ 		 		})
+ 		 
+ 		 	}
+ 		 /* 산업 분야 조회 체크 현황 구현 */
+ 		const sendCompanyIndus = () =>{
+
+ 			const compNo = document.querySelector("#comp-no").value;
+
+ 			location.href ="updateCompanyIndus.co?indusNums=" + indusNums + "&compNo=" + compNo;
+
+ 		}
+ 		 
+ 		 /* 산업 분야 업데이트 */
+ 		 
+ 		 
+ 		 
+ 		 
+ 		 
+ 		 
+ 		 
+ 		 /* 산업 분야 업데이트 끝 */
+ 		 
+ 		 
+ 		 
+ 		 
+ 		 
     </script>
-  </body>
+
+
 </html>

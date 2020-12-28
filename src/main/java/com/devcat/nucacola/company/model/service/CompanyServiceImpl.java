@@ -37,8 +37,8 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public Company selectCompany(int cno) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return cDao.selectCompany(sqlSession, cno);
 	}
 
 	@Override
@@ -73,6 +73,18 @@ public class CompanyServiceImpl implements CompanyService{
 	public int insertTech(HashMap<String, Object> backMap) {
 		
 		return cDao.insertTech(sqlSession,backMap);
+	}
+
+	@Override
+	public int updateCompanyProfileInfo(Company c) {
+		
+		return cDao.updateCompanyProfileInfo(sqlSession,c);
+	}
+
+	@Override
+	public ArrayList<Industries> selectCompanyIndus(int cno) {
+		
+		return cDao.selectCompanyIndus(sqlSession,cno);
 	}
 
 

@@ -106,9 +106,19 @@
                   value="2"
                 />
                 <label for="E-service">E-service</label>
-                <input type="checkbox" class="comp-indus" name="compindus" value="3" />
+                <input 
+                  type="checkbox" 
+                  class="comp-indus" 
+                  name="compindus" 
+                  value="3" 
+                />
                 <label for="IoT">IoT</label>
-                <input type="checkbox" class="comp-indus" name="compindus" value="4" />
+                <input 
+                  type="checkbox" 
+                  class="comp-indus" 
+                  name="compindus" 
+                  value="4" 
+                />
                 <label for="o2o">o2o</label>
                 <input
                   type="checkbox"

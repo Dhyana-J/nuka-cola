@@ -39,6 +39,14 @@ public interface CompanyService {
 	int insertTech(HashMap<String, Object> backMap);
 	
 	
+	//7. 기업 소개 수정용
+	int updateCompanyProfileInfo(Company c);
+	
+	
+	//8. 산업번호, 산업 이름 알아오기
+	ArrayList<Industries> selectCompanyIndus(int cno);
+	
+	
 	
 	
 }

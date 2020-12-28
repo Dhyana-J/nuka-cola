@@ -131,7 +131,7 @@ public class CompanyController {
 		
 		HashMap<String, Object> devMap = makeMap(devSkillList,nc);
 		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
-		devMap.put("backNo", 1);
+		devMap.put("backNo", 2);
 		int devSuccess = cService.insertTech(devMap);
 		System.out.println(devMap);
 		System.out.println("데브 성공 결과 : " + devSuccess);
@@ -142,7 +142,7 @@ public class CompanyController {
 		
 		HashMap<String, Object> etcMap = makeMap(etcSkillList,nc);
 		// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
-		etcMap.put("backNo", 1);
+		etcMap.put("backNo", 3);
 		int etcSuccess = cService.insertTech(etcMap);
 		System.out.println(etcMap);
 		System.out.println("기타 성공 결과 : " + etcSuccess);
@@ -208,9 +208,76 @@ public class CompanyController {
 	
 	// 프로필 메인화면
 	@RequestMapping("profileMain.co")
-	public String profileMainCompany(int cno) {
+	public String profileMainCompany(int cno, Model model) {
+		
+		//회사 정보 가지고 오기!
+		Company c = cService.selectCompany(cno);
+		//회사 정보 보내기
+		model.addAttribute("c",c);
+		
+		//산업 분야(번호, 분야명) 가져오기
+		ArrayList<Industries> indusList = cService.selectCompanyIndus(cno);
+		// 산업 분야 보내기
+		model.addAttribute("indusList",indusList);
+		
+		// 산업 분야 번호만 담은 배열 보내기
+		ArrayList<Integer> indusNums = new ArrayList<Integer>();
+		
+		for(int i = 0; i<indusList.size(); i++) {
+			indusNums.add(indusList.get(i).getIndusNo());
+		}
+		
+		model.addAttribute("indusNums", indusNums);
+
 		return "company/companyProfileMain";
 	}
+	
+	
+	// 기업소개 업데이트
+	@RequestMapping("updateProfileInfo.co")
+	public String updateCompanyProfileInfo(Company c) {
+		
+		cService.updateCompanyProfileInfo(c);
+	    
+		return "redirect:profileMain.co?cno=" + c.getCompNo();	
+		
+	}
+
+	// 기업소개 업데이트 끝
+	
+	
+	// 산업분야 업데이트
+	@RequestMapping("updateCompanyIndus.co")
+	public void updateCompanyIndus(@RequestParam(value ="indusNums", required = false)ArrayList<Integer>indusNums, int compNo) {
+		
+		
+		//System.out.println(indusNums); [0,2,1]
+		
+		//산업 분야(번호, 분야명) 가져오기
+		ArrayList<Industries> indusList = cService.selectCompanyIndus(compNo);
+		
+		// 산업 분야 번호만 담은 배열 보내기
+		ArrayList<Integer> beforeindusNums = new ArrayList<Integer>();
+		
+		for(int i = 0; i<indusList.size(); i++) {
+			beforeindusNums.add(indusList.get(i).getIndusNo());
+		}
+		
+		
+		indusNums.removeAll(beforeindusNums);
+		
+		System.out.println(indusNums);
+		
+		
+		
+		
+		//return "redirect:profileMain.co?cno=" + c.getCompNo();	
+	}
+	
+	
+	// 산업분야 업데이트 끝
+	
+	
 	
 	
 }

@@ -56,6 +56,21 @@ public class CompanyDao {
 		
 		return sqlSession.insert("companymapper.insertTech",backMap);
 	}
+
+	public Company selectCompany(SqlSessionTemplate sqlSession, int cno) {
+		
+		return sqlSession.selectOne("companymapper.selectCompany", cno);
+	}
+
+	public int updateCompanyProfileInfo(SqlSessionTemplate sqlSession, Company c) {
+		
+		return sqlSession.update("companymapper.updateCompanyProfileInfo",c);
+	}
+
+	public ArrayList<Industries> selectCompanyIndus(SqlSessionTemplate sqlSession, int cno) {
+		
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyIndus",cno);
+	}
 	
 
 }

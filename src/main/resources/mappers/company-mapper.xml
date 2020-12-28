@@ -22,6 +22,14 @@
 		<result column="skill_name" property="skillName"/>
 	</resultMap>
 	
+	<resultMap id="indusResultSet" type="Industries">
+		<result column="comp_no" property="compNo"/>
+		<result column="indus_no" property="indusNo"/>
+		<result column="indus_name" property="indusName"/>
+	</resultMap>
+	
+		
+	
 	<select id="selectListCount" resultType="_int">
 		select
 			   count(*)
@@ -130,6 +138,46 @@
 
 	</update>
 	
+	
+	
+	<select  id="selectCompany" parameterType="_int" resultMap="companyResultSet">
+		select
+			  comp_no
+			, comp_name
+			, comp_info
+			, comp_email
+			, comp_address
+			, comp_logo
+			, comp_headcount
+			, comp_birth
+			, created_at
+			, updated_at
+			, user_no
+			, comp_pm
+		from companys
+	   where comp_no = #{compNo}
+		
+	</select>
+	
+	<update id="updateCompanyProfileInfo" parameterType="Company">
+	
+		update
+		       companys
+		   set comp_info = #{ compInfo }
+		 where comp_no = #{compNo}     
+	
+	</update>
+	
+	
+	<select id="selectCompanyIndus" parameterType="_int" resultMap="indusResultSet">
+			select
+			       indus_no
+			     , indus_name
+			  from industries i
+			  left join compindus c using(indus_no)
+			  where c.comp_no = #{cno}
+
+	</select>
 	
 	
 </mapper>

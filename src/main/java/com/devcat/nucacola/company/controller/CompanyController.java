@@ -307,6 +307,9 @@ public class CompanyController {
 			ArrayList<String> positionList = cService.selectPositionList(cno);
 			model.addAttribute("positionList",positionList);
 			
+			//대표 정보 세팅
+			model.addAttribute("head",mService.selectHead(cno));
+			
 			return "company/companyProfileMain";
 			
 		}else {//회사정보가 존재하지 않을 경우
@@ -320,9 +323,9 @@ public class CompanyController {
 	@RequestMapping("profileMember.co")
 	public String profileMember(int cno, int currentPage, Model model, HttpSession session){
 		
-		Company comp = cService.selectCompany(cno);
+		Company c = cService.selectCompany(cno);
 		
-		if(comp!=null) {//회사정보가 조회된 경우
+		if(c!=null) {//회사정보가 조회된 경우
 			
 			//구성원 수 세팅
 			int memberCount = cService.selectMemberCount(cno);
@@ -344,7 +347,7 @@ public class CompanyController {
 			
 			
 			//회사정보 세팅
-			model.addAttribute("company",comp);
+			model.addAttribute("c",c);
 			model.addAttribute("positionList",positionList);
 			model.addAttribute("pi",pi);
 			model.addAttribute("head",head);
@@ -370,7 +373,7 @@ public class CompanyController {
 		ArrayList<Member> memberList = mService.selectMemberList(cno, pi);
 		
 		//페이지인포 객체를 담아준다. (ArrayList를 쓰는 이유는 HashMap에 담아 뷰로 넘겨주기 위함)
-		ArrayList<PageInfo> piBox=new ArrayList();
+		ArrayList<PageInfo> piBox=new ArrayList<>();
 		piBox.add(pi);
 		
 		HashMap<String,ArrayList<?extends Object>> loadedInfo = new HashMap<>();
@@ -399,8 +402,8 @@ public class CompanyController {
 	public String addMember(int[] uno, int cno, String position, HttpSession session, Model model) {
 		
 		//회사정보 세팅 (회사이름 가져오기 위함)
-		Company comp = cService.selectCompany(cno);
-		String userComp = comp.getCompName()+"@"+position;
+		Company c = cService.selectCompany(cno);
+		String userComp = c.getCompName()+"@"+position;
 		
 		//insert할 구성원정보를 담을 ArrayList
 		List<Career> memberList = new ArrayList<>();
@@ -416,13 +419,20 @@ public class CompanyController {
 		
 		int result = cService.addMember(memberList);
 		
-		int result2 = mService.updateUserComp(updateList);
 		
-		
-		if(result>0) {
-			session.setAttribute("alertMsg", "구성원 추가 성공!");
-			return "redirect:profileMember.co?cno=1&currentPage=1";
-		}else {
+		if(result>0) {//구성원 추가에 성공했다면
+			
+			int result2 = mService.updateUserComp(updateList);//구성원 회사정보를 업데이트해준다.
+			
+			if(result2>0) {//구성원 회사정보 업데이트 성공
+				session.setAttribute("alertMsg", "구성원 추가 성공!");
+			}else {//구성원 회사정보 업데이트 실패
+				session.setAttribute("alertMsg", "구성원 추가 성공!(구성원 회사정보 업데이트 필요)");
+			}
+			
+			return "redirect:profileMember.co?cno="+cno+"&currentPage=1";
+			
+		}else {//구성원 추가 실패시
 			model.addAttribute("errorMsg","구성원 추가 실패");
 			return "common/errorPage";
 		}

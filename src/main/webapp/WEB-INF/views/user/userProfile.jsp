@@ -345,7 +345,7 @@
                   
                   <c:forEach var="follower" items="${pCon.get('followers')}">
                   
-                     <form action="test.conn" method="post" class="submitNo" onclick="submit();">
+                     <form action="profile.me" method="post" class="submitNo" onclick="submit();">
                         <input type="hidden" name="userNo" value="${follower.userNo}"/>
                         <div class="content__profile">
                            <c:choose>
@@ -378,7 +378,7 @@
 						<!--팔로잉 리스트-->
 						<c:forEach var="following" items="${pCon.get('followings')}">
 						
-							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
+							<form action="profile.me" method="post" class="submitNo" onclick="submit();">
 								<input type="hidden" name="userNo" value="${following.userNo}"/>
 							
 								<div class="content__profile">
@@ -414,7 +414,7 @@
 						<!--연결 리스트(자료구조 아님!)-->
 						<c:forEach var="connection" items="${pCon.get('connections') }">
 						
-							<form action="test.conn" method="post" class="submitNo" onclick="submit();">
+							<form action="profile.me" method="post" class="submitNo" onclick="submit();">
 								<input type="hidden" name="userNo" value="${connection.userNo}"/>
 								<div class="content__profile">
 								
@@ -444,12 +444,18 @@
   
               <div class="section__more-member">
                  
-                 <button id="moreBtn" class="btn visual__right" 
-                       onclick="loadMore(${loginUser.userNo},${frPi.currentPage},${frPi.maxPage}
-                                                     ,${fgPi.currentPage},${fgPi.maxPage}
-                                                     ,${cnPi.currentPage},${cnPi.maxPage});">
-                    MORE
-                  </button>
+                 <!-- 팔로워, 팔로잉, 연결 중 하나라도 현재페이지가 마지막페이지보다 작으면 more버튼 보여준다. -->
+                 <c:if test="${frPi.currentPage < frPi.maxPage 
+                 				or fgPi.currentPage < fgPi.maxPage 
+                 				or cnPi.currentPage < cnPi.maxPage }">
+                 				
+	                 <button id="moreBtn" class="btn visual__right" 
+	                       onclick="loadMore(${loginUser.userNo}
+	                       					,${frPi.currentPage},${frPi.maxPage}
+											,${fgPi.currentPage},${fgPi.maxPage}
+	                                        ,${cnPi.currentPage},${cnPi.maxPage});">MORE</button>
+                 				
+                 </c:if>
                  
               </div>
            
@@ -493,17 +499,6 @@
 	<jsp:include page="../common/footer.jsp" />
 	<script defer>
 
-
-		//팔로워,팔로잉,연결 모두 현재페이지가 마지막 페이지면 more버튼 비활성화.
-		if(    ${frPi.currentPage}==${frPi.maxPage}
-				&& ${fgPi.currentPage}==${fgPi.maxPage}
-				&& ${cnPi.currentPage}==${cnPi.maxPage}){
-
-			let moreBtn = document.querySelector('#moreBtn');
-			moreBtn.setAttribute('disabled',true);
-
-		}
-
 		//리스트 로드 중지 플래그
 		let stopFrLoad = false;
 		let stopFgLoad = false;
@@ -518,7 +513,7 @@
 				
 				//유저이미지 없으면 기본이미지 세팅해준다.
 
-				let profile ='<form action="test.conn" method="post" class="submitNo" onclick="submit();">'
+				let profile ='<form action="profile.me" method="post" class="submitNo" onclick="submit();">'
 						+'<input type="hidden" name="userNo" value="'+v.userNo+'"/>'
 						+'<div class="content__profile">';
 						

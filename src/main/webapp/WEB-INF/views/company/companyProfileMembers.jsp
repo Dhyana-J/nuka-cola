@@ -29,34 +29,38 @@
     <jsp:include page="../common/mainMenu.jsp"/>
     
     <section class="visual__section">
+    
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="resources/assets/avatar.png" alt="" />
+            <img src="resources/assets/avatar.png" alt="logo" />
           </div>
           <div>
             <div class="main__info">
-              <strong>유원근</strong>
-              <span>Apple.inc @ CEO</span>
-              <span>Node.js / React.js / Vue.js / Java</span>
+              <strong>${ c.compName }</strong>
+              <span>Since ${ c.compBirth }</span>
+              <span>${ c.headCount }</span>
+              <span>${ c.compEmail }</span>
             </div>
             <ul class="people__info">
               <li>팔로우 <strong>102</strong></li>
-              <li>팔로우 <strong>102</strong></li>
-              <li>팔로우 <strong>102</strong></li>
+              <li>채용중인글 <strong>3</strong></li>
             </ul>
           </div>
         </div>
-        <button class="btn visual__right" id="add__member__open">구성원추가</button>
+        <button class="btn visual__right" id="add__member__open">
+          구성원 추가
+        </button>
       </div>
+      
     </section>
     <main class="content__section">
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li>ABOUT</li>
-            <li>채용</li>
-            <li class="nav-active"><a href="profileMember.co?currentPage=1&cno=1">구성원</a></li>
+            <li onclick='location.href="profileMain.co?cno=${c.compNo}"'>ABOUT</li>
+            <li onclick='location.href="recruit.co?compNo=${c.compNo}"'>채용</li>
+            <li class="nav-active"><a href="profileMember.co?currentPage=1&cno=${c.compNo }">구성원</a></li>
           </ul>
         </div>
         <div class="main__main__section">
@@ -149,10 +153,10 @@
               </div>
 
 			<!-- 현재페이지가 마지막페이지가 아닌 경우에만 more버튼 출력 -->
-			<c:if test="${pi.currentPage ne pi.maxPage}">
+			<c:if test="${pi.currentPage < pi.maxPage}">
               <div class="member_btn">
               	<!-- 버튼 클릭될 때마다 loadMore 실행된다. 인자로 회사번호 넣어줘야함 -->
-                <button class="btn" onclick="loadMore(${company.compNo})">more</button>
+                <button class="btn" onclick="loadMore(${c.compNo})">more</button>
               </div>
 			</c:if>
               
@@ -170,7 +174,7 @@
       <div class="modal__content">
       
           <form id="add-member" class="content__inner" action="addMember.co" method="get">
-          	  <input type="hidden" name="cno" value="${company.compNo }">
+          	  <input type="hidden" name="cno" value="${c.compNo }">
               <div class="modal__title">
                   <h2>구성원 추가</h2>
               </div>

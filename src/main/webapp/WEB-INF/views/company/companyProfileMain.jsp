@@ -18,11 +18,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="resources/js/company/search-comp-member.js"></script>
+    <link rel="stylesheet" href="resources/css/profile/profile(member-modal).css" />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/company.css" />
-    <link rel="stylesheet" href="resources/css/profile/profile(member-modal).css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="resources/js/company/search-comp-member.js"></script>
   </head>
   <body>
  
@@ -63,9 +63,9 @@
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li class="nav-active">ABOUT</li>
+            <li class="nav-active" onclick='location.href="profileMain.co?cno=${c.compNo}"'>ABOUT</li>
             <li onclick='location.href="recruit.co?compNo=${cno}"'>채용</li> <%--현재페이지의 회사일련번호 넘겨줘야함 --%>
-            <li><a href="profileMember.co?cno=${company.compNo }&currentPage=1">구성원</a></li>
+            <li><a href="profileMember.co?cno=${c.compNo}&currentPage=1">구성원</a></li>
           </ul>
         </div>
         
@@ -101,7 +101,6 @@
                 <li><strong>산업분야</strong></li>
                 <li>테크스택</li>
                 <li>지역</li>
-                <li>구성원</li>
               </ul>
             </div>
           </div>
@@ -239,83 +238,28 @@
             
             <div class="content__wrapper">
               <div class="section__content__title">
-                <strong>구성원</strong>
+                <strong>대표</strong>
               </div>
               <div class="section__member">
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
+              
+                <div class="content__profile" onclick='location.href="profile.me?userNo=${head.userNo}&currentPage=1"'>
+                  		<c:choose>
+                      		<c:when test="${head.userAvatar eq null}">
+		                        <img class="circle" src="resources/assets/avatar.png" alt="profile" />
+                      		</c:when>
+                      		<c:otherwise>
+		                        <img class="circle" src="${pageContext.request.contextPath}/${head.userAvatar}" alt="profile" />
+                      		</c:otherwise>
+                      	</c:choose>
                   <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
+                    <strong>${head.userName}</strong>
+                    <p>${head.userComp}</p>
                   </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elonk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon</strong>
-                    <p>빅데이터 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
-                <div class="content__profile">
-                  <img
-                    class="circle"
-                    src="resources/assets/juckerbug.jpg"
-                    alt="PROFILE"
-                  />
-                  <div class="content__introduce">
-                    <strong>Elon Reeve Musk</strong>
-                    <p>데이터분석 @ 삼성전자</p>
-                  </div>
-                </div>
+                </div><!-- content__profile -->
 
-              </div>
+              </div><!-- section__member -->
               
               
-              
-              <div class="section__more-member">
-                <button class="btn visual__right">MORE</button>
-              </div>
             </div>
           </div>
         </div>
@@ -323,13 +267,12 @@
     </main>
 
     <!-- 구성원 추가 모달 -->
-     <!-- 구성원 추가 모달 -->
     <div class="modal hidden">
       <div class="modal__overlay"></div>
       <div class="modal__content">
       
           <form id="add-member" class="content__inner" action="addMember.co" method="get">
-          	  <input type="hidden" name="cno" value="${company.compNo }">
+          	  <input type="hidden" name="cno" value="${c.compNo }">
               <div class="modal__title">
                   <h2>구성원 추가</h2>
               </div>
@@ -356,11 +299,9 @@
           </form>
           
       </div>
-    </div>
+  </div>
+    
 	<jsp:include page="../common/footer.jsp" />
-  </body>
-  
-	
 	
 	<!-- 구성원 추가 모달 -->
 
@@ -521,6 +462,10 @@
  		 
  		 
     </script>
+  </body>
+  
+	
+	
 
 
 </html>

@@ -147,9 +147,17 @@ public class MemberDao {
 	}
 
 	//기업구독
-	public int insertSubComp(SqlSessionTemplate sqlSession, CompSub cs) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int btnSub(SqlSessionTemplate sqlSession, int userNo, int compNo, int subscribed) {
+		
+		CompSub compSub = new CompSub();
+		compSub.setUserNo(userNo);
+		compSub.setCompNo(compNo);
+		if(subscribed == 0) {
+			return sqlSession.insert("memberMapper.subComp", compSub);
+		}else {
+			return sqlSession.delete("memberMapper.cancleSubComp", compSub);
+		}
+		
 	}
 	// 기업구독 조회
 	public int countSubComp(SqlSessionTemplate sqlSession, int uno) {

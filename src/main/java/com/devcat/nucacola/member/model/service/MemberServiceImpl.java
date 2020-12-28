@@ -445,11 +445,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int insertSubComp(CompSub cs) {
-		return mDao.insertSubComp(sqlSession, cs);
-	}
-
-	@Override
 	public int deleteSubComp(CompSub cs) {
 		return mDao.deleteSubComp(sqlSession, cs);
 	}
@@ -491,6 +486,11 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectHead(int cno) {
 		return mDao.selectHead(sqlSession, cno);
 	}
+	@Override
+	public int btnSub(int userNo, int compNo, int subscribed) {
+		return mDao.btnSub(sqlSession, userNo, compNo, subscribed);
+	}
+
 
 	//기업 구성원 리스트 조회용
 	@Override

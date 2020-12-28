@@ -14,7 +14,7 @@ public interface CompanyService {
 	
 	//1.  기업 리스트 조회용 서비스
 	int selectListCount();
-	ArrayList<Company> selectCompanyList(PageInfo pi);
+	ArrayList<Company> selectCompanyList(PageInfo pi, int uno);
 	
 	//2. 기업등록용 서비스
 	int insertCompany(Company c);
@@ -37,7 +37,6 @@ public interface CompanyService {
 	//5. 기업삭제용 서비스
 	int deleteCompany(int cno);
 	
-	
 	//6. 이게 뭔줄 아느냐? 바로 기업 테크스택 등록용
 	int insertTech(HashMap<String, Object> backMap);
 	
@@ -57,6 +56,14 @@ public interface CompanyService {
 	
 	//9. 구성원 추가
 	int addMember(List<Career> memberList);
+	//7. 기업검색용 서비스
+	ArrayList<Company> searchCompanyList(PageInfo pi, String keyword);
+	
+	//8. 기업 인기순정렬 서비스
+	ArrayList<Company> rankingCompanyList(PageInfo pi);
+	
+	//7-1. 기업 레코드 갯수
+	int countCompany(String keyword);
 	
 	
 }

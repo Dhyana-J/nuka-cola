@@ -31,7 +31,8 @@ public class Company {
 	private int compPm;
 	private int indusNo;   //산업분야 radio 추가 
 
-	
+	private String keyword; // 기업검색
+	private int subScribed; //구독
 	
 	// 여러개의 산업분야
 	private ArrayList<Industries> industryList;

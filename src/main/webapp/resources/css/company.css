@@ -107,15 +107,15 @@
   background-color: #30409f;
   color: #fff;
   border: none;
-  border-radius:8px;
+  border-radius:10px;
   margin:10px;
   font-size:12px;
-  padding:5px 8px;
+  padding:7px 20px;
 }
 /* X버튼*/
 .section__search-span .search-span .material-icons {
-  font-size: 15px;
-  margin-bottom:13px;
+  font-size: 14px;
+  margin-bottom:22px;
 }
 .section__search-span .search-span .material-icons:hover {
   cursor: pointer;
@@ -126,7 +126,7 @@
   position:relative;
   align-items:center;
   width:100%;
-  height:30px;
+  height:40px;
   margin-top:20px;
 }
 .section__search-span .keyword input{
@@ -137,7 +137,7 @@
 .section__search-span i{
   position: absolute;
   right:1%;
-  top:10%;
+  top:23%;
 }
 .section__search-span i:hover{
   cursor:pointer;
@@ -163,7 +163,12 @@
 }
 .section__search-result-top .section__sort a {
   font-size: 14px;
+  padding:2px 15px;
 }
+.section__search-result-top .section__sort a:hover {
+  background-color:rgb(238, 238, 238);
+  color:black;
+} 
 .section__result__detail {
   display: flex;
   flex-direction: row;
@@ -189,6 +194,7 @@
   flex: 5;
   margin-left: 20px;
   justify-content: center;
+  cursor:pointer;
 }
 .comp-info strong {
   font-size: 16px;
@@ -208,18 +214,35 @@
   flex-direction: column;
   justify-content: center;
 }
-.subscribe-btn button {
+.subscribe-btn #sub {
   width: 80px;
   height: 30px;
   background-color: #c8e4f7;
   color: #000000;
-  border: 1px solid #c8e4f7;
+  border: 2px solid #c8e4f7;
   border-radius: 5px;
   cursor: pointer;
 }
-.subscribe-btn button:hover {
+.subscribe-btn #sub:hover {
   background: #fff;
   color: #000000;
+}
+
+.subscribe-btn #sub-cancle {
+  width: 80px;
+  height: 30px;
+  background-color: #fff;
+  color: #000000;
+  border: 2px solid#30409f;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.subscribe-btn #sub-cancle:hover {
+  background: #c8e4f7;
+  color: #000000;
+}
+.subscribe-btn #sub, #sub-cancle:focus{
+  outline:none;
 }
 .btn__attachment {
   width: 100px;
@@ -370,7 +393,7 @@
   transition: 0.3s;
 }
 
-input[type="text"]:focus {
+.section__main input[type="text"]:focus {
   box-shadow: 0 0 8px 0 #30409f;
 }
 

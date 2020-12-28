@@ -126,8 +126,9 @@ public interface MemberService {
 	int deleteBookmark(Bookmark bm);
 	
 	// 기업 구독 추가	
-	int insertSubComp(CompSub cs);
 
+	int btnSub(int userNo, int compNo, int subscribed);
+	
 	// 기업 구독 조회
 	int  countSubComp(int uno);
 	ArrayList<CompSub> selectSubComp(int uno, PageInfo pi);

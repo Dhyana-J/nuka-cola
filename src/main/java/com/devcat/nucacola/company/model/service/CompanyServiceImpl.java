@@ -29,8 +29,8 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 	
 	@Override
-	public ArrayList<Company> selectCompanyList(PageInfo pi) {
-		return cDao.selectCompanyList(sqlSession, pi);
+	public ArrayList<Company> selectCompanyList(PageInfo pi, int uno) {
+		return cDao.selectCompanyList(sqlSession, pi, uno);
 	}
 
 	@Override
@@ -105,6 +105,20 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 
+
+	public ArrayList<Company> searchCompanyList(PageInfo pi, String keyword) {
+		return cDao.searchCompanyList(sqlSession, pi, keyword);
+	}
+
+	@Override
+	public int countCompany(String keyword) {
+		return cDao.countCompany(sqlSession, keyword);
+	}
+
+	@Override
+	public ArrayList<Company> rankingCompanyList(PageInfo pi) {
+		return cDao.rankingCompanyList(sqlSession, pi);
+	}
 
 
 

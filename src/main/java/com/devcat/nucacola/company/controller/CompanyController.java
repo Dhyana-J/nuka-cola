@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
@@ -30,7 +31,10 @@ import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.company.model.vo.TechStack;
 import com.google.gson.Gson;
+import com.sun.javafx.collections.MappingChange.Map;
 
 @Controller
 public class CompanyController {
@@ -44,11 +48,16 @@ public class CompanyController {
 	// 회사 전체 조회
 	@RequestMapping("list.co")
 	public String selectCompanyList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-			Model model)
+			HttpSession session, Model model)
 	{
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
-		ArrayList<Company> list = cService.selectCompanyList(pi);
+		
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		
+		
+		ArrayList<Company> list = cService.selectCompanyList(pi, uno);
 		//System.out.println(list);
 		
 		model.addAttribute("pi", pi);
@@ -57,13 +66,16 @@ public class CompanyController {
 	}
 	@RequestMapping("load.comp")
 	public ResponseEntity<String> loadCompList(
-				@RequestParam(value="currentPage", defaultValue="1") int currentPage
+				@RequestParam(value="currentPage", defaultValue="1") int currentPage,HttpSession session
 	){
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		
 				System.out.println(currentPage);
 				HttpHeaders responseHeaders = new HttpHeaders();
 				int listCount = cService.selectListCount();
 				PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
-				ArrayList<Company> list = cService.selectCompanyList(pi);
+				ArrayList<Company> list = cService.selectCompanyList(pi,uno);
 				responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 				String json = new Gson().toJson(list);
 				return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
@@ -79,7 +91,7 @@ public class CompanyController {
 	public String insertCompany(@RequestParam(value ="compindus", required = false)String[]arr,
 								Company c,MultipartFile upfile,
 								HttpSession session, Model model) {
-		System.out.println(c);
+		//System.out.println(c);
 		//넘어온 파일이 있으면 파일명 수정
 		if(!upfile.getOriginalFilename().equals("")) {
 			String changeName = saveFile(session, upfile);
@@ -207,7 +219,59 @@ public class CompanyController {
 		return ts;
 	}
 	
-	// 프로필 메인화면
+	//기업검색
+	@ResponseBody
+	@RequestMapping(value="/search.co", produces="application/json; charset=utf-8")
+	public String list( // RequestParam으로 키워드,페이지의 기본값을 설정해둔다.
+			String keyword, Model model,
+			@RequestParam(defaultValue="1", value="currentPage") int currentPage) throws Exception{
+		
+		//레코드 개수를 계산
+		int count = cService.countCompany(keyword);
+		
+		System.out.println(keyword);
+		
+		//페이지 관련 설정
+		PageInfo pi = Pagination.getPageInfo(count, currentPage, 10, 15);
+		
+		//map에 저장하기 위해 list를 만들어 키워드를 저장
+		ArrayList<Company> list = cService.searchCompanyList(pi, keyword);
+		
+		return new Gson().toJson(list);
+		
+		
+		/*
+		ModelAndView mav = new ModelAndView();
+		
+		//데이터를 맵에 저장
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list); // list
+		map.put("count", count); // 레코드 개수
+		map.put("kewyord", keyword); // 검색키워드
+		mav.addObject("map", map); // 맵에 저장된 데이터를 mav에 저장
+		mav.setViewName("/company/companyListView"); // 뷰를 companyListView.jsp로 설정
+		
+		return mav; //해당 페이지로 이동
+		*/
+		
+	}
+	
+	//기업 인기순 정렬
+	@RequestMapping("sortRanking.co")
+	public String rankingCompanyList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			Model model)
+	{
+		int listCount = cService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
+		ArrayList<Company> list = cService.rankingCompanyList(pi);
+		//System.out.println(list);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		return "/company/companyListView";
+	}
+	
+	// 기업프로필 메인화면
 	@RequestMapping("profileMain.co")
 	public String profileMainCompany(int cno, Model model) {
 		

@@ -38,4 +38,5 @@
 		<mapper resource="/mappers/apply-mapper.xml"/>
 		<mapper resource="/mappers/recruit-mapper.xml"/>
 	</mappers>
+	
 </configuration>

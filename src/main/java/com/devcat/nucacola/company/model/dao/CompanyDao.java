@@ -65,10 +65,6 @@ public class CompanyDao {
 		return sqlSession.insert("companymapper.insertTech",backMap);
 	}
 
-	public Company selectCompany(SqlSessionTemplate sqlSession, int cno) {
-		
-		return sqlSession.selectOne("companymapper.selectCompany", cno);
-	}
 
 	public int updateCompanyProfileInfo(SqlSessionTemplate sqlSession, Company c) {
 		

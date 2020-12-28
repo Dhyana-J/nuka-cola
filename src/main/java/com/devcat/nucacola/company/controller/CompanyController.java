@@ -298,10 +298,10 @@ public class CompanyController {
 
 	
 		
-		if(comp!=null) {//회사정보가 존재할 경우
+		if(c!=null) {//회사정보가 존재할 경우
 			
 			//회사정보 세팅해준다. (페이지마다 회사정보 필요함)
-			model.addAttribute("company",comp);
+			model.addAttribute("c",c);
 			
 			//구성원 추가 포지션 검색시 쓰일 것들
 			ArrayList<String> positionList = cService.selectPositionList(cno);

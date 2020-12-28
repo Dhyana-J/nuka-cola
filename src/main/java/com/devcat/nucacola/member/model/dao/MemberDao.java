@@ -273,7 +273,7 @@ public class MemberDao {
 	}
 
 
-	/*
+	
 	// 기업식별자 알아오기
 	public Company selectCompNo(SqlSessionTemplate sqlSession, int userNo) {
 		return sqlSession.selectOne("companyMapper.selectCompNo", userNo);
@@ -304,7 +304,7 @@ public class MemberDao {
 	public int updateUserComp(SqlSessionTemplate sqlSession, List<Member> updateList) {
 		return sqlSession.update("memberMapper.updateUserComp", updateList);
 	}
-	*/
+
 	
 	
 	

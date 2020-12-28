@@ -339,7 +339,7 @@ a#topBtn {
 .user__project__section {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 50%;
   height: 100%;
 }
 

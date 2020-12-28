@@ -16,4 +16,14 @@ public class RecruitController {
 	public String selectRecruit(int rno) {
 		return "/main";
 	}
+	
+	/*
+	// 채용관리페이지
+	@RequestMapping("/manage.re")
+	public String selectRecruitManage(int rno) {
+		return "/recruitManageDetail";
+	}
+	*/
+	
+	
 }

@@ -482,7 +482,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Company selectComNo(int userNo) {
-		return mDao.selectCompNo(sqlSession, userNo);
+		return null;
 	}
 
 

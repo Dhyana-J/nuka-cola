@@ -23,7 +23,9 @@ public interface RecruitService {
 		
 	// 채용 공고 삭제
 		int deleteRecruit(int rno);
+	
 		
+	
 		
 		
 }

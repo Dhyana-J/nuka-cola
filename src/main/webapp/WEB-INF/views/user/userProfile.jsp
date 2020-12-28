@@ -209,6 +209,9 @@
                <div onclick="projectToggle()" class="edit__field">
                   <i id="project-btn" class="material-icons">create</i>
                </div>
+               <div onclick="deleteProjectToggle()" class="edit__field">
+               	<i id="deleteProject-btn" class="material-icons">clear</i>
+               </div>
                
             </div>
             <span class="just__text" id="project-name">
@@ -1027,23 +1030,30 @@
 				}
 			})
 		});				
-
-const careerToggle = () => {
-			document
-	        	.querySelector("#career-name")
-	        	.classList.toggle("edit-disable");
-		    document
-		        .querySelector("#career-input")
-		        .classList.toggle("edit-disable");
+	
+		// 경력 form 토글
+		const careerToggle = () => {
+				document
+		        	.querySelector("#career-name")
+		        	.classList.toggle("edit-disable");
+			    document
+			        .querySelector("#career-input")
+			        .classList.toggle("edit-disable");
+			
+			    if(document.querySelector("#career-btn").innerText === "create") {
+			       document.querySelector("#career-btn").innerText = "close"
+			    }else{
+			       document.querySelector("#career-btn").innerText = "create";
+			    }
+		 }
 		
-		    if(document.querySelector("#career-btn").innerText === "create") {
-		       document.querySelector("#career-btn").innerText = "close"
-		    }else{
-		       document.querySelector("#career-btn").innerText = "create";
-		    }
-	 }
-
 		
+		//삭제하기
+		/*
+		const deleteProjectToggle = () => {
+				
+		}
+		*/
 		
 		
 

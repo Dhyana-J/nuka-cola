@@ -520,7 +520,15 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Skills> partnerSearchSkill() {
 		return  mDao.partnerSearchSkill(sqlSession);
 	}
+	@Override
+	public List<Integer> partnerPopularProfile(){
+		return mDao.partnerPopularProfile(sqlSession);
+	}
 
+	@Override
+	public ArrayList<Member> partnerPopularInfo(List<Integer> popularNo) {
+		return mDao.partnerPopularInfo(sqlSession, popularNo);
+	}
 
 	
 

@@ -1,5 +1,6 @@
 package com.devcat.nucacola.member.model.dao;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -309,11 +310,26 @@ public class MemberDao {
 	
 	// 파트너검색 연결
 	public ArrayList<Member> partnerConnecting(SqlSessionTemplate sqlSession, int userNo){
+		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectConnections",userNo);
 	}
-	//파트너 검색 스킬
+	// 파트너 검색 스킬
 	public ArrayList<Skills> partnerSearchSkill(SqlSessionTemplate sqlSession) {
 		return  (ArrayList)sqlSession.selectList("memberMapper.partnerSearchSkill");
+	}
+	// 파트너검색 인기프로필
+	public List<Integer> partnerPopularProfile(SqlSessionTemplate sqlSession){
+		return (List)sqlSession.selectList("memberMapper.partnerPopularProfile"); 
+	}
+	
+	// 파트너검색 
+	public ArrayList<Member> partnerPopularInfo(SqlSessionTemplate sqlSession, List<Integer> popularNo){
+		System.out.println("dao"+popularNo);
+		ArrayList<Member> popularInfo=new ArrayList<>();
+		for(Integer p :popularNo) {
+			popularInfo.addAll((ArrayList)sqlSession.selectList("memberMapper.partnerPopularInfo", p));
+		}
+		return popularInfo;
 	}
 	
 	
@@ -322,3 +338,4 @@ public class MemberDao {
 	
 	
 }
+

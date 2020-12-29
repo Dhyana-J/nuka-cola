@@ -147,6 +147,8 @@ public class CompanyServiceImpl implements CompanyService{
 	public ArrayList<Company> rankingCompanyList(PageInfo pi) {
 		return cDao.rankingCompanyList(sqlSession, pi);
 	}
+	
+
 
 
 

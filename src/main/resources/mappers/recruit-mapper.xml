@@ -77,4 +77,65 @@
         INSERT INTO NUKACOLA.DECLARES (USER_NO, RECRUIT_NO, DECLARE_TITLE, CREATED_AT)
         VALUES (#{userNo}, #{recruitNo}, #{declareTitle}, DEFAULT)
     </insert>
+    
+    
+    <insert id="insertRecruit" parameterType="Recruit">
+    		
+    		insert into 
+    		       recruits
+    		       (
+    		         RECRUIT_NO
+					,RECRUIT_TITLE
+					,RECRUIT_INFO
+					,RECRUIT_STATE
+					,RECRUIT_MAIN
+					,RECURIT_POSI
+					,RECRUIT_IMG
+					,RECRUIT_MINSALARY
+					,RECRUIT_MAXSALARY
+					,RECRUIT_REQU
+					,RECRUIT_DL
+					,RECRUIT_COUNT
+					,COMP_NO
+					,CREATED_AT
+    		       )
+    			   values
+    			   (
+    			     seq_recruit.nextval
+    			    ,#{recruitTitle}
+    			    ,#{recruitInfo}
+    			    ,default
+    			    ,#{recruitMain}
+    			    ,#{recruitPosi}
+    			    ,#{recruitImg}
+    			    ,#{recruitMinSal}
+    			    ,#{recruitMaxSal}
+    			    ,#{recruitRequ}
+    			    ,#{recruitDl}
+    			    ,default
+    			    ,#{compNo}
+    			    ,default
+    			   
+    			   )
+    		
+    
+    
+    </insert>
+    
+    
+    <select id="selectCompNo" parameterType="_int" resultType="_int">
+    
+    	     select
+		            comp_no
+
+		     from companys       
+		     join users using (user_no)
+		     where user_no = #{userNo}
+		    
+    
+    
+    
+    </select>
+    
+    
 </mapper>

@@ -35,4 +35,11 @@ public interface RecruitService {
 		ArrayList<Apply> selectApplyList(int rno);
 		
 		
+	// 채용 등록	
+	int insertRecruit(Recruit re);
+	
+	// 사용자의 회사 번호 알아오기
+	int selectCompNo(int userNo);
+		
+		
 }

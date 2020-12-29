@@ -1,5 +1,9 @@
 package com.devcat.nucacola.recruits.model.vo;
 
+import java.util.ArrayList;
+
+import com.devcat.nucacola.common.model.vo.Skills;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +50,9 @@ public class Recruit {
 	private String createdAt;
 	private String skillName;
 	private String compName;
-
+    
+	
+	// 여러개의 기술
+	private ArrayList<Skills> skillList;
 
 }

@@ -81,6 +81,17 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.selectApplyList(sqlSession, rno);
 	}
 
+	@Override
+	public int insertRecruit(Recruit re) {
+		return rDao.insertRecruit(sqlSession, re);
+	}
+
+	@Override
+	public int selectCompNo(int userNo) {
+		
+		return rDao.selectCompNo(sqlSession, userNo);
+	}
+
 
 	
 }

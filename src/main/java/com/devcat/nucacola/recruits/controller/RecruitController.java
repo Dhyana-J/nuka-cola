@@ -74,4 +74,49 @@ public class RecruitController {
 			
 	}
 	
+	
+	
+	@RequestMapping("recruitEnroll.re")
+	public String recruitEnroll() {
+		
+		return "/recruit/recruitEnrollForm";
+	}
+	
+	
+	@RequestMapping("recruitInsert.re")
+	public void insertRecruit(Recruit re, int userNo) {
+		
+		System.out.println(re);
+		
+		int compNo = rService.selectCompNo(userNo);
+		
+		System.out.println(compNo);
+		
+		
+		re.setCompNo(compNo);
+		
+		
+		int minSal = (int)(re.getRecruitMinSal());
+		int maxSal = (int)(re.getRecruitMaxSal());
+		
+		
+		System.out.println(minSal);
+		System.out.println(maxSal);
+		
+		re.setRecruitMinSal(minSal);
+		re.setRecruitMaxSal(maxSal);
+		
+		System.out.println(re);
+
+		int result = rService.insertRecruit(re);
+		
+		if(result>0) {
+			System.out.println("삽입 성공!");
+			
+		}
+		
+	}
+	
+	
+	
 }

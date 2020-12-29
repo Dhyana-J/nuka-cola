@@ -34,6 +34,12 @@ public class Company {
 	private String keyword; // 기업검색
 	private int subScribed; //구독
 	
+	private String headcountList; //기업검색 - comany필드 option값들
+	private String localList; // 기업검색 - industries필드 option값들
+	private String indusList;
+	
+	
+	
 	// 여러개의 산업분야
 	private ArrayList<Industries> industryList;
 	

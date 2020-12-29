@@ -183,17 +183,6 @@
 		
 		</foreach>
 	</update>
-	<select  id="searchCompanyList" parameterType="map" resultMap="companyResultSet" >
-		select  comp_no
-		      , comp_info
-		      , comp_name
-		      , comp_address
-		      , comp_logo
-		   from companys c
-		  where comp_name like '%'||#{keyword}||'%'
-		  order
-		     by created_at desc
-	</select>
 	
 	<select id="selectPositionList"
 			parameterType="_int"
@@ -329,7 +318,7 @@
 	</select>
 	
 	<select id="rankingCompanyList" resultMap="companyResultSet">
-		select rownum,a.*
+		select rownum,a.*, c2.comp_no as subScribed
           from ( select a.*, 
                 (select "num" from 
                 ( select comp_no, count(*) "num" from comp_sub group by comp_no)
@@ -337,6 +326,53 @@
                 from companys a
                 order by sub_count desc nulls last
                 )a
+      left join users u on u.user_no = a.user_no
+      left join (select comp_no from comp_sub where user_no = #{uno}) c2 on a.comp_no = c2.comp_no 
 	</select>
+	
+	<select  id="searchCompList" parameterType="map" resultMap="companyResultSet" >
+		select  c.comp_no
+		      , comp_info
+		      , comp_name
+		      , comp_address
+		      , comp_logo
+		   from companys c
+      left join compindus p on (c.comp_no = p.comp_no)
+          where c.comp_name like '%'||#{keyword}||'%' 
+            and
+        <foreach collection="hList" item="arr" open="(" close=")" separator="or">
+			 c.comp_headcount like '%'||#{hList}||'%'
+		</foreach>
+		    and 
+		 <foreach collection="lList" item="arr" open="(" close=")" separator="or">
+			 c.comp_address like '%'||#{lList}||'%'
+		</foreach> 
+	</select>
+	
+	<select id="searchCompIndusList" parameterType="map" resultMap="companyResultSet">
+		select  c.comp_no
+		      , comp_info
+		      , comp_name
+		      , comp_address
+		      , comp_logo
+              , indus_name
+		   from companys c
+      left join compindus p on (c.comp_no = p.comp_no)
+           join industries i on (p.indus_no = i.indus_no)
+          where c.comp_name like '%'||#{keyword}||'%' 
+            and
+        <foreach collection="hList" item="arr" open="(" close=")" separator="or">
+			 c.comp_headcount like '%'||#{hList}||'%'
+		</foreach>
+		    and 
+		 <foreach collection="lList" item="arr" open="(" close=")" separator="or">
+			 c.comp_address like '%'||#{lList}||'%'
+		</foreach>
+		    and
+		<foreach collection="lList" item="arr" open="(" close=")" separator="or">
+			 i.indus_name like '%'||#{lList}||'%'
+		</foreach>  
+	</select>
+	
 	
 </mapper>

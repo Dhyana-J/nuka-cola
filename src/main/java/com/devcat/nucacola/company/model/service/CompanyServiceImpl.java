@@ -134,8 +134,8 @@ public class CompanyServiceImpl implements CompanyService{
 
 
 
-	public ArrayList<Company> searchCompanyList(PageInfo pi, String keyword) {
-		return cDao.searchCompanyList(sqlSession, pi, keyword);
+	public ArrayList<Company> searchCompanyList(PageInfo pi, String keyword, int uno, String[] hList, String[] lList, String[] iList) {
+		return cDao.searchCompanyList(sqlSession, pi, keyword, uno, hList, lList, iList);
 	}
 
 	@Override
@@ -144,8 +144,8 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public ArrayList<Company> rankingCompanyList(PageInfo pi) {
-		return cDao.rankingCompanyList(sqlSession, pi);
+	public ArrayList<Company> rankingCompanyList(PageInfo pi, int uno) {
+		return cDao.rankingCompanyList(sqlSession, pi, uno);
 	}
 
 

@@ -58,10 +58,10 @@ public interface CompanyService {
 	//9. 구성원 추가
 	int addMember(List<Career> memberList);
 	//7. 기업검색용 서비스
-	ArrayList<Company> searchCompanyList(PageInfo pi, String keyword);
+	ArrayList<Company> searchCompanyList(PageInfo pi, String keyword, int uno, String[] hList, String[] lList, String[] iList);
 	
 	//8. 기업 인기순정렬 서비스
-	ArrayList<Company> rankingCompanyList(PageInfo pi);
+	ArrayList<Company> rankingCompanyList(PageInfo pi, int uno);
 	
 	//7-1. 기업 레코드 갯수
 	int countCompany(String keyword);

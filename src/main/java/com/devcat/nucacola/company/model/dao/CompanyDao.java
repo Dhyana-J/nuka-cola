@@ -118,11 +118,39 @@ public class CompanyDao {
 	}
 
 	//회사 검색
-	public ArrayList<Company> searchCompanyList(SqlSessionTemplate sqlSession, PageInfo pi, String keyword){
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	public ArrayList<Company> searchCompanyList(SqlSessionTemplate sqlSession,PageInfo pi, String keyword, 
+												int uno, String[] hList, String[] lList, String[] iList){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();	
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("companymapper.searchCompanyList", keyword, rowBounds);
+
+		if(iList.length == 0) {   //산업분야 배열이 비어있을 경우
+			// 전달해줘야 할 값들 해쉬맵에 담겨있음
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("keyword",keyword);
+			map.put("uno", uno);
+			for(int i=0; i<hList.length; i++) { 
+				map.put("hList", hList[i]);				
+				}
+			for(int i=0; i<lList.length; i++) {
+				map.put("lList", lList[i]);
+			}
+			return (ArrayList)sqlSession.selectList("companymapper.searchCompList", map, rowBounds);
+			
+		}else {  //산업분야 배열이 있을 경우
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("keyword",keyword);
+			map.put("uno", uno);
+			for(int i=0; i<hList.length; i++) {
+				map.put("hList", hList[i]);				
+				}
+			for(int i=0; i<lList.length; i++) {
+				map.put("lList", lList[i]);
+			}
+			for(int i=0; i<iList.length; i++) {
+				map.put("iList", iList[i]);
+			}
+			return (ArrayList)sqlSession.selectList("companymapper.searchCompIndusList", map, rowBounds);
+		}
 	}
 
 	//회사 레코드 갯수
@@ -132,11 +160,11 @@ public class CompanyDao {
 	}
 	
 	//회사 인기순 정렬
-	public ArrayList<Company> rankingCompanyList(SqlSessionTemplate sqlSession, PageInfo pi){
+	public ArrayList<Company> rankingCompanyList(SqlSessionTemplate sqlSession, PageInfo pi, int uno){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("companymapper.rankingCompanyList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("companymapper.rankingCompanyList",uno, rowBounds);
 	}
 }

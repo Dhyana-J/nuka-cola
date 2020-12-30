@@ -40,6 +40,12 @@
 	
 	</select>
 	
+	<select id="selectApplyCount" resultType="_int" parameterType="_int">
+        select count(*) 
+          from APPLIES 
+         where RECRUIT_NO = #{rno}
+    </select>
+	
 	
 	
 	

@@ -17,7 +17,7 @@ public class RecruitDao {
 
 	public ArrayList<Apply> selectApplyList(SqlSessionTemplate sqlSession, int rno) {
 		
-		return (ArrayList)sqlSession.selectList("applyMapper.selectApplyList", rno);
+		return (ArrayList)sqlSession.selectList("apply-Mapper.selectApplyList", rno);
 	}
 
     public RecruitDetail selectRecruitDetail(SqlSessionTemplate sqlSession, int rno) {
@@ -44,4 +44,8 @@ public class RecruitDao {
 		
 		return sqlSession.selectOne("recruit-mapper.selectCompNo", userNo);
 	}
+    
+    public int selectApplyCount(SqlSessionTemplate sqlSession, int rno) {
+    	return sqlSession.selectOne("apply-mapper.selectApplyCount",rno);
+    }
 }

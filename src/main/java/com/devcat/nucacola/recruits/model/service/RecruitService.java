@@ -33,7 +33,8 @@ public interface RecruitService {
 	
 	// 지원 조회
 		ArrayList<Apply> selectApplyList(int rno);
-		
+		int selectApplyCount(int rno);
+	// 
 		
 	// 채용 등록	
 	int insertRecruit(Recruit re);

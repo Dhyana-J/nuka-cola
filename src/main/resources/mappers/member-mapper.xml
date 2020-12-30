@@ -60,7 +60,7 @@
 		<result column="entered_at" property="enteredAt"/>
 		<result column="created_at" property="createdAt"/>
 	</resultMap>
-	
+
 	
 	<select id="loginMember"
 		    parameterType="Member"
@@ -606,7 +606,33 @@
 	
 	</update>
 	
+	<!-- 검색리스트 스킬 -->
+	<select id="partnerSearchSkill" resultMap="skillResultSet">
+	select skill_no,
+       skill_name
+	from user_fields
+	join skills using(skill_no)
+	order by skill_no
+	</select>
 	
-	
+	<!-- 인기프로필 조회-->
+	<select id="partnerPopularProfile" resultType="_int">
+	<![CDATA[
+	select follower_no
+		from(
+		select follower_no, count(*) num
+		from connections
+		group by follower_no
+		order by num desc)
+		where rownum <=3
+		]]>
+	</select>
+	<!-- 인기프로필정보 조회  -->
+	<select id="partnerPopularInfo"  parameterType="int"  resultMap="memberResultSet">
+	select *
+		from users
+		where user_no in #{p}
+
+	</select>
 	
 </mapper>

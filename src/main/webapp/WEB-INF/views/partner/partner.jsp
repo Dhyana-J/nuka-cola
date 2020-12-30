@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -38,8 +39,8 @@
       <section class="connecting__section content__section-change">
         <div class="inner">
           <div class="connecting__left">
-            <button class="btn btn-blue">프로필 관리</button>
-            <button class="btn">팔로잉/팔로워 관리</button>
+            <button class="btn btn-blue" onclick=' location.href="profile.me?userNo=${loginUser.userNo}"'>프로필 관리</button>
+            <button class="btn" onclick=' location.href="initFollowing.us?userNo=${loginUser.userNo}"'>팔로잉/팔로워 관리</button>
           </div>
 
           <div class="connection__right">
@@ -47,10 +48,17 @@
               <strong>Connecting people</strong>
             </div>
             <div class="connection__content">
+            <input type="hidden" name="Connecting" value="${connecting}">
               <ul class="connection__info">
-                <li name="userPosi">기획자 <div class="circle"><span>20</span></div></li>
-                <li name="userPosi">디자이너<div class="circle"><span>20</span></div></li>
-                <li name="userPosi">개발자<div class="circle"><span>20</span></div></li>
+                <li name="userPosi">기획자 
+                <div class="circle"><span>${connect.get("planner")}</span></div>
+                </li>
+                <li name="userPosi">디자이너
+                <div class="circle"><span>${connect.get("designer")}</span></div>
+                </li>
+                <li name="userPosi">개발자
+                <div class="circle"><span>${connect.get("developer")}</span></div>
+                </li>
               </ul>
             </div>
           </div>
@@ -70,11 +78,12 @@
                     <option value="0">기획자</option>
                     <option value="2">디자이너</option>
                   </select>
-                  <select name="user_fields">
-                    <option hidden selected>활동분야</option>
-                    <option value="skillNo">JAVA</option>
-                    <option value="">React</option>
-                    <option value="">JavaScript</option>
+                  <select class="skillNo" name="skillNo">
+                    <option hidden>활동분야</option>
+                  <c:forEach var="skill" items="${skill}">
+
+                    <option value="${skill.skillNo}">${skill.skillName}</option>
+                  </c:forEach>
                   </select>
                   <input name="user_edu" type="search" placeholder="학교명">
                 </div>
@@ -200,35 +209,50 @@
                       <h2>인기 프로필</h2>
                     </div> -->
                     <!-- 인기프로필 for문 -->
+                    <c:forEach var="p" items="${popular}">
+                    <input type="hidden" name="userNo" vlaue="${p.userNo}">
                     <div class="search_result">
                       <div class="result__left">
                         <div class="avatar">
-                          <img src="../../assets/avatar.png" alt="" />
+                          <c:choose>
+                          <c:when test="${empty p.userAvatar}">
+                          <img src="resources/assets/conn.png" alt="" />
+                          </c:when>
+                          <c:otherwise>
+                          <img src="${p.userAvatar}" alt="" />
+                          </c:otherwise>
+                          </c:choose>
                         </div>
                         <ul class="avatar__info">
-                          <li><strong>홍길동</strong></li>
-                          <li>MicroSoft, ceo</li>
+
+                          <li><strong>${p.userName}</strong></li>
+
+                          <c:choose>
+                          <c:when test="${empty p.userComp}">
+                          <li>${p.userEdu}</li>
+                          </c:when>
+                          <c:otherwise>
+                          <li>${p.userComp}</li>
+                          </c:otherwise>
+                          </c:choose>
+
+
+                          <c:if test="${p.userPosi ==0}">
                           <li>기획자</li>
+                          </c:if>
+                          <c:if test="${p.userPosi ==1}">
+                          <li>개발자</li>
+                          </c:if>
+                          <c:if test="${p.userPosi ==2}">
+                          <li>디자이너</li>
+                          </c:if>
                         </ul>
                       </div>
                       <div class="result__right">
                         <button class="btn">팔로우</button>
                       </div>
                     </div>  
-                    <div class="search_result">
-                      <div class="result__left">
-                        <div class="avatar">
-                          <img src="../../assets/avatar.png" alt="" />
-                        </div>
-                        <ul class="avatar__info">
-                          <li><strong>홍길동</strong></li>
-                          <li>MicroSoft, ceo</li>
-                          <li>기획자</li>
-                        </ul>
-                      </div>
-                      <div class="result__right">
-                        <button class="btn">팔로우</button>
-                      </div>
+                    </c:forEach>
                     <!-- for문 -->
                   </div>
                 </div>

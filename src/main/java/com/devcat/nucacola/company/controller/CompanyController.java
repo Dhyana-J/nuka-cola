@@ -71,6 +71,7 @@ public class CompanyController {
 				@RequestParam(value="currentPage", defaultValue="1") int currentPage,HttpSession session
 	){
 		Member m = (Member) session.getAttribute("loginUser");
+		
 		int uno = m.getUserNo();
 		
 				System.out.println(currentPage);
@@ -564,7 +565,9 @@ public class CompanyController {
 	// 프로필의 채용공고(진행중, 진행완료)
 	@RequestMapping("recruit.co")
 	public String profileRecruit(@RequestParam(value="currentPage", defaultValue="1") int currentPage
-								 ,Company c, Model model) {
+								 ,int cno, Model model) {
+		Company c = new Company();
+		c.setCompNo(cno);
 		int INGcount = cService.INGcount(c);
 		PageInfo pi = Pagination.getPageInfo(INGcount, currentPage,1,4);
 		ArrayList<Recruit> rlist1 = cService.selectCompanyRecruitING(c,pi);
@@ -594,6 +597,7 @@ public class CompanyController {
 		return "company/companyProfileRecruit";
 	}
 	
+	// 진행중인 공고 로드
 	@ResponseBody
 	@RequestMapping(value="recruitINGLoad.co",produces="application/json;charset=utf-8")
 	public HashMap<String, Object> recruitLoadING(@RequestParam(value="currentPage", defaultValue="1") int currentPage
@@ -621,6 +625,7 @@ public class CompanyController {
 		return result;
 	}
 	
+	//진행완료인 공고로드
 	@ResponseBody
 	@RequestMapping(value="recruitENDLoad.co",produces="application/json;charset=utf-8")
 	public HashMap<String, Object> recruitLoadEND(@RequestParam(value="currentPage", defaultValue="1") int currentPage

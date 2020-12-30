@@ -489,7 +489,56 @@
     		  	 	addSubscribe()
     		 	 })
     	  });
-    
+   // axios로 키워드, 배열들  담아 controller로 넘기기 기업검색
+      document.querySelector("#search-button").addEventListener("click", () => {
+    	
+    	  const keyword = document.querySelector("#keyword-search").value;   	  
+   
+    	  
+    	  let hTagList =document.querySelectorAll(".headcount-text");
+    	  let lTagList =document.querySelectorAll(".local-text");
+    	  let iTagList =document.querySelectorAll(".indus-text");
+    	  
+    	  
+    	  let headcountList = "";
+    	  let localList = "";
+    	  let indusList = "";
+    	  
+    	  hTagList.forEach(c => {
+    		  headcountList += c.innerText +" "
+    	  })
+    	  
+    	  lTagList.forEach(c => {
+    		  localList += c.innerText +" "
+    	  })
+    	  
+    	  iTagList.forEach(i => {
+    		  indusList += i.innerText +" "
+    	  })
+    	  
+    		  axios.get('search.co', {
+    			  params: { /*keyword, 구성원, 지역, 산업분야 리스트 넘기기*/
+    				  keyword : keyword,
+    				  headcountList : headcountList,
+    				  localList : localList,
+    				  indusList : indusList
+    			  }
+    		  })
+    		  .then((res) =>{		 
+    			  
+    			  
+    			  var header = document.querySelector(".section__result__detail");
+				  var body = document.querySelector(".section__search-result");
+				  
+				  document.querySelectorAll('.section__result__detail').forEach(v=>v.remove())
+				  
+				  res.data.forEach(v=>{
+					  
+    				  makeElement(v);
+    			 })
+    		  	 	addSubscribe()
+    		 	 })
+    	  });
     
     
     //infinite scroll

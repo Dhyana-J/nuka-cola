@@ -224,22 +224,34 @@ public class CompanyController {
 	//기업검색
 	@ResponseBody
 	@RequestMapping(value="/search.co", produces="application/json; charset=utf-8")
-	public String list( // RequestParam으로 키워드,페이지의 기본값을 설정해둔다.
-			String keyword, Model model,
+	public String searchCompanyList( // RequestParam으로 키워드,페이지의 기본값을 설정해둔다.
+			String keyword, String headcountList, String localList, String indusList,
+			HttpSession session,Model model,
 			@RequestParam(defaultValue="1", value="currentPage") int currentPage) throws Exception{
-		
-		//레코드 개수를 계산
-		int count = cService.countCompany(keyword);
-		
+
 		System.out.println(keyword);
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		//넘어온 것들을  배열에 담아줌
+		String[] hList = headcountList.split(" ");
+		String[] lList = localList.split(" ");
+		String[] iList = indusList.split(" ");
 		
+	    System.out.println(hList[0]);		
+		System.out.println(lList[0]);
+		System.out.println(iList[0]);
+				
+		//map에 저장하기 위해 list를 만들어 키워드를 저s장
 		//페이지 관련 설정
-		PageInfo pi = Pagination.getPageInfo(count, currentPage, 10, 15);
+		int listCount = cService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
+		ArrayList<Company> list = cService.searchCompanyList(pi, keyword, uno, hList, lList, iList);
+
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
 		
-		//map에 저장하기 위해 list를 만들어 키워드를 저장
-		ArrayList<Company> list = cService.searchCompanyList(pi, keyword);
+		return "/company/companyListView";
 		
-		return new Gson().toJson(list);
 		
 		
 		/*
@@ -261,11 +273,16 @@ public class CompanyController {
 	//기업 인기순 정렬
 	@RequestMapping("sortRanking.co")
 	public String rankingCompanyList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-			Model model)
+			HttpSession session, Model model)
 	{
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
-		ArrayList<Company> list = cService.rankingCompanyList(pi);
+		
+		Member m = (Member) session.getAttribute("loginUser");
+		int uno = m.getUserNo();
+		
+		
+		ArrayList<Company> list = cService.rankingCompanyList(pi ,uno);
 		//System.out.println(list);
 		
 		model.addAttribute("pi", pi);

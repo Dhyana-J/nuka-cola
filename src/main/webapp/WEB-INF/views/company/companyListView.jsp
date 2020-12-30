@@ -246,7 +246,10 @@
     	let localSelect = document.querySelector("#local-list");
     	let indusSelect = document.querySelector("#indus-list")
     
-    	let TagList = [];
+    	let hTagList = []; //구성원태그
+    	let lTagList = []; //로컬태그
+    	let iTagList = []; //산업분야태그
+     
     	const TAG_LS = "tag";
     	
    	// 구성원 선택 시 option 값 담아주기
@@ -254,9 +257,9 @@
     	
     	tagList = document.querySelector(".tag-field");
     	
-    	let tagName = countSelect.options[countSelect.selectedIndex].text;
+    	let htagName = countSelect.options[countSelect.selectedIndex].text;
     	
-    	createTag(tagName);
+    	createCountTag(htagName);
     	
     	let headcount = document.querySelectorAll(".tag-field");
     	let headcountList = "";
@@ -270,9 +273,9 @@
     	
     	tagList = document.querySelector(".tag-field");
     	
-    	let tagName = localSelect.options[localSelect.selectedIndex].text;
+    	let ltagName = localSelect.options[localSelect.selectedIndex].text;
     	
-    	createTag(tagName);
+    	createLocalTag(ltagName);
     	
     	let headcount = document.querySelectorAll(".tag-field");
     	let headcountList = "";
@@ -287,9 +290,9 @@
     	
     	tagList = document.querySelector(".tag-field");
     	
-    	let tagName = indusSelect.options[indusSelect.selectedIndex].text;
+    	let itagName = indusSelect.options[indusSelect.selectedIndex].text;
     	
-    	createTag(tagName);
+    	createIndusTag(itagName);
     	
     	let headcount = document.querySelectorAll(".tag-field");
     	let headcountList = "";
@@ -299,37 +302,111 @@
     })
      
     const saveTag = () => {
-			localStorage.setItem(TAG_LS, JSON.stringify(TagList)); // 자바스크립트object를 string으로 변환
+			localStorage.setItem(TAG_LS, JSON.stringify(hTagList)); // 자바스크립트object를 string으로 변환
+			localStorage.setItem(TAG_LS, JSON.stringify(lTagList)); // 자바스크립트object를 string으로 변환
+			localStorage.setItem(TAG_LS, JSON.stringify(iTagList)); // 자바스크립트object를 string으로 변환
 		}
     
-    // 태그 생성용 함수
-    const createTag = (tagName) => {
+    // 태그 생성용 함수 (headcountList)
+    const createCountTag = (htagName) => {
     	
     	const searchSpan = document.createElement("span");
     	const delIcon = document.createElement("span");
+    	const textSpan = document.createElement("span");
     	
     	searchSpan.className = "search-span";
+    	textSpan.className = "headcount-text";
     	delIcon.innerText = "clear";
     	delIcon.className = "material-icons";
-    	searchSpan.innerText = tagName;
+    	textSpan.innerText = htagName;
 		
-    	const newId = TagList.length + 1;
+    	const newId = hTagList.length + 1;
     	
     	
     	delIcon.addEventListener("click", deleteTag);
     	tagList.appendChild(searchSpan);
+    	searchSpan.appendChild(textSpan);
     	searchSpan.appendChild(delIcon);
  		searchSpan.id = newId;
     	
     	const TagObj = {
-    		keyword : tagName,	
+    		keyword : htagName,	
     		id : newId
     	};
     	
-    	TagList.push(TagObj);
+    	hTagList.push(TagObj);
     	saveTag();
     	
-    	console.log(TagList);
+    	console.log(hTagList);
+    	
+	}
+    
+	 // 태그 생성용 함수 (localList)
+	    const createLocalTag = (ltagName) => {
+	    	
+	    	const searchSpan = document.createElement("span");
+	    	const delIcon = document.createElement("span");
+	    	const textSpan = document.createElement("span");
+	    	
+	    	searchSpan.className = "search-span";
+	    	textSpan.className = "local-text";
+	    	delIcon.innerText = "clear";
+	    	delIcon.className = "material-icons";
+	    	textSpan.innerText = ltagName;
+			
+	    	const newId = lTagList.length + 1;
+	    	
+	    	
+	    	delIcon.addEventListener("click", deleteTag);
+	    	tagList.appendChild(searchSpan);
+	    	searchSpan.appendChild(textSpan);
+	    	searchSpan.appendChild(delIcon);
+	 		searchSpan.id = newId;
+	    	
+	    	const TagObj = {
+	    		keyword : ltagName,	
+	    		id : newId
+	    	};
+	    	
+	    	lTagList.push(TagObj);
+	    	saveTag();
+	    	
+	    	console.log(lTagList);
+	    	
+		}
+    
+    
+	 // 태그 생성용 함수 (indusList)
+    const createIndusTag = (itagName) => {
+    	
+    	const searchSpan = document.createElement("span");
+    	const delIcon = document.createElement("span");
+    	const textSpan = document.createElement("span");
+    	
+    	searchSpan.className = "search-span";
+    	textSpan.className = "indus-text";
+    	delIcon.innerText = "clear";
+    	delIcon.className = "material-icons";
+    	textSpan.innerText = itagName;
+		
+    	const newId = iTagList.length + 1;
+    	
+    	
+    	delIcon.addEventListener("click", deleteTag);
+    	tagList.appendChild(searchSpan);
+    	searchSpan.appendChild(textSpan);
+    	searchSpan.appendChild(delIcon);
+ 		searchSpan.id = newId;
+    	
+    	const TagObj = {
+    		keyword : itagName,	
+    		id : newId
+    	};
+    	
+    	iTagList.push(TagObj);
+    	saveTag();
+    	
+    	console.log(iTagList);
     	
 	}
     
@@ -344,24 +421,107 @@
     	tagList.removeChild(searchSpan);
 		
     	/*삭제시 list에서 제거*/
-		const cleanTag = TagList.filter(function(tagfilter) {
+		const cleanhTag = hTagList.filter(function(tagfilter) {
 			return tagfilter.id !== parseInt(searchSpan.id);
 		});
-		TagList = cleanTag;
+		const claenlTag = lTagList.filter(function(tagfilter) {
+			return tagfilter.id !== parseInt(searchSpan.id);
+		});
+    	const cleaniTag = iTagList.filter(function(tagfilter) {
+			return tagfilter.id !== parseInt(searchSpan.id);
+		});
+		hTagList = cleanhTag;
+		lTagList = claenlTag;
+		iTagList = cleaniTag;
 		saveTag();
 		
     }
     
 
     
-    // axios로 키워드  담아 controller로 넘기기 기업검색
+    // axios로 키워드, 배열들  담아 controller로 넘기기 기업검색
       document.querySelector("#keyword-search").addEventListener("keyup", () => {
     	
     	  const keyword = document.querySelector("#keyword-search").value;   	  
-    	  /*keyword넘기기*/
+   
+    	  
+    	  let hTagList =document.querySelectorAll(".headcount-text");
+    	  let lTagList =document.querySelectorAll(".local-text");
+    	  let iTagList =document.querySelectorAll(".indus-text");
+    	  
+    	  
+    	  let headcountList = "";
+    	  let localList = "";
+    	  let indusList = "";
+    	  
+    	  hTagList.forEach(c => {
+    		  headcountList += c.innerText +" "
+    	  })
+    	  
+    	  lTagList.forEach(c => {
+    		  localList += c.innerText +" "
+    	  })
+    	  
+    	  iTagList.forEach(i => {
+    		  indusList += i.innerText +" "
+    	  })
+    	  
     		  axios.get('search.co', {
-    			  params: {
-    				  keyword : keyword
+    			  params: { /*keyword, 구성원, 지역, 산업분야 리스트 넘기기*/
+    				  keyword : keyword,
+    				  headcountList : headcountList,
+    				  localList : localList,
+    				  indusList : indusList
+    			  }
+    		  })
+    		  .then((res) =>{		 
+    			  
+    			  
+    			  var header = document.querySelector(".section__result__detail");
+				  var body = document.querySelector(".section__search-result");
+				  
+				  document.querySelectorAll('.section__result__detail').forEach(v=>v.remove())
+				  
+				  res.data.forEach(v=>{
+					  
+    				  makeElement(v);
+    			 })
+    		  	 	addSubscribe()
+    		 	 })
+    	  });
+   // axios로 키워드, 배열들  담아 controller로 넘기기 기업검색
+      document.querySelector("#search-button").addEventListener("click", () => {
+    	
+    	  const keyword = document.querySelector("#keyword-search").value;   	  
+   
+    	  
+    	  let hTagList =document.querySelectorAll(".headcount-text");
+    	  let lTagList =document.querySelectorAll(".local-text");
+    	  let iTagList =document.querySelectorAll(".indus-text");
+    	  
+    	  
+    	  let headcountList = "";
+    	  let localList = "";
+    	  let indusList = "";
+    	  
+    	  hTagList.forEach(c => {
+    		  headcountList += c.innerText +" "
+    	  })
+    	  
+    	  lTagList.forEach(c => {
+    		  localList += c.innerText +" "
+    	  })
+    	  
+    	  iTagList.forEach(i => {
+    		  indusList += i.innerText +" "
+    	  })
+    	  
+    		  axios.get('search.co', {
+    			  params: { /*keyword, 구성원, 지역, 산업분야 리스트 넘기기*/
+    				  keyword : keyword,
+    				  headcountList : headcountList,
+    				  localList : localList,
+    				  indusList : indusList
     			  }
     		  })
     		  .then((res) =>{		 
@@ -381,7 +541,6 @@
     	  });
     
     
-    
     //infinite scroll
    	let currentPageNum = 2;
     window.addEventListener('scroll',()=>{
@@ -396,15 +555,15 @@
           })
           .then((res)=>{
         	console.log(res.data);
-        	addSubscribe()
+        	addSubscribe();
         	res.data.forEach(v=>{
         		makeElement(v);
         	})
             document.querySelector('#search-result-length').innerText = "검색결과("+ document.querySelectorAll('.section__result__detail').length +")"
-            addSubscribe()
+            addSubscribe();
           })
       	}
     })
-		addSubscribe()
+		addSubscribe();
   </script>
 </html>

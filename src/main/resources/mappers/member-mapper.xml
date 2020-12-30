@@ -610,8 +610,7 @@
 	<select id="partnerSearchSkill" resultMap="skillResultSet">
 	select skill_no,
        skill_name
-	from user_fields
-	join skills using(skill_no)
+	from skills
 	order by skill_no
 	</select>
 	

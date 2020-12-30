@@ -249,7 +249,7 @@
 			from recruits r
 			join companys c using(comp_no)
 			where comp_no=#{compNo} and
-			to_date(RECRUIT_DL,'MM/DD/YYYY')>=to_char(sysdate,'YYYY-MM-DD')
+			to_date(RECRUIT_DL,'MM/DD/YYYY')>to_char(sysdate,'YYYY-MM-DD')
 	</select>
 	
 	<!-- 진행완료인 채용공고 총갯수 -->
@@ -257,7 +257,7 @@
 	select count(*)
 		from recruits
 		where comp_no=#{compNo} and
-		to_char(sysdate,'YYYY-MM-DD')>to_date(RECRUIT_DL,'MM/DD/YYYY')
+		to_char(sysdate,'YYYY-MM-DD')>=to_date(RECRUIT_DL,'MM/DD/YYYY')
 	</select>
 	
 	<!-- 진행완료인 채용공고리스트 -->
@@ -282,9 +282,10 @@
 			from recruits r
 			join companys c using(comp_no)
 			where comp_no=#{compNo} and
-			to_char(sysdate,'YYYY-MM-DD')>to_date(RECRUIT_DL,'MM/DD/YYYY')
+			to_char(sysdate,'YYYY-MM-DD')>=to_date(RECRUIT_DL,'MM/DD/YYYY')
 	</select>
 	
+	<!-- 채용공고 관련분야 -->
 	<select id="CompanyRecruitSkills" parameterType="Company" resultMap="RecruitResultSet">
 	select
 		LISTAGG(skill_name,',')within group(order by skill_no) skillName, recruit_no
@@ -294,6 +295,13 @@
 		where comp_no=#{compNo}
 		group by recruit_no
 	</select>
+	
+	<!-- 채용마감처리 -->
+	<update id="deadlineBtn" parameterType="_int">
+	update recruits 
+	set recruit_dl=to_char(sysdate, 'MM/DD/YYYY') 
+	where recruit_no=#{rno}
+	</update>
 
 	<update id="updateCompanyProfileInfo" parameterType="Company">
 	

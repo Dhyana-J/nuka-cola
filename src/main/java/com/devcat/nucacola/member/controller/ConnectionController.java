@@ -50,6 +50,7 @@ public class ConnectionController {
 		connect.put("developer",developer);
 		//활동분야
 		ArrayList<Skills> skill = mService.partnerSearchSkill();
+		System.out.println(skill);
 		//인기 프로필
 		List<Integer> popularNo = mService.partnerPopularProfile();
 		System.out.println(popularNo);

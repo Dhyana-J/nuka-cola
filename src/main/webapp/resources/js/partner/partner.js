@@ -16,20 +16,29 @@ let userPosiText=""; // userPosi변수에 선택한 옵션의 text를 저장
 });
 
 //skillNo(select)선택
-const skillList = document.querySelector('.skillNo');
-let skillNo=[];
-let skillText=[]; // userPosi변수에 선택한 옵션의 text를 저장
+      const skillList = document.querySelector('.skillNo');
+      let skillNo=[];
+      let skillText=[]; // userPosi변수에 선택한 옵션의 text를 저장
 
- skillList.addEventListener('change',()=>{
-  //활동분야 value -> controller보내기
- let value=parseInt(skillList.options[skillList.selectedIndex].value);
-  //활동분야 태그의 text
- let text=skillList.options[skillList.selectedIndex].innerText;
- skillText.push(text);
- skillNo.push(value);
- console.log(skillText);
- console.log(skillNo);
-});
+       skillList.addEventListener('change',()=>{
+        //활동분야 value -> controller보내기
+       let value=parseInt(skillList.options[skillList.selectedIndex].value);
+        //활동분야 태그의 text
+       let text=skillList.options[skillList.selectedIndex].innerText;
+
+
+    		 skillNo.forEach=(function(v,text,value){
+    			 if(v == value ){
+    			 }else{
+    			  skillText.push(text);
+    			  skillNo.push(value);
+    			 }
+    		 });
+
+       console.log(skillText);
+       console.log(skillNo);
+      	
+      });
 
 
 //

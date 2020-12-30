@@ -1,7 +1,10 @@
+ 
   const recruitItem1 =(v,i)=>{
   	const itemList = document.querySelector('.employ__box__ing');
   	const recruitItemBox = document.createElement('div');
   		recruitItemBox.className='content__wrapper';
+    const contentLeft = document.createElement('div');
+  		contentLeft.className='content__left';
   	const recruitNo = document.createElement('input');
 		recruitNo.type='hidden';
 		recruitNo.name='recruitNo';
@@ -39,17 +42,26 @@
   		date.className='date';
   	const dateSpan = document.createElement('span');
   		dateSpan.innerText = v.createdAt;
-  		
+    const contentRight = document.createElement('div');
+  		contentRight.className='content__right';	
+  	const deadLine = document.createElement('button');
+  		deadLine.className='deadlineBtn';
+  		deadLine.innerText='마감처리';
   	content.appendChild(contentTextStrong);
   	console.log(content);
   	ItemText.appendChild(title);
   	ItemText.appendChild(content);
   	ItemText.appendChild(recruit);
   	date.appendChild(dateSpan);	
-  	recruitItemBox.appendChild(recruitNo);
-  	recruitItemBox.appendChild(ItemText);
-  	recruitItemBox.appendChild(skillBox);
-  	recruitItemBox.appendChild(date);
+
+  	
+  	contentLeft.appendChild(recruitNo);
+  	contentLeft.appendChild(ItemText);
+  	contentLeft.appendChild(skillBox);
+  	contentLeft.appendChild(date);
+  	contentRight.appendChild(deadLine);
+  	recruitItemBox.appendChild(contentLeft);
+  	recruitItemBox.appendChild(contentRight);
 	itemList.appendChild(recruitItemBox);
   }
   
@@ -110,38 +122,99 @@
       }
   
 
+
+	let href =()=>{
+	  		 const ingBox1 = document.querySelector('.employ__box__ing');
+				 ingBox1.querySelectorAll('.content__left').forEach((v,i)=>{
+		              v.addEventListener('click',()=>{
+			              let rno = v.querySelector('.recruit-no').value;
+			              console.log(rno);
+			              location.href="detail.re?rno="+rno;
+			         	 
+		         	    });
+		    	      });
+			const ingBox2 = document.querySelector('.employ__box__end');
+				 ingBox2.querySelectorAll('.content__left').forEach((v,i)=>{
+		              v.addEventListener('click',()=>{
+			              let rno = v.querySelector('.recruit-no').value;
+			              console.log(rno);
+			             location.href="detail.re?rno="+rno;
+			         	 
+		         	    });
+		    	      });		
+	  }
+	  
+	  // 마감처리 버튼 클릭시
+  let deadlineBtn =()=>{
+		 const btnBox = document.querySelector('.employ__box__ing');
+			 btnBox.querySelectorAll('.deadlineBtn').forEach((v,i)=>{
+	              v.addEventListener('click',()=>{
+	              let rno = document.querySelectorAll('.recruit-no')[i].value;
+	              rno = parseInt(rno);
+	              console.log(rno);
+	              	  if(confirm("현재 공고를 마감하시겠습니까?")==true){
+	              	  	 axios.get('deadlineProcess.co', {
+					        params: {
+					          rno:rno
+					        }
+					      }) .then((result)=>{
+					      		if(result.data==1){
+					      		alert("마감처리되었습니다.");
+								recruitINGLoad();
+								recruitENDLoad();
+					          }else{
+					          	alert("마감처리 실패!");
+					          }
+					
+					        }).catch(function(error){
+					      	  console.log(error);
+					        })
+					        
+					      }else{
+			              	  return;
+					      }})
+	              	 
+	              	  })
+		}
+		
+
   
-  <!-- 진행중인 채용공고 load-->
-  const IngMoreBtn1= document.querySelector('.more1');
-  console.log(IngMoreBtn1);
-  let pi1 = document.querySelector('.pi1').value;
-  pi1 = parseInt(pi1);
-  console.log(pi1);
-  let currentPageNum1 = 1;
-  const cno = document.querySelector('.nowCno').value;
-  IngMoreBtn1.addEventListener('click',()=>{ 
-
- 
-  axios.get('recruitINGLoad.co', {
-        params: {
-          currentPage: ++currentPageNum1,
-          compNo:cno
-        }
-      }) .then((result)=>{
-
-          result.data["rlist1"].forEach((v) => {
-        	console.log(currentPageNum1);
-        	disabledBtn1();
-          recruitItem1(v, result.data["skillMap"][v.recruitNo]);
-          });
-
-        }).catch(function(error){
-      	  console.log(error);
-        })
-        .then(function(){
-        	  href();
-        })
-      })
+ href();
+  
+  <!-- 진행중인 채용공고 load--> 
+   const IngMoreBtn1= document.querySelector('.more1');
+	  console.log(IngMoreBtn1);
+	  let pi1 = document.querySelector('.pi1').value;
+	  pi1 = parseInt(pi1);
+	  console.log(pi1);
+	  let currentPageNum1 = 1;
+  const recruitINGLoad =()=>{
+	  const cno = document.querySelector('.nowCno').value;
+	  IngMoreBtn1.addEventListener('click',()=>{ 
+	
+	 
+	  axios.get('recruitINGLoad.co', {
+	        params: {
+	          currentPage: ++currentPageNum1,
+	          compNo:cno
+	        }
+	      }) .then((result)=>{
+	
+	          result.data["rlist1"].forEach((v) => {
+	        	console.log(currentPageNum1);
+	        	disabledBtn1();
+	          recruitItem1(v, result.data["skillMap"][v.recruitNo]);
+	          });
+	
+	        }).catch(function(error){
+	      	  console.log(error);
+	        })
+	        .then(function(){
+	        	  href();
+	        })
+	      })
+    }
+    
       
    let disabledBtn1 =()=>{
 		if(currentPageNum1 >= pi1){
@@ -150,79 +223,65 @@
 		 IngMoreBtn1.style.color="#30409f";
 		}
 	}     
-      
-
-      
-  <!-- 진행완료인 채용공고 load-->   
-  const IngMoreBtn2= document.querySelector('.more2');
-  console.log(IngMoreBtn2);
-  let pi2 = document.querySelector('.pi2').value;
-  pi2 = parseInt(pi2);
-  console.log("pi2:"+pi2);
-  let currentPageNum2 = 1;
-  console.log("currentPageNum2:"+ currentPageNum2);
-  IngMoreBtn2.addEventListener('click',()=>{ 
-  
-  
-  axios.get('recruitENDLoad.co', {
-        params: {
-          
-          currentPage: ++currentPageNum2,
-          compNo:cno
-        }
-      }) .then((result)=>{
-    	  
-    	  
-          result.data["rlist2"].forEach((v) => {
-        	console.log(currentPageNum2);
-        	disabledBtn2();
-          recruitItem2(v, result.data["skillMap"][v.recruitNo]);
-          });
-
-        }).catch(function(error){
-      	  console.log(error);
-        })
-        .then(function(){
-        	  href();
-        })
-      })
-
 	
-  let href =()=>{
-  		 const ingBox1 = document.querySelector('.employ__box__ing');
-			 ingBox1.querySelectorAll('.content__wrapper').forEach((v,i)=>{
-	              v.addEventListener('click',()=>{
-		              let rno = v.querySelector('.recruit-no').value;
-		              console.log(rno);
-		              location.href="detail.re?rno="+rno;
-		         	 
-	         	    });
-	    	      });
-		const ingBox2 = document.querySelector('.employ__box__end');
-			 ingBox2.querySelectorAll('.content__wrapper').forEach((v,i)=>{
-	              v.addEventListener('click',()=>{
-		              let rno = v.querySelector('.recruit-no').value;
-		              console.log(rno);
-		             location.href="detail.re?rno="+rno;
-		         	 
-	         	    });
-	    	      });		
-  }
+   <!-- 진행완료인 채용공고 load-->      
+  const IngMoreBtn2= document.querySelector('.more2');
+	  console.log(IngMoreBtn2);
+	  let pi2 = document.querySelector('.pi2').value;
+	  pi2 = parseInt(pi2);
+	  console.log("pi2:"+pi2);
+	  let currentPageNum2 = 1;
+      
+ 
+   const recruitENDLoad =()=>{ 
+	  
+	  console.log("currentPageNum2:"+ currentPageNum2);
+	  console.log(IngMoreBtn2);
+	  IngMoreBtn2.addEventListener('click',()=>{ 
+	  
+	  
+	  axios.get('recruitENDLoad.co', {
+	        params: {
+	          
+	          currentPage: ++currentPageNum2,
+	          compNo:cno
+	        }
+	      }) .then((result)=>{
+	    	  
+	    	  
+	          result.data["rlist2"].forEach((v) => {
+	        	console.log(currentPageNum2);
+	        	disabledBtn2();
+	          recruitItem2(v, result.data["skillMap"][v.recruitNo]);
+	          });
+	
+	        }).catch(function(error){
+	      	  console.log(error);
+	        })
+	        .then(function(){
+	        	  href();
+	        })
+	      })
+
+	}
   
   
 	
 
 	const disabledBtn2 =()=> {
-		if(currentPageNum2 >=pi2){
+	  if(currentPageNum2 >=pi2){
 		IngMoreBtn2.disabled=true;
 		IngMoreBtn2.style.background="#e5e5e5";
 		IngMoreBtn2.style.color="#30409f";
-		}
+	  }
 	}
   
+  deadlineBtn();
   disabledBtn1();
   disabledBtn2();
-  href();
+  recruitINGLoad();
+  recruitENDLoad();
+  
 
   
   

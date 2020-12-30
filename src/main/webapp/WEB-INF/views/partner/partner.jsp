@@ -81,7 +81,6 @@
                   <select class="skillNo" name="skillNo">
                     <option hidden>활동분야</option>
                   <c:forEach var="skill" items="${skill}">
-
                     <option value="${skill.skillNo}">${skill.skillName}</option>
                   </c:forEach>
                   </select>
@@ -265,9 +264,11 @@
 
       <!-- 푸터 포함 -->
       <jsp:include page="../common/footer.jsp"/>
-      <script defer src="resources/js/partner/partner.js"></script>
-      
+      <script src="resources/js/partner/partner.js"></script> 
       <script defer>
+      
+    
+      
       
         'use strict'
         

@@ -84,18 +84,30 @@
     gap:20px;
 
   }
-  .content__wrapper .employ__box__info{
+  .employ__box__ing .content__wrapper {
+    display:flex;
+    flex-direction:row;
+  }
+
+  .content__wrapper .content__left{
+    flex:9;
     display: flex;
     flex-direction: column;
     gap:5px;
   }
+   .content__left .employ__box__info{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+  }
+
   .employ__box__info li{
       font-size: 16px;
       color: #000;
   }
 
-  .content__wrapper .tag__box{
-
+  .content__left .tag__box{
+	margin:10px 0px;
   }
   .tag__box .tag{
     padding: 2px 15px 5px;
@@ -104,8 +116,24 @@
     background-color: #30409f;
     color: #fff;
   }
+  .content__wrapper .content__right{
+    flex:1;
+    display:flex;
+    align-items:center;
+  }
+  .content__right .deadlineBtn{
+  	background-color:rgb(216, 92, 92);
+  	color:white;
+  	font-size:16px;
+  }
+    .content__right .deadlineBtn:hover{
+  	background-color:rgb(216, 92, 92);
+  	color:fff;
+  	font-size:16px;
+  }
 .member_btn{
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
   }
+

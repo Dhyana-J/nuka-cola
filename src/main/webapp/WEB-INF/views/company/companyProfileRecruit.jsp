@@ -49,9 +49,9 @@
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li onclick='location.href="profileMain.co?cno=${cno}"'>ABOUT</li>
-            <li class="nav-active">채용</li>
-            <li>구성원</li>
+            <li onclick='location.href="profileMain.co?cno=${c.compNo}"'>ABOUT</li>
+            <li class="nav-active" onclick='location.href="recruit.co?cno=${c.compNo}"'>채용</li>
+            <li><a href="profileMember.co?cno=${c.compNo }&currentPage=1">구성원</a></li>
           </ul>
         </div>
         <div class="main__main__section">
@@ -66,34 +66,41 @@
               </div>
           <div id ="employ__box__ing" class="main__section__right">
           <input type="hidden" class="pi1" value="${pi1.maxPage}">
-          <input type="hidden" class="nowCno" value="${cno}">
+          <input type="hidden" class="nowCno" value="${c.compNo}">
             <div class="employ__box__ing">
               <h2>진행중</h2>
               <!-- 진행중인 채용공고 for(문) -->
               <c:forEach var="rING" items="${rlist1}">
               <div class="content__wrapper">
-              <input type="hidden" class="recruit-no" name="recruitNo" value="${rING.recruitNo}">
-                <ul class="employ__box__info">
-                  <li>${rING.compName}</li>
-                  <li><strong>${rING.recruitTitle}</strong></li>
-                  <c:if test="${rING.recruitRequ eq '0'}">
-		                  <li>신입</li>
-		          </c:if>
-		          <c:if test="${rING.recruitRequ eq '1'}">
-		                  <li>경력</li>
-		          </c:if>
-		          <c:if test="${rING.recruitRequ eq '2'}">
-		                  <li>경력 신입</li>
-		          </c:if>
-                </ul>
-                <div class="tag__box">
-                  <c:forEach var="skills" items="${skillMap.get(rING.recruitNo)}">
-			             <span class="tag">${skills}</span>
-				  </c:forEach>
-                </div>
-                <div class="date">
-                  <span>${rING.createdAt}</span>
-                </div>
+	              <div class="content__left">
+		              <input type="hidden" class="recruit-no" name="recruitNo" value="${rING.recruitNo}">
+		                <ul class="employ__box__info">
+		                  <li>${rING.compName}</li>
+		                  <li><strong>${rING.recruitTitle}</strong></li>
+		                  <c:if test="${rING.recruitRequ eq '0'}">
+				                  <li>신입</li>
+				          </c:if>
+				          <c:if test="${rING.recruitRequ eq '1'}">
+				                  <li>경력</li>
+				          </c:if>
+				          <c:if test="${rING.recruitRequ eq '2'}">
+				                  <li>경력 신입</li>
+				          </c:if>
+		                </ul>
+		                <div class="tag__box">
+		                  <c:forEach var="skills" items="${skillMap.get(rING.recruitNo)}">
+					             <span class="tag">${skills}</span>
+						  </c:forEach>
+		                </div>
+		                <div class="date">
+		                  <span>${rING.createdAt}</span>
+		                </div>
+		          </div>
+		           <div class="content__right">
+
+		           <button type="button" class="deadlineBtn">마감처리</button>
+
+		           </div>
               </div>
 			  </c:forEach>
               <!-- 진행중인 채용공고for문 -->
@@ -102,7 +109,7 @@
             
               <div class="member_btn">
                 <c:if test="${empty rlist1}">
-                
+                	<button class="more1 none_btn ">more</button>
 	            </c:if>
 	            <c:if test="${!empty rlist1}">
 	              <button class="btn more1">more</button>
@@ -145,10 +152,10 @@
 
             </div>
               <div class="member_btn">
-              <c:if test="${empty rlist1}">
-                
+              <c:if test="${empty rlist2}">
+               <button class="more2" style="display:none">more</button>
               </c:if>
-              <c:if test="${!empty rlist1}">
+              <c:if test="${!empty rlist2}">
               <button class="btn more2">more</button>
               </c:if>
               </div>
@@ -271,6 +278,8 @@
   </div>
   <script defer src="resources/js/profile/profile(member-modal).js"></script>
   <script defer src="resources/js/profile/profile-recruit.js"></script>
+
+
   <!-- 구성원 추가 모달 -->
   <jsp:include page="../common/footer.jsp"/>
   </body>

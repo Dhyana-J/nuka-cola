@@ -92,4 +92,5 @@ public interface CompanyService {
 	// 기업 테크스택 가져오기
 	ArrayList<TechStack> selectTechList(int cno);
 	
+	int deadlineBtn(int rno);
 }

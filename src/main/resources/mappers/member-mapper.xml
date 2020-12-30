@@ -594,7 +594,17 @@
 		   and comp_no = #{compNo}
 	</delete>
 	
+	<update id="updateUserComp"
+			parameterType="java.util.List">
+			update
+				  users
+				   set user_comp=#{list[0].userComp}
+			 where user_no in
+			<foreach collection="list" item="userInfo" separator="," open="(" close=")">
+				 #{userInfo.userNo}
+			</foreach>
 	
+	</update>
 	
 	
 	

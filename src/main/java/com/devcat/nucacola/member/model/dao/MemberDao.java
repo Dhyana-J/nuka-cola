@@ -301,6 +301,7 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.searchMemberList",email);
 	}
 
+	// 기업 구성원추가시 회사명 업데이트용
 	public int updateUserComp(SqlSessionTemplate sqlSession, List<Member> updateList) {
 		return sqlSession.update("memberMapper.updateUserComp", updateList);
 	}

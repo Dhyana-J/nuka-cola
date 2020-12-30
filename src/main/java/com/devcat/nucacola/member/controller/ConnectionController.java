@@ -25,15 +25,6 @@ public class ConnectionController {
 		return "partner/partner";
 	}
 	
-	@RequestMapping("test.conn")
-	public String test(int userNo) {
-		for(int i=0; i<10; i++) {
-			System.out.println(userNo);
-			System.out.println(userNo);
-		}
-		return "redirect:/";
-	}
-	
 	@ResponseBody
 	@RequestMapping("addFollowing.conn")
 	public HashMap<String,Integer> addFollowing(int userNo, int followingNo) {

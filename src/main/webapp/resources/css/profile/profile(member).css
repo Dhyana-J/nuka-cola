@@ -101,6 +101,9 @@
     color:#000;
     
  }
+ .member__info li:nth-child(2){
+    width:170px;
+}
 .member__avatar{
     border-radius: 100%;
     border: solid 1px #e5e5e5;

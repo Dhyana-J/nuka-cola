@@ -178,6 +178,7 @@ public class SignupController {
 		model.addAttribute("skillList",skillList);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("careerList",careerList);
+		
 		//-----------------인맥정보 불러오기-------------
 		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
 		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅

@@ -57,14 +57,14 @@
 
           <div class="recruit__sidebar">
             <div class="sidebar__item item1 color-stress">
-              <span>지원자 (4)</span>
+              <span>지원자 (${ appliesCount })</span>
             </div>
             <div class="sidebar__item item2">
               <ul>
-                <li>서류 접수(1)</li>
-                <li>서류 합격(1)</li>
-                <li>팀 합류(1)</li>
-                <li>탈락(1)</li>
+                <li>서류 접수(${a.applyProg})</li>
+                <li>서류 합격(${a.applyProg})</li>
+                <li>팀 합류(${a.applyProg})</li>
+                <li>탈락(${a.applyProg})</li>
               </ul>
             </div>
             <div class="sidebar__item item3">
@@ -81,9 +81,9 @@
             </div>
           </div>
           <div class="recruit__content">
-
+			
             <div class="recruit__content-title">
-              <span>지원자 4</span>
+              <span>지원자 ${ applyCount }</span>
             </div>
             <div class="recruit__applier-list"><!--flex column-->
               <div class="recruit__applier-info"><!--flex row-->
@@ -98,84 +98,17 @@
                 <div class="recruit__applier-state">
                   <div class="recruit__stage">
                     <span class="state-sign fail-state"></span>
-                    <span>탈락</span>
+                    <span id="applyProg">${a.applyProg}</span>
                   </div>
                   <div class="recruit__expire">
-                    <span>6일 후 만료</span>
+                    <span>${ r.recruitDl }에 만료됩니다.</span>
                   </div>
                   <div class="recruit__apply-date">
-                    <span>2020.11.25 18:18 지원</span>
+                    <span>${ a.createdAt }지원</span>
                   </div>
-                </div>
-              </div><!--applier-info 끝-->
-              <div class="recruit__applier-info"><!--flex row-->
-                <div class="recruit__applier-profile">
-                  <div class="applier-img">
-                    <img src="../../assets/moomin.jpg" alt="image">
-                  </div>
-                  <div class="applier-name">
-                    <span>Moomin</span>
-                  </div>
-                </div>
-                <div class="recruit__applier-state">
-                  <div class="recruit__stage">
-                    <span class="state-sign submit-state"></span>
-                    <span>서류 접수</span>
-                  </div>
-                  <div class="recruit__expire">
-                    <span>6일 후 만료</span>
-                  </div>
-                  <div class="recruit__apply-date">
-                    <span>2020.11.25 18:18 지원</span>
-                  </div>
-                </div>
-              </div><!--applier-info 끝-->
-              <div class="recruit__applier-info"><!--flex row-->
-                <div class="recruit__applier-profile">
-                  <div class="applier-img">
-                    <img src="../../assets/elon.jpg" alt="image">
-                  </div>
-                  <div class="applier-name">
-                    <span>Elon</span>
-                  </div>
-                </div>
-                <div class="recruit__applier-state">
-                  <div class="recruit__stage">
-                    <span class="state-sign join-state"></span>
-                    <span>팀 합류</span>
-                  </div>
-                  <div class="recruit__expire">
-                    <span>6일 후 만료</span>
-                  </div>
-                  <div class="recruit__apply-date">
-                    <span>2020.11.25 18:18 지원</span>
-                  </div>
-                </div>
-              </div><!--applier-info 끝-->
-              <div class="recruit__applier-info"><!--flex row-->
-                <div class="recruit__applier-profile">
-                  <div class="applier-img">
-                    <img src="../../assets/conn.png" alt="image">
-                  </div>
-                  <div class="applier-name">
-                    <span>Conn</span>
-                  </div>
-                </div>
-                <div class="recruit__applier-state">
-                  <div class="recruit__stage">
-                    <span class="state-sign pass-state"></span>
-                    <span>서류 합격</span>
-                  </div>
-                  <div class="recruit__expire">
-                    <span>6일 후 만료</span>
-                  </div>
-                  <div class="recruit__apply-date">
-                    <span>2020.11.25 18:18 지원</span>
-                  </div>
-                </div>
+                </div> 
               </div><!--applier-info 끝-->
             </div><!--applier-list 끝-->
-
           </div>
 
         </div>

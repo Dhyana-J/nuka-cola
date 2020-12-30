@@ -13,12 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.devcat.nucacola.recruits.model.service.RecruitService;
 import com.devcat.nucacola.recruits.model.vo.Apply;
 
 import javax.servlet.http.HttpSession;
@@ -62,16 +59,32 @@ public class RecruitController {
 		}
 	}
 	
-	@RequestMapping(value="list.ap")
-	public String selectApplyList(int rno, Model model) {
+	// 지원한 내역조회
+	@RequestMapping("list.ap")
+	public String selectApplyList(Member m, int rno, Model model, HttpSession session) {
+		System.out.println(rno);
 		
-		ArrayList<Apply> ApplyList = rService.selectApplyList(rno);
+		ArrayList<Apply> applyList = rService.selectApplyList(rno);
+		int applyCount = rService.selectApplyCount(rno);
 		
-		model.addAttribute("ApplyList", ApplyList);
+		model.addAttribute("applyList", applyList);
+		model.addAttribute("applyCount", applyCount);
 		
-		System.out.println(ApplyList);
-		return "apply/applyHistory";
+		System.out.println(applyList);
+		System.out.println(applyCount);
+		return "/apply/applyHistory";
 			
 	}
+	
+	// 채용관리 페이지
+	@RequestMapping("mDetail.re")
+	public String selectRecruitManage(int rno, Model model) {
+		
+		
+		
+		return "/recruit/recruitManageDetail";
+		
+	}
+	
 	
 }

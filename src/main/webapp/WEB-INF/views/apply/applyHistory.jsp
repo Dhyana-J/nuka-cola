@@ -74,40 +74,14 @@
             진행 중인 채용 정보 (1)
           </div>
           <div class="apply-history__list">
-            <div class="apply-info">
-              <div class="apply-info__content">
-                <div class="apply-info__recruit-info">
-                  <span>데브캣개발자모집</span>
-                  <span>신입, 경력</span>
-                  <span>게시 2020.11.25</span>
-                </div>
-                <div class="apply-info__apply-state">
-                  <div class="recruit-stage">
-                    <span class="state-sign submit-state"><!--채용진행상태사인--></span>
-                    <span>서류접수</span>
-                  </div>
-                  <span>6일 후 만료</span>
-                  <span class="apply-state__apply-date">2020.11.25 19:19 지원</span>
-                </div>
-              </div>
-              <div class="apply-info__btn">
-                <form action="">
-                  <input type="hidden" name="applyNo" value="">
-                  <button type="submit" class="apply-cancel__btn">지원 취소</button>
-                </form>
-                <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
-                  채용 정보 확인
-                </button>
-              </div>
-            </div><!--apply-info-->
-            
-           <c:forEach var="a" items="${ Applylist }">
+         
+           <c:forEach var="a" items="${ applylist }">
             <div class="apply-info">
               <div class="apply-info__content">
                 <div class="apply-info__recruit-info">
                   <span>${ a.recruitTitle }</span>
                   <span>${ a.applyProg  }</span>
-                  <span>게시 2020.11.25</span>
+                  <span>게시 ${r.createdAt }</span>
                 </div>
                 <div class="apply-info__apply-state">
                   <div class="recruit-stage">
@@ -128,65 +102,9 @@
                 </button>
               </div>
             </div><!--apply-info-->
+            
             </c:forEach>
-            
-            <div class="apply-info">
-              <div class="apply-info__content">
-                <div class="apply-info__recruit-info">
-                  <span>데브캣개발자모집</span>
-                  <span>신입, 경력</span>
-                  <span>게시 2020.11.25</span>
-                </div>
-                <div class="apply-info__apply-state">
-                  <div class="recruit-stage">
-                    <span class="state-sign pass-state"><!--채용진행상태사인--></span>
-                    <span>서류합격</span>
-                  </div>
-                  <span>6일 후 만료</span>
-                  <span class="apply-state__apply-date">2020.11.25 19:19 지원</span>
-                </div>
-              </div>
-              <div class="apply-info__btn">
-                <form action="">
-                  <input type="hidden" name="applyNo" value="">
-                  <button type="submit" class="apply-cancel__btn">지원 취소</button>
-                </form>
-                <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
-                  채용 정보 확인
-                </button>
-              </div>
-            </div><!--apply-info-->
 
-
-
-            <div class="apply-info">
-              <div class="apply-info__content">
-                <div class="apply-info__recruit-info">
-                  <span>데브캣개발자모집</span>
-                  <span>신입, 경력</span>
-                  <span>게시 2020.11.25</span>
-                </div>
-                <div class="apply-info__apply-state">
-                  <div class="recruit-stage">
-                    <span class="state-sign fail-state"><!--채용진행상태사인--></span>
-                    <span>탈락</span>
-                  </div>
-                  <span>6일 후 만료</span>
-                  <span class="apply-state__apply-date">2020.11.25 19:19 지원</span>
-                </div>
-              </div>
-              <div class="apply-info__btn">
-                <form action="">
-                  <input type="hidden" name="applyNo" value="">
-                  <button type="submit" class="apply-cancel__btn">지원 취소</button>
-                </form>
-                <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
-                  채용 정보 확인
-                </button>
-              </div>
-            </div><!--apply-info-->
-
-            
           </div><!--apply-history__list-->
         </div>
       </div>

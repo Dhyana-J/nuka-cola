@@ -512,6 +512,7 @@ public class CompanyController {
 	
 	
 	// 산업분야 업데이트
+	
 	@RequestMapping("updateCompanyIndus.co")
 	public String updateCompanyIndus(@RequestParam(value ="indusNums", required = false)ArrayList<Integer>indusNums, int compNo, Model model) {
 		
@@ -657,7 +658,7 @@ public class CompanyController {
 	// 마감처리버튼처리
 	@ResponseBody
 	@RequestMapping(value="deadlineProcess.co",produces="application/json;charset=utf-8")
-	public int recruitLoadEND( @RequestParam(value = "rno")int rno) {
+	public int deadlineProcess( @RequestParam(value = "rno")int rno) {
 		int result = cService.deadlineBtn(rno);
 		System.out.println(result);
 

@@ -44,9 +44,9 @@
   		dateSpan.innerText = v.createdAt;
     const contentRight = document.createElement('div');
   		contentRight.className='content__right';	
-  	const deadLine = document.createElement('button');
+  	const deadLine = document.createElement('div');
   		deadLine.className='deadlineBtn';
-  		deadLine.innerText='마감처리';
+  		deadLine.innerText='공고마감';
   	content.appendChild(contentTextStrong);
   	console.log(content);
   	ItemText.appendChild(title);
@@ -69,6 +69,8 @@
       	const itemList = document.querySelector('.employ__box__end');
       	const recruitItemBox = document.createElement('div');
       		recruitItemBox.className='content__wrapper';
+        const contentLeft = document.createElement('div');
+  			contentLeft.className='content__left';
       	const recruitNo = document.createElement('input');
     		recruitNo.type='hidden';
     		recruitNo.name='recruitNo';
@@ -107,17 +109,22 @@
       		date.className='date';
       	const dateSpan = document.createElement('span');
       		dateSpan.innerText = v.createdAt;
-      		
+      	const contentRight = document.createElement('div');
+  			contentRight.className='content__right';
+  			
+  					
       	content.appendChild(contentTextStrong);
       	console.log(content);
       	ItemText.appendChild(title);
       	ItemText.appendChild(content);
       	ItemText.appendChild(recruit);
       	date.appendChild(dateSpan);	
-      	recruitItemBox.appendChild(recruitNo);
-      	recruitItemBox.appendChild(ItemText);
-      	recruitItemBox.appendChild(skillBox);
-      	recruitItemBox.appendChild(date);
+      	contentLeft.appendChild(recruitNo);
+      	contentLeft.appendChild(ItemText);
+      	contentLeft.appendChild(skillBox);
+      	contentLeftappendChild(date);
+      	recruitItemBox.appendChild(contentLeft);
+      	recruitItemBox.appendChild(contentRight);
     	itemList.appendChild(recruitItemBox);
       }
   
@@ -144,39 +151,7 @@
 		    	      });		
 	  }
 	  
-	  // 마감처리 버튼 클릭시
-  let deadlineBtn =()=>{
-		 const btnBox = document.querySelector('.employ__box__ing');
-			 btnBox.querySelectorAll('.deadlineBtn').forEach((v,i)=>{
-	              v.addEventListener('click',()=>{
-	              let rno = document.querySelectorAll('.recruit-no')[i].value;
-	              rno = parseInt(rno);
-	              console.log(rno);
-	              	  if(confirm("현재 공고를 마감하시겠습니까?")==true){
-	              	  	 axios.get('deadlineProcess.co', {
-					        params: {
-					          rno:rno
-					        }
-					      }) .then((result)=>{
-					      		if(result.data==1){
-					      		alert("마감처리되었습니다.");
-								recruitINGLoad();
-								recruitENDLoad();
-					          }else{
-					          	alert("마감처리 실패!");
-					          }
-					
-					        }).catch(function(error){
-					      	  console.log(error);
-					        })
-					        
-					      }else{
-			              	  return;
-					      }})
-	              	 
-	              	  })
-		}
-		
+
 
   
  href();
@@ -187,9 +162,10 @@
 	  let pi1 = document.querySelector('.pi1').value;
 	  pi1 = parseInt(pi1);
 	  console.log(pi1);
-	  let currentPageNum1 = 1;
-  const recruitINGLoad =()=>{
+   let currentPageNum1 = 1;
 	  const cno = document.querySelector('.nowCno').value;
+  const recruitINGLoad =()=>{
+	  
 	  IngMoreBtn1.addEventListener('click',()=>{ 
 	
 	 
@@ -215,12 +191,12 @@
 	      })
     }
     
-      
+   
    let disabledBtn1 =()=>{
 		if(currentPageNum1 >= pi1){
-		 IngMoreBtn1.disabled=true;
-		 IngMoreBtn1.style.background="#e5e5e5";
-		 IngMoreBtn1.style.color="#30409f";
+			IngMoreBtn1.disabled=true;
+			IngMoreBtn1.style.background="#e5e5e5";
+			IngMoreBtn1.style.color="#30409f";
 		}
 	}     
 	
@@ -275,12 +251,53 @@
 		IngMoreBtn2.style.color="#30409f";
 	  }
 	}
+	
+	  // 마감처리 버튼 클릭시	
+	  let deadlineBtn =()=>{
+		 const btnBox = document.querySelector('.employ__box__ing');
+			 btnBox.querySelectorAll('.deadlineBtn').forEach((v,i)=>{
+	              v.addEventListener('click',()=>{
+	              let rno = document.querySelectorAll('.recruit-no')[i].value;
+	              rno = parseInt(rno);
+	              console.log(rno);
+	              	  if(confirm("현재 공고를 마감하시겠습니까?")==true){
+	              	  	 axios.get('deadlineProcess.co', {
+					        params: {
+					          rno:rno
+					        }
+					      }) .then((result)=>{
+					      		if(result.data==1){
+					      		location.href="recruit.co?cno="+cno;
+					      		alert("마감처리되었습니다.");
+								
+								
+								
+								
+								
+								
+					          }else{
+					          	alert("마감처리 실패!");
+					          }
+					
+					        }).catch(function(error){
+					      	  console.log(error);
+					        })
+					        
+					      }else{
+			              	  return;
+					      }})
+	              	 
+	              	  })
+		}
+		
+	
   
+  disabledBtn2();
   deadlineBtn();
   disabledBtn1();
-  disabledBtn2();
   recruitINGLoad();
   recruitENDLoad();
+
   
 
   

@@ -63,7 +63,9 @@
                     <li><a href="#employ__box__end">모집완료</a></li>
                   </ul>
                 </div>
-              </div>
+                <div class="btn-blue recruit-employee" onclick='location.href=""'>채용등록하기</div><!-- 채용등록페이지 -->
+                
+            </div>
           <div id ="employ__box__ing" class="main__section__right">
           <input type="hidden" class="pi1" value="${pi1.maxPage}">
           <input type="hidden" class="nowCno" value="${c.compNo}">
@@ -97,9 +99,9 @@
 		                </div>
 		          </div>
 		           <div class="content__right">
-
-		           <button type="button" class="deadlineBtn">마감처리</button>
-
+				   
+		           <div class="deadlineBtn">공고마감</div>
+				   
 		           </div>
               </div>
 			  </c:forEach>
@@ -109,7 +111,7 @@
             
               <div class="member_btn">
                 <c:if test="${empty rlist1}">
-                	<button class="more1 none_btn ">more</button>
+                	<button class="more1" style="display:none">more</button>
 	            </c:if>
 	            <c:if test="${!empty rlist1}">
 	              <button class="btn more1">more</button>
@@ -123,29 +125,33 @@
               <!-- 모집완료한 채용공고 for문 -->
 			  <c:forEach var="rEND" items="${rlist2}">
 	              <div class="content__wrapper">
-	              <input type="hidden" class="recruit-no" name="recruitNo" value="${rEND.recruitNo}">
-	                <ul class="employ__box__info">
-	                  <li>${rEND.compName}</li>
-	                  <li><strong>${rEND.recruitTitle}</strong></li>
-	                  <c:if test="${rEND.recruitRequ eq '0'}">
-		                  <li>신입</li>
-			          </c:if>
-			          <c:if test="${rEND.recruitRequ eq '1'}">
-			                  <li>경력</li>
-			          </c:if>
-			          <c:if test="${rEND.recruitRequ eq '2'}">
-			                  <li>경력 신입</li>
-			          </c:if>
-		            </ul>
-	                <div class="tag__box">
-	                  <c:forEach var="skills" items="${skillMap.get(rEND.recruitNo)}">
-			             <span class="tag">${skills}</span>
-				  </c:forEach>
-	                </div>
-	                <div class="date">
-	                  <span>${rEND.createdAt}</span>
-	                </div>
-	              </div>
+	              	<div class="content__left">
+			              <input type="hidden" class="recruit-no" name="recruitNo" value="${rEND.recruitNo}">
+			                <ul class="employ__box__info">
+			                  <li>${rEND.compName}</li>
+			                  <li><strong>${rEND.recruitTitle}</strong></li>
+			                  <c:if test="${rEND.recruitRequ eq '0'}">
+				                  <li>신입</li>
+					          </c:if>
+					          <c:if test="${rEND.recruitRequ eq '1'}">
+					                  <li>경력</li>
+					          </c:if>
+					          <c:if test="${rEND.recruitRequ eq '2'}">
+					                  <li>경력 신입</li>
+					          </c:if>
+				            </ul>
+			                <div class="tag__box">
+			                  <c:forEach var="skills" items="${skillMap.get(rEND.recruitNo)}">
+					             <span class="tag">${skills}</span>
+						  </c:forEach>
+			                </div>
+			                <div class="date">
+			                  <span>${rEND.createdAt}</span>
+			                </div>
+			          </div>
+			        </div>
+			        <div class="content__right">
+			        </div>
 			  </c:forEach>
               <!-- 진행완료인 채용공고 for문 -->
 

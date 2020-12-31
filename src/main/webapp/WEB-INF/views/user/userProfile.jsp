@@ -82,9 +82,11 @@
         <div class="content__wrapper">
           <div class="section__content__title">
             <strong>한줄 소개</strong>
+            <c:if test="${loginUser.userNo eq pUser.userNo }">
             <div onclick="oneLineToggle();" class="edit__field">
               <i id="one-line-btn" class="material-icons">create</i>
             </div>
+            </c:if>
           </div>
           <span class="just__text" id="one-line-info">
       
@@ -118,16 +120,20 @@
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>활동분야</strong>
+                <c:if test="${loginUser.userNo eq pUser.userNo }">
                 <div onclick="userFiledToggle();" class="edit__field">
                   <i class="material-icons" id="user-filed-btn">create</i>
                 </div>
+                </c:if>
               </div>
               <ul  id="user-filed-list" class="section__content__box">
               
                      <c:forEach var="i" items="${skillList}" varStatus="status">
                         <li >
                   <span class="compindus__box">${ i.skillName }</span>
+                  <c:if test="${loginUser.userNo eq pUser.userNo }">
                   <i id="${i.skillName }" class="material-icons">close</i>
+                  </c:if>
                   </li>
                     </c:forEach>
               </ul>
@@ -161,9 +167,11 @@
             <div class="content__wrapper">
               <div class="section__content__title">
                 <strong>업무분야</strong>
+                <c:if test="${loginUser.userNo eq pUser.userNo }">
                 <div onclick="positionToggle();" class="edit__field">
                   <i id="position-btn" class="material-icons">create</i>
                 </div>
+                </c:if>
               </div>
               
               <span class="just__text" id="position-name"> 

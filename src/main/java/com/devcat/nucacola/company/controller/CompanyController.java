@@ -324,7 +324,7 @@ public class CompanyController {
 		
 		TechList = cService.selectTechList(cno);
 		
-		System.out.println(TechList);
+		//System.out.println(TechList);
 		
 		ArrayList<String> backList = new ArrayList<>();
 		ArrayList<String> frontList = new ArrayList<>();
@@ -663,6 +663,7 @@ public class CompanyController {
 	@RequestMapping("updateCompanyAddress.co")
 	public String updateCompanyAddress(Company c, Model model) {
 		
+
 		int result = cService.updateCompanyAddress(c);
 		
 		
@@ -683,16 +684,18 @@ public class CompanyController {
 		
 
 			// 기존 산업 분야 내용 지우기
-			System.out.println(c.getCompNo());
+			System.out.println(c);
 		
-		
+		    
 			int result = cService.deleteCompanySkill(c.getCompNo());
 			
 			if(result>0) {
+
+				
 				
 				//테크스텍 테이블에 insert
 				// 백 엔드 기술 0
-				String[] backSkillList = c.getSkillList().get(1).getSkillName().split(" ");
+				String[] backSkillList = c.getSkillList().get(0).getSkillName().split(" ");
 				// 백 앤드 해시맵 출격!
 				HashMap<String, Object> backMap = makeMap(backSkillList,c);
 				// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
@@ -703,7 +706,7 @@ public class CompanyController {
 				
 				
 				// 프론트 엔드 기술 1 python node.js kotlin 
-				String[] frontSkillList = c.getSkillList().get(0).getSkillName().split(" ");
+				String[] frontSkillList = c.getSkillList().get(1).getSkillName().split(" ");
 				
 				HashMap<String, Object> frontMap = makeMap(frontSkillList,c);
 				// 드디어 미친 insert 합니다 총 4개를 하라니 정말 날죽이려는것이냐!
@@ -747,6 +750,7 @@ public class CompanyController {
 				return "common/errorPage";
 				
 			}
+			
 
 			
 	}

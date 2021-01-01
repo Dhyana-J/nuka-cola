@@ -15,13 +15,16 @@
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/apply-history.css">
+    <link rel="stylesheet" href="resources/css/common.css" />
+    <link rel="stylesheet" href="resources/css/recruit/apply-history.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="../../css/footer.css">
 </head>
 <body>
-	  <header>
+
+<jsp:include page="../common/mainMenu.jsp"/>
+
+	<header>
     <div class="inner">
       <div class="left__header">
         <div class="logo">
@@ -49,7 +52,7 @@
       <div class="apply-history__contents">
         <div class="apply-history__left-sidebar">
           <div class="left-sidebar__item">
-            <a href="#" class="left-sideber__viewing">진행 중인 채용 정보 (1)</a>
+            <a href="#" class="left-sideber__viewing">진행 중인 지원정보 (${ applyCount })</a>
           </div>
           <div class="left-sidebar__item">
             <ul>
@@ -71,7 +74,7 @@
         </div>
         <div class="apply-history__right-content">
           <div class="apply-history__sub-title">
-            진행 중인 채용 정보 (1)
+            	진행 중인 지원정보 (${ applyCount })
           </div>
           <div class="apply-history__list">
          
@@ -81,7 +84,7 @@
                 <div class="apply-info__recruit-info">
                   <span>${ a.recruitTitle }</span>
                   <span>${ a.applyProg  }</span>
-                  <span>게시 ${r.createdAt }</span>
+                  <span>게시 </span>
                 </div>
                 <div class="apply-info__apply-state">
                   <div class="recruit-stage">

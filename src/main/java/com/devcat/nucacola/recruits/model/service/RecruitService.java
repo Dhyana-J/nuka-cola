@@ -32,8 +32,8 @@ public interface RecruitService {
 		int deleteRecruit(int rno);
 	
 	// 지원 조회
-		ArrayList<Apply> selectApplyList(int rno);
-		int selectApplyCount(int rno);
+		ArrayList<Apply> selectApplyList(int userNo);
+		int selectApplyCount(int userNo);
 	// 
 		
 	// 채용 등록	

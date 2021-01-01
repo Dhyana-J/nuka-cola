@@ -2,7 +2,7 @@ package com.devcat.nucacola.recruits.controller;
 
 import java.util.ArrayList;
 
-
+import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.posts.model.vo.Comment;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
@@ -24,6 +24,9 @@ import javax.servlet.http.HttpSession;
 public class RecruitController {
 	@Autowired
 	private RecruitService rService;
+	
+	@Autowired
+	private MemberService mService;
 
 	// 채용상세페이지
 	@RequestMapping("detail.re")
@@ -61,17 +64,19 @@ public class RecruitController {
 	
 	// 지원한 내역조회
 	@RequestMapping("list.ap")
-	public String selectApplyList(Member m, int rno, Model model, HttpSession session) {
-		System.out.println(rno);
+	public String selectApplyList(int userNo, Model model, HttpSession session) {
 		
-		ArrayList<Apply> applyList = rService.selectApplyList(rno);
-		int applyCount = rService.selectApplyCount(rno);
-		
-		model.addAttribute("applyList", applyList);
-		model.addAttribute("applyCount", applyCount);
-		
+		// 조회할 채용정보가져오기
+		ArrayList<Apply> applyList = rService.selectApplyList(userNo);
+		int applyCount = rService.selectApplyCount(userNo);
 		System.out.println(applyList);
 		System.out.println(applyCount);
+		
+		// applylist에 담아 model에 넣고 뿌려주기
+		model.addAttribute("applyList", applyList);
+		model.addAttribute("applyCount",applyCount);
+
+		
 		return "/apply/applyHistory";
 			
 	}
@@ -116,6 +121,7 @@ public class RecruitController {
 			System.out.println("삽입 성공!");
 			
 		}
+	}
 	// 채용관리 페이지
 	@RequestMapping("mDetail.re")
 	public String selectRecruitManage(int rno, Model model) {

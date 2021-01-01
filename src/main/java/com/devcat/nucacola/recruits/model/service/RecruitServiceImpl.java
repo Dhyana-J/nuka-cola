@@ -77,12 +77,12 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	@Override
-	public ArrayList<Apply> selectApplyList(int rno) {
-		return rDao.selectApplyList(sqlSession, rno);
+	public ArrayList<Apply> selectApplyList(int userNo) {
+		return rDao.selectApplyList(sqlSession, userNo);
 	}
 	@Override
-	public int selectApplyCount(int rno) {
-		return rDao.selectApplyCount(sqlSession, rno);
+	public int selectApplyCount(int userNo) {
+		return rDao.selectApplyCount(sqlSession, userNo);
 	}
 	
 	

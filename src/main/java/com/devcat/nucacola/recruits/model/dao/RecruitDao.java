@@ -15,9 +15,9 @@ import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 @Repository
 public class RecruitDao {
 
-	public ArrayList<Apply> selectApplyList(SqlSessionTemplate sqlSession, int rno) {
+	public ArrayList<Apply> selectApplyList(SqlSessionTemplate sqlSession, int userNo) {
 		
-		return (ArrayList)sqlSession.selectList("apply-Mapper.selectApplyList", rno);
+		return (ArrayList)sqlSession.selectList("apply-Mapper.selectApplyList", userNo);
 	}
 
     public RecruitDetail selectRecruitDetail(SqlSessionTemplate sqlSession, int rno) {
@@ -45,7 +45,7 @@ public class RecruitDao {
 		return sqlSession.selectOne("recruit-mapper.selectCompNo", userNo);
 	}
     
-    public int selectApplyCount(SqlSessionTemplate sqlSession, int rno) {
-    	return sqlSession.selectOne("apply-mapper.selectApplyCount",rno);
+    public int selectApplyCount(SqlSessionTemplate sqlSession, int userNo) {
+    	return sqlSession.selectOne("apply-mapper.selectApplyCount",userNo);
     }
 }

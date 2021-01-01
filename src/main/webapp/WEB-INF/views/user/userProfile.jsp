@@ -62,7 +62,9 @@
             </ul>
           </div>
         </div>
-        <button id="popup_open_btn" class="btn visual__right">지원이력</button>
+        <button id="popup_open_btn"
+        		class="btn visual__right"
+        		onclick='location.href="list.ap?userNo=${loginUser.userNo}"'>지원이력</button>
       </div>
     </section>
 

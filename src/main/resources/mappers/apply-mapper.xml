@@ -12,7 +12,7 @@
 		<result column="recruit_no" property="recruitNo"/>
 	</resultMap>
 	
-	<resultMap id="applyHistoryResultSet" type="Bookmark">
+	<resultMap id="applyHistoryResultSet" type="ApplyList">
 		<result column="recruit_title" property="recruitTitle"/>
 		<result column="recruit_requ" property="recruitRequ"/>
 		<result column="recruit_dl" property="recruitDl"/>
@@ -22,28 +22,29 @@
 		<result column="created_at" property="createdAt"/>
 	</resultMap>
 	
-	
-	<select id="selectApplyList" parameterType="Apply"
-			resultMap="applyHistoryResultSet">
-		select
-		       recruit_title
-		     , recruit_requ
+	<!-- 회원의 지원 내역조회 -->
+	<select id="selectApplyList" resultMap="applyHistoryResultSet">
+        
+        select
+		       r.recruit_title
+		     , r.recruit_requ
 		     , to_char(r.created_at, 'YYYY-MM-DD') "created_at"
-		     , recruit_dl
+		     , r.recruit_dl
 		     , a.apply_prog
 		     , a.apply_no
 		     , to_char(a.created_at, 'YYYY-MM-DD') "created_at"
-		     , user_no
-		  from recruits r
-		  join applies a on (r.recruit_no = a.recruit_no)
-		where user_no = #{userNo}	
+		     , a.user_no
+		  from applies a
+		  join recruits r on (r.recruit_no = a.recruit_no)
+		 where user_no = #{userNo}
 	
 	</select>
 	
+	<!-- 회원의 지원내역 카운트 조회 -->
 	<select id="selectApplyCount" resultType="_int" parameterType="_int">
         select count(*) 
-          from APPLIES 
-         where RECRUIT_NO = #{rno}
+          from  APPLIES 
+         where user_no = #{userNo}
     </select>
 	
 	

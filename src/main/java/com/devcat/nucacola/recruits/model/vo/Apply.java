@@ -14,12 +14,17 @@ import lombok.ToString;
 
 public class Apply {
 	
-	private int applyNo;
-	private String applyComment;
-	private int applyProg;
-	private String createdAt;
-	private String updatedAt;
-	private String userNo;
-	private int recruitNo;
+	private int applyNo; // 지원공고식별자
+	private String applyComment; // 지원한마디
+	private int applyProg; // 채용단계
+	private String createdAt; // 지원날짜
+	private String updatedAt; // 삭제날짜
+	private int userNo; // 유저식별자
+	private int recruitNo; // 채용공고식별자
 	
+	public Apply(int userNo, int recruitNo) {
+		super();
+		this.userNo = userNo;
+		this.recruitNo = recruitNo;
+	}
 }

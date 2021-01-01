@@ -75,16 +75,21 @@ public class RecruitServiceImpl implements RecruitService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	// 내가 지원한 채용공고 리스트 조회
 	@Override
 	public ArrayList<Apply> selectApplyList(int userNo) {
 		return rDao.selectApplyList(sqlSession, userNo);
 	}
+	// 내가 지원한 내역 조회(수)
 	@Override
 	public int selectApplyCount(int userNo) {
 		return rDao.selectApplyCount(sqlSession, userNo);
 	}
-	
+	// 내가 지원한 내역 삭제
+	@Override
+	public int deleteApplyList(Apply ap) {
+		return rDao.deleteApplyList(sqlSession, ap);
+	}
 	
 
 	@Override

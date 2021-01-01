@@ -34,13 +34,15 @@ public interface RecruitService {
 	// 지원 조회
 		ArrayList<Apply> selectApplyList(int userNo);
 		int selectApplyCount(int userNo);
-	// 
+	// 지원한 내역 삭제
+		int deleteApplyList(Apply ap);
 		
 	// 채용 등록	
 	int insertRecruit(Recruit re);
 	
 	// 사용자의 회사 번호 알아오기
 	int selectCompNo(int userNo);
-		
+	
+	
 		
 }

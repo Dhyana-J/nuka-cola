@@ -3,6 +3,7 @@ package com.devcat.nucacola.recruits.controller;
 import java.util.ArrayList;
 
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.posts.model.vo.Comment;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
@@ -80,8 +81,17 @@ public class RecruitController {
 		return "/apply/applyHistory";
 			
 	}
-	
-	
+	// 지원한 내역 삭제하기(지원취소)
+	@ResponseBody
+	@RequestMapping(value="/delete.ap", produces="text/html; charset=utf-8")
+	public void deleteApplyList(Apply ap, HttpSession session) {
+		ap.setUserNo(ap.getUserNo());
+		System.out.println(ap.getUserNo());
+		int result = rService.deleteApplyList(ap);
+		System.out.println(result);
+		
+//		return "redirect:list.ap?userNo="+loginUser.getUserNo();
+	}
 	
 	@RequestMapping("recruitEnroll.re")
 	public String recruitEnroll() {

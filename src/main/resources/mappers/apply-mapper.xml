@@ -19,7 +19,8 @@
 		<result column="apply_prog" property="applyProg"/>
 		<result column="apply_no" property="applyNo"/>
 		<result column="user_no" property="userNo"/>
-		<result column="created_at" property="createdAt"/>
+		<result column="a.created_at" property="appliedAt"/>
+		<result column="r.created_at" property="createdAt"/>
 	</resultMap>
 	
 	<!-- 회원의 지원 내역조회 -->
@@ -28,11 +29,11 @@
         select
 		       r.recruit_title
 		     , r.recruit_requ
-		     , to_char(r.created_at, 'YYYY-MM-DD') "created_at"
+		     , to_char(r.created_at, 'YYYY-MM-DD') "r.created_at"
 		     , r.recruit_dl
 		     , a.apply_prog
 		     , a.apply_no
-		     , to_char(a.created_at, 'YYYY-MM-DD') "created_at"
+		     , to_char(a.created_at, 'YYYY-MM-DD') "a.created_at"
 		     , a.user_no
 		  from applies a
 		  join recruits r on (r.recruit_no = a.recruit_no)
@@ -46,7 +47,14 @@
           from  APPLIES 
          where user_no = #{userNo}
     </select>
-	
+    
+    <!-- 회원의 지원 내역삭제 요청-->
+	<delete id="deleteApplyList" parameterType="Apply">
+		delete *
+		  from applies
+		 where user_no = #{userNo}
+		   and recruit_no=#{rno}; 
+	</delete>
 	
 	
 	

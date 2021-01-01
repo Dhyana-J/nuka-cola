@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,8 +59,6 @@
             <ul>
               <li><a href="#">서류 접수 (1)</a></li>
               <li><a href="#">서류 합격 (1)</a></li>
-              <li><a href="#">팀 합류 (1)</a></li>
-              <li><a href="#">탈락 (1)</a></li>
             </ul>
           </div>
           <div class="left-sidebar__item">
@@ -78,26 +77,64 @@
           </div>
           <div class="apply-history__list">
          
-           <c:forEach var="a" items="${ applylist }">
+           <c:forEach var="a" items="${applyList}">
             <div class="apply-info">
               <div class="apply-info__content">
                 <div class="apply-info__recruit-info">
                   <span>${ a.recruitTitle }</span>
-                  <span>${ a.applyProg  }</span>
-                  <span>게시 </span>
+                
+                <!-- 채용조건에 따른 조건문 -->  
+                  <c:choose>
+                  	<c:when test="${a.recruitRequ eq 0 }">
+                  		<span>신입</span>
+                  	</c:when>
+                  	<c:when test="${a.recruitRequ eq 1 }">
+                  		<span>경력</span>
+                  	</c:when>
+                  	<c:when test="${a.recruitRequ eq 2 }">
+                  		<span>신입, 경력</span>
+                  	</c:when>
+                  </c:choose>
+                  
+                  <span>${ a.createdAt} 부터 채용을 시작했어요 </span>
                 </div>
+                
+                <!-- 채용단계에 따른 조건문 -->
                 <div class="apply-info__apply-state">
+                  <c:choose>
+                  	<c:when test="${a.applyProg eq 0}">
                   <div class="recruit-stage">
-                    <span class="state-sign join-state"><!--채용진행상태사인--></span>
+                    <span class="state-sign submit-state"></span>
+                    <span>서류접수</span>
+                  </div>
+                  	</c:when>
+                  	<c:when test="${a.applyProg eq 1}">
+                  <div class="recruit-stage">
+                    <span class="state-sign pass-state"></span>
+                    <span>서류합격</span>
+                  </div>
+                  	</c:when>
+                  	<c:when test="${a.applyProg eq 2}">
+                  <div class="recruit-stage">
+                    <span class="state-sign join-state"></span>
                     <span>팀 합류</span>
                   </div>
-                  <span>6일 후 만료</span>
-                  <span class="apply-state__apply-date">2020.11.25 19:19 지원</span>
+                  	</c:when>
+                  	<c:when test="${a.applyProg eq 3}">
+                  <div class="recruit-stage">
+                    <span class="state-sign fail-state"></span>
+                    <span>탈락</span>
+                  </div>
+                  	</c:when>
+                  </c:choose>
+                  
+                  <span>${a.recruitDl} 에 채용 마감</span>
+                  <span class="apply-state__apply-date">${a.appliedAt} 에 지원했어요</span>
                 </div>
               </div>
               <div class="apply-info__btn">
                 <form action="">
-                  <input type="hidden" name="applyNo" value="">
+                  <input type="hidden" name="applyNo" value="${a.applyNo}">
                   <button type="submit" class="apply-cancel__btn">지원 취소</button>
                 </form>
                 <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
@@ -105,8 +142,8 @@
                 </button>
               </div>
             </div><!--apply-info-->
+          </c:forEach>
             
-            </c:forEach>
 
           </div><!--apply-history__list-->
         </div>
@@ -135,7 +172,37 @@
     </div>
   </footer>
 	
-	
+  <script defer>
+  
+  // 지원취소 버튼 요청시 실행할 Axios
+  document.querySelectorAll('.apply-cancel__btn').forEach((v,i)=>{
+      console.log(v);
+          v.addEventListener('click',()=>{
+
+               let item = v.parentNode.parentNode;
+               let rno = item.querySelector('.recruit-no').value;
+               
+               axios.get('delete.ap',{
+                 params:{
+                   userNo:${loginUser.userNo},
+                   recruitNo:rno
+                 }
+              })
+              .then(function(){
+              });
+               let applyCount= document.querySelector('.apply-history__sub-title');
+                let applyCountNum = applyCount.querySelector('div').innerText;
+                applyCountNum=parseInt(applyCountNum);
+                console.log(applyCountNum);
+                applyCountNum = --applyCountNum;
+                applyCountNum.innerText = applyCountNum;
+                applyCount.querySelector('div').innerText = applyCountNum;
+               item.remove(); 
+
+            });
+         });
+  
+  </script>
 	
 	
 </body>

@@ -17,7 +17,7 @@ public class RecruitDao {
 
 	public ArrayList<Apply> selectApplyList(SqlSessionTemplate sqlSession, int userNo) {
 		
-		return (ArrayList)sqlSession.selectList("apply-Mapper.selectApplyList", userNo);
+		return (ArrayList)sqlSession.selectList("apply-mapper.selectApplyList", userNo);
 	}
 
     public RecruitDetail selectRecruitDetail(SqlSessionTemplate sqlSession, int rno) {
@@ -44,8 +44,12 @@ public class RecruitDao {
 		
 		return sqlSession.selectOne("recruit-mapper.selectCompNo", userNo);
 	}
-    
+    // 내가 지원한 내역 수 조회
     public int selectApplyCount(SqlSessionTemplate sqlSession, int userNo) {
     	return sqlSession.selectOne("apply-mapper.selectApplyCount",userNo);
     }
+
+	public int deleteApplyList(SqlSessionTemplate sqlSession, Apply ap) {
+		return sqlSession.delete("apply-mapper.deleteApplyList",ap);
+	}
 }

@@ -10,6 +10,7 @@ import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 public interface CompanyService {
@@ -91,5 +92,12 @@ public interface CompanyService {
 	
 	// 기업 테크스택 가져오기
 	ArrayList<TechStack> selectTechList(int cno);
+	
+	// 통합검색
+	ArrayList<Member> selectUserSearch(PageInfo pi, String keyword);
+	ArrayList<Recruit> selectRecruitSearch(PageInfo pi, String keyword);
+	ArrayList<Company> selectCompanySearch(PageInfo pi, String keyword);
+
+	
 	
 }

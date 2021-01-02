@@ -19,6 +19,23 @@
 		<result column="skill_name" property="skillName"/>
 	</resultMap>
 	
+	<resultMap id="memberResultSet" type="Member">
+		<result column="user_no" property="userNo"/>
+		<result column="login_type" property="loginType"/>
+		<result column="user_email" property="email"/>
+		<result column="user_pwd" property="userPwd"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_birth" property="userBirth"/>
+		<result column="user_posi" property="userPosi"/>
+		<result column="user_status" property="status"/>
+		<result column="user_info" property="userInfo"/>
+		<result column="user_edu" property="userEdu"/>
+		<result column="user_avatar" property="userAvatar"/>
+		<result column="user_comp" property="userComp"/>
+		<result column="comp_no" property="compNo"/>
+		<result column="career_posi" property="careerPosi"/>
+	</resultMap>
+	
 	<resultMap id="skillResultSet" type="Skills">
 		<result column="skill_no" property="skillNo"/>
 		<result column="skill_name" property="skillName"/>
@@ -411,43 +428,76 @@
 		      , comp_name
 		      , comp_address
 		      , comp_logo
+		      , c2.comp_no as subScribed
 		   from companys c
       left join compindus p on (c.comp_no = p.comp_no)
+      left join (select comp_no from comp_sub where user_no = #{uno}) c2 on c.comp_no = c2.comp_no
           where c.comp_name like '%'||#{keyword}||'%' 
             and
         <foreach collection="hList" item="arr" open="(" close=")" separator="or">
-			 c.comp_headcount like '%'||#{hList}||'%'
+			 c.comp_headcount like '%'||#{arr}||'%'
 		</foreach>
 		    and 
 		 <foreach collection="lList" item="arr" open="(" close=")" separator="or">
-			 c.comp_address like '%'||#{lList}||'%'
+			 c.comp_address like '%'||#{arr}||'%'
 		</foreach> 
 	</select>
 	
 	<select id="searchCompIndusList" parameterType="map" resultMap="companyResultSet">
-		select  c.comp_no
-		      , comp_info
-		      , comp_name
-		      , comp_address
-		      , comp_logo
-              , indus_name
-		   from companys c
-      left join compindus p on (c.comp_no = p.comp_no)
-           join industries i on (p.indus_no = i.indus_no)
-          where c.comp_name like '%'||#{keyword}||'%' 
-            and
-        <foreach collection="hList" item="arr" open="(" close=")" separator="or">
-			 c.comp_headcount like '%'||#{hList}||'%'
-		</foreach>
-		    and 
-		 <foreach collection="lList" item="arr" open="(" close=")" separator="or">
-			 c.comp_address like '%'||#{lList}||'%'
-		</foreach>
-		    and
-		<foreach collection="lList" item="arr" open="(" close=")" separator="or">
-			 i.indus_name like '%'||#{lList}||'%'
-		</foreach>  
+	   select distinct c.comp_no
+                     , c.comp_info
+                     , c.comp_name
+                     , c.comp_address
+                     , c.comp_logo
+                     , c2.comp_no as subScribed
+                  from compindus p
+        	      join industries i on (p.indus_no = i.indus_no) 
+                  join companys c on(c.comp_no = p.comp_no)
+             left join (select comp_no from comp_sub where user_no = #{uno}) c2 on c.comp_no = c2.comp_no
+                 where c.comp_name like '%'||#{keyword}||'%' 
+	               and
+	        <foreach collection="hList" item="arr" open="(" close=")" separator="or">
+				 c.comp_headcount like '%'||#{arr}||'%'
+			</foreach>
+			       and 
+			 <foreach collection="lList" item="arr" open="(" close=")" separator="or">
+				 c.comp_address like '%'||#{arr}||'%'
+			</foreach>
+			       and
+			<foreach collection="iList" item="arr" open="(" close=")" separator="or">
+				 i.indus_name like '%'||#{arr}||'%'
+			</foreach>
 	</select>
 	
+	<select id="selectUserSearch" resultMap="memberResultSet">
+		select u.user_no
+            , r.career_posi
+            , c.comp_name
+            , u.user_avatar
+         from users u
+         left join careers r on r.user_no = u.user_no
+         left join companys c on r.comp_no = c.comp_no
+        where u.user_name = #{keyword}
+	</select>
+	<select id="selectRecruitSearch" resultMap="memberResultSet">
+		select u.user_no
+            , r.career_posi
+            , c.comp_name
+            , u.user_avatar
+         from users u
+         left join careers r on r.user_no = u.user_no
+         left join companys c on r.comp_no = c.comp_no
+        where u.user_name = #{keyword}
+	</select>
+	<select id="selectCompanySearch" resultMap="memberResultSet">
+		select u.user_no
+            , r.career_posi
+            , c.comp_name
+            , u.user_avatar
+         from users u
+         left join careers r on r.user_no = u.user_no
+         left join companys c on r.comp_no = c.comp_no
+        where u.user_name = #{keyword}
+	</select>
 	
 </mapper>

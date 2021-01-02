@@ -1013,8 +1013,34 @@
 
 
 
-
 .section__member .content__introduce p, .section__member .content__introduce strong{
   padding:10px;
 }
+.section__search-result-top>span>strong {
+  font-size:20px;
+  padding:10px;
+  color:rgb(19, 19, 163);
+  font-weight:bold;
+}
+.section__search-result-bottom{
+  border-top: 1px solid #cecdcd;
+  padding-top: 20px;
+  margin-top:10px;
+  text-align:center;
+}
+.section__search-result-bottom a{
+  color:rgb(255, 255, 255);
+  background-color:rgb(19, 19, 163);
+  padding:5px 20px;
+  border:1px solid rgb(19, 19, 163);
+  border-radius:20px;
+  font-weight:bold;
+
+}
+.section__search-result-bottom a:hover{
+  color:rgb(19, 19, 163);
+  font-weight:bold;
+  background-color:rgb(255, 255, 255);
+}
+
 

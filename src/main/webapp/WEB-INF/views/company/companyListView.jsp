@@ -62,12 +62,12 @@
 	                  <option value="101~500명">101~500명</option>
 	                  <option value="501~1000명">501~1000명</option>
 	                  <option value="1001~5000명">1001~5000명</option>
-	                  <option value="5000명 초과">5000명 초과</option>
+	                  <option value="5000명초과">5000명초과</option>
 	                </select>
 	                <select name="" id="local-list">
 	                  <option value="" selected disabled hidden>지역</option>
-	                  <option value="서울시">서울시</option>
-	                  <option value="경기도">경기도</option>
+	                  <option value="서울">서울</option>
+	                  <option value="경기">경기</option>
 	                  <option value="인천">인천</option>
 	                  <option value="대전">대전</option>
 	                  <option value="광주">광주</option>

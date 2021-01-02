@@ -34,13 +34,13 @@
     </c:if>
     
     <!-- 컨텐츠 -->
-    <main class="content__section">
+        <main class="content__section">
       <div class="inner">
         <div class="main__main__section">
           <div class="main__section__content">
             <div class="content__wrapper">
                 <div class="section__search-result-top">
-                    <span>파트너 검색결과 (10개)</span>
+                    <span><strong>파트너</strong> 검색결과</span>
                 </div>
                 <div class="section__member">
                     <div class="content__profile">
@@ -110,11 +110,14 @@
                       </div>
                     </div>
                   </div>
+                  <div class="section__search-result-bottom">
+                    <a href="">사람 더 보기</a>
+                  </div>
                     
             </div>
             <div class="section__search-result">
                 <div class="section__search-result-top">
-                    <span>채용 검색결과 (10개)</span>
+                    <span><strong>채용</strong> 검색결과</span>
                 </div>
                 <div class="section__result__detail">
                     <div class="logo">
@@ -129,10 +132,65 @@
                       </span>
                     </div>
                   </div>
+                  <div class="section__result__detail">
+                    <div class="logo">
+                      <img src="../../assets/moomin.jpg" alt="logo" />
+                    </div>
+                    <div class="comp-info">
+                      <strong>네이버[백엔드개발자]</strong>
+                      <span>5,000 - 8,000만원/신입</span>
+                      <span class="comp-info-lo">
+                        <span>12/31 마감</span>
+                        <span>10/15 등록</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="section__result__detail">
+                    <div class="logo">
+                      <img src="../../assets/moomin.jpg" alt="logo" />
+                    </div>
+                    <div class="comp-info">
+                      <strong>네이버[백엔드개발자]</strong>
+                      <span>5,000 - 8,000만원/신입</span>
+                      <span class="comp-info-lo">
+                        <span>12/31 마감</span>
+                        <span>10/15 등록</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="section__result__detail">
+                    <div class="logo">
+                      <img src="../../assets/moomin.jpg" alt="logo" />
+                    </div>
+                    <div class="comp-info">
+                      <strong>네이버[백엔드개발자]</strong>
+                      <span>5,000 - 8,000만원/신입</span>
+                      <span class="comp-info-lo">
+                        <span>12/31 마감</span>
+                        <span>10/15 등록</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="section__result__detail">
+                    <div class="logo">
+                      <img src="../../assets/moomin.jpg" alt="logo" />
+                    </div>
+                    <div class="comp-info">
+                      <strong>네이버[백엔드개발자]</strong>
+                      <span>5,000 - 8,000만원/신입</span>
+                      <span class="comp-info-lo">
+                        <span>12/31 마감</span>
+                        <span>10/15 등록</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="section__search-result-bottom">
+                    <a href="">채용 더 보기</a>
+                  </div>
             </div>
             <div class="section__search-result">
               <div class="section__search-result-top">
-                <span>기업 검색결과 (10개)</span>
+                <span><strong>기업</strong> 검색결과</span>
               </div>
               <div class="section__result__detail">
                 <div class="logo">
@@ -215,6 +273,9 @@
                   <span>Internet content service operator</span>
                   <span class="comp-info-lo">서울 강남구</span>
                 </div>
+              </div>
+              <div class="section__search-result-bottom">
+                <a href="">사람 더 보기</a>
               </div>
             </div>
           </div>

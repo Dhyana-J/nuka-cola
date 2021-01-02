@@ -116,6 +116,7 @@ public class RecruitController {
 			System.out.println("삽입 성공!");
 			
 		}
+	}
 	// 채용관리 페이지
 	@RequestMapping("mDetail.re")
 	public String selectRecruitManage(int rno, Model model) {
@@ -124,6 +125,12 @@ public class RecruitController {
 		
 		return "/recruit/recruitManageDetail";
 		
+	}
+	
+	// 채용검색 페이지
+	@RequestMapping("list.re")
+	public String recruitSearch() {
+		return "recruit/recruitSearch";
 	}
 	
 	

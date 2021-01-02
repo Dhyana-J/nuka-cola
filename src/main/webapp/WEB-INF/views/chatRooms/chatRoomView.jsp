@@ -60,7 +60,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 			 	 <c:otherwise>
 				 	<img class="circle" src="${pageContext.request.contextPath}/${following.userAvatar} " alt="img">
 				 </c:otherwise>
-			  </c:choose>
+			   </c:choose>
               </div>
               <div class="left__userDetailInfo">
                 <div class="left__userName">

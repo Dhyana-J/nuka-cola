@@ -34,7 +34,7 @@ public class Member {
 	private int compNo;
 	
 	private String careerPosi; //검색 시 필요
-	private String compNmae; //검색 시 필요
+	private String compName; //검색 시 필요
 	private String keyword;
 	
 	//이메일 인증용 생성자

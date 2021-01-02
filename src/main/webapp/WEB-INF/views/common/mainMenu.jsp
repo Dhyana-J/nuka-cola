@@ -7,7 +7,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-   <script src ="resources/js/company/integrated-Searching.js"></script>
   </head>
   <body>
   
@@ -40,10 +39,12 @@
     <div class="main__menu__container">
       <div class="inner">
         <div class="menu__left">
-          <div class="search__box">
-            <input type="text" placeholder="검색어를 입력해주세요" id="integrated-search"/>
-            <i class="material-icons" id="integrated-search-icon"> search </i>
-          </div>
+        <form method="get" action="search.integrated">
+	          <div class="search__box">
+		         <input type="text" placeholder="검색어를 입력해주세요"  name="keyword"/>
+		         <i class="material-icons" id="integrated-search-icon"> search </i>
+	          </div>
+          </form>
           <ul class="menu__nav">
             <li><a href="/views/timeline/timeline.jsp">TIME LINE</a></li>
             <li><a href="#">PARTNERS</a></li>
@@ -84,23 +85,6 @@
             .classList.toggle("main__menu-active");
         }
       });
-      
-      
-      /* 여기부터 통합검색 */
-      document.querySelector("#integrated-search").addEventListener("keydown", () => {
-
-    	  const keyword = document.querySelector("#integrated-search").value;
-    	  console.log(keyword)
-    	  
-    	  fetch('search.integrated', {
-    		  method: 'GET',
-    		  body: JSON.stringify({
-    			 keyword: keyword})
-    	  }).then(res =>{
-    	  })
-    	  
-      });
-      
       
       
       

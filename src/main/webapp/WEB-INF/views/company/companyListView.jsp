@@ -113,7 +113,14 @@
 	                <div class="section__result__detail">
 	                <input type="hidden" class="comp-no" name="compNo" value="${ c.compNo }">
 	                  <div class="logo">
-	                    <img src="${c.compLogo}" alt="logo" />
+	                  	<c:choose>
+						 <c:when test="${c.compLogo eq null }">
+							<img class="circle" src="resources/assets/avatar.png" alt="img">
+						 </c:when>
+					 	 <c:otherwise>
+	                    	<img src="${c.compLogo}" alt="logo" />
+						 </c:otherwise>
+					  </c:choose>
 	                  </div>
 	                  <div class="comp-info" onClick='location.href="profileMain.co?cno=${ c.compNo }"'>
 	                    <strong>${ c.compName }</strong>

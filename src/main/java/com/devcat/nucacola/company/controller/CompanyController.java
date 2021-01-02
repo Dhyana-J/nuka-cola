@@ -731,31 +731,23 @@ public class CompanyController {
 			
 	}
 	//통합검색
-	@ResponseBody
-	@RequestMapping(value ="/search.integrated", method = RequestMethod.POST)
-	public String selectIntegratedList(String keyword,
-			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-			HttpSession session, Model model) {
-		
-		System.out.println(keyword);
-		
+	@RequestMapping("search.integrated")
+	public String selectIntegratedList(@RequestParam(value ="keyword", required = false)String keyword,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,Model model) {
 		
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
-		
 		
 		ArrayList<Member> ulist = cService.selectUserSearch(pi, keyword);
 		ArrayList<Recruit> rlist = cService.selectRecruitSearch(pi, keyword);
 		ArrayList<Company> clist = cService.selectCompanySearch(pi, keyword);
 		
 		model.addAttribute("pi", pi);
-		model.addAttribute("list", ulist);
-		model.addAttribute("list", rlist);
-		model.addAttribute("list", clist);
+		model.addAttribute("ulist", ulist);
+		model.addAttribute("rlist", rlist);
+		model.addAttribute("clist", clist);
 		
 		return "/company/integratedSearching";
 	}
-	
-
 	
 }

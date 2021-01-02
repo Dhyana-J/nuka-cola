@@ -1,22 +1,19 @@
 package com.devcat.nucacola.recruits.model.service;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-
-import com.devcat.nucacola.recruits.model.dao.RecruitDao;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 
 @Service
@@ -101,6 +98,12 @@ public class RecruitServiceImpl implements RecruitService {
 	public int selectCompNo(int userNo) {
 		
 		return rDao.selectCompNo(sqlSession, userNo);
+	}
+	
+	// 지원자조회
+	@Override
+	public ArrayList<RecruitManage> selectRecruitManageDetail(int rno) {
+		return rDao.selectRecruitManageDetail(sqlSession, rno);
 	}
 
 

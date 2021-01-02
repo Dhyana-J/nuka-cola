@@ -7,6 +7,7 @@ import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import org.mybatis.spring.SqlSessionTemplate;
 import sun.security.util.Debug;
@@ -38,11 +39,12 @@ public interface RecruitService {
 		int deleteApplyList(Apply ap);
 		
 	// 채용 등록	
-	int insertRecruit(Recruit re);
+		int insertRecruit(Recruit re);
 	
 	// 사용자의 회사 번호 알아오기
-	int selectCompNo(int userNo);
+		int selectCompNo(int userNo);
 	
-	
+	// 지원자 조회
+		ArrayList<RecruitManage> selectRecruitManageDetail(int rno);
 		
 }

@@ -19,6 +19,7 @@
 		<result column="apply_prog" property="applyProg"/>
 		<result column="apply_no" property="applyNo"/>
 		<result column="user_no" property="userNo"/>
+		<result column="recruit_no" property="recruitNo"/>
 		<result column="a.created_at" property="appliedAt"/>
 		<result column="r.created_at" property="createdAt"/>
 	</resultMap>
@@ -35,6 +36,7 @@
 		     , a.apply_no
 		     , to_char(a.created_at, 'YYYY-MM-DD') "a.created_at"
 		     , a.user_no
+		     , r.recruit_no
 		  from applies a
 		  join recruits r on (r.recruit_no = a.recruit_no)
 		 where user_no = #{userNo}
@@ -49,8 +51,8 @@
     </select>
     
     <!-- 회원의 지원 내역삭제 요청-->
-	<delete id="deleteApplyList" parameterType="Apply">
-		delete * 
+	<delete id="deleteApplyList" parameterType="_int" >
+		delete  
 		  from applies
 		 where user_no = #{userNo}
 		   and recruit_no=#{recruitNo}

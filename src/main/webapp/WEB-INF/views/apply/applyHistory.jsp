@@ -1,25 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>Apply</title>
+  
   <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
-      crossorigin="anonymous"
+	      rel="stylesheet"
+	      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+	      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+	      crossorigin="anonymous"
     />
+    
   <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
+	      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	      rel="stylesheet"
     />
-    <link rel="stylesheet" href="resources/css/common.css" />
-    <link rel="stylesheet" href="resources/css/recruit/apply-history.css" />
+    
+  <link rel="stylesheet" href="resources/css/common.css" />
+  <link rel="stylesheet" href="resources/css/recruit/apply-history.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="../../css/footer.css">
+  <link rel="stylesheet" href="resources/css/footer.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
 </head>
 <body>
 
@@ -73,7 +82,7 @@
         </div>
         <div class="apply-history__right-content">
           <div class="apply-history__sub-title">
-            	진행 중인 지원정보 (${ applyCount })
+            	<span>진행 중인 지원정보 (${ applyCount })</span>
           </div>
           <div class="apply-history__list">
          
@@ -134,8 +143,9 @@
               </div>
               <div class="apply-info__btn">
                 <form action="">
-                  <input class="recruit-no" type="hidden" name="recruitNo" value="${a.recruitNo}">
-                  <button type="submit" class="apply-cancel__btn">지원 취소</button>
+                  <input class="recruit-no" type="hidden" name="recruitNo" value="${r.recruitNo}">
+                  <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo }">
+                  <button type="button" class="apply-cancel__btn">지원 취소</button>
                 </form>
                 <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
                   채용 정보 확인
@@ -175,28 +185,33 @@
   <script defer>
   
   // 지원취소 버튼 요청시 실행할 Axios
+               
   document.querySelectorAll('.apply-cancel__btn').forEach((v,i)=>{
       console.log(v);
           v.addEventListener('click',()=>{
-
+        	  
                let item = v.parentNode.parentNode;
-               let rno = item.querySelector('.recruit-no').value;
-               
+			   let userNo = item.querySelector('.user-no').value;
+			   let recruitNo = item.querySelector('.recruit-no').value;
+
+               console.log(recruitNo);
+               console.log(userNo);
                axios.get('delete.ap',{
                  params:{
-                   userNo:${a.userNo},
-                   recruitNo:rno
+                   userNo:userNo,
+                   recruitNo:recruitNo
                  }
               })
               .then(function(){
               });
+               
                let applyCount= document.querySelector('.apply-history__sub-title');
-                let applyCountNum = applyCount.querySelector('div').innerText;
+                let applyCountNum = applyCount.querySelector('span').innerText;
                 applyCountNum=parseInt(applyCountNum);
                 console.log(applyCountNum);
                 applyCountNum = --applyCountNum;
                 applyCountNum.innerText = applyCountNum;
-                applyCount.querySelector('div').innerText = applyCountNum;
+                applyCount.querySelector('span').innerText = applyCountNum;
                item.remove(); 
 
             });

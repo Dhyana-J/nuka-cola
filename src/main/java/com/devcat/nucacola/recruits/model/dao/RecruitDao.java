@@ -10,6 +10,7 @@ import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 @Repository
@@ -48,8 +49,12 @@ public class RecruitDao {
     public int selectApplyCount(SqlSessionTemplate sqlSession, int userNo) {
     	return sqlSession.selectOne("apply-mapper.selectApplyCount",userNo);
     }
-
+    // 지원취소
 	public int deleteApplyList(SqlSessionTemplate sqlSession, Apply ap) {
 		return sqlSession.delete("apply-mapper.deleteApplyList",ap);
+	}
+	// 지원자 조회
+	public ArrayList<RecruitManage> selectRecruitManageDetail(SqlSessionTemplate sqlSession, int rno) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectRecruitManageDetail", rno);
 	}
 }

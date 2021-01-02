@@ -107,7 +107,7 @@
                 <div class="recruit__btns__wrapper">
                     <div class="item1 recruit__content">
                         <button class="btn-blue" type="button">지원하기</button>
-                        <button type="button">지원자 보기 (${appliesCount})</button>
+                        <button type="button" onClick='location.href="manageDetail.re?rno=${ info.recruitNo }"'>지원자 보기 (${appliesCount})</button>
                         <button type="button">채용정보 수정</button>
                         <span id="find-email-btn">채용 정보 신고</span>
                     </div>

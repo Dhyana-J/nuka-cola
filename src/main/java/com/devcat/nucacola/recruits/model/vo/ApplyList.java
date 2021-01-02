@@ -13,14 +13,14 @@ import lombok.ToString;
 
 public class ApplyList {
 	
-	private String recruitTitle;
-	private int recruitRequ;
-	private String createdAt;
-	private String appliedAt;
-	private String recruitDl;
-	private int applyProg;
-	private int applyNo;
-	private int userNo;
-	private int recruitNo;
+	private String recruitTitle; // 채용공고제목
+	private int recruitRequ;	 // 채용조건
+	private String createdAt;	 // 채용공고게시일
+	private String appliedAt;	 // 지원일
+	private String recruitDl;	 // 채용공고마감일
+	private int applyProg;		 // 채용단게
+	private int applyNo;		 // 지원식별자
+	private int userNo;			 // 유저식별자
+	private int recruitNo;		 // 채용공고식별자
 	
 }

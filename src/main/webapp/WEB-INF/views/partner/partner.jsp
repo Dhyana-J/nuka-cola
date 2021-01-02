@@ -95,6 +95,7 @@
                 </div>
               </form>
               <div class="result_tag">
+               <!-- 
                 <div class="tag">
                   <span>자바</span>
                   <i class="material-icons md-18 md-light">close</i>
@@ -103,6 +104,7 @@
                   <span>기획자</span>
                   <i class="material-icons md-18 md-light">close</i>
                 </div>
+                -->
               </div>
             
               <div class="connecting_people">

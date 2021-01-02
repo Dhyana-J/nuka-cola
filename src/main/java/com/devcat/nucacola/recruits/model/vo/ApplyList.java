@@ -21,5 +21,6 @@ public class ApplyList {
 	private int applyProg;
 	private int applyNo;
 	private int userNo;
+	private int recruitNo;
 	
 }

@@ -57,7 +57,7 @@
           </div>
           <div class="left-sidebar__item">
             <ul>
-              <li><a href="#">서류 접수 (1)</a></li>
+              <li><a href="#">서류 접수 (5)</a></li>
               <li><a href="#">서류 합격 (1)</a></li>
             </ul>
           </div>
@@ -134,7 +134,7 @@
               </div>
               <div class="apply-info__btn">
                 <form action="">
-                  <input type="hidden" name="applyNo" value="${a.applyNo}">
+                  <input class="recruit-no" type="hidden" name="recruitNo" value="${a.recruitNo}">
                   <button type="submit" class="apply-cancel__btn">지원 취소</button>
                 </form>
                 <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
@@ -184,7 +184,7 @@
                
                axios.get('delete.ap',{
                  params:{
-                   userNo:${loginUser.userNo},
+                   userNo:${a.userNo},
                    recruitNo:rno
                  }
               })

@@ -84,13 +84,27 @@ public class RecruitController {
 	// 지원한 내역 삭제하기(지원취소)
 	@ResponseBody
 	@RequestMapping(value="/delete.ap", produces="text/html; charset=utf-8")
-	public void deleteApplyList(Apply ap, HttpSession session) {
-		ap.setUserNo(ap.getUserNo());
-		System.out.println(ap.getUserNo());
-		int result = rService.deleteApplyList(ap);
-		System.out.println(result);
+	public void deleteApplyList(int userNo, int rno, HttpSession session) {
 		
-//		return "redirect:list.ap?userNo="+loginUser.getUserNo();
+		// 로그인한 유저의 정보를 담아줘서 전달하는 역할
+		Member m = (Member) session.getAttribute("loginUser");
+		// 새로운 ap 생성자 생성
+		Apply ap = new Apply();
+		// ap에 userNo와 recruitNo 담기
+		ap.setUserNo(m.getUserNo());
+		ap.setRecruitNo(rno);
+		
+		System.out.println(ap);
+		int result = rService.deleteApplyList(ap);
+		
+		if(result > 0) {
+			System.out.println("삭제성공");
+			System.out.println(result);
+		}else {
+			System.out.println("삭제실패");
+		}
+		
+		//return "redirect:list.ap?userNo="+loginUser.getUserNo();
 	}
 	
 	@RequestMapping("recruitEnroll.re")

@@ -50,10 +50,10 @@
     
     <!-- 회원의 지원 내역삭제 요청-->
 	<delete id="deleteApplyList" parameterType="Apply">
-		delete *
+		delete * 
 		  from applies
 		 where user_no = #{userNo}
-		   and recruit_no=#{rno}; 
+		   and recruit_no=#{recruitNo}
 	</delete>
 	
 	

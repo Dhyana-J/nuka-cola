@@ -107,5 +107,9 @@ public class RecruitServiceImpl implements RecruitService {
 	public ArrayList<UserCareer> selectCareers(int uno){
 		return rDao.selectCareers(sqlSession,uno);
 	}
+	@Override
+	public int changeProgress(RecruitSkill rp){
+		return rDao.changeProgress(sqlSession,rp);
+	}
 	
 }

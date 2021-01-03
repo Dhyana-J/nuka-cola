@@ -14,20 +14,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>recruit-interview</title>
-
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
             integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
             crossorigin="anonymous"
     />
-
     <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
     />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/recruit/apply-detail.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 
@@ -38,42 +37,69 @@
         <div class="main__section">
             <div class="main__section__right">
                 <div class="progress__wrap">
-                    <ol class="progress progress--large">
-                        <c:choose>
-                            <c:when test="${a.applyProg eq 0}">
-                                <li class="is-active" data-step="1">서류접수</li>
-                                <li class="" data-step="2">서류합격</li>
-                                <li class="" data-step="3">팀합류</li>
-                                <li data-step="4" class="">탈락</li>
-                            </c:when>
-                            <c:when test="${a.applyProg eq 1}">
-                                <li class="is-complete" data-step="1">서류접수</li>
-                                <li class="is-active" data-step="2">서류합격</li>
-                                <li class="" data-step="3">팀합류</li>
-                                <li data-step="4" class="">탈락</li>
-                            </c:when>
-                            <c:when test="${a.applyProg eq 2}">
-                                <li class="is-complete" data-step="1">서류접수</li>
-                                <li class="is-complete" data-step="2">서류합격</li>
-                                <li class="is-active" data-step="3">팀합류</li>
-                                <li data-step="4" class="">탈락</li>
-                            </c:when>
-                            <c:when test="${a.applyProg eq 3}">
-                                <li class="is-complete" data-step="1">서류접수</li>
-                                <li class="is-complete" data-step="2">서류합격</li>
-                                <li class="" data-step="3">팀합류</li>
-                                <li data-step="4" class="is-failed">탈락</li>
-                            </c:when>
-                        </c:choose>
-                    </ol>
-                    <!-- <div class="interview__step-admin">
-                      <select name="" id="">
-                        <option value="" selected>단계변경</option>
-                        <option value="">서류합격</option>
-                        <option value="">팀합류</option>
-                        <option value="">탈락</option>
-                      </select>
-                    </div> -->
+                    <c:if test="${loginUser.userNo ne a.manager1No and loginUser.userNo ne a.manager2No}">
+                        <ol class="progress progress--large">
+                            <c:choose>
+                                <c:when test="${a.applyProg eq 0}">
+                                    <li class="is-active" data-step="1" >서류접수</li>
+                                    <li class="" data-step="2"  >서류합격</li>
+                                    <li class="" data-step="3">팀합류</li>
+                                    <li data-step="4" class="">탈락</li>
+                                </c:when>
+                                <c:when test="${a.applyProg eq 1}">
+                                    <li class="is-complete" data-step="1" >서류접수</li>
+                                    <li class="is-active" data-step="2" >서류합격</li>
+                                    <li class="" data-step="3">팀합류</li>
+                                    <li data-step="4" class="">탈락</li>
+                                </c:when>
+                                <c:when test="${a.applyProg eq 2}">
+                                    <li class="is-complete" data-step="1" >서류접수</li>
+                                    <li class="is-complete" data-step="2" >서류합격</li>
+                                    <li class="is-active" data-step="3">팀합류</li>
+                                    <li data-step="4" class="">탈락</li>
+                                </c:when>
+                                <c:when test="${a.applyProg eq 3}">
+                                    <li class="is-failed1" data-step="1" >서류접수</li>
+                                    <li class="is-failed1" data-step="2">서류합격</li>
+                                    <li class="is-failed1" data-step="3">팀합류</li>
+                                    <li data-step="4" class="is-failed">탈락</li>
+                                </c:when>
+                            </c:choose>
+                        </ol>
+                    </c:if>
+                    <c:if test="${not empty loginUser}">
+                        <c:if test="${loginUser.userNo eq a.manager1No or loginUser.userNo eq a.manager2No}">
+                            <ol class="progress progress--large">
+                                <c:choose>
+                                    <c:when test="${a.applyProg eq 0}">
+                                        <li class="is-active" data-step="1" onclick="onChangeProgress(0)">서류접수</li>
+                                        <li class="" data-step="2"  onclick="onChangeProgress(1)">서류합격</li>
+                                        <li class="" data-step="3" onclick="onChangeProgress(2)">팀합류</li>
+                                        <li data-step="4" class="" onclick="onChangeProgress(3)">탈락</li>
+                                    </c:when>
+                                    <c:when test="${a.applyProg eq 1}">
+                                        <li class="is-complete" data-step="1" onclick="onChangeProgress(0)">서류접수</li>
+                                        <li class="is-active" data-step="2" onclick="onChangeProgress(1)">서류합격</li>
+                                        <li class="" data-step="3" onclick="onChangeProgress(2)">팀합류</li>
+                                        <li data-step="4" class="" onclick="onChangeProgress(3)">탈락</li>
+                                    </c:when>
+                                    <c:when test="${a.applyProg eq 2}">
+                                        <li class="is-complete" data-step="1" onclick="onChangeProgress(0)">서류접수</li>
+                                        <li class="is-complete" data-step="2" onclick="onChangeProgress(1)">서류합격</li>
+                                        <li class="is-active" data-step="3" onclick="onChangeProgress(2)">팀합류</li>
+                                        <li data-step="4" class="" onclick="onChangeProgress(3)">탈락</li>
+                                    </c:when>
+                                    <c:when test="${a.applyProg eq 3}">
+                                        <li class="is-failed1" data-step="1" onclick="onChangeProgress(0)">서류접수</li>
+                                        <li class="is-failed1" data-step="2" onclick="onChangeProgress(1)">서류합격</li>
+                                        <li class="is-failed1" data-step="3" onclick="onChangeProgress(2)">팀합류</li>
+                                        <li data-step="4" class="is-failed" onclick="onChangeProgress(3)">탈락</li>
+                                    </c:when>
+                                </c:choose>
+                            </ol>
+                            <p>클릭시 단계가 바뀝니다.</p>
+                        </c:if>
+                    </c:if>
                 </div>
 
                 <div class="content__wrap">
@@ -189,4 +215,11 @@
     </div>
 </main>
 </body>
+<script defer>
+    const onChangeProgress = (number)=>{
+        console.log(number)
+        location.href = 'changeprog.ap?rno=${a.applyNo}&number='+number
+
+    }
+</script>
 </html>

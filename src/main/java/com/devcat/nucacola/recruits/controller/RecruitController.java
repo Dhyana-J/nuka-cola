@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -70,6 +71,17 @@ public class RecruitController {
 		return "/apply/applyDetail";
 	}
 
+	// 단계변경
+	@RequestMapping(value="changeprog.ap" ,method = RequestMethod.GET)
+	public String changeProgress(int rno,int number){
+		System.out.println(rno);
+		RecruitSkill rp = new RecruitSkill();
+		rp.setRecruitNo(rno);
+		rp.setSkillNo(number);
+		int result = rService.changeProgress(rp);
+		System.out.println("redirect:/detail.ap?ano="+rno);
+		return "redirect:/detail.ap?ano="+rno;
+	}
 	// 지원한 내역조회
 	@RequestMapping("list.ap")
 	public String selectApplyList(Member m, int rno, Model model, HttpSession session) {

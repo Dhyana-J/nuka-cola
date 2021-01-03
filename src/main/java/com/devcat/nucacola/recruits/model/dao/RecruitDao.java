@@ -55,4 +55,8 @@ public class RecruitDao {
     public ArrayList<UserCareer> selectCareers(SqlSessionTemplate sqlSession, int uno) {
         return (ArrayList) sqlSession.selectList("recruit-mapper.selectCareers",uno);
     }
+
+    public int changeProgress(SqlSessionTemplate sqlSession, RecruitSkill rp) {
+	    return sqlSession.update("recruit-mapper.changeProgress",rp);
+    }
 }

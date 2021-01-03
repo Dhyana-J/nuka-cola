@@ -192,4 +192,10 @@
                  left join COMPANYS C2 on C2.COMP_NO = CAREERS.COMP_NO
         where CAREERS.USER_NO = #{uno}
     </select>
+
+    <update id="changeProgress" parameterType="RecruitSkill">
+        UPDATE NUKACOLA.APPLIES t
+        SET t.APPLY_PROG = #{skillNo}
+        WHERE t.APPLY_NO = #{recruitNo}
+    </update>
 </mapper>

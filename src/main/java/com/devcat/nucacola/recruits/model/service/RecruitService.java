@@ -42,4 +42,7 @@ public interface RecruitService {
 	Apply selectApplyDetail(int ano);
 	ArrayList<RecruitSkill> selectUserSkills(int uno);
 	ArrayList<UserCareer> selectCareers(int uno);
+
+	//지원자상태변경
+	int changeProgress(RecruitSkill rp);
 }

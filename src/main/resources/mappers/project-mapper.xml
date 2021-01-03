@@ -49,17 +49,14 @@
 	</select>
 	
 	<!-- 프로젝트 수정 -->
-	<update id="updateProject" parameterType="Project">
+	<delete id="deleteProject" parameterType="Project">
 		
-		update 
-        			projects
-			  	set   
-			        PROJECT_NAME
-			       ,PROJECT_POSITION
-			       ,PROJECT_START
-			       ,PROJECT_END
-			  where user_no = #{userNo}
-	</update>
+		delete  
+		  from projects
+		 where user_no = #{userNo}
+		   and project_id = #{projectId}
+		   
+	</delete>
 	
 
 	

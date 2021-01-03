@@ -217,15 +217,25 @@ public class ProfileController {
 	
 
 	// 프로젝트 수정
-	@RequestMapping("/update.project.us")
-	public String updateProject(Project p, HttpSession session, Model model) {
+	@RequestMapping("/delete.project.us")
+	public String deleteProject(Project p,int userNo, int projectId, HttpSession session, Model model) {
 		
-		System.out.println(p);
-		int result = mService.updateProject(p);
-				
+		
+		Project pj = new Project();
+		// pj에 userNo과 projectId 값을 담아 delete요청
+		pj.setProjectId(projectId);
+		pj.setUserNo(userNo);	
+		
+		System.out.println(pj);
+		int result = 0;
+		result = mService.deleteProject(pj);
+		System.out.println(result);
+		
 		if(result > 0) {
+			System.out.println("삭제성공");
 			return "redirect:profile.me?userNo="+p.getUserNo();
 		}else {
+			System.out.println("삭제실패");
 			model.addAttribute("errorMsg","입력 실패");
 			return "common/errorPage";
 		}
@@ -234,7 +244,7 @@ public class ProfileController {
 	}
 	
 	// 최종학력 입력
-	@RequestMapping("/update.edu.us")
+	@RequestMapping("/delete.edu.us")
 	public String updateUserEdu(Member m, HttpSession session, Model model) {
 		
 		
@@ -253,7 +263,7 @@ public class ProfileController {
 	// 경력 입력
 	@RequestMapping("/insert.career.us")
 	public String insertCareer(Career c, HttpSession session, Model model) {
-	
+
 		int result = mService.insertCareer(c);
 		
 		if(result >0) {
@@ -264,9 +274,7 @@ public class ProfileController {
 			
 		}
 	}
-	
 
-	
 	// 경력 수정
 	@RequestMapping("/update.career.us")
 	public String updateCareer(Career c) {

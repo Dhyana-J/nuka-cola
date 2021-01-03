@@ -59,6 +59,7 @@
 		<result column="updated_at" property="updatedAt"/>
 		<result column="entered_at" property="enteredAt"/>
 		<result column="created_at" property="createdAt"/>
+		<result column="comp_name" property="compName"/>
 	</resultMap>
 
 	
@@ -490,16 +491,13 @@
 	<select id="selectCareerList" parameterType="Career"
 			resultMap="CareerResultSet">
 		select
-				x.user_no
-		      , x.comp_no
-		      , comp_name
-		      , career_posi
-		      , to_char(x.updated_at, 'YYYY-MM-DD') "updated_at"
-		      , to_char(x.entered_at, 'YYYY-MM-DD') "entered_at"
-		      , to_char(x.created_at, 'YYYY_MM-DD') "created_at"
-		from careers x
-		join companys c on (x.comp_no = c.comp_no) 
-		where x.user_no = 30	
+		        companys.comp_name
+		      , careers.career_posi
+		      , to_char(careers.updated_at, 'YYYY-MM-DD') "updated_at"
+		      , to_char(careers.entered_at, 'YYYY-MM-DD') "entered_at"
+		 from careers ,companys 
+		where companys.comp_no = careers.comp_no
+		  and careers.user_no = #{userNo}
 			
 	</select>
 
@@ -510,7 +508,7 @@
 		insert 
 			  into careers
 			        ( 
-			         COMP_NO
+			         select from companys 
 			        ,USER_NO
 			        ,CAREER_POSI
 			        ,ENTERED_AT
@@ -520,15 +518,13 @@
 			        values
 			        
 			        (
-			        #{compNo},
-			        #{userNo},
-			        #{careerPosi},
-			        #{enteredAt},
-			        #{updatedAt}
+			        seq_comp.nextval
+			        ,#{userNo}
+			        ,#{careerPosi}
+			        ,#{enteredAt}
+			   ,#{updatedAt}
 			        )
 	</insert>
-
-	
 	
 	<!-- 회사 대표 조회 -->
 	<select id="selectHead"

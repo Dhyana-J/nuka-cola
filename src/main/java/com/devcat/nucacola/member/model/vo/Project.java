@@ -21,5 +21,12 @@ public class Project {
 	private String projectStart;
 	private String projectEnd;
 	
+	// 프로젝트 삭제요청시 필요한 vo
+	public Project(int userNo, int projectId) {
+		super();
+		this.userNo = userNo;
+		this.projectId = projectId; 
+	}
+	
 	//private ArrayList<Project> projectList;
 }

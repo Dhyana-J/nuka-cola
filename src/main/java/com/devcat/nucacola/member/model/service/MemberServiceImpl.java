@@ -371,14 +371,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.insertProject(sqlSession,p);
 	}
-	// 프로젝트 수정
-	@Override
-	public int updateProject(Project p) {
+	// 프로젝트 삭제 요청
+		@Override
+		public int deleteProject(Project pj) {
+			return mDao.deleteProject(sqlSession, pj);
+		}
 
-		return mDao.updateProject(sqlSession,p);
-	}
-	
-	
 	// 최종학력 조회
 	@Override
 	public String selectUserEdu(int userNo) {
@@ -529,6 +527,8 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Member> partnerPopularInfo(List<Integer> popularNo) {
 		return mDao.partnerPopularInfo(sqlSession, popularNo);
 	}
+	
+	
 
 	
 

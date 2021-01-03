@@ -210,16 +210,19 @@
                <div onclick="projectToggle()" class="edit__field">
                   <i id="project-btn" class="material-icons">create</i>
                </div>
-               <div onclick="deleteProjectToggle()" class="edit__field">
-               	<i id="deleteProject-btn" class="material-icons">clear</i>
-               </div>
+<!--책갈피  -->
                
             </div>
             <span class="just__text" id="project-name">
             
             <c:forEach var="p" items="${ projectList }">
               <div>
+                  <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo}" id="main-user-no">
+               	  <input class="project-id" type="hidden" name="projectId" value="${p.projectId}" id="main-project-id">
                <ul class="user__project__section">
+                 <li onclick="deleteProject()" class="project_edit__field">
+                 	<i id="deleteProject-btn" class="material-icons">delete</i>
+                 </li>
                  <li>${p.projectName }</li>
                  <li>${p.projectPosition }</li>
                  <li>${p.projectStart } ~ ${p.projectEnd }</li>
@@ -289,15 +292,15 @@
 	           <c:forEach var="c" items="${ careerList }">
 	              <div>
 	               <ul class="user__career__section">
-	                 <li>스타벅스 </li>
+	                 <li>${ c.compName } </li>
 	                 <li>${ c.careerPosi }</li>
 	                 <li>${ c.enteredAt } ~ ${ c.updatedAt}</li>
 	               </ul> 
 	              </div>
 	           </c:forEach>
             	</span>
-	         
-	         <div class="edit-disable" id="career-input">
+	           
+<%-- 	         <div class="edit-disable" id="career-input">
 			 <br><br>
               <form action="insert.career.us" method="post">
               
@@ -322,9 +325,10 @@
                    <button type="submit" class="btn">등록</button>
                  </div>   
               </form>
-            </div>
-              	
+            </div> 
+ --%>
           </div>
+          
          
          
          
@@ -948,7 +952,15 @@
          const email = document.querySelector("#main-info-email").value;
          location.href ="update.edu.us?userEdu=" + userEdu + "&userNo=" + userNo + "&email=" + email;
       }
+		
+      function deleteProject() {
 
+          const userNo = document.querySelector("#main-user-no").value;
+          const projectId = document.querySelector("#main-project-id").value;
+          location.href ="delete.project.us?userNo=" + userNo + "&projectId=" + projectId;
+       }
+ 	
+      
 
       /*최종학력 아이콘 버튼용*/
       const threeLineToggle = () => {
@@ -967,7 +979,7 @@
          }
       };
 
-      /* 프로젝트 아이콘 버튼용*/
+      	/* 프로젝트 아이콘 버튼용*/
 
       const projectToggle = () => {
          document
@@ -984,8 +996,6 @@
             document.querySelector("#project-btn").innerText = "create";
          }
       }
-	
-	
 
 		/* 프로필 이미지 변경 */
 		
@@ -1040,13 +1050,39 @@
 			    }
 		 }
 		
-		
-		//삭제하기
-		/*
-		const deleteProjectToggle = () => {
-				
-		}
-		*/
+		// 프로젝트 삭제요청시 실행할 axios 
+		  document.querySelectorAll('.project_edit__field').forEach((v,i)=>{
+		      console.log(v);
+		          v.addEventListener('click',()=>{
+		        	   
+		               let item = v.parentNode.parentNode.parentNode;
+					   let userNo = item.querySelector('.user-no').value;
+					   let projectId = document.querySelector('.project-Id').value;
+						
+		               console.log(projectId);
+		               console.log(userNo);
+		               
+		               axios.get('delete.project.us',{
+		                 params:{
+		                   userNo:userNo,
+		                   projectId:projectId
+		                 }
+		              })
+		              .then(function(){
+		              });
+		               
+		               /*
+		               let applyCount= document.querySelector('.apply-history__sub-title');
+		                let applyCountNum = applyCount.querySelector('span').innerText;
+		                applyCountNum=parseInt(applyCountNum);
+		                console.log(applyCountNum);
+		                applyCountNum = --applyCountNum;
+		                applyCountNum.innerText = applyCountNum;
+		                applyCount.querySelector('span').innerText = applyCountNum;
+		                item.remove(); 
+		               */
+		            });
+		         });
 		
 		
 

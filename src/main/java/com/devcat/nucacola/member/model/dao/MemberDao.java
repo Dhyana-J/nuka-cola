@@ -87,9 +87,9 @@ public class MemberDao {
 		return sqlSession.insert("projectMapper.insertUserProject", p);
 		
 	}
-	// 프로젝트수정
-	public int updateProject(SqlSessionTemplate sqlSession, Project p) {
-		return sqlSession.update("projectMapper.updateProject", p);
+	// 프로젝트삭제
+	public int deleteProject(SqlSessionTemplate sqlSession, Project pj) {
+		return sqlSession.delete("projectMapper.deleteProject", pj);
 	}
 	
 
@@ -332,7 +332,8 @@ public class MemberDao {
 		}
 		return popularInfo;
 	}
-	
+
+
 	
 	
 	

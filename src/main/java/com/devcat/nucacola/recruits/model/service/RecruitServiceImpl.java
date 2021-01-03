@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
@@ -74,7 +75,7 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 	// 내가 지원한 채용공고 리스트 조회
 	@Override
-	public ArrayList<Apply> selectApplyList(int userNo) {
+	public ArrayList<ApplyList> selectApplyList(int userNo) {
 		return rDao.selectApplyList(sqlSession, userNo);
 	}
 	// 내가 지원한 내역 조회(수)
@@ -106,6 +107,10 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.selectRecruitManageDetail(sqlSession, rno);
 	}
 
+	@Override
+	public int selectBookmarkCount(int rno) {
+		return rDao.selectBookmarkCount(sqlSession, rno);
+	}
 
 	
 }

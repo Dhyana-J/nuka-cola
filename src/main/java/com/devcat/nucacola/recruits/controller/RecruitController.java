@@ -1,37 +1,25 @@
 package com.devcat.nucacola.recruits.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
 
-import com.devcat.nucacola.member.model.service.MemberService;
-import com.devcat.nucacola.member.model.vo.Bookmark;
-import com.devcat.nucacola.member.model.vo.Member;
-import com.devcat.nucacola.member.model.vo.UserFiled;
-import com.devcat.nucacola.posts.model.vo.Comment;
-import com.devcat.nucacola.recruits.model.service.RecruitService;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitManage;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
-import com.google.gson.Gson;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.devcat.nucacola.recruits.model.vo.Apply;
 
-import javax.servlet.http.HttpSession;
+import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.recruits.model.service.RecruitService;
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.ApplyProg;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 @Controller
 public class RecruitController {
@@ -78,12 +66,36 @@ public class RecruitController {
 	public String selectApplyList(int userNo, Model model, HttpSession session) {
 		
 		// 조회할 채용정보가져오기
-		ArrayList<Apply> applyList = rService.selectApplyList(userNo);
+		ArrayList<ApplyList> applyList = rService.selectApplyList(userNo);
 		int applyCount = rService.selectApplyCount(userNo);
 		System.out.println(applyList);
 		System.out.println(applyCount);
 		
+		ApplyProg applyProg = new ApplyProg();
+		int submitState = 0;
+		int passState = 0;
+		int joinState = 0;
+		int failState = 0;
+		
+		for(ApplyList al : applyList) {
+			
+			if(al.getApplyProg() == 0) { //채용조건이 0이라면 서류접수에 1 		
+				submitState++;				
+			}else if(al.getApplyProg() == 1) { // 채용조건이 1이라면 서류합격에 1
+				passState++;
+			}else if(al.getApplyProg() == 2) { // 채용조건이 2라면 팀 합류에 1
+				joinState++;
+			}else {								// 채용조건이 3이라면 탈락에 1
+				failState++;
+			}
+
+		}
+		
 		// applylist에 담아 model에 넣고 뿌려주기
+		model.addAttribute("submitState", submitState);
+		model.addAttribute("passState",passState);
+		model.addAttribute("joinState", joinState);
+		model.addAttribute("failState",failState);
 		model.addAttribute("applyList", applyList);
 		model.addAttribute("applyCount",applyCount);
 
@@ -114,37 +126,6 @@ public class RecruitController {
 		
 		//return "redirect:list.ap?userNo="+loginUser.getUserNo();
 	}
-	/*
-	@ResponseBody
-	@RequestMapping(value="/delete.field.us", produces="text/html; charset=utf-8")
-	public String deleteUserFiled(int userNo, String skillName) {
-		
-		String[] arr = {skillName};
-		//스킬번호 알아오기
-		ArrayList<Skills> list = mService.getSkillNo(arr);
-		
-		System.out.println(list);
-		
-		// 지울 스킬번호와 유저 번호 정보 넣어주기
-		UserFiled uf = new UserFiled();
-		
-		uf.setUserNo(userNo);
-		uf.setSkillNo(list.get(0).getSkillNo());
-		
-		System.out.println(uf);
-		
-		int result = mService.deleteUserFiled(uf);
-		
-		if(result>0) {
-			
-			return new Gson().toJson("삭제 성공");
-		}else {
-			return new Gson().toJson("삭제 실패");
-		}
-		
-	}
-	*/
-	
 
 	
 	@RequestMapping("recruitEnroll.re")
@@ -186,13 +167,15 @@ public class RecruitController {
 			
 		}
 	}
-	// 채용관리 페이지
 
+	// 채용관리 페이지
 	@RequestMapping("manageDetail.re")
 	public String selectRecruitManageDetail(int rno, Model model) {
 		
 		// 지원자 조회를 위한 ArrayList
 		ArrayList<RecruitManage> manageList = rService.selectRecruitManageDetail(rno);
+		int bookmarkCount = rService.selectBookmarkCount(rno);
+		System.out.println(bookmarkCount);
 		// 지원자 수 조회를 위한 변수
 		int appliesCount = rService.selectAppliesCount(rno);
 		
@@ -200,32 +183,33 @@ public class RecruitController {
 		// manageList에서 date값 뽑기
 
 		System.out.println(manageList);
+
+		int submitState = 0;
+		int passState = 0;
+		int joinState = 0;
+		int failState = 0;
 		
+		for(RecruitManage al : manageList) {
+			
+			if(al.getApplyProg() == 0) { //채용조건이 0이라면 서류접수에 1 		
+				submitState++;				
+			}else if(al.getApplyProg() == 1) { // 채용조건이 1이라면 서류합격에 1
+				passState++;
+			}else if(al.getApplyProg() == 2) { // 채용조건이 2라면 팀 합류에 1
+				joinState++;
+			}else {								// 채용조건이 3이라면 탈락에 1
+				failState++;
+			}
 		
-		
+		}
+		model.addAttribute("submitState",submitState);
+		model.addAttribute("passState",passState);
+		model.addAttribute("joinState",joinState);
+		model.addAttribute("failState",failState);
 		model.addAttribute("appliesCount",appliesCount);
 		model.addAttribute("manageList",manageList);
 		return "/recruit/recruitManageDetail";
-		
 	}
 
-	/*
-	// 채용상세페이지
-	@RequestMapping("detail.re")
-	public String selectRecruit(int rno, Model model) {
-		System.out.println(rno);
-
-		RecruitDetail info = rService.selectRecruitDetail(rno);
-		ArrayList<RecruitSkill> skillList = rService.selectRecruitSkill(rno);
-		int appliesCount = rService.selectAppliesCount(rno);
-
-		System.out.println(info);
-		System.out.println(skillList);
-		model.addAttribute("info",info);
-		model.addAttribute("skills",skillList);
-		model.addAttribute("appliesCount",appliesCount);
-		return "/recruit/recruitDetail";
-	}
-	*/
 	
 }

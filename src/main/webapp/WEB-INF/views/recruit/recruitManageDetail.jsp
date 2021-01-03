@@ -65,14 +65,14 @@
             </div>
             <div class="sidebar__item item2">
               <ul>           
-                <li>서류 접수(1)</li>
-                <li>서류 합격(1)</li>
-                <li>팀 합류(1)</li>
-                <li>탈락(1)</li>
+                <li>서류 접수(${submitState})</li>
+                <li>서류 합격(${passState})</li>
+                <li>팀 합류(${joinState})</li>
+                <li>탈락(${failState})</li>
               </ul>
             </div>
             <div class="sidebar__item item3">
-              <span>북마크한 사람(0)</span>
+              <span>북마크한 사람(${bookmarkCount})</span>
             </div>
             <div class="sidebar__item item4">
               <span>추천 인재(0)</span>
@@ -87,7 +87,7 @@
           <div class="recruit__content">
 			
             <div class="recruit__content-title">
-              <span>지원자 ${ appliesCount }</span>
+              <span>${manageList[0].recruitTitle}의 지원자는 총 ${ appliesCount }명 입니다</span>
             </div>
             <div class="recruit__applier-list"><!--flex column-->
             <c:forEach var="r" items="${ manageList }">

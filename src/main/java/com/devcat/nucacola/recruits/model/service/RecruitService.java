@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.ApplyProg;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
-import org.mybatis.spring.SqlSessionTemplate;
-import sun.security.util.Debug;
 
 
 public interface RecruitService {
@@ -33,7 +33,7 @@ public interface RecruitService {
 		int deleteRecruit(int rno);
 	
 	// 지원 조회
-		ArrayList<Apply> selectApplyList(int userNo);
+		ArrayList<ApplyList> selectApplyList(int userNo);
 		int selectApplyCount(int userNo);
 	// 지원한 내역 삭제
 		int deleteApplyList(Apply ap);
@@ -46,5 +46,7 @@ public interface RecruitService {
 	
 	// 지원자 조회
 		ArrayList<RecruitManage> selectRecruitManageDetail(int rno);
+	// 북마크 수 조회
+		int selectBookmarkCount(int rno);
 		
 }

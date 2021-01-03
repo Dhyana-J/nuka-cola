@@ -66,8 +66,8 @@
           </div>
           <div class="left-sidebar__item">
             <ul>
-              <li><a href="#">서류 접수 (5)</a></li>
-              <li><a href="#">서류 합격 (1)</a></li>
+              <li><a href="#">서류 접수 (${submitState})</a></li>
+              <li><a href="#">서류 합격 (${passState})</a></li>
             </ul>
           </div>
           <div class="left-sidebar__item">
@@ -75,8 +75,8 @@
           </div>
               <div class="left-sidebar__item">
                 <ul>
-                  <li><a href="#">팀 합류 (0)</a></li>
-                  <li><a href="#">탈락 (0)</a></li>
+                  <li><a href="#">팀 합류 (${joinState })</a></li>
+                  <li><a href="#">탈락 (${failState })</a></li>
                 </ul>
               </div>
         </div>
@@ -105,7 +105,7 @@
                   	</c:when>
                   </c:choose>
                   
-                  <span>${ a.createdAt} 부터 채용을 시작했어요 </span>
+                  <span>공고게시일 : ${ a.createdAt} </span>
                 </div>
                 
                 <!-- 채용단계에 따른 조건문 -->
@@ -137,17 +137,17 @@
                   	</c:when>
                   </c:choose>
                   
-                  <span>${a.recruitDl} 에 채용 마감</span>
-                  <span class="apply-state__apply-date">${a.appliedAt} 에 지원했어요</span>
+                  <span>공고는 ${a.recruitDl}일 남았습니다</span>
+                  <span class="apply-state__apply-date">내 지원일 ${a.appliedAt}</span>
                 </div>
               </div>
               <div class="apply-info__btn">
                 <form action="">
-                  <input class="recruit-no" type="hidden" name="recruitNo" value="${r.recruitNo}">
-                  <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo }">
+                  <input class="recruit-no" type="hidden" name="recruitNo" value="${a.recruitNo}">
+                  <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo}">
                   <button type="button" class="apply-cancel__btn">지원 취소</button>
                 </form>
-                <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
+                <button type="button" class="apply-detail__btn" onclick="location.href='./recruit-detail.html'">
                   채용 정보 확인
                 </button>
               </div>
@@ -190,9 +190,10 @@
       console.log(v);
           v.addEventListener('click',()=>{
         	  
-               let item = v.parentNode.parentNode;
+               let item = v.parentNode.parentNode.parentNode;
 			   let userNo = item.querySelector('.user-no').value;
-			   let recruitNo = item.querySelector('.recruit-no').value;
+			   let recruitNo = document.querySelectorAll('.recruit-no')[i].value;
+				
 
                console.log(recruitNo);
                console.log(userNo);

@@ -3,14 +3,9 @@ package com.devcat.nucacola.recruits.model.dao;
 
 import java.util.ArrayList;
 
+import com.devcat.nucacola.recruits.model.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 @Repository
 public class RecruitDao {
@@ -47,5 +42,17 @@ public class RecruitDao {
     
     public int selectApplyCount(SqlSessionTemplate sqlSession, int rno) {
     	return sqlSession.selectOne("apply-mapper.selectApplyCount",rno);
+    }
+
+    public Apply selectApplyDetail(SqlSessionTemplate sqlSession, int ano) {
+	    return sqlSession.selectOne("recruit-mapper.selectApplyDetail",ano);
+    }
+
+    public ArrayList<RecruitSkill> selectUserSkills(SqlSessionTemplate sqlSession, int uno) {
+	    return (ArrayList) sqlSession.selectList("recruit-mapper.selectUserSkills",uno);
+    }
+
+    public ArrayList<UserCareer> selectCareers(SqlSessionTemplate sqlSession, int uno) {
+        return (ArrayList) sqlSession.selectList("recruit-mapper.selectCareers",uno);
     }
 }

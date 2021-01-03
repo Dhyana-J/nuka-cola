@@ -6,17 +6,13 @@ import java.util.ArrayList;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.posts.model.vo.Comment;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import com.devcat.nucacola.recruits.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.devcat.nucacola.recruits.model.vo.Apply;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,7 +54,22 @@ public class RecruitController {
 			return "fail";
 		}
 	}
-	
+
+	//지원 상세조회
+	@RequestMapping("detail.ap")
+	public String selectApplyDetail(int ano, Model model){
+		System.out.println(ano);
+		Apply apply = rService.selectApplyDetail(ano);
+		System.out.println(apply);
+		int uno = Integer.parseInt(apply.getUserNo());
+		ArrayList<RecruitSkill> skillList = rService.selectUserSkills(uno);
+		ArrayList<UserCareer> careerList = rService.selectCareers(uno);
+		model.addAttribute("a",apply);
+		model.addAttribute("s",skillList);
+		model.addAttribute("c",careerList);
+		return "/apply/applyDetail";
+	}
+
 	// 지원한 내역조회
 	@RequestMapping("list.ap")
 	public String selectApplyList(Member m, int rno, Model model, HttpSession session) {
@@ -87,35 +98,36 @@ public class RecruitController {
 	
 	@RequestMapping("recruitInsert.re")
 	public void insertRecruit(Recruit re, int userNo) {
-		
+
 		System.out.println(re);
-		
+
 		int compNo = rService.selectCompNo(userNo);
-		
+
 		System.out.println(compNo);
-		
-		
+
+
 		re.setCompNo(compNo);
-		
-		
-		int minSal = (int)(re.getRecruitMinSal());
-		int maxSal = (int)(re.getRecruitMaxSal());
-		
-		
+
+
+		int minSal = (int) (re.getRecruitMinSal());
+		int maxSal = (int) (re.getRecruitMaxSal());
+
+
 		System.out.println(minSal);
 		System.out.println(maxSal);
-		
+
 		re.setRecruitMinSal(minSal);
 		re.setRecruitMaxSal(maxSal);
-		
+
 		System.out.println(re);
 
 		int result = rService.insertRecruit(re);
-		
-		if(result>0) {
+
+		if (result > 0) {
 			System.out.println("삽입 성공!");
-			
+
 		}
+	}
 	// 채용관리 페이지
 	@RequestMapping("mDetail.re")
 	public String selectRecruitManage(int rno, Model model) {

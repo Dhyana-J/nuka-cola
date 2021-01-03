@@ -3,11 +3,7 @@ package com.devcat.nucacola.recruits.model.service;
 import java.util.ArrayList;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import com.devcat.nucacola.recruits.model.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import sun.security.util.Debug;
 
@@ -42,5 +38,8 @@ public interface RecruitService {
 	// 사용자의 회사 번호 알아오기
 	int selectCompNo(int userNo);
 		
-		
+	//지원 상세조회
+	Apply selectApplyDetail(int ano);
+	ArrayList<RecruitSkill> selectUserSkills(int uno);
+	ArrayList<UserCareer> selectCareers(int uno);
 }

@@ -106,9 +106,15 @@
 
                 <div class="recruit__btns__wrapper">
                     <div class="item1 recruit__content">
-                        <button class="btn-blue" type="button">지원하기</button>
+                        <c:choose>
+                            <c:when test="${info.managerNo eq loginUser.userNo}">
+                                <button type="button">채용정보 수정</button>
+                            </c:when>
+                            <c:when test="${info.managerNo ne loginUser.userNo}">
+                                <button class="btn-blue" type="button">지원하기</button>
+                            </c:when>
+                        </c:choose>
                         <button type="button">지원자 보기 (${appliesCount})</button>
-                        <button type="button">채용정보 수정</button>
                         <span id="find-email-btn">채용 정보 신고</span>
                     </div>
                     <div class="item2 recruit__content item2">

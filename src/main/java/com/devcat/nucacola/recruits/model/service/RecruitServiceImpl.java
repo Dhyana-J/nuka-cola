@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import com.devcat.nucacola.recruits.model.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 
 @Service
@@ -98,6 +94,18 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.selectCompNo(sqlSession, userNo);
 	}
 
+	@Override
+	public Apply selectApplyDetail(int ano) {
+		return rDao.selectApplyDetail(sqlSession, ano);
+	}
+	@Override
+	public ArrayList<RecruitSkill> selectUserSkills(int uno) {
+		return rDao.selectUserSkills(sqlSession, uno);
+	}
 
+	@Override
+	public ArrayList<UserCareer> selectCareers(int uno){
+		return rDao.selectCareers(sqlSession,uno);
+	}
 	
 }

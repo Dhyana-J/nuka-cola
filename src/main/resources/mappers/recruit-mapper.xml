@@ -32,7 +32,28 @@
         <result column="skill_name" property="skillName"/>
         <result column="skill_no" property="skillNo"/>
     </resultMap>
-
+    <resultMap id="applyResultSet" type="Apply">
+        <result column="apply_no" property="applyNo"/>
+        <result column="apply_comment" property="applyComment"/>
+        <result column="apply_prog" property="applyProg"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="user_no" property="userNo"/>
+        <result column="recruit_no" property="recruitNo"/>
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="comp_no" property="compNo"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_edu" property="userEdu"/>
+        <result column="manager1_no" property="manager1No"/>
+        <result column="manager2_no" property="manager2No"/>
+    </resultMap>
+    <resultMap id="ApplyCareerSet" type="ApplyCareer">
+        <result column="comp_no" property="compNo"/>
+        <result column="career_posi" property="careerPosi"/>
+        <result column="entered_at" property="enteredAt"/>
+        <result column="comp_name" property="compName"/>
+        <result column="comp_logo" property="compLogo"/>
+    </resultMap>
     <select id="selectRecruitDetail" parameterType="_int" resultMap="recruitDetailResultSet">
         SELECT RECRUIT_NO,
                RECRUIT_TITLE,
@@ -136,6 +157,39 @@
     
     
     </select>
-    
-    
+
+    <select id="selectApplyDetail" parameterType="_int" resultMap="applyResultSet">
+        select APPLIES.APPLY_NO,
+               APPLY_COMMENT,
+               APPLY_PROG,
+               APPLIES.CREATED_AT,
+               APPLIES.UPDATED_AT,
+               APPLIES.USER_NO,
+               APPLIES.RECRUIT_NO,
+               R.RECRUIT_TITLE,
+               R.COMP_NO,
+               U.USER_NAME,
+               U.USER_EDU,
+               C2.USER_NO as manager1_no,
+               C2.COMP_PM as manager2_no
+        from APPLIES
+                 left join RECRUITS R on R.RECRUIT_NO = APPLIES.RECRUIT_NO
+                 left join USERS U on U.USER_NO = APPLIES.USER_NO
+                 left join COMPANYS C2 on R.COMP_NO = C2.COMP_NO
+        where APPLY_NO = #{ano}
+    </select>
+
+    <select id="selectUserSkills" parameterType="_int" resultMap="recruitDetailSkillResultSet">
+        select S.SKILL_NO, S.SKILL_NAME
+        from USER_FIELDS
+                 left outer join SKILLS S on S.SKILL_NO = USER_FIELDS.SKILL_NO
+        where USER_NO = #{uno}
+    </select>
+
+    <select id="selectCareers" parameterType="_int" resultMap="ApplyCareerSet">
+        select  CAREERS.COMP_NO, CAREER_POSI ,to_char(CAREERS.ENTERED_AT, 'YYYY-MM-DD') as ENTERED_AT, COMP_NAME, COMP_LOGO
+        from CAREERS
+                 left join COMPANYS C2 on C2.COMP_NO = CAREERS.COMP_NO
+        where CAREERS.USER_NO = #{uno}
+    </select>
 </mapper>

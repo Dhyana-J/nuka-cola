@@ -21,5 +21,16 @@ public class Apply {
 	private String updatedAt;
 	private String userNo;
 	private int recruitNo;
-	
+
+	//추가 - 채용공고쪽
+	private String recruitTitle;
+	private int compNo;
+
+	//추가 - 사람쪽
+	private String userName;
+	private String userEdu;
+
+	//추가 - 회사쪽
+	private int manager1No;
+	private int manager2No;
 }

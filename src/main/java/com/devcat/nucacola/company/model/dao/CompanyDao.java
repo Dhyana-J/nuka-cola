@@ -186,4 +186,12 @@ public class CompanyDao {
 	public ArrayList<TechStack> selectTechList(SqlSessionTemplate sqlSession, int cno) {
 		return (ArrayList)sqlSession.selectList("companymapper.selectTechList", cno);
 	}
+
+	public ArrayList<Industries> selectIndustryList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("companymapper.selectIndustryList");
+	}
+
+	public ArrayList<Industries> selectCompanyIndustryList(SqlSessionTemplate sqlSession, int cno) {
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyIndustryList",cno);
+	}
 }

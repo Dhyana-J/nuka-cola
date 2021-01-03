@@ -32,6 +32,28 @@
         <result column="skill_name" property="skillName"/>
         <result column="skill_no" property="skillNo"/>
     </resultMap>
+	<resultMap id="RecruitResultSet" type="Recruit">
+		<result column="recruit_no" property="recruitNo"/>
+		<result column="recruit_title" property="recruitTitle"/>
+		<result column="recruit_info" property="recruitInfo"/>
+		<result column="recruit_state" property="recruitState"/>
+		<result column="recruit_main" property="recruitMain"/>
+		<result column="recruit_posi" property="recruitPosi"/>
+		<result column="recruit_img" property="recruitImg"/>
+		<result column="recruit_minsalary" property="recruitMinSal"/>
+		<result column="recruit_maxsalary" property="recruitMaxSal"/>
+		<result column="recruit_requ" property="recruitRequ"/>
+		<result column="recruit_dl" property="recruitDl"/>
+		<result column="recruit_count" property="recruitCount"/>
+		<result column="comp_no" property="compNo"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="comp_name" property="compName"/>
+	</resultMap>
+	<resultMap id="skillResultSet" type="Skills">
+		<result column="skill_no" property="skillNo"/>
+		<result column="skill_name" property="skillName"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
 
     <select id="selectRecruitDetail" parameterType="_int" resultMap="recruitDetailResultSet">
         SELECT RECRUIT_NO,
@@ -136,6 +158,38 @@
     
     
     </select>
+    
+    <select id="selectCompCount" resultType="_int">
+    	select
+    		  count(distinct comp_no)
+    	  from recruits
+    	  where recruit_state=0
+    </select>
+    
+    <select id="selectCnoList" resultType="String">
+    	select
+    		  distinct comp_no
+    	  from recruits
+    	 where recruit_state=0
+    </select>
+    
+    <select id="selectRecruitList"
+    		parameterType="_int"
+    		resultMap="RecruitResultSet">
+    	select
+    		  *
+    	  from recruits
+    	 where comp_no=#{cno}
+    	   and recruit_state=0
+ 	</select>
+ 	
+ 	<select id="selectSkillList" 
+ 			resultMap="skillResultSet">
+		select
+			  *
+		  from skills
+		  order by lower(skill_name) asc
+	</select>
     
     
 </mapper>

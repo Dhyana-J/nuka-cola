@@ -176,6 +176,16 @@ public class CompanyServiceImpl implements CompanyService{
 	public ArrayList<TechStack> selectTechList(int cno) {
 		return cDao.selectTechList(sqlSession, cno);
 	}
+
+	@Override
+	public ArrayList<Industries> selectIndustryList() {
+		return cDao.selectIndustryList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Industries> selectCompanyIndustryList(int cno) {
+		return cDao.selectCompanyIndustryList(sqlSession,cno);
+	}
 	
 
 

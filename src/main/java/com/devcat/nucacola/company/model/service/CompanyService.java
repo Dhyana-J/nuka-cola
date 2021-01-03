@@ -92,4 +92,10 @@ public interface CompanyService {
 	// 기업 테크스택 가져오기
 	ArrayList<TechStack> selectTechList(int cno);
 	
+	// 산업분야 리스트 가져오기
+	ArrayList<Industries> selectIndustryList();
+	
+	// 특정회사 산업분야 리스트 가져오기(기업검색 리스트출력 시 쓰임)
+	ArrayList<Industries> selectCompanyIndustryList(int cno);
+	
 }

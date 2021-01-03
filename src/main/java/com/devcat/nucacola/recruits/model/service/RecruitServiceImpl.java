@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.Apply;
@@ -96,6 +97,26 @@ public class RecruitServiceImpl implements RecruitService {
 	public int selectCompNo(int userNo) {
 		
 		return rDao.selectCompNo(sqlSession, userNo);
+	}
+
+	@Override
+	public int selectCompCount() {
+		return rDao.selectCompCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<String> selectCnoList(PageInfo pi) {
+		return rDao.selectCnoList(sqlSession,pi);
+	}
+
+	@Override
+	public ArrayList<Recruit> selectRecruitList(int cno) {
+		return rDao.selectRecruitList(sqlSession,cno);
+	}
+
+	@Override
+	public ArrayList<Skills> selectSkillList() {
+		return rDao.selectSkillList(sqlSession);
 	}
 
 

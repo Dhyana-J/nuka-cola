@@ -1,4 +1,6 @@
-var mySlider = new rSlider({
+'use strict';
+
+let mySlider = new rSlider({
     target: '#sampleSlider',
     values: [3000, 4000, 5000, 6000, 7000, 8000, 9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000],
     range: true,
@@ -77,9 +79,19 @@ document.addEventListener('click', (e)=>{
     
 })
 
+//태그 없을 때 나타나는 안내문구
+if(!document.querySelector('.selected-tag')){
+    document.querySelector('.info-search__tags').innerHTML="<span class='tag-guide'>태그를 추가해보세요 :)</span>";
+}
 
 //태그 추가 메소드
 let addTag = (name,value)=>{
+
+    //태그 추가 안내문구 삭제
+    let deleteThis = document.querySelector('.tag-guide');
+    if(deleteThis){
+        document.querySelector('.info-search__tags').removeChild(deleteThis);
+    }
 
     //이미 있는 태그면 추가 안함
     let tags = document.querySelectorAll('.selected-tag');
@@ -97,12 +109,23 @@ let addTag = (name,value)=>{
         +'</span><span class="material-icons clear-btn" onclick="deleteTag(event)">clear</span></div>'
         
         document.querySelector('.info-search__tags').insertAdjacentHTML('afterbegin',newTag);
+
     }
 }
 
 //태그관련 메소드들
 let getPosition = (v)=>{
     addTag('활동분야',v.value);
+
+    // let options = document.querySelectorAll('select[name="position"]>option')
+    // options.forEach((v) => {
+    //     console.log(v.value==='활동분야');
+    //     if(v.value==='활동분야'){
+    //         v.setAttribute('selected',true);
+    //     }else{
+    //         v.removeAttribute('selected');
+    //     }
+    // })
 }
 let getIndustry = (v)=>{
     addTag('산업분야',v.value);
@@ -118,10 +141,6 @@ let getAddress = (v)=>{
 }
 
 
-mySlider.onChange((v)=>{
-    console.log(v);
-})
-
 
 document.querySelector('.salary-btn').addEventListener('click',()=>{
     let a = mySlider.getValue().split(',');
@@ -132,12 +151,17 @@ document.querySelector('.salary-btn').addEventListener('click',()=>{
             a[1]=Number(a[1])+1000;
         }
     }
-    addTag('연봉',`${a[0]} ~ ${a[1]}`);
+    addTag('연봉',`${a[0]} ~ ${a[1]}만원`);
 })
 
-//태그 클릭시 삭제
+//태그 삭제버튼 클릭시 삭제
 let deleteTag = (e)=>{
     e.target.parentNode.remove();
+    
+    //태그 없을 때 나타나는 안내문구
+    if(!document.querySelector('.selected-tag')){
+        document.querySelector('.info-search__tags').innerHTML="<span class='tag-guide'>태그를 추가해보세요 :)</span>";
+    }
 }
 
 //검색돋보기버튼 클릭시
@@ -161,4 +185,6 @@ document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
         v.classList.add('aligning');
     })
 })
+
+
 

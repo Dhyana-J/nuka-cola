@@ -16,4 +16,5 @@ public class Industries {
 	private String indusName;
 	private String createdAt;
 	private String updatedAt;
+	
 }

@@ -17,6 +17,7 @@ import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
 
@@ -332,12 +333,36 @@ public class MemberDao {
 		}
 		return popularInfo;
 	}
-	
+	//파트너 검색 - 학교명조회
 	public ArrayList<Member> searchSchoolName(SqlSessionTemplate sqlSession,String schoolName) {
 		return (ArrayList)sqlSession.selectList("memberMapper.searchSchoolName",schoolName);
 	}
+	//파트너 검색 - 스킬리스트에 연관된 사람들 
+	public List<Integer> partnerSearchSkill(SqlSessionTemplate sqlSession,List<Integer> skList) {
+		HashMap<String, List<Integer>> h = new HashMap<>();
+		h.put("skList", skList);
+		return (List)sqlSession.selectList("memberMapper.partnerSkill",h);
+	}
 	
-	
+	// 파트너 검색 - 연결된사람중 검색한 결과 총 명수
+	public int partnerSearchCount1(SqlSessionTemplate sqlSession, PartnerSearch p) {
+		 return  sqlSession.selectOne("memberMapper.partnerSearchCount1",p);
+	}
+	// 파트너 검색 - 연결된사람중 검색한 결과 총 명수
+	public ArrayList<Member> partnerConnResult(SqlSessionTemplate sqlSession, PartnerSearch p, PageInfo pi1) {
+		int offset = (pi1.getCurrentPage()-1)*pi1.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi1.getBoardLimit()); 
+		return  (ArrayList)sqlSession.selectList("memberMapper.partnerConnResult",p,rowBounds);
+	}
+	// 파트너 검색 - 그외 사람들중 검색한 결과
+	public int partnerSearchCount2(SqlSessionTemplate sqlSession, PartnerSearch p) {
+		 return  sqlSession.selectOne("memberMapper.partnerSearchCount2",p);
+	}
+	public ArrayList<Member> partnerETCResult(SqlSessionTemplate sqlSession,PartnerSearch p, PageInfo pi2) {
+		int offset = (pi2.getCurrentPage()-1)*pi2.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi2.getBoardLimit()); 
+		return (ArrayList)sqlSession.selectList("memberMapper.partnerETCResult", p, rowBounds);
+	}
 	
 	
 	

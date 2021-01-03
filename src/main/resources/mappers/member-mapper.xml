@@ -633,10 +633,211 @@
 		where user_no in #{p}
 
 	</select>
-	<!-- 학교조회  -->
-	<select id="searchSchoolName"  parameterType="string"  resultMap="memberResultSet">
-	select user_edu
-		from users
-		where user_edu like #{schoolName}
+	<!-- 파트너 검색 - 스킬리스트에 연관된 사람들 -->
+	<select id="partnerSkill" parameterType="hashmap" resultType="_int">
+	    select 
+            user_no
+                from user_fields
+                <if test="skList != null">
+                where 
+                <foreach collection="skList" item="item" open="(" close=")" separator="or">
+			 	skill_no =#{item}
+				</foreach>
+				</if>
+                group by user_no
 	</select>
+	
+	<!-- 연결된 사람들중에서 검색한 결과 총 명수-->
+	<select id="partnerSearchCount1" parameterType="PartnerSearch" resultType="_int">
+	 select count(*)   
+			from
+            (select *
+				from users
+				where user_no in( 
+					        select 
+							follower_no
+						    from connections
+						    where following_no=#{userNo}
+				)and user_no in(
+			                select 
+			        		following_no
+						    from connections
+						    where follower_no=#{userNo}
+			    ))
+			    <if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
+                where 
+	                <if test="pList!=null">
+				 	user_posi =#{pList} 	
+					</if>
+					<if test="skList!=null">
+						<if test="pList!=null">
+					 	or
+						</if>
+						<foreach collection="skList" item="item" open="(" close=")" separator="or">
+					 	user_no =#{item}
+						</foreach>
+					</if>
+					<if test="schoolList!=null and !schoolList.equals('')">
+						<if test="skList!=null || pList!=null">
+					 	or
+						</if>
+				 		user_edu like '%'||#{schoolList}||'%'
+				 		
+					</if>
+					<if test="keyword!=null and !keyword.equals('')">
+					 	<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+						 or
+						</if>
+				 		user_name like '%'||#{keyword}||'%'
+					</if>
+                </if>
+               order by user_name 
+	</select>
+	<!-- 연결된 사람들중에서 검색한 결과-->
+	<select id="partnerConnResult" parameterType="PartnerSearch" resultMap="memberResultSet">
+	 select *   
+			from
+            (select *
+				from users
+				where user_no in( 
+					        select 
+							follower_no
+						    from connections
+						    where following_no=#{userNo}
+				)and user_no in(
+			                select 
+			        		following_no
+						    from connections
+						    where follower_no=#{userNo}
+			    ))<!-- 연결된 사람들 테이블 -->
+			    <if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
+                where 
+	                <if test="pList!=null">
+				 	user_posi =#{pList}
+					</if>
+					<if test="skList!=null">
+						<if test="pList!=null">
+					 	or
+						</if>
+						<foreach collection="skList" item="item" open="(" close=")" separator="or">
+					 	user_no =#{item}
+						</foreach>
+					</if>
+					<if test="schoolList!=null and !schoolList.equals('')">
+						<if test="skList!=null || pList!=null">
+					 	or
+						</if>
+				 		user_edu like '%'||#{schoolList}||'%'
+				 		
+					</if>
+					<if test="keyword!=null and !keyword.equals('')">
+				 		<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+						 or
+						</if>
+				 		user_name like '%'||#{keyword}||'%'
+					</if>
+                </if>
+             order by user_name   
+	</select>
+	 <!-- 그 외 사람들  총 명수 조회 -->
+	 <select id="partnerSearchCount2" parameterType="PartnerSearch" resultType="_int">
+		select count(*)
+		from(select *
+			from users
+			where user_no not in
+			        (select user_no
+							from users
+							where user_no in( 
+								select 
+										follower_no
+									from connections
+									where following_no=#{userNo}
+							)and user_no in(
+						        select 
+						        		following_no
+									from connections
+									where follower_no=#{userNo}
+						    ))) <!-- 연결이 되지 않은 사람들 테이블 -->
+				<if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
+                    where 
+	                <if test="pList!=null">
+				 	 user_posi =#{pList}
+					</if>
+					<if test="skList != null">
+						<if test="pList!=null">
+					 	or
+						</if>
+						<foreach collection="skList" item="item" open="(" close=")" separator="or">
+					 	 user_no =#{item}
+						</foreach>
+					</if>
+					<if test="schoolList!=null and !schoolList.equals('')">
+						<if test="skList!=null || pList!=null">
+					 	or
+						</if>
+				 		user_edu like '%'||#{schoolList}||'%'
+				 		
+					</if>
+					<if test="keyword!=null and !keyword.equals('')">
+				 		<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+						 or
+						</if>
+				 		user_name like '%'||#{keyword}||'%'
+					</if>
+                </if>
+                order by user_name
+	 	</select>
+	 	
+	 	<select id="partnerETCResult" parameterType="PartnerSearch" resultMap="memberResultSet">
+		select *
+		from(select *
+			from users
+			where user_no not in
+			        (select user_no
+							from users
+							where user_no in( 
+								select 
+										follower_no
+									from connections
+									where following_no=#{userNo}
+							)and user_no in(
+						        select 
+						        		following_no
+									from connections
+									where follower_no=#{userNo}
+						    ))) <!-- 연결이 되지 않은 사람들 테이블 -->
+				<if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
+                    where 
+	                <if test="pList!=null">
+				 	 user_posi =#{pList}
+					</if>
+					<if test="skList != null">
+						<if test="pList!=null">
+					 	or
+						</if>
+						<foreach collection="skList" item="item" open="(" close=")" separator="or">
+					 	 user_no =#{item}
+						</foreach>
+					</if>
+					<if test="schoolList!=null and !schoolList.equals('')">
+						<if test="skList!=null || pList!=null">
+					 	or
+						</if>
+				 		user_edu like '%'||#{schoolList}||'%'
+				 		
+					</if>
+					<if test="keyword!=null and !keyword.equals('')">
+				 		<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+						 or
+						</if>
+				 		user_name like '%'||#{keyword}||'%'
+					</if>
+                </if>
+                order by user_name
+	 	</select>
+	 
 </mapper>

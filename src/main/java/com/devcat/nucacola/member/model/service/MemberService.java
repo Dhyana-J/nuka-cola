@@ -175,11 +175,16 @@ public interface MemberService {
 	//파트너 검색(학교명 검색)
 	ArrayList<Member> searchSchoolName(String schoolName);
 	
+	//파트너 검색 - 스킬리스트에 연관된 사람들 
+	List<Integer> partnerSearchSkill(List<Integer> skList);
 	//연결된 사람들중 검색결과 총수
 	int partnerSearchCount1(PartnerSearch p);
-	
+	//연결된 사람들중 검색결과 인원 정보
+	ArrayList<Member> partnerConnResult(PartnerSearch p, PageInfo pi1);
 	//그외 사람들중 검색 결과 총수
 	int partnerSearchCount2(PartnerSearch p);
+	//그외 사람들중 검색 결과 인원정보
+	ArrayList<Member> partnerETCResult(PartnerSearch p, PageInfo pi2);
 	
 	
 

@@ -93,6 +93,7 @@ console.log(skList);
 console.log(pList);
 console.log(typeof(pList));
 
+/* 검색내용 넘기기*/
 axios.get('search.pa', {
 			params:{
                posiList:pList,
@@ -101,8 +102,8 @@ axios.get('search.pa', {
                keyword:userName
              }
             })
-                  .then(function (response) {
-                  	
+                  .then(function (res) {
+                  	console.log(res);
                   })
                   .catch(function (error) {
                      console.log(error);
@@ -184,7 +185,7 @@ const tagList = document.querySelector('.result_tag');
 			localStorage.setItem(TAG_LS, JSON.stringify(schoolList));
 		}
 		
-//업무분야태그함수
+//업무분야태그함수, 학교명
 const createETCTag = (text, no, list) => {
 
 				if(list.length===0){

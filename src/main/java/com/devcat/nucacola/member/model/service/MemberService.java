@@ -12,6 +12,7 @@ import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
 
@@ -170,7 +171,16 @@ public interface MemberService {
 	
 	//파트너인기프로필 정보조회
 	ArrayList<Member> partnerPopularInfo(List<Integer> popularNo);
-
-
+	
+	//파트너 검색(학교명 검색)
+	ArrayList<Member> searchSchoolName(String schoolName);
+	
+	//연결된 사람들중 검색결과 총수
+	int partnerSearchCount1(PartnerSearch p);
+	
+	//그외 사람들중 검색 결과 총수
+	int partnerSearchCount2(PartnerSearch p);
+	
+	
 
 }

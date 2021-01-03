@@ -633,5 +633,10 @@
 		where user_no in #{p}
 
 	</select>
-	
+	<!-- 학교조회  -->
+	<select id="searchSchoolName"  parameterType="string"  resultMap="memberResultSet">
+	select user_edu
+		from users
+		where user_edu like #{schoolName}
+	</select>
 </mapper>

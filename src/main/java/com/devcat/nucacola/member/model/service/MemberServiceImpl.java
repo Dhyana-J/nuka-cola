@@ -520,14 +520,20 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Skills> partnerSearchSkill() {
 		return  mDao.partnerSearchSkill(sqlSession);
 	}
+	//파트너 검색 인기프로필 
 	@Override
 	public List<Integer> partnerPopularProfile(){
 		return mDao.partnerPopularProfile(sqlSession);
 	}
-
+	//파트너 검색 인기프로필 정보
 	@Override
 	public ArrayList<Member> partnerPopularInfo(List<Integer> popularNo) {
 		return mDao.partnerPopularInfo(sqlSession, popularNo);
+	}
+	//파트너 검색 (학교명조회)
+	@Override
+	public ArrayList<Member> searchSchoolName(String schoolName) {
+		return mDao.partnerPopularInfo(sqlSession,schoolName);
 	}
 
 	

@@ -3,19 +3,28 @@ package com.devcat.nucacola.member.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.PartnerSearch;
 
 @Controller
 public class ConnectionController {
@@ -61,6 +70,49 @@ public class ConnectionController {
 		model.addAttribute("skill",skill);
 		return "partner/partner";
 	}
+	
+	//사람조회
+	@ResponseBody
+	@RequestMapping(value = "search.pa", method = RequestMethod.GET)
+	public void searchPerson(@RequestParam(value="currentPage", defaultValue="1") int currentPage, String posiList,String skillList, String schoolList
+			,String keyword) {
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+		int pList = Integer.parseInt(posiList);//업무분야
+		String[] skLists= skillList.split(",");	
+		// 기술분야?
+		List<Integer> skList = Stream.of(skLists).map(Integer::parseInt).collect(Collectors.toList());
+		for(Integer sk: skList) {
+			System.out.println(sk);
+		}
+		PartnerSearch p = new PartnerSearch(pList,skList,schoolList,keyword);
+		//연결된 사람들중 검색결과 총수
+		int listCount1 = mService.partnerSearchCount1(p);
+		PageInfo pi = Pagination.getPageInfo(listCount1, currentPage, 10, 4);
+//		ArrayList<Member> ConPeople = mService.partnerSearch(p,pi);//연결된사람들중에서 검색
+		
+		//그외 사람들중 검색 결과 총수
+		int listCount2 = mService.partnerSearchCount2(p);
+		
+		System.out.println(posiList);
+		System.out.println(skillList);
+		System.out.println(schoolList);
+		System.out.println(keyword);
+//		String json = new Gson().toJson(list);
+//		return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
+		
+	}
+	
+	//학교명 검색
+	@ResponseBody
+	@RequestMapping(value="/search.sc", produces="application/json; charset=utf-8")
+	public void searchSchoolName(String schoolName, Model model) {
+		
+//		ArrayList<Member>list = mService.searchSchoolName(schoolName);
+		
+//		return new Gson().toJson(list);
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping("addFollowing.conn")

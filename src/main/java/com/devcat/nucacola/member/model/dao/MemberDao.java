@@ -333,6 +333,10 @@ public class MemberDao {
 		return popularInfo;
 	}
 	
+	public ArrayList<Member> searchSchoolName(SqlSessionTemplate sqlSession,String schoolName) {
+		return (ArrayList)sqlSession.selectList("memberMapper.searchSchoolName",schoolName);
+	}
+	
 	
 	
 	

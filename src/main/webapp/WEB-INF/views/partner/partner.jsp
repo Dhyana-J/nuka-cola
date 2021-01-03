@@ -84,10 +84,13 @@
                     <option value="${skill.skillNo}">${skill.skillName}</option>
                   </c:forEach>
                   </select>
-                  <input name="user_edu" type="search" placeholder="학교명">
+                  <input class="user_edu" name="user_edu" type="search" placeholder="학교명 ex)서울대학교">
+                  <div id="user-filed-search-list">
+                  
+                  </div>
                 </div>
                 <div class="keyword">
-                  <input type="search" placeholder="검색어를 입력해주세요.">
+                  <input class="userName" type="search" placeholder="검색어를 입력해주세요.(이름)">
                   <button type="submit">
                     <i class="material-icons">search</i>
                   </button>

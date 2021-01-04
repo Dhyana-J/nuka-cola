@@ -177,7 +177,20 @@
     		parameterType="_int"
     		resultMap="RecruitResultSet">
     	select
-    		  *
+    		     RECRUIT_NO
+				,RECRUIT_TITLE
+				,RECRUIT_INFO
+				,RECRUIT_STATE
+				,RECRUIT_MAIN
+				,RECURIT_POSI
+				,RECRUIT_IMG
+				,RECRUIT_MINSALARY
+				,RECRUIT_MAXSALARY
+				,RECRUIT_REQU
+				,RECRUIT_DL
+				,RECRUIT_COUNT
+				,COMP_NO
+				,TO_CHAR(CREATED_AT,'YYYY/MM/DD') CREATED_AT
     	  from recruits
     	 where comp_no=#{cno}
     	   and recruit_state=0
@@ -189,6 +202,13 @@
 			  *
 		  from skills
 		  order by lower(skill_name) asc
+	</select>
+	
+	<select id="selectLocationList"
+			resultType="String">
+		select distinct substr(comp_address,1,2) 
+		  from companys 
+		 where not regexp_like(comp_address,'[0-9]')
 	</select>
     
     

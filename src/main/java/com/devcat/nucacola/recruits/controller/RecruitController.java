@@ -147,6 +147,10 @@ public class RecruitController {
 		//테크스택
 		ArrayList<Skills> skillList = rService.selectSkillList();
 		model.addAttribute("skillList",skillList);
+		
+		//지역검색
+		ArrayList<String> locationList = rService.selectLocationList();
+		model.addAttribute("locationList",locationList);
 
 		
 		//채용공고리스트 Logic

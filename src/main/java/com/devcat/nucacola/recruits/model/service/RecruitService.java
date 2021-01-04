@@ -53,4 +53,7 @@ public interface RecruitService {
 	//전체 기술스택 리스트 조회
 	ArrayList<Skills> selectSkillList();
 	
+	//DB에서 주소 앞 두글자만 조회 (서울, 경기, 대전, 대구 ...)
+	ArrayList<String> selectLocationList();
+	
 }

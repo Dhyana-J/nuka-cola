@@ -81,10 +81,9 @@
                                     id="address" name="address" placeholder="지역 입력"
                                     onchange="getAddress(this)" />
                             <datalist id="addr-search">
-                                <option value="경기도">
-                                <option value="서울시">
-                                <option value="충청도">
-                                <option value="부산시">
+                            	<c:forEach var="location" items="${locationList }">
+	                                <option value="${location }">
+                            	</c:forEach>
                             </datalist>
                         </div><!--info-search__selects-->
                         
@@ -124,11 +123,11 @@
 	                                    <div class="company__thumb-area">
 	                                        <div class="company__thumbnail">
 	                                        	<c:choose>
-	                                        		<c:when test="${company.compLogo eq null }">
-			                                            <img src="resources/assets/conn.png" alt="company-thumb" />
+	                                        		<c:when test="${company.compLogo ne null }">
+			                                            <img src="${pageContext.request.contextPath}/${company.compLogo}" alt="company-thumb" />
 	                                        		</c:when>
 	                                        		<c:otherwise>
-			                                            <img src="${pageContext.request.contextPath}/${company.compLogo}" alt="company-thumb" />
+			                                            <img src="resources/assets/conn.png" alt="company-thumb" />
 	                                        		</c:otherwise>
 	                                        	</c:choose>
 	                                        </div>
@@ -146,7 +145,7 @@
 		                                                </c:if>
 	                                                </c:forEach>
 	                                            </div>
-	                                            <!-- <div class="applier-count">45명 이상이 누카콜라를 통해 지원</div> -->
+	                                            <div class="company-address">${company.compAddress}</div>
 	                                        </div>
 	                                        
 			                        		<c:forEach var="recruit" items="${recruitList }">
@@ -195,161 +194,7 @@
                         	</c:forEach>
                         	
 
-                            <div class="recruit-info">
-                                <div class="recruit-info__icons">
-                                    <span class="material-icons">close</span>
-                                </div>
-
-                                <div class="recruit-info__contents">
-                                    <div class="company__thumb-area">
-                                        <div class="company__thumbnail">
-                                            <img src="resources/assets/conn.png" alt="company-thumb" />
-                                        </div>
-                                    </div>
-                                    <div class="company__info-wrapper">
-                                        <div class="company__info-area">
-                                            <div class="company-name">RIDI</div>
-                                            <div class="company-desc">인류 정신을 풍요롭게 하는 플랫폼</div>
-                                            <div class="company-industry">
-                                                <span>웹 서비스</span>
-                                                <span>&nbsp;·&nbsp;</span>
-                                                <span>모바일</span>
-                                            </div>
-                                            <div class="applier-count">45명 이상이 누카콜라를 통해 지원</div>
-                                        </div>
-                                        <div class="recruit-summary__wrapper">
-                                            <div class="recruit-summary">
-                                                <div class="summary__contents">
-                                                    <div class="recruit-title">[라프텔] 백엔드 개발자</div>
-                                                    <span>5,000 - 8,000만원</span>
-                                                    <span> / </span>
-                                                    <span>경력</span>
-                                                </div>
-                                                <div class="summary__icon">
-                                                    <!-- <span class="material-icons">turned_in_not</span> -->
-                                                    <span class="material-icons">turned_in</span>
-                                                </div>
-                                            </div>
-                                            <div class="recruit-period">
-                                                <span>12/31 마감</span>
-                                                <span>10/15 등록</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--recruit-info-->
-
-                            <div class="recruit-info">
-                                <div class="recruit-info__icons">
-                                    <span class="material-icons">close</span>
-                                </div>
-
-                                <div class="recruit-info__contents">
-                                    <div class="company__thumb-area">
-                                        <div class="company__thumbnail">
-                                            <img src="resources/assets/conn.png" alt="company-thumb" />
-                                        </div>
-                                    </div>
-                                    <div class="company__info-wrapper">
-                                        <div class="company__info-area">
-                                            <div class="company-name">RIDI</div>
-                                            <div class="company-desc">인류 정신을 풍요롭게 하는 플랫폼</div>
-                                            <div class="company-industry">
-                                                <span>웹 서비스</span>
-                                                <span>&nbsp;·&nbsp;</span>
-                                                <span>모바일</span>
-                                            </div>
-                                            <div class="applier-count">45명 이상이 누카콜라를 통해 지원</div>
-                                        </div>
-                                        <div class="recruit-summary__wrapper">
-                                            <div class="recruit-summary">
-                                                <div class="summary__contents">
-                                                    <div class="recruit-title">[라프텔] 백엔드 개발자</div>
-                                                    <span>5,000 - 8,000만원</span>
-                                                    <span> / </span>
-                                                    <span>경력</span>
-                                                </div>
-                                                <div class="summary__icon">
-                                                    <span class="material-icons">turned_in_not</span>
-                                                    <!-- <span class="material-icons">turned_in</span> 안채워진 북마크-->
-                                                </div>
-                                            </div>
-                                            <div class="recruit-period">
-                                                <span>12/31 마감</span>
-                                                <span>10/15 등록</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--recruit-info-->
-
-                            <div class="recruit-info">
-                                <div class="recruit-info__icons">
-                                    <span class="material-icons">close</span>
-                                </div>
-
-                                <div class="recruit-info__contents">
-                                    <div class="company__thumb-area">
-                                        <div class="company__thumbnail">
-                                            <img src="resources/assets/conn.png" alt="company-thumb" />
-                                        </div>
-                                    </div>
-                                    <div class="company__info-wrapper">
-                                        <div class="company__info-area">
-                                            <div class="company-name">RIDI</div>
-                                            <div class="company-desc">인류 정신을 풍요롭게 하는 플랫폼</div>
-                                            <div class="company-industry">
-                                                <span>웹 서비스</span>
-                                                <span>&nbsp;·&nbsp;</span>
-                                                <span>모바일</span>
-                                            </div>
-                                            <div class="applier-count">45명 이상이 누카콜라를 통해 지원</div>
-                                        </div>
-                                        <div class="recruit-summary__wrapper">
-                                            <div class="recruit-summary">
-                                                <div class="summary__contents">
-                                                    <div class="recruit-title">[라프텔] 백엔드 개발자</div>
-                                                    <span>5,000 - 8,000만원</span>
-                                                    <span> / </span>
-                                                    <span>경력</span>
-                                                </div>
-                                                <div class="summary__icon">
-                                                    <!-- <span class="material-icons">turned_in_not</span> -->
-                                                    <span class="material-icons">turned_in</span>
-                                                </div>
-                                            </div>
-                                            <div class="recruit-period">
-                                                <span>12/31 마감</span>
-                                                <span>10/15 등록</span>
-                                            </div>
-                                        </div>
-                                        <!--recruit-summary__wrapper-->
-                                        <div class="recruit-summary__wrapper">
-                                            <div class="recruit-summary">
-                                                <div class="summary__contents">
-                                                    <div class="recruit-title">[라프텔] 백엔드 개발자</div>
-                                                    <span>5,000 - 8,000만원</span>
-                                                    <span> / </span>
-                                                    <span>경력</span>
-                                                </div>
-                                                <div class="summary__icon">
-                                                    <span class="material-icons">turned_in_not</span>
-                                                    <!-- <span class="material-icons">turned_in</span> -->
-                                                </div>
-                                            </div>
-                                            <div class="recruit-period">
-                                                <span>12/31 마감</span>
-                                                <span>10/15 등록</span>
-                                            </div>
-                                        </div>
-                                        <!--recruit-summary__wrapper-->
-                                    </div>
-                                    <!--company__info-wrapper-->
-                                </div>
-                            </div>
-                            <!--recruit-info-->
+                        
                             
                             
                         </div>

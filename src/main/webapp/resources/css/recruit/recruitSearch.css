@@ -305,9 +305,11 @@
     font-weight: bold;
     font-size: 20px;
 }
-.company__info-wrapper .company-desc,
-.company__info-wrapper .applier-count {
+.company__info-wrapper .company-desc{
     font-size: 17px;
+}
+.company__info-wrapper .company-address{
+	font-size:13px;
 }
 
 .company__info-wrapper .company-industry {

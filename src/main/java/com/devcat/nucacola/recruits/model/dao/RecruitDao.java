@@ -69,4 +69,8 @@ public class RecruitDao {
 	public ArrayList<Skills> selectSkillList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("recruit-mapper.selectSkillList");
 	}
+
+	public ArrayList<String> selectLocationList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectLocationList");
+	}
 }

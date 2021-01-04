@@ -119,6 +119,11 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.selectSkillList(sqlSession);
 	}
 
+	@Override
+	public ArrayList<String> selectLocationList() {
+		return rDao.selectLocationList(sqlSession);
+	}
+
 
 	
 }

@@ -104,6 +104,9 @@ axios.get('search.pa', {
             })
                   .then(function (res) {
                   	console.log(res);
+                  	res.data["ConPeople"].forEach((v)=>{
+                  	createConnResult(v);
+                  	}
                   })
                   .catch(function (error) {
                      console.log(error);
@@ -232,7 +235,7 @@ const createSkillTag = (text, no, list) => {
 	    	console.log(list); 	
 		}
     
-	
+L	
     
     // 태그 삭제용 함수
     const deleteTag = (event) => {
@@ -261,3 +264,48 @@ const createSkillTag = (text, no, list) => {
 		saveTag();
 		
     }
+    
+    
+    
+    
+    // 연결된 사람정보생성
+    const createConnResult=(v)=>{
+	const connPeopleBox = document.querySelector('.connecting_people');
+    const searchResult = document.createElement('div');
+    	searchResult.className='search_result';
+    const resultLeft = document.createElement('div');
+    	resultLeft.calssName = 'result__left';
+    const userNo = document.createElement('input');
+		recruitNo.type='hidden';
+		recruitNo.name='userNo';
+  		recruitNo.className='user-no';
+  		recruitNo.value=v.userNo;
+    const avatar = document.createElement('div');
+    	avatar.calssName = 'result__left';
+    const img = document.createElement('img');
+    	img.src = v.userAvatar
+    const avatarInfo = document.createElement('ul');
+    	avatarInfo.className='avatar__info';
+    const name = document.createElement('li');
+    const nameStrong = document.createElement('strong');
+    	nameStrong.innerText=v.userName;
+    const edu = document.createElement('li');
+    	edu.innerText=v.userName;
+    const posi = document.createElement('li');
+    	if(v.userPosi ===0){
+    	edu.innerText='기획자';
+    	}else if(v.userPosi ===1){
+    	edu.innerText='개발자';
+    	}else if(v.userPosi ===2){
+    	edu.innerText='디자이너';
+    	}
+    const resultRight = document.createElement('div');
+    	resultRight.className = 'result__right';
+    const btn =  document.createElement('button');
+        btn.className = 'btn';
+        btn.innerText = '취소';
+        
+        
+    
+    }	
+    

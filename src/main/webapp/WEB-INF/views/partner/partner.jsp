@@ -114,16 +114,16 @@
                 <div class="subtitle">
                   <h2>나와 연결된 사람들</h2>
                 </div>
-                <h3>검색결과 (30)</h3>
+                <h3>검색결과 (0)</h3>
                   <!-- 연결된 사람이 없는 경우 if문-->
-                  <!-- <div class="result_none">
+                  <div class="result_none">
                     <ul class="result_none_text">
                       <li><i class="material-icons md-48">search_off</i></li>
                       <li>나와 연관된 사람들이 없습니다.</li>
                     </ul>
-                  </div> -->
+                  </div>
                   <!-- if문 -->
-                <!-- 나와 연결된 사람 결과 for문 -->
+                <!-- 나와 연결된 사람 결과 for문
                 <div class="search_result">
 
                   <div class="result__left">
@@ -140,10 +140,12 @@
                     <button class="btn">취소</button>
                   </div>
                 </div>  
-                <!-- for문 -->
+                 -->
+                <!-- for문 
                 <div class="more">
                   <button class="btn">more</button>
                 </div>
+                -->
               </div>
 
 
@@ -153,15 +155,15 @@
                 </div>
                 <h3>검색결과 (30)</h3>
                 <!-- 검색결과 없는경우  if문-->
-                <!-- <div class="result_none">
+                <div class="result_none">
                   <ul class="result_none_text">
                     <li><i class="material-icons md-48">search_off</i></li>
                     <li>검색결과가 없습니다.</li>
                   </ul>
-                </div> -->
+                </div> 
                 <!--if문  -->
-                <!-- 검색결과 for문 -->
-                <div class="search_result">
+                <!-- 검색결과 for문 
+                <div class="search_result" style="display:none">
                   <div class="result__left">
                     <div class="avatar">
                       <img src="../../assets/avatar.png" alt="" />
@@ -172,11 +174,13 @@
                       <li>기획자</li>
                     </ul>
                   </div>
+                  
                   <div class="result__right">
                     <button class="btn">팔로우</button>
                   </div>
                 </div>  
-                <!-- for문 -->
+                -->
+                <!-- for문 
 
                 <div class="search_result">
                   <div class="result__left">
@@ -197,10 +201,11 @@
                 <div class="more">
                   <button class="btn">more</button>
                 </div>
+                -->
+                
               </div>
 
             </div>
-
             </div>
 
             

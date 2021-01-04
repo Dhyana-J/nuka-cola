@@ -190,7 +190,8 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public ArrayList<Industries> selectCompanyIndustryList(int cno) {
-		return cDao.selectCompanyIndustryList(sqlSession,cno);
+		return cDao.selectCompanyIndustryList(sqlSession, cno);
+	}
 	public ArrayList<Member> selectUserSearch(PageInfo pi, String keyword) {
 		return cDao.selectUserSearch(sqlSession, pi, keyword);
 	}

@@ -54,8 +54,7 @@ public interface RecruitService {
 	
 	//DB에서 주소 앞 두글자만 조회 (서울, 경기, 대전, 대구 ...)
 	ArrayList<String> selectLocationList();
-	
-		int selectCompNo(int userNo);
+
 	
 	// 지원자 조회
 		ArrayList<RecruitManage> selectRecruitManageDetail(int rno);

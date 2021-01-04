@@ -5,6 +5,11 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.company.model.service.CompanyService;
+import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -13,22 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.devcat.nucacola.common.template.Pagination;
-import com.devcat.nucacola.company.model.service.CompanyService;
-import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import org.springframework.web.bind.annotation.RequestMethod;
-import com.devcat.nucacola.recruits.model.vo.ApplyList;
-import com.devcat.nucacola.recruits.model.vo.ApplyProg;
-import com.devcat.nucacola.recruits.model.vo.RecruitManage;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 @Controller
 public class RecruitController {
@@ -94,7 +86,7 @@ public class RecruitController {
 		RecruitSkill rp = new RecruitSkill();
 		rp.setRecruitNo(rno);
 		rp.setSkillNo(number);
-		int result = rService.changeProgress(rp);
+		rService.changeProgress(rp);
 		System.out.println("redirect:/detail.ap?ano="+rno);
 		return "redirect:/detail.ap?ano="+rno;
 	}
@@ -102,15 +94,14 @@ public class RecruitController {
 
 	// 지원한 내역조회
 	@RequestMapping("list.ap")
-	public String selectApplyList(int userNo, Model model, HttpSession session) {
+	public String selectApplyList(int userNo, Model model) {
 		
 		// 조회할 채용정보가져오기
 		ArrayList<ApplyList> applyList = rService.selectApplyList(userNo);
 		int applyCount = rService.selectApplyCount(userNo);
 		System.out.println(applyList);
 		System.out.println(applyCount);
-		
-		ApplyProg applyProg = new ApplyProg();
+
 		int submitState = 0;
 		int passState = 0;
 		int joinState = 0;
@@ -147,7 +138,7 @@ public class RecruitController {
 	// 지원한 내역 삭제하기(지원취소)
 	@ResponseBody
 	@RequestMapping(value="/delete.ap", produces="text/html; charset=utf-8")
-	public void deleteApplyList(int userNo, int recruitNo, HttpSession session) {
+	public void deleteApplyList(int userNo, int recruitNo) {
 		
 		// 새로운 ap 생성자 생성
 		Apply ap = new Apply();
@@ -188,8 +179,8 @@ public class RecruitController {
 		re.setCompNo(compNo);
 
 
-		int minSal = (int) (re.getRecruitMinSal());
-		int maxSal = (int) (re.getRecruitMaxSal());
+		int minSal =re.getRecruitMinSal();
+		int maxSal =re.getRecruitMaxSal();
 
 
 		System.out.println(minSal);

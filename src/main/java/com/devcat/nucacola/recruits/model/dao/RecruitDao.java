@@ -3,9 +3,12 @@ package com.devcat.nucacola.recruits.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
@@ -48,4 +51,26 @@ public class RecruitDao {
     public int selectApplyCount(SqlSessionTemplate sqlSession, int rno) {
     	return sqlSession.selectOne("apply-mapper.selectApplyCount",rno);
     }
+
+	public int selectCompCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("recruit-mapper.selectCompCount");
+	}
+
+	public ArrayList<String> selectCnoList(SqlSessionTemplate sqlSession,PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCnoList",null,rowBounds);
+	}
+
+	public ArrayList<Recruit> selectRecruitList(SqlSessionTemplate sqlSession, int cno) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectRecruitList",cno);
+	}
+
+	public ArrayList<Skills> selectSkillList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectSkillList");
+	}
+
+	public ArrayList<String> selectLocationList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectLocationList");
+	}
 }

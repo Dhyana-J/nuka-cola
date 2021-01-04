@@ -26,7 +26,7 @@
           <ul class="header__nav">
             <li class="header__nav-item"><a href="list.pa">PARTNER</a></li>
             <li class="header__nav-item"><a href="list.co">COMPANIES</a></li>
-            <li class="header__nav-item">EMPLOYMENT</li>
+            <li class="header__nav-item"><a href="list.re">EMPLOYMENT</a></li>
           </ul>
         </div>
         <div class="right__header">

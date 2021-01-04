@@ -49,12 +49,19 @@
 		<result column="indus_name" property="indusName"/>
 	</resultMap>
 	
-		<resultMap id="techResultSet" type="TechStack">
+	<resultMap id="techResultSet" type="TechStack">
 		<result column="comp_no" property="compNo"/>
 		<result column="skill_no" property="skillNo"/>
 		<result column="skill_name" property="skillName"/>
 		<result column="stacks_posi" property="stackPosi"/>
 		<result column="created_at" property="createdAt"/>
+	</resultMap>
+	
+	<resultMap id="industryResultSet" type="Industries">
+		<result column="indus_no" property="indusNo"/>
+		<result column="indus_name" property="indusName"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
 	</resultMap>
 	
 		
@@ -447,6 +454,22 @@
 		<foreach collection="lList" item="arr" open="(" close=")" separator="or">
 			 i.indus_name like '%'||#{lList}||'%'
 		</foreach>  
+	</select>
+	
+	<select id="selectIndustryList"
+			resultMap="industryResultSet">
+		select *
+		  from industries
+	</select>
+			
+	<select id="selectCompanyIndustryList"
+			parameterType="_int"
+			resultMap="industryResultSet">
+		select indus_no, indus_name
+			from companys
+			join compindus using(comp_no)
+			join industries using(indus_no)
+			where comp_no=#{cno}
 	</select>
 	
 	

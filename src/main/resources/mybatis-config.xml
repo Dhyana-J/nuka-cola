@@ -30,6 +30,7 @@
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Declare" alias="Declare"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.ApplyList" alias="ApplyList"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.RecruitManage" alias="RecruitManage"/>
+		<typeAlias type="com.devcat.nucacola.recruits.model.vo.UserCareer" alias="ApplyCareer"/>
 	</typeAliases>
 	
 	<!-- 원래 DB접속 관련된 내용들을 작성했으나 다룬곳에서 작성 -->

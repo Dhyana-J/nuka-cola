@@ -3,15 +3,10 @@ package com.devcat.nucacola.recruits.model.service;
 import java.util.ArrayList;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.recruits.model.vo.*;
+import org.mybatis.spring.SqlSessionTemplate;
 import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.ApplyList;
-import com.devcat.nucacola.recruits.model.vo.ApplyProg;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitManage;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import sun.security.util.Debug;
 
 
 public interface RecruitService {
@@ -67,4 +62,11 @@ public interface RecruitService {
 	// 북마크 수 조회
 		int selectBookmarkCount(int rno);
 		
+	//지원 상세조회
+	Apply selectApplyDetail(int ano);
+	ArrayList<RecruitSkill> selectUserSkills(int uno);
+	ArrayList<UserCareer> selectCareers(int uno);
+
+	//지원자상태변경
+	int changeProgress(RecruitSkill rp);
 }

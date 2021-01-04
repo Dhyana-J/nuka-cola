@@ -10,18 +10,28 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-
-
 public class Apply {
 	
-	private int applyNo; // 지원공고식별자
-	private String applyComment; // 지원한마디
-	private int applyProg; // 채용단계
-	private String createdAt; // 지원날짜
-	private String updatedAt; // 삭제날짜
-	private int userNo; // 유저식별자
-	private int recruitNo; // 채용공고식별자
-	
+	private int applyNo;
+	private String applyComment;
+	private int applyProg;
+	private String createdAt;
+	private String updatedAt;
+	private int userNo;
+	private int recruitNo;
+
+	//추가 - 채용공고쪽
+	private String recruitTitle;
+	private int compNo;
+
+	//추가 - 사람쪽
+	private String userName;
+	private String userEdu;
+
+	//추가 - 회사쪽
+	private int manager1No;
+	private int manager2No;
+
 	public Apply(int userNo, int recruitNo) {
 		super();
 		this.userNo = userNo;

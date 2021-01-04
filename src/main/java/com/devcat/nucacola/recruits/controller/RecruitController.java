@@ -5,38 +5,29 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.recruits.model.service.RecruitService;
+import com.devcat.nucacola.recruits.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.member.model.vo.Member;
-import com.devcat.nucacola.recruits.model.service.RecruitService;
 import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-=======
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.devcat.nucacola.member.model.vo.Member;
-import com.devcat.nucacola.recruits.model.service.RecruitService;
-import com.devcat.nucacola.recruits.model.vo.Apply;
+import org.springframework.web.bind.annotation.RequestMethod;
 import com.devcat.nucacola.recruits.model.vo.ApplyList;
 import com.devcat.nucacola.recruits.model.vo.ApplyProg;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
->>>>>>> jinwon1215
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 @Controller
@@ -44,11 +35,8 @@ public class RecruitController {
 	@Autowired
 	private RecruitService rService;
 	
-<<<<<<< HEAD
 	@Autowired
 	private CompanyService cService;
-=======
->>>>>>> jinwon1215
 
 	// 채용상세페이지
 	@RequestMapping("detail.re")
@@ -83,7 +71,35 @@ public class RecruitController {
 			return "fail";
 		}
 	}
-	
+
+	//지원 상세조회
+	@RequestMapping("detail.ap")
+	public String selectApplyDetail(int ano, Model model){
+		System.out.println(ano);
+		Apply apply = rService.selectApplyDetail(ano);
+		System.out.println(apply);
+		int uno = apply.getUserNo();
+		ArrayList<RecruitSkill> skillList = rService.selectUserSkills(uno);
+		ArrayList<UserCareer> careerList = rService.selectCareers(uno);
+		model.addAttribute("a",apply);
+		model.addAttribute("s",skillList);
+		model.addAttribute("c",careerList);
+		return "/apply/applyDetail";
+	}
+
+	// 단계변경
+	@RequestMapping(value="changeprog.ap" ,method = RequestMethod.GET)
+	public String changeProgress(int rno,int number){
+		System.out.println(rno);
+		RecruitSkill rp = new RecruitSkill();
+		rp.setRecruitNo(rno);
+		rp.setSkillNo(number);
+		int result = rService.changeProgress(rp);
+		System.out.println("redirect:/detail.ap?ano="+rno);
+		return "redirect:/detail.ap?ano="+rno;
+	}
+
+
 	// 지원한 내역조회
 	@RequestMapping("list.ap")
 	public String selectApplyList(int userNo, Model model, HttpSession session) {
@@ -127,8 +143,6 @@ public class RecruitController {
 			
 	}
 	
-
-	
 	
 	// 지원한 내역 삭제하기(지원취소)
 	@ResponseBody
@@ -163,40 +177,38 @@ public class RecruitController {
 	
 	@RequestMapping("recruitInsert.re")
 	public void insertRecruit(Recruit re, int userNo) {
-		
+
 		System.out.println(re);
-		
+
 		int compNo = rService.selectCompNo(userNo);
-		
+
 		System.out.println(compNo);
-		
-		
+
+
 		re.setCompNo(compNo);
-		
-		
-		int minSal = (int)(re.getRecruitMinSal());
-		int maxSal = (int)(re.getRecruitMaxSal());
-		
-		
+
+
+		int minSal = (int) (re.getRecruitMinSal());
+		int maxSal = (int) (re.getRecruitMaxSal());
+
+
 		System.out.println(minSal);
 		System.out.println(maxSal);
-		
+
 		re.setRecruitMinSal(minSal);
 		re.setRecruitMaxSal(maxSal);
-		
+
 		System.out.println(re);
 
 		int result = rService.insertRecruit(re);
-		
-		if(result>0) {
+
+		if (result > 0) {
 			System.out.println("삽입 성공!");
-			
+
 		}
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> jinwon1215
+
 	// 채용관리 페이지
 	@RequestMapping("manageDetail.re")
 	public String selectRecruitManageDetail(int rno, Model model) {
@@ -217,9 +229,6 @@ public class RecruitController {
 		int passState = 0;
 		int joinState = 0;
 		int failState = 0;
-		
-<<<<<<< HEAD
-=======
 		for(RecruitManage al : manageList) {
 			
 			if(al.getApplyProg() == 0) { //채용조건이 0이라면 서류접수에 1 		
@@ -239,11 +248,10 @@ public class RecruitController {
 		model.addAttribute("failState",failState);
 		model.addAttribute("appliesCount",appliesCount);
 		model.addAttribute("manageList",manageList);
->>>>>>> jinwon1215
 		return "/recruit/recruitManageDetail";
 	}
-<<<<<<< HEAD
 	
+
 	//------------- 채용검색 페이지 -------------
 	//맨 처음 보이는 채용검색 화면 
 	@RequestMapping("list.re")
@@ -289,22 +297,7 @@ public class RecruitController {
 		
 		model.addAttribute("recruitInfoList",recruitInfoList);
 		
-		//가져온 회사+채용리스트 테스트 출력
-//		for(HashMap<String,Object> e:recruitInfoList) {
-//			System.out.println("회사명 : "+e.get("company"));
-//			System.out.println("채용정보 : ");
-//			
-//			for(Recruit list : (ArrayList<Recruit>)e.get("recruitList")) {
-//				System.out.println(list);
-//			}
-//		}
-		
 		return "recruit/recruitSearch";
 	}
-	
-	
-=======
-
->>>>>>> jinwon1215
 	
 }

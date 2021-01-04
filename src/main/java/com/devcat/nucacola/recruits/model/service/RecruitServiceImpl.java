@@ -2,6 +2,12 @@ package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
 
+<<<<<<< HEAD
+=======
+
+import com.devcat.nucacola.recruits.model.dao.RecruitDao;
+import com.devcat.nucacola.recruits.model.vo.*;
+>>>>>>> wongeun
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +16,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
+<<<<<<< HEAD
 import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.ApplyList;
 import com.devcat.nucacola.recruits.model.vo.Declare;
@@ -17,6 +24,8 @@ import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+=======
+>>>>>>> wongeun
 
 
 @Service
@@ -137,6 +146,22 @@ public class RecruitServiceImpl implements RecruitService {
 	public int selectBookmarkCount(int rno) {
 		return rDao.selectBookmarkCount(sqlSession, rno);
 	}
+	
+	public Apply selectApplyDetail(int ano) {
+		return rDao.selectApplyDetail(sqlSession, ano);
+	}
+	@Override
+	public ArrayList<RecruitSkill> selectUserSkills(int uno) {
+		return rDao.selectUserSkills(sqlSession, uno);
+	}
 
+	@Override
+	public ArrayList<UserCareer> selectCareers(int uno){
+		return rDao.selectCareers(sqlSession,uno);
+	}
+	@Override
+	public int changeProgress(RecruitSkill rp){
+		return rDao.changeProgress(sqlSession,rp);
+	}
 	
 }

@@ -18,6 +18,10 @@ import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
+import com.devcat.nucacola.recruits.model.vo.*;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
 @Repository
 public class RecruitDao {
 
@@ -90,4 +94,19 @@ public class RecruitDao {
 	}
 
 	
+    public Apply selectApplyDetail(SqlSessionTemplate sqlSession, int ano) {
+	    return sqlSession.selectOne("recruit-mapper.selectApplyDetail",ano);
+    }
+
+    public ArrayList<RecruitSkill> selectUserSkills(SqlSessionTemplate sqlSession, int uno) {
+	    return (ArrayList) sqlSession.selectList("recruit-mapper.selectUserSkills",uno);
+    }
+
+    public ArrayList<UserCareer> selectCareers(SqlSessionTemplate sqlSession, int uno) {
+        return (ArrayList) sqlSession.selectList("recruit-mapper.selectCareers",uno);
+    }
+
+    public int changeProgress(SqlSessionTemplate sqlSession, RecruitSkill rp) {
+	    return sqlSession.update("recruit-mapper.changeProgress",rp);
+    }
 }

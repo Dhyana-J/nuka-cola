@@ -1,6 +1,7 @@
 package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -68,4 +69,10 @@ public interface RecruitService {
 
 	//지원자상태변경
 	int changeProgress(RecruitSkill rp);
+	
+	// 채용정보 등록위한 채용공고 번호 알아오기
+	int selectRecruitNo(Recruit re);
+	
+	// 채용공고 기술 등록 하기
+	int insertRecruitSkill(HashMap<String, Object> recruitMap);
 }

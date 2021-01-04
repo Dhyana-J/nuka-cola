@@ -106,4 +106,8 @@ public interface CompanyService {
 	
 	
 	int deadlineBtn(int rno);
+	
+	
+	// 유저번호로 회사번호 알아오기 by정찬복 20210104
+	int selectCompanyNoUn(int uno);
 }

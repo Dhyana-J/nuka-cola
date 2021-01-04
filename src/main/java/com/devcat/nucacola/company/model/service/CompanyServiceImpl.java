@@ -206,6 +206,12 @@ public class CompanyServiceImpl implements CompanyService{
 		return cDao.selectCompanySearch(sqlSession, pi, keyword);
 	}
 
+	@Override
+	public int selectCompanyNoUn(int uno) {
+		
+		return cDao.selectCompanyNoUn(sqlSession, uno);
+	}
+
 
 
 

@@ -1,7 +1,7 @@
 package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -154,6 +154,18 @@ public class RecruitServiceImpl implements RecruitService {
 	@Override
 	public int changeProgress(RecruitSkill rp){
 		return rDao.changeProgress(sqlSession,rp);
+	}
+
+	@Override
+	public int selectRecruitNo(Recruit re) {
+		
+		return rDao.selectRecruitNo(sqlSession, re);
+	}
+
+	@Override
+	public int insertRecruitSkill(HashMap<String, Object> recruitMap) {
+		
+		return rDao.insertRecruitSkill(sqlSession,recruitMap);
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.devcat.nucacola.recruits.model.dao;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -109,4 +110,14 @@ public class RecruitDao {
     public int changeProgress(SqlSessionTemplate sqlSession, RecruitSkill rp) {
 	    return sqlSession.update("recruit-mapper.changeProgress",rp);
     }
+
+	public int selectRecruitNo(SqlSessionTemplate sqlSession, Recruit re) {
+		
+		return sqlSession.selectOne("recruit-mapper.selectRecruitNo", re);
+	}
+
+	public int insertRecruitSkill(SqlSessionTemplate sqlSession, HashMap<String, Object> recruitMap) {
+		
+		return sqlSession.insert("recruit-mapper.insertRecruitSkill", recruitMap);
+	}
 }

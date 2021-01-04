@@ -533,4 +533,13 @@
 	      where comp_name like '%'||#{keyword}||'%'
 	</select>
 	
+	<select id="selectCompanyNoUn" parameterType="_int" resultType="_int">
+		select 
+		      comp_no
+		from companys
+		where user_no = #{uno}      
+
+	</select>
+	
+	
 </mapper>

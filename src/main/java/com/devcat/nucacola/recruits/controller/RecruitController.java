@@ -5,22 +5,31 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-import com.devcat.nucacola.common.template.Pagination;
-import com.devcat.nucacola.company.model.service.CompanyService;
-import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.member.model.vo.Member;
-import com.devcat.nucacola.recruits.model.service.RecruitService;
-import com.devcat.nucacola.recruits.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.web.bind.annotation.RequestMethod;
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.company.model.service.CompanyService;
+import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.recruits.model.service.RecruitService;
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import com.devcat.nucacola.recruits.model.vo.UserCareer;
 
 @Controller
 public class RecruitController {
@@ -29,6 +38,10 @@ public class RecruitController {
 	
 	@Autowired
 	private CompanyService cService;
+	
+	
+	@Autowired
+	private MemberService mService;
 
 	// 채용상세페이지
 	@RequestMapping("detail.re")
@@ -167,36 +180,38 @@ public class RecruitController {
 	
 	
 	@RequestMapping("recruitInsert.re")
-	public void insertRecruit(Recruit re, int userNo) {
-
-		System.out.println(re);
+	public String insertRecruit(Recruit re, int userNo,MultipartFile upfile, float minSal, float maxSal) {
+				
+		//System.out.println(re);
 
 		int compNo = rService.selectCompNo(userNo);
 
 		System.out.println(compNo);
-
-
 		re.setCompNo(compNo);
 
+		re.setRecruitMinSal((int)minSal);
+		re.setRecruitMaxSal((int)maxSal);
 
-		int minSal =re.getRecruitMinSal();
-		int maxSal =re.getRecruitMaxSal();
+		int result1 = rService.insertRecruit(re);
 
-
-		System.out.println(minSal);
-		System.out.println(maxSal);
-
-		re.setRecruitMinSal(minSal);
-		re.setRecruitMaxSal(maxSal);
-
-		System.out.println(re);
-
-		int result = rService.insertRecruit(re);
-
-		if (result > 0) {
-			System.out.println("삽입 성공!");
-
+		if (result1 > 0) {
+			//System.out.println("삽입 성공!");
+			
+			int recruitNo = rService.selectRecruitNo(re); 
+			String[] skillList = re.getSkillList().get(0).getSkillName().split(" ");
+			
+			HashMap<String, Object> recruitMap = makeMap(skillList,recruitNo);
+			//System.out.println(recruitMap);
+			
+			int recruitSuccess = rService.insertRecruitSkill(recruitMap);
+			
+			if(recruitSuccess>0) {
+				
+				return "redirect:list.re";
+			}
 		}
+		
+		return "redirect:list.re";
 	}
 
 
@@ -290,5 +305,36 @@ public class RecruitController {
 		
 		return "recruit/recruitSearch";
 	}
+	
+	
+	
+	
+	// 채용식별자, 기술번호를 담는 해시맵 만들어주는 메소드~
+	private HashMap<String, Object> makeMap(String[] skillList, int recruitNo) {
+		
+		// 기술 번호를 알아오기 위한 리스트 생성
+		ArrayList<Skills> list = new ArrayList<>();
+		//hashMap에 넣을 기술번호들을 담을 리스트 생성
+		ArrayList<Integer> skillsNo = new ArrayList<>();
+		
+		//기술이름 => 기술번호, 기술 이름 알아옴
+		list = mService.getSkillNo(skillList);
+		
+		for(int i =0; i<list.size(); i++) {
+			// 기술번호만 골라서 skillNo 담아준다!
+			skillsNo.add(list.get(i).getSkillNo());
+		}
+		
+		// 채용식별자와, 기술번호를 한번에 담은 해시맵이다 이마리야
+		HashMap<String, Object> ts = new HashMap<String, Object>();
+		
+		ts.put("recruitNo", recruitNo);
+		ts.put("skillsNo",skillsNo);
+		
+		return ts;
+	}
+
+	
+	
 	
 }

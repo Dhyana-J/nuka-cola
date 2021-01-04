@@ -28,7 +28,7 @@
         <main class="recruit-search__main-wrapper">
             <div class="inner">
                 <div class="recruit-search__left-area">
-                    <button class="recruit-enroll-btn">채용 무료 등록</button>
+                    <button class="recruit-enroll-btn"  onclick='location.href="recruitEnroll.re"'>채용 무료 등록</button>
                 </div>
                 <div class="recruit-search__right-area">
                     <div class="info-search">

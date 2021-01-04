@@ -24,10 +24,8 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	 <script src ="resources/js/recruit/recruitEnrollForm.js"></script>
+	
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/recruit/recuritEnrollForm.css" />
 
@@ -130,9 +128,10 @@
               
                 <div class="min-max-slider" data-legendnum="2">
 				    <label for="min">Minimum price</label>
-				    <input id="min" class="min" name="recruitMinSal" type="range" step="10" min="0" max="10000" />
+				    <input id="min" class="min" name="minSal" type="range" step="10" min="0" max="10000" />
+				    
 				    <label for="max">Maximum price</label>
-				    <input id="max" class="max" name="recruitMaxSal" type="range" step="10" min="0" max="10000" />
+				    <input id="max" class="max" name="maxSal" type="range" step="10" min="0" max="10000" />
 				</div>
 				
               </div>
@@ -408,13 +407,13 @@
 		    slider.style.height = (lower.offsetHeight + min.offsetHeight + legend.offsetHeight)+'px';
 		    
 		    /* correct for 1 off at the end */
-		    if(max.value>(rangemax - 1)) max.setAttribute('data-value',rangemax);
+		    if(max.value>(rangemax - 1)) max.setAttribute('value',rangemax);
 
 		    /* write value and labels */
-		    max.value = max.getAttribute('data-value'); 
-		    min.value = min.getAttribute('data-value');
-		    lower.innerHTML = min.getAttribute('data-value');
-		    upper.innerHTML = max.getAttribute('data-value');
+		    max.value = max.getAttribute('value'); 
+		    min.value = min.getAttribute('value');
+		    lower.innerHTML = min.getAttribute('value');
+		    upper.innerHTML = max.getAttribute('value');
 
 		}
 
@@ -428,8 +427,8 @@
 		    var legendnum = slider.getAttribute('data-legendnum');
 
 		    /* set data-values */
-		    min.setAttribute('data-value',rangemin);
-		    max.setAttribute('data-value',rangemax);
+		    min.setAttribute('value',rangemin);
+		    max.setAttribute('value',rangemax);
 		    
 		    /* set data vars */
 		    slider.setAttribute('data-rangemin',rangemin); 
@@ -477,8 +476,8 @@
 		    var maxvalue = Math.floor(max.value);
 		    
 		    /* set inactive values before draw */
-		    min.setAttribute('data-value',minvalue);
-		    max.setAttribute('data-value',maxvalue);
+		    min.setAttribute('value',minvalue);
+		    max.setAttribute('value',maxvalue);
 
 		    var avgvalue = (minvalue + maxvalue)/2;
 

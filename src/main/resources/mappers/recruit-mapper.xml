@@ -313,4 +313,41 @@
         SET t.APPLY_PROG = #{skillNo}
         WHERE t.APPLY_NO = #{recruitNo}
     </update>
+    
+    
+    <select id="selectRecruitNo" parameterType="Recruit" resultType ="_int">
+    	select
+    	      recruit_no
+    	from recruits
+       where comp_no = #{compNo}
+         and recruit_info = #{recruitInfo}
+
+    </select>
+    
+    <update id="insertRecruitSkill">
+    	
+    	<foreach collection="skillsNo" item="no" open="insert all" close="select * from dual">
+    	
+    		into recruit_skills
+    		(
+    		  recruit_no
+    		 ,skill_no
+    		 ,created_at 
+    		
+    		)
+    		values
+    		(
+    		 #{recruitNo}
+    		,#{no} 
+    		,default
+    		)
+
+    	</foreach>
+    	
+    
+    
+    
+    </update>
+    
+    
 </mapper>

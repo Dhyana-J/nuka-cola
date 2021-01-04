@@ -218,5 +218,10 @@ public class CompanyDao {
 		
 		return (ArrayList)sqlSession.selectList("companymapper.selectCompanySearch", keyword, rowBounds);
 	}
+
+	public int selectCompanyNoUn(SqlSessionTemplate sqlSession, int uno) {
+		
+		return sqlSession.selectOne("companymapper.selectCompanyNoUn",uno);
+	}
 	
 }

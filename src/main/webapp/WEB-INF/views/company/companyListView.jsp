@@ -48,7 +48,7 @@
             </button>
             <button 
                class="aside__btn-compinfo"
-               onclick='location.href="list.co"'
+               onclick='location.href="profileMain.co?cno="+ ${cno}'
             >기업 정보</button>
           </div>
           <div class="main__section__content">

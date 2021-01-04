@@ -105,4 +105,5 @@ public interface CompanyService {
 
 	
 	
+	int deadlineBtn(int rno);
 }

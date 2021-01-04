@@ -106,6 +106,12 @@ public class CompanyServiceImpl implements CompanyService{
 	public ArrayList<Recruit> CompanyRecruitSkills(Company c) {
 		return cDao.CompanyRecruitSkills(sqlSession, c);
 	}
+	
+	// 마감처리(Update)
+	@Override
+	public int deadlineBtn(int rno) {
+		return cDao.deadlineBtn(sqlSession, rno);
+	}
 
 
 	@Override
@@ -178,7 +184,6 @@ public class CompanyServiceImpl implements CompanyService{
 		return cDao.selectTechList(sqlSession, cno);
 	}
 
-	@Override
 	public ArrayList<Industries> selectIndustryList() {
 		return cDao.selectIndustryList(sqlSession);
 	}
@@ -199,7 +204,6 @@ public class CompanyServiceImpl implements CompanyService{
 	public ArrayList<Company> selectCompanySearch(PageInfo pi, String keyword) {
 		return cDao.selectCompanySearch(sqlSession, pi, keyword);
 	}
-	
 
 
 

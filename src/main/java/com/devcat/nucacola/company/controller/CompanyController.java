@@ -492,6 +492,7 @@ public class CompanyController {
 	
 	
 	// 산업분야 업데이트
+	
 	@RequestMapping("updateCompanyIndus.co")
 	public String updateCompanyIndus(@RequestParam(value ="indusNums", required = false)ArrayList<Integer>indusNums, int compNo, Model model) {
 		
@@ -544,8 +545,8 @@ public class CompanyController {
 	
 	// 프로필의 채용공고(진행중, 진행완료)
 	@RequestMapping("recruit.co")
-	public String profileRecruit(@RequestParam(value="currentPage", defaultValue="1") int currentPage
-								 ,int cno, Model model) {
+	public String profileRecruit(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+								 int cno, Model model) {
 		Company c = new Company();
 		c.setCompNo(cno);
 		int INGcount = cService.INGcount(c);
@@ -568,7 +569,7 @@ public class CompanyController {
 				skillMap.put(key,skillsName);
 			System.out.println(skillMap);
 		}
-		model.addAttribute("cno",c.getCompNo());
+		model.addAttribute("c",c);
 		model.addAttribute("skillMap",skillMap);
 		model.addAttribute("rlist1",rlist1);
 		model.addAttribute("rlist2",rlist2);
@@ -630,6 +631,16 @@ public class CompanyController {
 		HashMap<String, Object> result=new HashMap<>();
 		result.put("skillMap", skillMap);
 		result.put("rlist2",rlist2);
+
+		return result;
+	}
+	
+	// 마감처리버튼처리
+	@ResponseBody
+	@RequestMapping(value="deadlineProcess.co",produces="application/json;charset=utf-8")
+	public int deadlineProcess( @RequestParam(value = "rno")int rno) {
+		int result = cService.deadlineBtn(rno);
+		System.out.println(result);
 
 		return result;
 	}

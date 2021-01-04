@@ -118,6 +118,11 @@ public class CompanyDao {
 	public ArrayList<Recruit> CompanyRecruitSkills(SqlSessionTemplate sqlSession,Company c) {
 		return (ArrayList)sqlSession.selectList("companymapper.CompanyRecruitSkills", c);
 	}
+	
+	// 채용마감처리
+	public int deadlineBtn(SqlSessionTemplate sqlSession, int rno) {
+		return sqlSession.update("companymapper.deadlineBtn", rno);
+	}
 
 	//회사 검색
 	public ArrayList<Company> searchCompanyList(SqlSessionTemplate sqlSession,PageInfo pi, String keyword, 

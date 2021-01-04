@@ -32,6 +32,7 @@ import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Connection;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.TempKey;
 import com.devcat.nucacola.member.model.vo.UserFiled;
@@ -510,25 +511,64 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
-	// 파트너 검색 연결
+	// 파트너 검색 - 연결
 	@Override
 	public ArrayList<Member> partnerConnecting(int userNo) {
 		return mDao.partnerConnecting(sqlSession, userNo);
 	}
-	//파트너 검색 스킬
+	//파트너 검색 - 스킬
 	@Override
 	public ArrayList<Skills> partnerSearchSkill() {
 		return  mDao.partnerSearchSkill(sqlSession);
 	}
+	//파트너 검색 - 인기프로필 
 	@Override
 	public List<Integer> partnerPopularProfile(){
 		return mDao.partnerPopularProfile(sqlSession);
 	}
-
+	//파트너 검색 - 인기프로필 정보
 	@Override
 	public ArrayList<Member> partnerPopularInfo(List<Integer> popularNo) {
 		return mDao.partnerPopularInfo(sqlSession, popularNo);
 	}
+	//파트너 검색 - 학교명조회
+	@Override
+	public ArrayList<Member> searchSchoolName(String schoolName) {
+		return mDao.searchSchoolName(sqlSession,schoolName);
+	}
+	
+	//파트너 검색 - 스킬리스트에 연관된 사람들 
+	@Override
+	public List<Integer> partnerSearchSkill(List<Integer> skList) {
+		return mDao.partnerSearchSkill(sqlSession,skList);
+	}
+	//파트너 검색 - 연결된 사람들중 검색결과 총수
+	@Override
+	public int partnerSearchCount1(PartnerSearch p) {
+		return  mDao.partnerSearchCount1(sqlSession,p);
+	}
+	//파트너 검색 - 연결된 사람들 중 검색결과 인원정보
+	@Override
+	public ArrayList<Member> partnerConnResult(PartnerSearch p, PageInfo pi1) {
+		return mDao.partnerConnResult(sqlSession, p, pi1);
+	}
+	//파트너 검색 - 그외 사람들중 검색 결과 총수
+	@Override
+	public int partnerSearchCount2(PartnerSearch p) {
+		return mDao.partnerSearchCount2(sqlSession,p);
+	}
+	//그외 사람들중 검색 결과 인원정보
+	@Override
+	public ArrayList<Member> partnerETCResult(PartnerSearch p, PageInfo pi2) {
+		return mDao.partnerETCResult(sqlSession, p, pi2);
+	}
+	
+	
+	
+
+
+
+
 
 	
 

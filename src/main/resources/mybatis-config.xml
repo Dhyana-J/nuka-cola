@@ -22,11 +22,13 @@
 		<typeAlias type="com.devcat.nucacola.company.model.vo.CompIndus" alias="CompIndus"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Project" alias="Project"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Career" alias="Career"/>
+		<typeAlias type="com.devcat.nucacola.member.model.vo.PartnerSearch" alias="PartnerSearch"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Recruit" alias="Recruit"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Apply" alias="Apply"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.RecruitDetail" alias="RecruitDetail"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.RecruitSkill" alias="RecruitSkill"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Declare" alias="Declare"/>
+
 	</typeAliases>
 	
 	<!-- 원래 DB접속 관련된 내용들을 작성했으나 다룬곳에서 작성 -->

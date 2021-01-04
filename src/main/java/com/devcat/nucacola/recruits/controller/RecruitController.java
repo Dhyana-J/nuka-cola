@@ -84,6 +84,8 @@ public class RecruitController {
 			
 	}
 	
+
+	
 	
 	
 	@RequestMapping("recruitEnroll.re")

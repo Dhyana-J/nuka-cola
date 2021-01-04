@@ -44,6 +44,7 @@
           </div>
 
           <div class="connection__right">
+          <input type="hidden" class="loginUser" value="${loginUser.userNo}">
             <div class="connection__title">
               <strong>Connecting people</strong>
             </div>
@@ -114,7 +115,7 @@
                 <div class="subtitle">
                   <h2>나와 연결된 사람들</h2>
                 </div>
-                <h3>검색결과 (0)</h3>
+                <h3 class="resultCount1">검색결과 (0)</h3>
                   <!-- 연결된 사람이 없는 경우 if문-->
                   <div class="result_none">
                     <ul class="result_none_text">
@@ -123,24 +124,12 @@
                     </ul>
                   </div>
                   <!-- if문 -->
-                <!-- 나와 연결된 사람 결과 for문
+                <!-- 나와 연결된 사람 결과 for문-->
                 <div class="search_result">
 
-                  <div class="result__left">
-                    <div class="avatar">
-                      <img src="../../assets/avatar.png" alt="" />
-                    </div>
-                    <ul class="avatar__info">
-                      <li><strong>홍길동</strong></li>
-                      <li>서울대학교</li>
-                      <li>기획자</li>
-                    </ul>
-                  </div>
-                  <div class="result__right">
-                    <button class="btn">취소</button>
-                  </div>
+	                
                 </div>  
-                 -->
+                 
                 <!-- for문 
                 <div class="more">
                   <button class="btn">more</button>
@@ -153,7 +142,7 @@
                 <div class="subtitle">
                   <h2>그 외</h2>
                 </div>
-                <h3>검색결과 (30)</h3>
+                <h3 class="resultCount2">검색결과 (0)</h3>
                 <!-- 검색결과 없는경우  if문-->
                 <div class="result_none">
                   <ul class="result_none_text">
@@ -162,41 +151,12 @@
                   </ul>
                 </div> 
                 <!--if문  -->
-                <!-- 검색결과 for문 
-                <div class="search_result" style="display:none">
-                  <div class="result__left">
-                    <div class="avatar">
-                      <img src="../../assets/avatar.png" alt="" />
-                    </div>
-                    <ul class="avatar__info">
-                      <li><strong>홍길동</strong></li>
-                      <li>MicroSoft, ceo</li>
-                      <li>기획자</li>
-                    </ul>
-                  </div>
-                  
-                  <div class="result__right">
-                    <button class="btn">팔로우</button>
-                  </div>
-                </div>  
-                -->
-                <!-- for문 
+                <!-- 검색결과 for문--> 
+                <div class="search_result2">
 
-                <div class="search_result">
-                  <div class="result__left">
-                    <div class="avatar">
-                      <img src="../../assets/avatar.png" alt="" />
-                    </div>
-                    <ul class="avatar__info">
-                      <li><strong>홍길동</strong></li>
-                      <li>MicroSoft, ceo</li>
-                      <li>기획자</li>
-                    </ul>
-                  </div>
-                  <div class="result__right">
-                    <button class="btn">팔로우</button>
-                  </div>
-                </div> 
+                </div>  
+                
+                <!-- for문 
                 
                 <div class="more">
                   <button class="btn">more</button>
@@ -258,10 +218,21 @@
                         </ul>
                       </div>
                       <div class="result__right">
-                        <button class="btn">팔로우</button>
+                        <!-- ${fn:length(follower)-1} -->
+                      <c:forEach var="f" begin="0" end="0">
+                      	<c:if test="${p.userNo == follower[f].userNo}">
+                        <button class="btn">취소</button>
+                        </c:if>
+                        
+                        <c:if test="${p.userNo != follower[f].userNo}">
+                        	<button class="btn">팔로우</button>
+                        </c:if>
+                      </c:forEach>
+                     
                       </div>
                     </div>  
                     </c:forEach>
+                    
                     <!-- for문 -->
                   </div>
                 </div>
@@ -302,6 +273,7 @@
         	})
         	.catch((err)=>{ //통신 실패
         		console.log(err);
+        		alert('요청에 실패했습니다.');
         	})
         	
         };

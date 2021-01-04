@@ -61,10 +61,15 @@ public class ConnectionController {
 		ArrayList<Skills> skill = mService.partnerSearchSkill();
 		System.out.println(skill);
 		//인기 프로필
+		ArrayList<Member> follower = mService.partnerFollowers(userNo);
+		for(Member f :follower) {
+			System.out.println(f);
+		}
 		List<Integer> popularNo = mService.partnerPopularProfile();
 		System.out.println(popularNo);
 		ArrayList<Member> popular = mService.partnerPopularInfo(popularNo);
 		System.out.println(popular);
+		model.addAttribute("follower",follower);
 		model.addAttribute("popular", popular);
 		model.addAttribute("connect", connect);
 		model.addAttribute("skill",skill);
@@ -115,6 +120,8 @@ public class ConnectionController {
 		list.put("ETCPeople", ETCPeople);
 		list.put("ConPeopleCount", listCount1);
 		list.put("ETCPeopleCount", listCount2);
+		list.put("pi1", pi1);
+		list.put("pi2", pi2);
 		
 		
 		
@@ -124,6 +131,88 @@ public class ConnectionController {
 		return list;
 		
 	}
+	
+	
+	
+	//ETC사람 페이징처리
+		@ResponseBody
+		@RequestMapping(value = "ETCPeopleLoad.pa", method = RequestMethod.GET)
+		public HashMap<String,Object> ETCPeopleLoad(@RequestParam(value="currentPage", defaultValue="1") int currentPage, String posiList,@RequestParam(value="skillList", defaultValue="000") String skillList, String schoolList
+				,String keyword,HttpSession session) {
+			Member m = (Member) session.getAttribute("loginUser");
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+			int pList = Integer.parseInt(posiList);//업무분야
+			
+			
+			System.out.println(posiList);
+			System.out.println(skillList);
+			System.out.println(schoolList);
+			System.out.println(keyword);
+			String[] skLists= skillList.split(",");	// 기술분야		
+			List<Integer> skList = Stream.of(skLists).map(Integer::parseInt).collect(Collectors.toList());
+			// 기술분야와 관련된 사람들 조회
+			skList = mService.partnerSearchSkill(skList);
+			System.out.println("skList"+skList);
+			PartnerSearch p = new PartnerSearch(m.getUserNo(),pList,skList,schoolList,keyword);
+			
+			//그외 사람들중 검색 결과 총수
+			int listCount2 = mService.partnerSearchCount2(p);
+			System.out.println("그외 사람들중에 검색결과 총명 수:"+listCount2);
+			PageInfo pi2 = Pagination.getPageInfo(listCount2, currentPage, 10, 4);
+			ArrayList<Member> ETCPeople = mService.partnerETCResult(p,pi2);//그외 사람들중에서 검색
+			for(Member et: ETCPeople) {
+				System.out.println(et);
+			}
+
+			
+			HashMap<String,Object> list = new HashMap<>();
+			list.put("ETCPeople", ETCPeople);
+			list.put("ETCPeopleCount", listCount2);
+			list.put("pi2", pi2);
+			
+			
+			
+			
+			//String json = new Gson().toJson(list);
+			//new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
+			return list;
+			
+		}
+	//ETC사람 페이징처리
+		@ResponseBody
+		@RequestMapping(value = "ConnPeopleLoad.pa", method = RequestMethod.GET)
+			public HashMap<String,Object> ConnPeopleLoad(@RequestParam(value="currentPage", defaultValue="1") int currentPage, String posiList,@RequestParam(value="skillList", defaultValue="000") String skillList, String schoolList
+						,String keyword,HttpSession session) {
+			Member m = (Member) session.getAttribute("loginUser");
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+			int pList = Integer.parseInt(posiList);//업무분야
+
+			String[] skLists= skillList.split(",");	// 기술분야		
+			List<Integer> skList = Stream.of(skLists).map(Integer::parseInt).collect(Collectors.toList());
+					// 기술분야와 관련된 사람들 조회
+			skList = mService.partnerSearchSkill(skList);
+			System.out.println("skList"+skList);
+			PartnerSearch p = new PartnerSearch(m.getUserNo(),pList,skList,schoolList,keyword);
+					
+					//연결된 사람들중 검색결과 총수
+			int listCount1 = mService.partnerSearchCount1(p);
+			System.out.println("연결된사람들중에 검색결과 총명 수:"+listCount1);
+			PageInfo pi1 = Pagination.getPageInfo(listCount1, currentPage, 10, 4);
+			ArrayList<Member> ConPeople = mService.partnerConnResult(p,pi1);//연결된사람들중에서 검색
+			System.out.println(ConPeople);
+					
+
+			HashMap<String,Object> list = new HashMap<>();
+			list.put("ConPeople", ConPeople);
+			list.put("ConPeopleCount", listCount1);
+			list.put("pi1", pi1);
+
+
+			return list;
+					
+			}
 	
 	//학교명 검색
 	@ResponseBody

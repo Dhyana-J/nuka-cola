@@ -15,6 +15,7 @@ import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 @Service
@@ -185,6 +186,18 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public ArrayList<Industries> selectCompanyIndustryList(int cno) {
 		return cDao.selectCompanyIndustryList(sqlSession,cno);
+	public ArrayList<Member> selectUserSearch(PageInfo pi, String keyword) {
+		return cDao.selectUserSearch(sqlSession, pi, keyword);
+	}
+
+	@Override
+	public ArrayList<Recruit> selectRecruitSearch(PageInfo pi, String keyword) {
+		return cDao.selectRecruitSearch(sqlSession, pi, keyword);
+	}
+
+	@Override
+	public ArrayList<Company> selectCompanySearch(PageInfo pi, String keyword) {
+		return cDao.selectCompanySearch(sqlSession, pi, keyword);
 	}
 	
 

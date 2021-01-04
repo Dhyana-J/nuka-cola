@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -225,7 +226,7 @@ public class CompanyController {
 	//기업검색
 	@ResponseBody
 	@RequestMapping(value="/search.co", produces="application/json; charset=utf-8")
-	public String searchCompanyList( // RequestParam으로 키워드,페이지의 기본값을 설정해둔다.
+	public String searchCompanyList( 
 			String keyword, String headcountList, String localList, String indusList,
 			HttpSession session,Model model,
 			@RequestParam(defaultValue="1", value="currentPage") int currentPage) throws Exception{
@@ -237,37 +238,16 @@ public class CompanyController {
 		String[] hList = headcountList.split(" ");
 		String[] lList = localList.split(" ");
 		String[] iList = indusList.split(" ");
-		
-	    System.out.println(hList[0]);		
-		System.out.println(lList[0]);
-		System.out.println(iList[0]);
 				
 		//map에 저장하기 위해 list를 만들어 키워드를 저s장
 		//페이지 관련 설정
 		int listCount = cService.selectListCount();
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
 		ArrayList<Company> list = cService.searchCompanyList(pi, keyword, uno, hList, lList, iList);
-
-		model.addAttribute("pi", pi);
-		model.addAttribute("list", list);
 		
-		return "/company/companyListView";
+		return new Gson().toJson(list);
 		
 		
-		
-		/*
-		ModelAndView mav = new ModelAndView();
-		
-		//데이터를 맵에 저장
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list); // list
-		map.put("count", count); // 레코드 개수
-		map.put("kewyord", keyword); // 검색키워드
-		mav.addObject("map", map); // 맵에 저장된 데이터를 mav에 저장
-		mav.setViewName("/company/companyListView"); // 뷰를 companyListView.jsp로 설정
-		
-		return mav; //해당 페이지로 이동
-		*/
 		
 	}
 	
@@ -754,6 +734,24 @@ public class CompanyController {
 
 			
 	}
-	
+	//통합검색
+	@RequestMapping("search.integrated")
+	public String selectIntegratedList(@RequestParam(value ="keyword", required = false)String keyword,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,Model model) {
+		
+		int listCount = cService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
+		
+		ArrayList<Member> ulist = cService.selectUserSearch(pi, keyword);
+		ArrayList<Recruit> rlist = cService.selectRecruitSearch(pi, keyword);
+		ArrayList<Company> clist = cService.selectCompanySearch(pi, keyword);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("ulist", ulist);
+		model.addAttribute("rlist", rlist);
+		model.addAttribute("clist", clist);
+		
+		return "/company/integratedSearching";
+	}
 	
 }

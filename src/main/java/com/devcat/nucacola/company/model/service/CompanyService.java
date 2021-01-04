@@ -10,6 +10,7 @@ import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
 public interface CompanyService {
@@ -97,5 +98,11 @@ public interface CompanyService {
 	
 	// 특정회사 산업분야 리스트 가져오기(기업검색 리스트출력 시 쓰임)
 	ArrayList<Industries> selectCompanyIndustryList(int cno);
+	// 통합검색
+	ArrayList<Member> selectUserSearch(PageInfo pi, String keyword);
+	ArrayList<Recruit> selectRecruitSearch(PageInfo pi, String keyword);
+	ArrayList<Company> selectCompanySearch(PageInfo pi, String keyword);
+
+	
 	
 }

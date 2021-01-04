@@ -62,12 +62,12 @@
 	                  <option value="101~500명">101~500명</option>
 	                  <option value="501~1000명">501~1000명</option>
 	                  <option value="1001~5000명">1001~5000명</option>
-	                  <option value="5000명 초과">5000명 초과</option>
+	                  <option value="5000명초과">5000명초과</option>
 	                </select>
 	                <select name="" id="local-list">
 	                  <option value="" selected disabled hidden>지역</option>
-	                  <option value="서울시">서울시</option>
-	                  <option value="경기도">경기도</option>
+	                  <option value="서울">서울</option>
+	                  <option value="경기">경기</option>
 	                  <option value="인천">인천</option>
 	                  <option value="대전">대전</option>
 	                  <option value="광주">광주</option>
@@ -113,7 +113,14 @@
 	                <div class="section__result__detail">
 	                <input type="hidden" class="comp-no" name="compNo" value="${ c.compNo }">
 	                  <div class="logo">
-	                    <img src="${c.compLogo}" alt="logo" />
+	                  	<c:choose>
+						 <c:when test="${c.compLogo eq null }">
+							<img class="circle" src="resources/assets/avatar.png" alt="img">
+						 </c:when>
+					 	 <c:otherwise>
+	                    	<img src="${c.compLogo}" alt="logo" />
+						 </c:otherwise>
+					  </c:choose>
 	                  </div>
 	                  <div class="comp-info" onClick='location.href="profileMain.co?cno=${ c.compNo }"'>
 	                    <strong>${ c.compName }</strong>

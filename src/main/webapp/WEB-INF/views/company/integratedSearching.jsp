@@ -34,187 +34,109 @@
     </c:if>
     
     <!-- 컨텐츠 -->
-    <main class="content__section">
+        <main class="content__section">
       <div class="inner">
         <div class="main__main__section">
           <div class="main__section__content">
             <div class="content__wrapper">
                 <div class="section__search-result-top">
-                    <span>파트너 검색결과 (10개)</span>
+                    <span><strong>파트너</strong> 검색결과</span>
                 </div>
                 <div class="section__member">
-                    <div class="content__profile">
-                      <img
-                        class="circle"
-                        src="../../assets/wonbin.jpeg"
-                        alt="PROFILE"
-                      />
+                
+                 <c:forEach var="u" items="${ ulist }">
+                    <div class="content__profile" onClick='location.href="profile.me?userNo=${ u.userNo }"'>
+                      <c:choose>
+						 <c:when test="${u.userAvatar eq null }">
+							<img class="circle" src="resources/assets/conn.png" alt="img">
+						 </c:when>
+					 	 <c:otherwise>
+					 	 <img class="circle" src="${u.userAvatar}"/>
+						 </c:otherwise>
+					  </c:choose>
                       <div class="content__introduce">
-                        <strong>성수지</strong>
-                        <p>프론트엔드 @구글</p>
+                      	<strong>${u.userName}</strong>
+                      <c:choose>
+						 <c:when test="${u.compName eq null }">
+					 	  <p>소속없음</p>
+						 </c:when>
+					 	 <c:otherwise>
+					 	  <p>${u.careerPosi}@${u.compName}</p>
+						 </c:otherwise>
+					  </c:choose>
                       </div>
                     </div>
-                    <div class="content__profile">
-                      <img
-                        class="circle"
-                        src="../../assets/JonahHill.jpg"
-                        alt="PROFILE"
-                      />
-                      <div class="content__introduce">
-                        <strong>배진원</strong>
-                        <p>프론트엔드 @구글</p>
-                      </div>
-                    </div>
-                    <div class="content__profile">
-                      <img
-                        class="circle"
-                        src="../../assets/wonbin.jpeg"
-                        alt="PROFILE"
-                      />
-                      <div class="content__introduce">
-                        <strong>유원근</strong>
-                        <p>프론트엔드 @구글</p>
-                      </div>
-                    </div>
-                    <div class="content__profile">
-                      <img
-                        class="circle"
-                        src="../../assets/wonbin.jpeg"
-                        alt="PROFILE"
-                      />
-                      <div class="content__introduce">
-                        <strong>정찬복</strong>
-                        <p>프론트엔드 @구글</p>
-                      </div>
-                    </div>
-                    <div class="content__profile">
-                      <img
-                        class="circle"
-                        src="../../assets/wonbin.jpeg"
-                        alt="PROFILE"
-                      />
-                      <div class="content__introduce">
-                        <strong>김준호</strong>
-                        <p>프론트엔드 @구글</p>
-                      </div>
-                    </div>
-                    <div class="content__profile">
-                      <img
-                        class="circle"
-                        src="../../assets/wonbin.jpeg"
-                        alt="PROFILE"
-                      />
-                      <div class="content__introduce">
-                        <strong>손지원</strong>
-                        <p>프론트엔드 @구글</p>
-                      </div>
-                    </div>
+				</c:forEach>
+                  
+                  </div>
+                  <div class="section__search-result-bottom">
+                    <a href="list.pa">사람 더 보기</a>
                   </div>
                     
             </div>
             <div class="section__search-result">
                 <div class="section__search-result-top">
-                    <span>채용 검색결과 (10개)</span>
+                    <span><strong>채용</strong> 검색결과</span>
                 </div>
-                <div class="section__result__detail">
-                    <div class="logo">
-                      <img src="../../assets/moomin.jpg" alt="logo" />
-                    </div>
-                    <div class="comp-info">
-                      <strong>네이버[백엔드개발자]</strong>
-                      <span>5,000 - 8,000만원/신입</span>
-                      <span class="comp-info-lo">
-                        <span>12/31 마감</span>
-                        <span>10/15 등록</span>
-                      </span>
-                    </div>
+                
+                <c:forEach var="r" items="${ rlist }">
+	                <div class="section__result__detail">
+	                    <div class="logo">
+	                      <img src="../../assets/moomin.jpg" alt="logo" />
+	                    </div>
+	                    <div class="comp-info">
+	                      <strong>${r.compName}[${r.recruitTitle}]</strong>
+	                      <span>${r.recruitMinSal} - ${r.recruitMaxSal}만원/
+		                   <c:choose>
+							 <c:when test="${r.recruitState == 0 }">
+						 	  	신입
+							 </c:when>
+							 <c:when test="${r.recruitState == 1 }">
+						 	  	경력
+							 </c:when>
+						 	 <c:otherwise>
+						 	  	신입,경력
+							 </c:otherwise>
+						   </c:choose>
+	                      </span>
+	                      <span class="comp-info-lo">
+	                        <span>${r.createdAt } 등록</span>
+	                        <span>${r.recruitDl } 마감</span>
+	                      </span>
+	                    </div>
+	                </div>
+                </c:forEach>
+                  <div class="section__search-result-bottom">
+                    <a href="">채용 더 보기</a>
                   </div>
             </div>
             <div class="section__search-result">
               <div class="section__search-result-top">
-                <span>기업 검색결과 (10개)</span>
+                <span><strong>기업</strong> 검색결과</span>
               </div>
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
-               
-              </div>
-
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
-                
-              </div>
-
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
-               
-              </div>
-
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
-               
-              </div>
-
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
-                
-              </div>
-
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
-                
-              </div>
-
-              <div class="section__result__detail">
-                <div class="logo">
-                  <img src="../../assets/moomin.jpg" alt="logo" />
-                </div>
-                <div class="comp-info">
-                  <strong>네이버</strong>
-                  <span>Internet content service operator</span>
-                  <span class="comp-info-lo">서울 강남구</span>
-                </div>
+              
+              <c:forEach var="c" items="${ clist }">
+	              <div class="section__result__detail">
+	                <div class="logo">
+	                  <c:choose>
+						 <c:when test="${c.compLogo eq null }">
+							<img class="circle" src="resources/assets/conn.png" alt="img">
+						 </c:when>
+					 	 <c:otherwise>
+					 	 <img class="circle" src="${c.compLogo}"/>
+						 </c:otherwise>
+					  </c:choose>
+	                </div>
+	                <div class="comp-info" onClick='location.href="profileMain.co?cno=${ c.compNo }"'>
+	                  <strong>${c.compName}</strong>
+	                  <span>${c.compInfo }</span>
+	                  <span class="comp-info-lo">${c.compAddress}</span>
+	                </div>
+	              </div>
+              </c:forEach>
+             
+              <div class="section__search-result-bottom">
+                <a href="list.co">기업 더 보기</a>
               </div>
             </div>
           </div>

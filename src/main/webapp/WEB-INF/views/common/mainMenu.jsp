@@ -39,10 +39,12 @@
     <div class="main__menu__container">
       <div class="inner">
         <div class="menu__left">
-          <div class="search__box">
-            <input type="text" placeholder="검색어를 입력해주세요" />
-            <i class="material-icons"> search </i>
-          </div>
+        <form method="get" action="search.integrated">
+	          <div class="search__box">
+		         <input type="text" placeholder="검색어를 입력해주세요"  name="keyword"/>
+		         <i class="material-icons" id="integrated-search-icon"> search </i>
+	          </div>
+          </form>
           <ul class="menu__nav">
             <li><a href="/views/timeline/timeline.jsp">TIME LINE</a></li>
             <li><a href="#">PARTNERS</a></li>
@@ -54,7 +56,7 @@
           <p>어서오세요 <b>${ loginUser.userName }</b>님</p>
           <ul>
             <li>알림</li>
-            <li>메시지</li>
+            <li onClick='location.href="chatRoom.me"'>메시지</li>
             <li onClick='location.href="profile.me?userNo=${loginUser.userNo}"'>PROFILE</li>
             <li onClick='location.href="logout.me"'>LOGOUT</li>
           </ul>
@@ -83,6 +85,9 @@
             .classList.toggle("main__menu-active");
         }
       });
+      
+      
+      
     </script>
   </body>
 </html>

@@ -14,6 +14,7 @@ import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.company.model.vo.TechStack;
 import com.devcat.nucacola.member.model.vo.Career;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 
@@ -123,29 +124,23 @@ public class CompanyDao {
 												int uno, String[] hList, String[] lList, String[] iList){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();	
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-
-		/*
-		if(iList.length == 0) {   //산업분야 배열이 비어있을 경우
-			// 전달해줘야 할 값들 해쉬맵에 담겨있음
 		
-		*/	
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("keyword",keyword);
-			map.put("uno", uno);
-			map.put("hList", hList);
-			map.put("lList", lList);
+		// 전달해줘야 할 값들 해쉬맵에 담겨있음
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("keyword",keyword);
+		map.put("uno", uno);
+		map.put("hList", hList);
+		map.put("lList", lList);
+		map.put("iList", iList);
+		
+		if(iList[0].equals("")) {   //산업분야 배열이 비어있을 경우
 			return (ArrayList)sqlSession.selectList("companymapper.searchCompList", map, rowBounds);
-		/*	
+		
 		}else {  //산업분야 배열이 있을 경우
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("keyword",keyword);
-			map.put("uno", uno);
-			map.put("hList", hList);
-			map.put("lList", lList);
-			map.put("iList", iList);
-			return (ArrayList)sqlSession.selectList("companymapper.searchCompList", map, rowBounds);
+			return (ArrayList)sqlSession.selectList("companymapper.searchCompIndusList", map, rowBounds);
 		}
-		*/
+	
+		
 	}
 
 	//회사 레코드 갯수
@@ -194,4 +189,29 @@ public class CompanyDao {
 	public ArrayList<Industries> selectCompanyIndustryList(SqlSessionTemplate sqlSession, int cno) {
 		return (ArrayList)sqlSession.selectList("companymapper.selectCompanyIndustryList",cno);
 	}
+	
+	public ArrayList<Member> selectUserSearch(SqlSessionTemplate sqlSession, PageInfo pi , String keyword){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("companymapper.selectUserSearch", keyword, rowBounds);
+	}
+	
+	public ArrayList<Recruit> selectRecruitSearch(SqlSessionTemplate sqlSession, PageInfo pi , String keyword){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("companymapper.selectRecruitSearch", keyword, rowBounds);
+	}
+
+	public ArrayList<Company> selectCompanySearch(SqlSessionTemplate sqlSession, PageInfo pi , String keyword){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("companymapper.selectCompanySearch", keyword, rowBounds);
+	}
+	
 }

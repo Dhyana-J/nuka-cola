@@ -33,6 +33,9 @@ public class Member {
 	private String userComp;
 	private int compNo;
 	
+	private String careerPosi; //검색 시 필요
+	private String compName; //검색 시 필요
+	private String keyword;
 	
 	//이메일 인증용 생성자
 	public Member(String email, String emailAuth) {

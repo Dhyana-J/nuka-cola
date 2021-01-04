@@ -1,44 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>Apply</title>
+  
   <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
-      crossorigin="anonymous"
+	      rel="stylesheet"
+	      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+	      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+	      crossorigin="anonymous"
     />
+    
   <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
+	      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	      rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/apply-history.css">
+    
+  <link rel="stylesheet" href="resources/css/common.css" />
+  <link rel="stylesheet" href="resources/css/recruit/apply-history.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="../../css/footer.css">
+  <link rel="stylesheet" href="resources/css/footer.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
 </head>
 <body>
-	  <header>
-    <div class="inner">
-      <div class="left__header">
-        <div class="logo">
-          <img src="../../assets/logo.png" alt="logo" />
-        </div>
-        <ul class="header__nav">
-          <li class="header__nav-item">PARTNER</li>
-          <li class="header__nav-item">COMPANY</li>
-          <li class="header__nav-item">EMPLOYMENT</li>
-        </ul>
-      </div>
-      <div class="right__header">
-        <i class="material-icons">menu</i>
-        <span>MENU</span>
-      </div>
-    </div>
-  </header>
+
+	<jsp:include page="../common/mainMenu.jsp"/>
+
   <!-- 메뉴바 끝 -->
 
   <main class="apply-history__main-wrapper">
@@ -49,14 +44,12 @@
       <div class="apply-history__contents">
         <div class="apply-history__left-sidebar">
           <div class="left-sidebar__item">
-            <a href="#" class="left-sideber__viewing">진행 중인 채용 정보 (1)</a>
+            <a href="#" class="left-sideber__viewing">내 지원정보 (${ applyCount })</a>
           </div>
           <div class="left-sidebar__item">
             <ul>
-              <li><a href="#">서류 접수 (1)</a></li>
-              <li><a href="#">서류 합격 (1)</a></li>
-              <li><a href="#">팀 합류 (1)</a></li>
-              <li><a href="#">탈락 (1)</a></li>
+              <li><a href="#">서류 접수 (${submitState})</a></li>
+              <li><a href="#">서류 합격 (${passState})</a></li>
             </ul>
           </div>
           <div class="left-sidebar__item">
@@ -64,46 +57,85 @@
           </div>
               <div class="left-sidebar__item">
                 <ul>
-                  <li><a href="#">팀 합류 (0)</a></li>
-                  <li><a href="#">탈락 (0)</a></li>
+                  <li><a href="#">팀 합류 (${joinState })</a></li>
+                  <li><a href="#">탈락 (${failState })</a></li>
                 </ul>
               </div>
         </div>
         <div class="apply-history__right-content">
           <div class="apply-history__sub-title">
-            진행 중인 채용 정보 (1)
+            	<span>진행 중인 지원정보 (${ applyCount })</span>
           </div>
           <div class="apply-history__list">
          
-           <c:forEach var="a" items="${ applylist }">
+           <c:forEach var="a" items="${applyList}">
             <div class="apply-info">
               <div class="apply-info__content">
                 <div class="apply-info__recruit-info">
                   <span>${ a.recruitTitle }</span>
-                  <span>${ a.applyProg  }</span>
-                  <span>게시 ${r.createdAt }</span>
+                
+                <!-- 채용조건에 따른 조건문 -->  
+                  <c:choose>
+                  	<c:when test="${a.recruitRequ eq 0 }">
+                  		<span>신입</span>
+                  	</c:when>
+                  	<c:when test="${a.recruitRequ eq 1 }">
+                  		<span>경력</span>
+                  	</c:when>
+                  	<c:when test="${a.recruitRequ eq 2 }">
+                  		<span>신입, 경력</span>
+                  	</c:when>
+                  </c:choose>
+                  
+                  <span>공고게시일 : ${ a.createdAt} </span>
                 </div>
+                
+                <!-- 채용단계에 따른 조건문 -->
                 <div class="apply-info__apply-state">
+                  <c:choose>
+                  	<c:when test="${a.applyProg eq 0}">
                   <div class="recruit-stage">
-                    <span class="state-sign join-state"><!--채용진행상태사인--></span>
+                    <span class="state-sign submit-state"></span>
+                    <span>서류접수</span>
+                  </div>
+                  	</c:when>
+                  	<c:when test="${a.applyProg eq 1}">
+                  <div class="recruit-stage">
+                    <span class="state-sign pass-state"></span>
+                    <span>서류합격</span>
+                  </div>
+                  	</c:when>
+                  	<c:when test="${a.applyProg eq 2}">
+                  <div class="recruit-stage">
+                    <span class="state-sign join-state"></span>
                     <span>팀 합류</span>
                   </div>
-                  <span>6일 후 만료</span>
-                  <span class="apply-state__apply-date">2020.11.25 19:19 지원</span>
+                  	</c:when>
+                  	<c:when test="${a.applyProg eq 3}">
+                  <div class="recruit-stage">
+                    <span class="state-sign fail-state"></span>
+                    <span>탈락</span>
+                  </div>
+                  	</c:when>
+                  </c:choose>
+                  
+                  <span>공고는 ${a.recruitDl}일 남았습니다</span>
+                  <span class="apply-state__apply-date">내 지원일 ${a.appliedAt}</span>
                 </div>
               </div>
               <div class="apply-info__btn">
                 <form action="">
-                  <input type="hidden" name="applyNo" value="">
-                  <button type="submit" class="apply-cancel__btn">지원 취소</button>
+                  <input class="recruit-no" type="hidden" name="recruitNo" value="${a.recruitNo}">
+                  <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo}">
+                  <button type="button" class="apply-cancel__btn">지원 취소</button>
                 </form>
-                <button type="button" class="apply-detail__btn"onclick="location.href='./recruit-detail.html'">
+                <button type="button" class="apply-detail__btn" onclick="location.href='./recruit-detail.html'">
                   채용 정보 확인
                 </button>
               </div>
             </div><!--apply-info-->
+          </c:forEach>
             
-            </c:forEach>
 
           </div><!--apply-history__list-->
         </div>
@@ -132,7 +164,43 @@
     </div>
   </footer>
 	
-	
+  <script defer>
+  
+  // 지원취소 버튼 요청시 실행할 Axios
+               
+  document.querySelectorAll('.apply-cancel__btn').forEach((v,i)=>{
+      console.log(v);
+          v.addEventListener('click',()=>{
+        	  
+               let item = v.parentNode.parentNode.parentNode;
+			   let userNo = item.querySelector('.user-no').value;
+			   let recruitNo = document.querySelectorAll('.recruit-no')[i].value;
+				
+
+               console.log(recruitNo);
+               console.log(userNo);
+               axios.get('delete.ap',{
+                 params:{
+                   userNo:userNo,
+                   recruitNo:recruitNo
+                 }
+              })
+              .then(function(){
+              });
+               
+               let applyCount= document.querySelector('.apply-history__sub-title');
+                let applyCountNum = applyCount.querySelector('span').innerText;
+                applyCountNum=parseInt(applyCountNum);
+                console.log(applyCountNum);
+                applyCountNum = --applyCountNum;
+                applyCountNum.innerText = applyCountNum;
+                applyCount.querySelector('span').innerText = applyCountNum;
+               item.remove(); 
+
+            });
+         });
+  
+  </script>
 	
 	
 </body>

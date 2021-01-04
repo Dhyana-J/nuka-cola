@@ -1,13 +1,7 @@
 package com.devcat.nucacola.recruits.model.service;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-
-import com.devcat.nucacola.recruits.model.dao.RecruitDao;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +11,12 @@ import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 
 @Service
@@ -76,16 +75,21 @@ public class RecruitServiceImpl implements RecruitService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	// 내가 지원한 채용공고 리스트 조회
 	@Override
-	public ArrayList<Apply> selectApplyList(int rno) {
-		return rDao.selectApplyList(sqlSession, rno);
+	public ArrayList<ApplyList> selectApplyList(int userNo) {
+		return rDao.selectApplyList(sqlSession, userNo);
 	}
+	// 내가 지원한 내역 조회(수)
 	@Override
-	public int selectApplyCount(int rno) {
-		return rDao.selectApplyCount(sqlSession, rno);
+	public int selectApplyCount(int userNo) {
+		return rDao.selectApplyCount(sqlSession, userNo);
 	}
-	
+	// 내가 지원한 내역 삭제
+	@Override
+	public int deleteApplyList(Apply ap) {
+		return rDao.deleteApplyList(sqlSession, ap);
+	}
 	
 
 	@Override
@@ -97,6 +101,12 @@ public class RecruitServiceImpl implements RecruitService {
 	public int selectCompNo(int userNo) {
 		
 		return rDao.selectCompNo(sqlSession, userNo);
+	}
+	
+	// 지원자조회
+	@Override
+	public ArrayList<RecruitManage> selectRecruitManageDetail(int rno) {
+		return rDao.selectRecruitManageDetail(sqlSession, rno);
 	}
 
 	@Override
@@ -124,6 +134,9 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.selectLocationList(sqlSession);
 	}
 
+	public int selectBookmarkCount(int rno) {
+		return rDao.selectBookmarkCount(sqlSession, rno);
+	}
 
 	
 }

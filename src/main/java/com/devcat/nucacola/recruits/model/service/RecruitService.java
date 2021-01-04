@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.ApplyProg;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 
@@ -31,12 +34,13 @@ public interface RecruitService {
 		int deleteRecruit(int rno);
 	
 	// 지원 조회
-		ArrayList<Apply> selectApplyList(int rno);
-		int selectApplyCount(int rno);
-	// 
+		ArrayList<ApplyList> selectApplyList(int userNo);
+		int selectApplyCount(int userNo);
+	// 지원한 내역 삭제
+		int deleteApplyList(Apply ap);
 		
 	// 채용 등록	
-	int insertRecruit(Recruit re);
+		int insertRecruit(Recruit re);
 	
 	// 사용자의 회사 번호 알아오기
 	int selectCompNo(int userNo);
@@ -56,4 +60,11 @@ public interface RecruitService {
 	//DB에서 주소 앞 두글자만 조회 (서울, 경기, 대전, 대구 ...)
 	ArrayList<String> selectLocationList();
 	
+		int selectCompNo(int userNo);
+	
+	// 지원자 조회
+		ArrayList<RecruitManage> selectRecruitManageDetail(int rno);
+	// 북마크 수 조회
+		int selectBookmarkCount(int rno);
+		
 }

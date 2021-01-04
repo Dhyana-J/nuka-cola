@@ -94,7 +94,7 @@ public interface MemberService {
 	// 프로젝트 입력
 	int insertProject(Project p);
 	// 프로젝트 수정
-	int updateProject(Project p);
+	int deleteProject(Project pj);
 
 	// 최종학력 입력
 	int insertUserEdu(Member m);

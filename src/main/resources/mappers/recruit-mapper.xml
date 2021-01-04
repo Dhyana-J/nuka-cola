@@ -54,6 +54,18 @@
 		<result column="skill_name" property="skillName"/>
 		<result column="created_at" property="createdAt"/>
 	</resultMap>
+    <resultMap id="recruitManageResultSet" type="RecruitManage">
+    	<result column="recruit_no" property="recruitNo"/>
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="r.recruit_dl" property="recruitDl"/>
+        <result column="apply_no" property="applyNo"/>
+        <result column="apply_prog" property="applyProg"/>
+        <result column="a.created_at" property="appliedAt"/>
+        <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_avatar" property="userAvatar"/>
+        <result column="comp_no" property="compNo"/>
+    </resultMap>
 
     <select id="selectRecruitDetail" parameterType="_int" resultMap="recruitDetailResultSet">
         SELECT RECRUIT_NO,
@@ -153,9 +165,35 @@
 		     from companys       
 		     join users using (user_no)
 		     where user_no = #{userNo}
-		    
+
+    </select>
     
+    <select id="selectRecruitManageDetail" resultMap="recruitManageResultSet">
     
+    		select
+			      recruit_no <!-- 채용공고식별자  --> 
+			    , recruit_title <!-- 채용제목 -->
+			    , apply_no <!-- 지원공고식별자  --> 
+			    , apply_prog <!-- 채용단계  --> 
+			    , to_char(a.created_at, 'YYYY-MM-DD') "a.created_at"<!-- 지원일  --> 
+			    , user_no <!-- 채용공고식별자  --> 
+			    , u.user_name <!-- 채용공고식별자  --> 
+			    , u.user_avatar <!-- 채용공고식별자  --> 
+			    , r.comp_no  <!-- 채용공고식별자  --> 
+			    , floor(to_date(r.recruit_dl,'MM/DD/YYYY')-sysdate) "r.recruit_dl" <!-- 남은날  --> 
+			from applies a
+			join recruits r using(recruit_no)
+			join users u using (user_no)
+			where recruit_no = #{recruitNo}
+			order by a.created_at desc
+    
+    </select>
+    
+    <select id="selectBookmarkCount" parameterType="_int" resultType="_int">
+    		
+    		select count(*)
+			  from bookmarks
+			 where recruit_no = #{rno}
     
     </select>
     

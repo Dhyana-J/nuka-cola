@@ -21,6 +21,7 @@ public class Career {
 	private String updatedAt;
 	private String enteredAt;
 	private String createdAt;
+	private String compName;
 	
 	//기업구성원 추가할 때 쓰일 생성자
 	public Career(int userNo, int compNo, String careerPosi) {

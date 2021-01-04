@@ -221,7 +221,7 @@
                	  <input class="project-id" type="hidden" name="projectId" value="${p.projectId}" id="main-project-id">
                <ul class="user__project__section">
                  <li onclick="deleteProject()" class="project_edit__field">
-                 	<i id="deleteProject-btn" class="material-icons">delete</i>
+                 	<i id="deleteProject-btn" class="material-icons">clear</i>
                  </li>
                  <li>${p.projectName }</li>
                  <li>${p.projectPosition }</li>
@@ -269,8 +269,8 @@
             </div>
             
             <span class="just__text" id="three-line-edu">
-
-               ${pUser.userEdu} </span>
+				   ${pUser.userEdu} 
+            </span>
 
             <div id="three-line-input" class="edit-disable">
                <textarea name="userEdu" id="three-line-user-edu"
@@ -290,7 +290,7 @@
 	           </div>
 	           <span class="just__text" id="career-name">
 	           <c:forEach var="c" items="${ careerList }">
-	              <div>
+	              <div class="user__career__div">
 	               <ul class="user__career__section">
 	                 <li>${ c.compName } </li>
 	                 <li>${ c.careerPosi }</li>
@@ -299,6 +299,7 @@
 	              </div>
 	           </c:forEach>
             	</span>
+          </div>
 	           
 <%-- 	         <div class="edit-disable" id="career-input">
 			 <br><br>
@@ -327,7 +328,6 @@
               </form>
             </div> 
  --%>
-          </div>
           
          
          

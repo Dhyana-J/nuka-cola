@@ -144,10 +144,12 @@
   position: relative;
   bottom: 5px;
   margin-bottom: 10px;
+  height:50%;
 }
 .content__wrapper .section__content__title {
   display: flex;
   flex-direction: row;
+  height:50%;
 }
 .content__wrapper .techstack__sort {
   font-size: 16px;
@@ -354,10 +356,14 @@ a#topBtn {
   transition: 0.3s;
 }
 
-.user__career__section{
+.user__career__div{
+	displey:flex;
+	align-items:flex-start;
+}
+
+.just text > .user__career__section{
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  align-items: flex-start;
   margin-right: 10px;
   gap: 5px;
 }

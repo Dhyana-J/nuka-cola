@@ -32,26 +32,8 @@
 </head>
 <body>
 
-<jsp:include page="../common/mainMenu.jsp"/>
+	<jsp:include page="../common/mainMenu.jsp"/>
 
-	<header>
-    <div class="inner">
-      <div class="left__header">
-        <div class="logo">
-          <img src="../../assets/logo.png" alt="logo" />
-        </div>
-        <ul class="header__nav">
-          <li class="header__nav-item">PARTNER</li>
-          <li class="header__nav-item">COMPANY</li>
-          <li class="header__nav-item">EMPLOYMENT</li>
-        </ul>
-      </div>
-      <div class="right__header">
-        <i class="material-icons">menu</i>
-        <span>MENU</span>
-      </div>
-    </div>
-  </header>
   <!-- 메뉴바 끝 -->
 
   <main class="apply-history__main-wrapper">
@@ -62,7 +44,7 @@
       <div class="apply-history__contents">
         <div class="apply-history__left-sidebar">
           <div class="left-sidebar__item">
-            <a href="#" class="left-sideber__viewing">진행 중인 지원정보 (${ applyCount })</a>
+            <a href="#" class="left-sideber__viewing">내 지원정보 (${ applyCount })</a>
           </div>
           <div class="left-sidebar__item">
             <ul>

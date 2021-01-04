@@ -40,7 +40,7 @@
 		  from applies a
 		  join recruits r on (r.recruit_no = a.recruit_no)
 		 where user_no = #{userNo}
-		   and to_date(r.recruit_dl, 'MM/DD/YYYY') >= to_char(sysdate, 'YYYY/MM/DD')
+		 <!-- and to_date(r.recruit_dl, 'MM/DD/YYYY') >= to_char(sysdate, 'YYYY/MM/DD') -->
 	</select>
 	
 	<!-- 회원의 지원내역 카운트 조회 -->

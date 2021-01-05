@@ -50,6 +50,13 @@
 			</beans:props>
 		</beans:property>
 	</beans:bean>
+	
+	<websocket:handlers>
+		<websocket:mapping handler="echoHandler" path="/echo" />
+		<websocket:sockjs />
+	</websocket:handlers>
+    
+	<beans:bean id="echoHandler" class="com.devcat.nucacola.common.websocket.EchoHandler"></beans:bean>
 
 	
 	<interceptors>

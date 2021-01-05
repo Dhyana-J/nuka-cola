@@ -18,5 +18,12 @@ public class chatroomController {
 		return "chatRooms/chatRoomView";
 	}
 	
+	@RequestMapping("websocket.me")
+	public String websocket() {
+			
+		return "common/websocket";
+	}
+	
+	
 	
 }

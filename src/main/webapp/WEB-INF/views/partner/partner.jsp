@@ -219,15 +219,21 @@
                       </div>
                       <div class="result__right">
                         <!-- ${fn:length(follower)-1} -->
-                      <c:forEach var="f" begin="0" end="0">
-                      	<c:if test="${p.userNo == follower[f].userNo}">
+                      
+                      <c:forEach var="f" items="${follower}">
+                      <c:choose>
+                      	<c:when test="${p.userNo == f.userNo}">
                         <button class="btn">취소</button>
-                        </c:if>
-                        
-                        <c:if test="${p.userNo != follower[f].userNo}">
+                        </c:when>
+                        <c:otherwise>
                         	<button class="btn">팔로우</button>
-                        </c:if>
-                      </c:forEach>
+                        </c:otherwise>
+                      </c:choose>
+                      </c:forEach>                     
+
+
+
+                      
                      
                       </div>
                     </div>  

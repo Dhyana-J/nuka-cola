@@ -124,7 +124,7 @@
 	                                    <div class="company__thumb-area">
 	                                        <div class="company__thumbnail">
 	                                        	<c:choose>
-	                                        		<c:when test="${company.compLogo ne '(null)' }">
+	                                        		<c:when test="${company.compLogo ne '(null)' or company.compLogo ne '(null)' }">
 			                                            <img src="${pageContext.request.contextPath}/${company.compLogo}" alt="company-thumb" />
 	                                        		</c:when>
 	                                        		<c:otherwise>

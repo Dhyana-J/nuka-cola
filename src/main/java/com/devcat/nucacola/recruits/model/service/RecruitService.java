@@ -50,8 +50,14 @@ public interface RecruitService {
 	// 채용공고 회사번호 조회
 	ArrayList<String> selectCnoList(PageInfo pi);
 	
+	// 채용공고 회사번호 조회(검색어 있을때)
+	ArrayList<String> selectCnoList(PageInfo pi,Map<String, ArrayList<String>> keywordList);
+	
 	//한 회사의 채용공고 리스트 조회
 	ArrayList<Recruit> selectRecruitList(int cno);
+	
+	//한 회사의 채용공고 리스트 조회(검색어 있을때)
+	public ArrayList<Recruit> selectRecruitList(Map<String, ArrayList<String>> keywordList);
 	
 	//전체 기술스택 리스트 조회
 	ArrayList<Skills> selectSkillList();

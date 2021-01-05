@@ -117,17 +117,28 @@ public class RecruitServiceImpl implements RecruitService {
 	
 	@Override
 	public int selectCompCount(Map<String, ArrayList<String>> keywordList) {
-		return rDao.selectCompCount(sqlSession);
+		System.out.println("서비스 실행");
+		return rDao.selectCompCount(sqlSession,keywordList);
 	}
 
 	@Override
 	public ArrayList<String> selectCnoList(PageInfo pi) {
 		return rDao.selectCnoList(sqlSession,pi);
 	}
+	
+	@Override
+	public ArrayList<String> selectCnoList(PageInfo pi, Map<String, ArrayList<String>> keywordList) {
+		return rDao.selectCnoList(sqlSession,pi,keywordList);
+	}
 
 	@Override
 	public ArrayList<Recruit> selectRecruitList(int cno) {
 		return rDao.selectRecruitList(sqlSession,cno);
+	}
+	
+	@Override
+	public ArrayList<Recruit> selectRecruitList(Map<String, ArrayList<String>> keywordList) {
+		return rDao.selectRecruitList(sqlSession,keywordList);
 	}
 
 	@Override
@@ -160,5 +171,7 @@ public class RecruitServiceImpl implements RecruitService {
 	public int changeProgress(RecruitSkill rp){
 		return rDao.changeProgress(sqlSession,rp);
 	}
+
+	
 	
 }

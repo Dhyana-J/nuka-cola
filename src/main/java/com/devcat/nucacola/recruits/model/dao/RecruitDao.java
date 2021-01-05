@@ -65,7 +65,7 @@ public class RecruitDao {
 	}
 	
 	public int selectCompCount(SqlSessionTemplate sqlSession, Map<String, ArrayList<String>> keywordList) {
-		return sqlSession.selectOne("recruit-mapper.selectCompCountWithKey");
+		return sqlSession.selectOne("recruit-mapper.selectCompCountWithKey",keywordList);
 	}
 
 	public ArrayList<String> selectCnoList(SqlSessionTemplate sqlSession,PageInfo pi) {
@@ -73,9 +73,22 @@ public class RecruitDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCnoList",null,rowBounds);
 	}
+	
+	public ArrayList<String> selectCnoList(SqlSessionTemplate sqlSession, PageInfo pi,
+			Map<String, ArrayList<String>> keywordList) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCnoListWithKey",keywordList,rowBounds);
+	}
 
 	public ArrayList<Recruit> selectRecruitList(SqlSessionTemplate sqlSession, int cno) {
 		return (ArrayList)sqlSession.selectList("recruit-mapper.selectRecruitList",cno);
+	}
+	
+	public ArrayList<Recruit> selectRecruitList(SqlSessionTemplate sqlSession,
+			Map<String, ArrayList<String>> keywordList) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectRecruitListWithKey",keywordList);
 	}
 
 	public ArrayList<Skills> selectSkillList(SqlSessionTemplate sqlSession) {
@@ -114,4 +127,8 @@ public class RecruitDao {
     public int changeProgress(SqlSessionTemplate sqlSession, RecruitSkill rp) {
 	    return sqlSession.update("recruit-mapper.changeProgress",rp);
     }
+
+	
+
+	
 }

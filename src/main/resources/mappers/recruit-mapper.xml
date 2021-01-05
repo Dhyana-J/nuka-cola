@@ -227,42 +227,42 @@
     </select>
     
     <select id="selectCompCountWithKey" 
-    		parameterType="java.util.HashMap"
+    		parameterType="hashMap"
     		resultType="_int">
     	select
 		      count(distinct comp_no)
 		      from recruits
-		      join recruit_skills using(recruit_no)
-		      join skills using(skill_no)
-		      join compindus using(comp_no)
-		      join industries using(indus_no)
+		      left join recruit_skills using(recruit_no)
+		      left join skills using(skill_no)
+		      left join compindus using(comp_no)
+		      left join industries using(indus_no)
+		      left join companys using(comp_no)
 		      where recruit_state=0
-		      	and recruit_title like '%' || #{keywordList['keyword'][0]} || '%'
-		        and recurit_posi in <!-- 활동분야 기획자0 개발자1 디자이너2 -->
-		        <foreach collection="position" item="p" separator="," open="(" close=")">
-		        	<if test="#{p eq '기획자'}">0</if>
-		        	<if test="#{p eq '개발자'}">1</if>
-		        	<if test="#{p eq '디자이너'}">2</if>
+		      	<foreach collection="keyword" item="k" separator=" ">
+			      	and upper(recruit_title) like upper('%' || #{k} || '%')
 		        </foreach>
-		        and indus_name in<!-- 산업분야 -->
-		        <foreach collection="industry" item="i" separator="," open="(" close=")">
-		        	#{i}
+		        <foreach collection="position" item="p" open=" and (" separator=" or " close=")">
+			        recurit_posi = #{p}
 		        </foreach>
-		        and skill_name in<!-- techStack 스킬 -->
-		        <foreach collection="techStack" item="t" separator="," open="(" close=")">
-		        	#{t}
+		        <foreach collection="industry" item="i" open=" and (" separator=" or " close=")">
+		        	upper(indus_name) like upper('%' || #{i} || '%')
 		        </foreach>
-		        and recruit_requ in <!-- condition 신입0 경력1 둘다2 -->
-		        <foreach collection="condition" item="c" separator="," open="(" close=")">
-		        	<if test="#{c eq '신입'}">0</if>
-		        	<if test="#{c eq '경력'}">1</if>
-		        	<if test="#{c eq '신입,경력'}">2</if>
+		        <foreach collection="techStack" item="t" open=" and (" separator=" or " close=")">
+		        	upper(skill_name) like upper('%' || #{t} || '%')
 		        </foreach>
-		        and recruit_minsalary>=#{keywordList['salary'][0]}
-		        and recruit_maxsalary<=#{keywordList['salary'][1]}
-		        and regexp_like
-		        <foreach collection="address" item="a" separator="|" open="(comp_address,'" close="')">
-		        	#{a}
+		        <foreach collection="condition" item="c" open=" and (" separator=" or " close=")">
+		        	recruit_requ = #{c}
+		        </foreach>
+				<foreach collection="salary" item="sal"	index="i">
+					<if test="i==0">
+						and recruit_minsalary>=#{sal}
+					</if>
+					<if test="i==1">
+						and #{sal}>=recruit_maxsalary
+					</if>
+				</foreach>       	
+		        <foreach collection="address" item="addr" open=" and (" separator=" or " close=")">
+		        	upper(comp_address) like upper('%' || #{addr} || '%')
 		        </foreach>
     </select>
     
@@ -271,6 +271,45 @@
     		  distinct comp_no
     	  from recruits
     	 where recruit_state=0
+    </select>
+    <select id="selectCnoListWithKey" 
+    		parameterType="hashMap"
+    		resultType="String">
+    	select
+		      distinct comp_no
+		      from recruits
+		      left join recruit_skills using(recruit_no)
+		      left join skills using(skill_no)
+		      left join compindus using(comp_no)
+		      left join industries using(indus_no)
+		      left join companys using(comp_no)
+		      where recruit_state=0
+		      	<foreach collection="keyword" item="k" separator=" ">
+			      	and upper(recruit_title) like upper('%' || #{k} || '%')
+		        </foreach>
+		        <foreach collection="position" item="p" open=" and (" separator=" or " close=")">
+			        recurit_posi = #{p}
+		        </foreach>
+		        <foreach collection="industry" item="i" open=" and (" separator=" or " close=")">
+		        	upper(indus_name) like upper('%' || #{i} || '%')
+		        </foreach>
+		        <foreach collection="techStack" item="t" open=" and (" separator=" or " close=")">
+		        	upper(skill_name) like upper('%' || #{t} || '%')
+		        </foreach>
+		        <foreach collection="condition" item="c" open=" and (" separator=" or " close=")">
+		        	recruit_requ = #{c}
+		        </foreach>
+				<foreach collection="salary" item="sal"	index="i">
+					<if test="i==0">
+						and recruit_minsalary>=#{sal}
+					</if>
+					<if test="i==1">
+						and #{sal}>=recruit_maxsalary
+					</if>
+				</foreach>       	
+		        <foreach collection="address" item="addr" open=" and (" separator=" or " close=")">
+		        	upper(comp_address) like upper('%' || #{addr} || '%')
+		        </foreach>
     </select>
     
     <select id="selectRecruitList"
@@ -294,6 +333,56 @@
     	  from recruits
     	 where comp_no=#{cno}
     	   and recruit_state=0
+ 	</select>
+    <select id="selectRecruitListWithKey"
+    		parameterType="hashMap"
+    		resultMap="RecruitResultSet">
+    	select
+    		     RECRUIT_NO
+				,RECRUIT_TITLE
+				,RECRUIT_INFO
+				,RECRUIT_STATE
+				,RECRUIT_MAIN
+				,RECURIT_POSI
+				,RECRUIT_IMG
+				,RECRUIT_MINSALARY
+				,RECRUIT_MAXSALARY
+				,RECRUIT_REQU
+				,RECRUIT_DL
+				,RECRUIT_COUNT
+				,COMP_NO
+				,TO_CHAR(CREATED_AT,'YYYY/MM/DD') CREATED_AT
+    	  from recruits
+    	 where recruit_state=0
+   	 	<foreach collection="compNo" item="cno" separator=" ">
+	      	and comp_no=#{cno}
+        </foreach>
+        <foreach collection="keyword" item="k" separator=" ">
+	      	and upper(recruit_title) like upper('%' || #{k} || '%')
+        </foreach>
+        <foreach collection="position" item="p" open=" and (" separator=" or " close=")">
+	        recurit_posi = #{p}
+        </foreach>
+        <foreach collection="industry" item="i" open=" and (" separator=" or " close=")">
+        	upper(indus_name) like upper('%' || #{i} || '%')
+        </foreach>
+        <foreach collection="techStack" item="t" open=" and (" separator=" or " close=")">
+        	upper(skill_name) like upper('%' || #{t} || '%')
+        </foreach>
+        <foreach collection="condition" item="c" open=" and (" separator=" or " close=")">
+        	recruit_requ = #{c}
+        </foreach>
+		<foreach collection="salary" item="sal"	index="i">
+			<if test="i==0">
+				and recruit_minsalary>=#{sal}
+			</if>
+			<if test="i==1">
+				and #{sal}>=recruit_maxsalary
+			</if>
+		</foreach>       	
+        <foreach collection="address" item="addr" open=" and (" separator=" or " close=")">
+        	upper(comp_address) like upper('%' || #{addr} || '%')
+        </foreach>
  	</select>
  	
  	<select id="selectSkillList" 

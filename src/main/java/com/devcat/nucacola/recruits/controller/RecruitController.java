@@ -366,31 +366,69 @@ public class RecruitController {
 				salary.add(Integer.toString(maxSalary));
 				
 				keywordList.put("salary",salary);
-				
 			}
 			
+			//활동분야 숫자로 치환
+			ArrayList<String> position = keywordList.get("position");
+			if(!position.isEmpty()) {
+				for(int i = 0; i<position.size(); i++) {
+					if(position.get(i).equals("기획/PM")) {
+						position.set(i, "0");
+					}else if(position.get(i).equals("SW 개발")) {
+						position.set(i, "1");
+					}else {
+						position.set(i, "2");
+					}
+				}
+				keywordList.put("position",position);
+			}
+			
+			//경력 숫자로 치환
+			ArrayList<String> condition = keywordList.get("condition");
+			if(!condition.isEmpty()) {
+				for(int i = 0; i<condition.size(); i++) {
+					if(condition.get(i).equals("신입")) {
+						condition.set(i, "0");
+					}else if(condition.get(i).equals("경력")) {
+						condition.set(i, "1");
+					}else {
+						condition.set(i, "2");
+					}
+				}
+				keywordList.put("condition",condition);
+				System.out.println(keywordList);
+			}
+			
+			
+			System.out.println("컨트롤러 야 실행");
 			int compCount = rService.selectCompCount(keywordList);//페이징처리는 회사갯수기준으로한다.
-			System.out.println(compCount);
-//			PageInfo pi = Pagination.getPageInfo(compCount, currentPage, 1, 1);
-//			container.put("pi",pi); //최종적으로 넘겨줄 객체에 pi 세팅
-//			
-//			ArrayList<HashMap<String, Object>> recruitInfoList = new ArrayList<>();	//채용정보(하나의 회사정보+그 회사가 진행중인 채용정보들)담을 ArrayList 
-//			ArrayList<String> cnoList = rService.selectCnoList(pi); //채용공고 한 개 이상 게시한 회사번호들 가져온다.
-//			
-//			for(String cno : cnoList) {
-//				
-//				HashMap<String, Object> recruitInfo = new HashMap<>();
-//				ArrayList<Industries> compIndusList = cService.selectCompanyIndustryList(Integer.parseInt(cno));//회사 산업분야저장
-//				
-//				recruitInfo.put("company",cService.selectCompany(Integer.parseInt(cno)));//HashMap에 회사정보 담음
-//				recruitInfo.put("industries",compIndusList);//회사 산업분야정보 담음
-//				recruitInfo.put("recruitList",rService.selectRecruitList(Integer.parseInt(cno)));//HashMap에 해당회사채용공고리스트 담음
-//				recruitInfoList.add(recruitInfo);//채용정보리스트에 회사정보+그회사채용리스트 해쉬맵 담음
-//			}
-//			
-//			container.put("recruitInfoList",recruitInfoList); //최종적으로 넘겨줄 객체에 세팅
+			System.out.println("comp : "+compCount);
 			
+			PageInfo pi = Pagination.getPageInfo(compCount, currentPage, 1, 1);
+			container.put("pi",pi); //최종적으로 넘겨줄 객체에 pi 세팅
 			
+			ArrayList<HashMap<String, Object>> recruitInfoList = new ArrayList<>();	//채용정보(하나의 회사정보+그 회사가 진행중인 채용정보들)담을 ArrayList 
+			ArrayList<String> cnoList = rService.selectCnoList(pi,keywordList); //키워드로 걸러진 채용공고 한 개 이상 게시한 회사번호들 가져온다.
+			
+			for(String cno : cnoList) {
+				
+				HashMap<String, Object> recruitInfo = new HashMap<>();
+				ArrayList<Industries> compIndusList = cService.selectCompanyIndustryList(Integer.parseInt(cno));//회사 산업분야저장
+				
+				ArrayList<String> compNo = new ArrayList<>();//회사번호,키워드 mapper로 넘기기위해 arrayList활용
+				compNo.add(cno);
+				keywordList.put("compNo",compNo);
+				
+				recruitInfo.put("company",cService.selectCompany(Integer.parseInt(cno)));//HashMap에 회사정보 담음
+				recruitInfo.put("industries",compIndusList);//회사 산업분야정보 담음
+				recruitInfo.put("recruitList",rService.selectRecruitList(keywordList));//HashMap에 해당회사채용공고리스트 담음
+				recruitInfoList.add(recruitInfo);//채용정보리스트에 회사정보+그회사채용리스트 해쉬맵 담음
+			}
+			
+			container.put("recruitInfoList",recruitInfoList); //최종적으로 넘겨줄 객체에 세팅
+			
+			System.out.println("검색어 있을 때 처리 결과 : ");
+			System.out.println(recruitInfoList);
 			
 			
 		}else {//검색관련 키워드나 태그 전부없을 때 로드(초기화면에서 로드하는거)

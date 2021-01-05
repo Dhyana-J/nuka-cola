@@ -226,6 +226,46 @@
     	  where recruit_state=0
     </select>
     
+    <select id="selectCompCountWithKey" 
+    		parameterType="java.util.HashMap"
+    		resultType="_int">
+    	select
+		      count(distinct comp_no)
+		      from recruits
+		      join recruit_skills using(recruit_no)
+		      join skills using(skill_no)
+		      join compindus using(comp_no)
+		      join industries using(indus_no)
+		      where recruit_state=0
+		      	and recruit_title like '%' || #{keywordList['keyword'][0]} || '%'
+		        and recurit_posi in <!-- 활동분야 기획자0 개발자1 디자이너2 -->
+		        <foreach collection="position" item="p" separator="," open="(" close=")">
+		        	<if test="#{p eq '기획자'}">0</if>
+		        	<if test="#{p eq '개발자'}">1</if>
+		        	<if test="#{p eq '디자이너'}">2</if>
+		        </foreach>
+		        and indus_name in<!-- 산업분야 -->
+		        <foreach collection="industry" item="i" separator="," open="(" close=")">
+		        	#{i}
+		        </foreach>
+		        and skill_name in<!-- techStack 스킬 -->
+		        <foreach collection="techStack" item="t" separator="," open="(" close=")">
+		        	#{t}
+		        </foreach>
+		        and recruit_requ in <!-- condition 신입0 경력1 둘다2 -->
+		        <foreach collection="condition" item="c" separator="," open="(" close=")">
+		        	<if test="#{c eq '신입'}">0</if>
+		        	<if test="#{c eq '경력'}">1</if>
+		        	<if test="#{c eq '신입,경력'}">2</if>
+		        </foreach>
+		        and recruit_minsalary>=#{keywordList['salary'][0]}
+		        and recruit_maxsalary<=#{keywordList['salary'][1]}
+		        and regexp_like
+		        <foreach collection="address" item="a" separator="|" open="(comp_address,'" close="')">
+		        	#{a}
+		        </foreach>
+    </select>
+    
     <select id="selectCnoList" resultType="String">
     	select
     		  distinct comp_no

@@ -2,6 +2,7 @@ package com.devcat.nucacola.recruits.model.dao;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -61,6 +62,10 @@ public class RecruitDao {
 
 	public int selectCompCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("recruit-mapper.selectCompCount");
+	}
+	
+	public int selectCompCount(SqlSessionTemplate sqlSession, Map<String, ArrayList<String>> keywordList) {
+		return sqlSession.selectOne("recruit-mapper.selectCompCountWithKey");
 	}
 
 	public ArrayList<String> selectCnoList(SqlSessionTemplate sqlSession,PageInfo pi) {

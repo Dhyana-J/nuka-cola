@@ -202,31 +202,6 @@ let deleteTag = (e)=>{
 }
 
 
-//검색창에서 엔터치면 버튼클릭이벤트 발생시키기
-document.querySelector('.search-keyword').addEventListener('keydown',(e)=>{
-    if(e.keyCode==13){
-        document.querySelector('.search-btn').click();
-    }
-})
-//검색돋보기버튼 클릭시
-document.querySelector('.search-btn').addEventListener('click',()=>{
-    let keyword = document.querySelector('.search-keyword').value;
-
-    //선택된 셀렉트박스값들, 검색키워드를 객체에 한번에 담는다.
-    keywordList = {
-        keyword:keyword,
-        position:position,
-        industry:industry,
-        techStack:techStack,
-        condition:condition,
-        salary:salary,
-        address:address
-    };
-	
-	console.log(keywordList);
-
-})
-
 
 //선택된 정렬옵션 진하게해주는 메소드
 document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
@@ -248,3 +223,169 @@ document.querySelectorAll('.close-btn').forEach((v)=>{
 
 
 //-----------------페이징 처리-----------------------
+let currentPage = 2;
+let stopLoad = false;
+
+let addList = (list,area)=>{
+    list.forEach((v)=>{
+        let company = v.company;
+        let industries = v.industries;
+        let recruitList = v.recruitList;
+
+        let recruitInfo;   
+        
+    recruitInfo = '<div class="recruit-info">' 
+                     +'<div class="recruit-info__icons">'
+                        +'<span class="material-icons">close</span>'
+                     +'</div>'
+                     +'<div class="recruit-info__contents">'
+                        +'<div class="company__thumb-area">'
+                            +'<div class="company__thumbnail">';
+                                if(company.compLogo=='(null)'||company.compLogo==null){
+                                    recruitInfo+='<img src="resources/assets/conn.png" alt="company-thumb"/>';
+                                }else{
+                                    recruitInfo+='<img src="resources/assets/'+company.compLogo+'" alt="company-thumb"/>';
+                                }
+                recruitInfo+='</div>'
+                        +'</div>'
+                        +'<div class="company__info-wrapper">'
+                            +'<div class="company__info-area">'
+                                +'<input type="hidden" value="'+company.compNo+'"/>'
+                                +'<div class="company-name">'+company.compName+'</div>'
+                                +'<div class="company-desc">'+company.compInfo+'</div>'
+                                +'<div class="company-industry">';
+                                let count = 0;
+                                industries.forEach((industry)=>{
+                                    recruitInfo+='<span>'+industry.indusName+'</span>';
+                                    if(count<industries.length-1){//마지막인덱스가 아닌 경우
+                                        recruitInfo+='<span>&nbsp;·&nbsp;</span>';
+                                        count++;
+                                    }
+                                })
+                    recruitInfo+='</div>'
+                                +'<div class="company-address">'+company.compAddress+'</div>'
+                            +'</div>';//company__info-area
+                            recruitList.forEach((recruit)=>{
+                recruitInfo+='<div class="recruit-summary__wrapper">'
+                                +'<div class="recruit-summary">'
+                                    +'<div class="summary__contents">'
+                                        +'<input type="hidden" value="'+recruit.recruitNo+'"/>'
+                                        +'<div class="recruit-title">'+recruit.recruitTitle+'</div>'
+                                        +'<span>'+recruit.recruitMinSal+' - '+recruit.recruitMaxSal+'만원</span>'
+                                        +'<span> / </span>';
+                                        if(recruit.recruitRequ==0){
+                                            recruitInfo+='<span>신입</span>';
+                                        }else if(recruit.recruitRequ==1){
+                                            recruitInfo+='<span>경력</span>';
+                                        }else{
+                                            recruitInfo+='<span>신입,경력</span>';
+                                        }
+                        recruitInfo+='</div>'
+                                    +'<div class="summary__icon">'
+                                        +'<span class="material-icons">turned_in_not</span>'
+                                        //<span class="material-icons">turned_in</span> 안채워진 북마크
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="recruit-period">';
+                                    if(recruit.recruitDl!=null||recruit.recruitDl!='(null)'){
+                                        recruitInfo+='<span>'+recruit.recruitDl+'마감,</span>';
+                                    }
+                                    if(recruit.createdAt!=null||recruit.createdAt!='(null)'){
+                                        recruitInfo+='<span>'+recruit.createdAt+'등록,</span>';
+                                    }
+                    recruitInfo+='</div>'
+                            +'</div>';//recruit-summary__wrapper
+                            });
+            recruitInfo+='</div>'//company__info-wrapper
+                    +'</div>'//recruit-info__contents
+                +'</div>';//recruit-info
+
+        area.insertAdjacentHTML('beforeend',recruitInfo);
+    });
+};
+
+//스크롤 바닥까지 내리면 리스트 추가 로드(스크롤 바닥이면 추가로드 안함)
+window.addEventListener('scroll',()=>{
+    if(window.pageYOffset + document.documentElement.clientHeight >
+            document.documentElement.scrollHeight - 1 && stopLoad!=true){
+      console.log('로드!');
+      axios.get('loadMoreList.re', {
+        params: {
+          currentPage: currentPage++,
+          rawKeywordList:keywordList
+        }
+      })
+      .then(function(container){
+          console.log(container.data.pi);
+          console.log(container.data.recruitInfoList);
+
+          let pi = container.data.pi;
+          let recruitInfoList = container.data.recruitInfoList
+          let area = document.querySelector('.recruit-search__search-list');
+
+          addList(recruitInfoList,area);
+
+          if(pi.currentPage==pi.maxPage){
+              stopLoad=true;
+          }
+
+      })
+      .catch(function(error){
+          console.log(error);            		  
+      });
+    }
+  });
+
+
+//검색창에서 엔터치면 버튼클릭이벤트 발생시키기
+document.querySelector('.search-keyword').addEventListener('keydown',(e)=>{
+    if(e.keyCode==13){
+        document.querySelector('.search-btn').click();
+    }
+})
+
+//검색돋보기버튼 클릭시
+document.querySelector('.search-btn').addEventListener('click',()=>{
+
+    let keyword = [];
+    keyword.push(document.querySelector('.search-keyword').value); //다른 keyword처럼 ArrayList로 넘기기 위해 배열에담는다.
+
+    //선택된 셀렉트박스값들, 검색키워드를 객체에 한번에 담는다.
+    keywordList = {
+        keyword:keyword,
+        position:position,
+        industry:industry,
+        techStack:techStack,
+        condition:condition,
+        salary:salary,
+        address:address
+    };
+
+    console.log(keywordList);
+
+    stopLoad=false; //검색결과 스크롤 추가로드를 위해 세팅
+
+    axios.get('loadMoreList.re', {
+        params: {
+          currentPage:1,
+         rawKeywordList:keywordList
+        }
+      })
+      .then(function(container){
+
+          let pi = container.data.pi;
+          let recruitInfoList = container.data.recruitInfoList
+          let area = document.querySelector('.recruit-search__search-list');
+
+          addList(recruitInfoList,area);
+
+          if(pi.currentPage==pi.maxPage){
+              stopLoad=true;
+          }
+
+      })
+      .catch(function(error){
+          console.log(error);            		  
+      });
+
+})

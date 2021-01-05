@@ -1,6 +1,7 @@
 package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -40,8 +41,11 @@ public interface RecruitService {
 	// 사용자의 회사 번호 알아오기
 	int selectCompNo(int userNo);
 	
-	// 채용공고 올린 회사들 수 조회
+	// 채용공고 올린 회사들 수 조회 (검색어 없을 때)
 	int selectCompCount();
+	
+	// 채용공고 올린 회사들 수 조회 (검색어 있을 때)
+	int selectCompCount(Map<String, ArrayList<String>> keywordList);
 		
 	// 채용공고 회사번호 조회
 	ArrayList<String> selectCnoList(PageInfo pi);
@@ -68,4 +72,6 @@ public interface RecruitService {
 
 	//지원자상태변경
 	int changeProgress(RecruitSkill rp);
+	
+	
 }

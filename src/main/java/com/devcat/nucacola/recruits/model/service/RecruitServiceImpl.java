@@ -1,7 +1,7 @@
 package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
-
+import java.util.Map;
 
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -112,6 +112,11 @@ public class RecruitServiceImpl implements RecruitService {
 
 	@Override
 	public int selectCompCount() {
+		return rDao.selectCompCount(sqlSession);
+	}
+	
+	@Override
+	public int selectCompCount(Map<String, ArrayList<String>> keywordList) {
 		return rDao.selectCompCount(sqlSession);
 	}
 

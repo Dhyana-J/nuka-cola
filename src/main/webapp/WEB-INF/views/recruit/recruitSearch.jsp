@@ -124,7 +124,7 @@
 	                                    <div class="company__thumb-area">
 	                                        <div class="company__thumbnail">
 	                                        	<c:choose>
-	                                        		<c:when test="${company.compLogo ne null }">
+	                                        		<c:when test="${company.compLogo ne '(null)' }">
 			                                            <img src="${pageContext.request.contextPath}/${company.compLogo}" alt="company-thumb" />
 	                                        		</c:when>
 	                                        		<c:otherwise>
@@ -206,8 +206,7 @@
         <jsp:include page="../common/footer.jsp"/>
 
 	<script>
-	let currentPageNum = 2;
-	let stopLoad = false;
+	//let stopLoad = false;
 	
 	//현재페이지가 마지막페이지면 그만로드시키도록 만든다.
 	
@@ -250,30 +249,6 @@
 	};
 	*/
 	
-	//스크롤 바닥까지 내리면 리스트 추가 로드(스크롤 바닥이면 추가로드 안함)
-	window.addEventListener('scroll',()=>{
-	  if(window.pageYOffset + document.documentElement.clientHeight >
-	          document.documentElement.scrollHeight - 1 && stopLoad!=true){
-	    console.log('로드!');
-	    axios.get('loadMoreList.re', {
-	      params: {
-	        currentPage: currentPageNum++,
-	       keywordList:keywordList
-	      }
-	    })
-	    .then(function(loadedInfo){
-	    	
-	    	
-	    	
-	    	
-	    	//if(pi.currentPage==pi.maxPage) stopLoad=true;
-	    	
-		})
-		.catch(function(error){
-			console.log(error);            		  
-		});
-	  }
-	});
 	</script>
     </body>
 </html>

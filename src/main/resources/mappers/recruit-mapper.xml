@@ -89,6 +89,19 @@
         <result column="comp_name" property="compName"/>
         <result column="comp_logo" property="compLogo"/>
     </resultMap>
+    
+    <resultMap id="counselResultSet" type="Counsel">
+    	<result column="COUNSEL_NO" property="counselNo"/>
+        <result column="COUNSEL_CONTENT" property="counselContent"/>
+        <result column="COUNSEL_USER" property="counselUser"/>
+        <result column="APPLY_NO" property="applyNo"/>
+        <result column="COUNSEL_STATE" property="counselState"/>
+        <result column="CREATED_AT" property="createdAt"/>
+    </resultMap>
+    
+    
+    
+    
     <select id="selectRecruitDetail" parameterType="_int" resultMap="recruitDetailResultSet">
         SELECT RECRUIT_NO,
                RECRUIT_TITLE,
@@ -313,4 +326,69 @@
         SET t.APPLY_PROG = #{skillNo}
         WHERE t.APPLY_NO = #{recruitNo}
     </update>
+    
+    
+    <insert id="insertCounsel" parameterType="Counsel">
+    	
+    	insert into
+    	       counsels
+    	 		(
+    	 		  counsel_no
+    	 		, counsel_content
+    	 		, counsel_user
+    	 		, apply_no
+    	 		, counsel_state
+    	 		, created_at
+    	 		)
+    			values
+    			(
+    			   seq_counsel.nextval
+    			  ,#{counselContent}
+    			  ,#{counselUser}
+    			  ,#{applyNo}
+    			  ,#{counselState}
+    			  ,default
+    			
+    			)
+    
+    
+    </insert>
+    
+    
+    <select id="selectCounselList" parameterType="_int" resultMap="counselResultSet">
+    	
+    	
+    	select
+    	      	 COUNSEL_NO
+				,COUNSEL_CONTENT
+				,COUNSEL_USER
+				,APPLY_NO
+				,COUNSEL_STATE
+				,CREATED_AT
+				
+    	FROM    COUNSELS
+    	
+    	WHERE counsel_no = #{counselNo}
+    
+    
+    </select>
+    
+    
+    <select id="selectCounselNo" parameterType="Counsel" resultType="_int">
+    	
+    	select
+    	       counsel_no
+    	 
+    	 from COUNSELS
+    	 
+    	 where apply_no = #{applyNo}
+    	   and counsel_content = #{counselContent}
+    	       
+    
+    
+    </select>
+    
+    
+    
+    
 </mapper>

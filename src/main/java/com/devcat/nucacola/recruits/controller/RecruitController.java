@@ -24,14 +24,13 @@ import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
 import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Counsel;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import com.devcat.nucacola.recruits.model.vo.UserCareer;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
@@ -79,15 +78,26 @@ public class RecruitController {
 	//지원 상세조회
 	@RequestMapping("detail.ap")
 	public String selectApplyDetail(int ano, Model model){
+		
 		System.out.println(ano);
+		
 		Apply apply = rService.selectApplyDetail(ano);
+		
 		System.out.println(apply);
+		
 		int uno = apply.getUserNo();
+		
 		ArrayList<RecruitSkill> skillList = rService.selectUserSkills(uno);
 		ArrayList<UserCareer> careerList = rService.selectCareers(uno);
+		
+		System.out.println(skillList);
+		System.out.println(careerList);
+		
+		
 		model.addAttribute("a",apply);
 		model.addAttribute("s",skillList);
 		model.addAttribute("c",careerList);
+		
 		return "/apply/applyDetail";
 	}
 
@@ -347,6 +357,12 @@ public class RecruitController {
 		return null;
 		
 	}
+	
+	
+	
+	
+
+	
 	
 	
 }

@@ -9,15 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.ApplyList;
-import com.devcat.nucacola.recruits.model.vo.ApplyProg;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitManage;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
-
 import com.devcat.nucacola.recruits.model.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -109,4 +100,20 @@ public class RecruitDao {
     public int changeProgress(SqlSessionTemplate sqlSession, RecruitSkill rp) {
 	    return sqlSession.update("recruit-mapper.changeProgress",rp);
     }
+
+	public int insertCounsel(SqlSessionTemplate sqlSession, Counsel cs) {
+
+		return sqlSession.insert("recruit-mapper.insertCounsel", cs);
+	}
+
+	public ArrayList<Counsel> selectCounselList(SqlSessionTemplate sqlSession, int counselNo) {
+		
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCounselList", counselNo);
+		
+	}
+
+	public int selectCounselNo(SqlSessionTemplate sqlSession, Counsel cs) {
+		
+		return sqlSession.selectOne("recruit-mapper.selectCounselNo", cs);
+	}
 }

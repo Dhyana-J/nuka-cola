@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/recruit/apply-detail.css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
 
@@ -114,7 +116,7 @@
                     <c:forEach var="ci" items="${c}">
                         <div class="content__carrer-one">
                             <div class="carrer-one__img">
-                                <img src="${ci.compLogo}" alt="Logo" />
+                                <img src="${ci.compLogo eq null ? 'resources/assets/avatar.png' : ci.compLogo}" alt="Logo" />
                             </div>
                             <div class="carrer-one__companyName">
                                 <span>${ci.compName}</span>
@@ -205,7 +207,7 @@
                         rows="3"
                 ></textarea>
 
-                        <button>Send</button>
+                        <button type="button" id="send-btn">Send</button>
                     </div>
                     <!-- end chat-message -->
                 </div>
@@ -216,10 +218,68 @@
 </main>
 </body>
 <script defer>
+
     const onChangeProgress = (number)=>{
         console.log(number)
         location.href = 'changeprog.ap?rno=${a.applyNo}&number='+number
 
     }
+    
+	let sock = new SockJS("http://localhost:8888/nukacola/echo/");
+	
+	// 메시지 전송
+	let sendMessage = ()=>{
+		//sock.send(document.querySelector('#message').value);
+		let sendingMessage = document.querySelector("#message-to-send").value;
+		
+		if(${loginUser.userNo eq a.userNo}){
+			
+			location.href = 'sendingMessage.ap?applyNo=${a.applyNo}&counselUser=${a.userNo}&counselState=0&counselContent=' + sendingMessage;
+			
+		}else if(${loginUser.userNo eq a.manager1No}) {
+			
+			location.href = 'sendingMessage.ap?applyNo=${a.applyNo}&counselUser=${a.manager1No}&counselState=1&counselContent=' + sendingMessage;
+		}else if(${loginUser.userNo eq a.manager2No}) {
+			
+			location.href = 'sendingMessage.ap?applyNo=${a.applyNo}&counselUser=${a.manager2No}&counselState=1&counselContent=' + sendingMessage;
+		}
+		
+	}
+	
+	// 서버로부터 메시지를 받았을 때
+	let onMessage = (msg)=>{
+	    //let data = msg.data
+	    //document.querySelector('#messageArea').innerHTML+=data+"<br/>";
+	    console.log("메세지 받음");
+	}
+	
+	// 서버와 연결을 끊었을 때
+	let onClose = (evt)=>{
+	    //document.querySelector('#messageArea').append('연결 끊김');
+	    console.log("끊어짐");
+	}
+	
+	sock.onmessage = onMessage;
+	sock.onclose = onClose;
+	
+	document.querySelector('#send-btn').addEventListener('click',()=>{
+		sendMessage();
+		//document.querySelector('#message').value;
+	})
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </script>
 </html>

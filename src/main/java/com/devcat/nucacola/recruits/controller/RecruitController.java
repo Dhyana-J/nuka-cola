@@ -1,26 +1,38 @@
 package com.devcat.nucacola.recruits.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.devcat.nucacola.common.template.Pagination;
-import com.devcat.nucacola.company.model.service.CompanyService;
-import com.devcat.nucacola.company.model.vo.Industries;
-import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.member.model.vo.Member;
-import com.devcat.nucacola.recruits.model.service.RecruitService;
-import com.devcat.nucacola.recruits.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.web.bind.annotation.RequestMethod;
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.company.model.service.CompanyService;
+import com.devcat.nucacola.company.model.vo.Industries;
+import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.recruits.model.service.RecruitService;
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import com.devcat.nucacola.recruits.model.vo.UserCareer;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class RecruitController {
@@ -270,7 +282,7 @@ public class RecruitController {
 		//***채용공고리스트***
 		//PageInfo에 쓰일 채용진행중인 회사 수 조회
 		int compCount = rService.selectCompCount();
-		PageInfo pi = Pagination.getPageInfo(compCount, currentPage, 1, 5);
+		PageInfo pi = Pagination.getPageInfo(compCount, currentPage, 1, 1);
 		
 		ArrayList<HashMap<String, Object>> recruitInfoList = new ArrayList<>();	//채용정보(하나의 회사정보+그 회사가 진행중인 채용정보들)담을 ArrayList 
 		ArrayList<String> cnoList = rService.selectCnoList(pi); //채용공고 한 개 이상 게시한 회사번호들 가져온다. 페이징처리는 회사갯수기준으로한다.
@@ -290,5 +302,51 @@ public class RecruitController {
 		
 		return "recruit/recruitSearch";
 	}
+	
+	//스크롤 내렸을 때 실행되는 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="loadMoreList.re",produces="application/json; charset=utf-8")
+	public String loadSearchedList(@RequestParam(value="currentPage",defaultValue="2") int currentPage,String keywordList){
+		
+		//받아와야할 정보
+		//활동분야, 산업분야, 테크스택, 채용조건, 연봉, 지역, 검색어
+		
+		
+		ObjectMapper mapper = new ObjectMapper(); //String을 객체로 변환하기위한 mapper
+		
+		
+		if(keywordList!=null) {
+			
+			Map<String, Object> keywords;
+			
+			try {
+				
+				keywords = mapper.readValue(keywordList, Map.class);
+				String keyword = (String)keywords.get("keyword");
+				ArrayList<String> position = (ArrayList<String>) keywords.get("position");
+				ArrayList<String> industry = (ArrayList<String>) keywords.get("industry");
+				ArrayList<String> techStack = (ArrayList<String>) keywords.get("techStack");
+				ArrayList<String> condition = (ArrayList<String>) keywords.get("condition");
+				ArrayList<String> salary = (ArrayList<String>) keywords.get("salary");
+				ArrayList<String> address = (ArrayList<String>) keywords.get("address");
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
+		
+		//검색관련 키워드 전부없을 때 로드(초기화면에서 로드하는거)
+		
+		
+		//검색관련 키워드 있을 때 로드
+		
+		
+		return null;
+		
+	}
+	
 	
 }

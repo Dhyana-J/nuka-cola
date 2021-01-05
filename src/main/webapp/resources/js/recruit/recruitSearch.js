@@ -84,6 +84,16 @@ if(!document.querySelector('.selected-tag')){
     document.querySelector('.info-search__tags').innerHTML="<span class='tag-guide'>태그를 추가해보세요 :)</span>";
 }
 
+//각각의 셀렉트값들 담을 배열 (백엔드로 넘겨줄 것들)
+let position = [];
+let industry = [];
+let techStack = [];
+let condition = [];
+let salary = [];
+let address = [];
+let keywordList;
+
+
 //태그 추가 메소드
 let addTag = (name,value)=>{
 
@@ -110,22 +120,26 @@ let addTag = (name,value)=>{
         
         document.querySelector('.info-search__tags').insertAdjacentHTML('afterbegin',newTag);
 
+        //태그 추가와 동시에 배열에도 담아주자
+        switch(name){
+            case '활동분야' : position.push(value); break;
+            case '산업분야' : industry.push(value); break;
+            case '테크스택' : techStack.push(value); break;
+            case '채용조건' : condition.push(value); break;
+            case '연봉' : salary.push(value.replace('만원','').replace(/(\s*)/g, "").split('~')[0]); 
+                            salary.push(value.replace('만원','').replace(/(\s*)/g, "").split('~')[1]);
+                            break; //연봉은 숫자만 잘라서 배열에 push해준다.
+            case '지역' : address.push(value); break;
+            default:console.log('insert err');
+        }
+
+
     }
 }
 
 //태그관련 메소드들
 let getPosition = (v)=>{
     addTag('활동분야',v.value);
-
-    // let options = document.querySelectorAll('select[name="position"]>option')
-    // options.forEach((v) => {
-    //     console.log(v.value==='활동분야');
-    //     if(v.value==='활동분야'){
-    //         v.setAttribute('selected',true);
-    //     }else{
-    //         v.removeAttribute('selected');
-    //     }
-    // })
 }
 let getIndustry = (v)=>{
     addTag('산업분야',v.value);
@@ -140,8 +154,6 @@ let getAddress = (v)=>{
     addTag('지역',v.value);
 }
 
-
-
 document.querySelector('.salary-btn').addEventListener('click',()=>{
     let a = mySlider.getValue().split(',');
     if(a[0]==a[1]){ //최소연봉 최대연봉 같은 경우 금액 조절해서 태그추가
@@ -151,31 +163,70 @@ document.querySelector('.salary-btn').addEventListener('click',()=>{
             a[1]=Number(a[1])+1000;
         }
     }
+
     addTag('연봉',`${a[0]} ~ ${a[1]}만원`);
+
 })
 
 //태그 삭제버튼 클릭시 삭제
 let deleteTag = (e)=>{
-    e.target.parentNode.remove();
-    
+
     //태그 없을 때 나타나는 안내문구
     if(!document.querySelector('.selected-tag')){
         document.querySelector('.info-search__tags').innerHTML="<span class='tag-guide'>태그를 추가해보세요 :)</span>";
     }
+    
+    e.target.parentNode.remove();//태그 삭제
+
+    //태그 삭제 후 해당값들 백엔드로 넘길 배열에서 제외시키기
+    let tagContent = e.target.parentNode.firstChild.innerText.replace(/(\s*)/g, "").split(':');//카테고리,값 나눠서 배열에 저장
+    let name = tagContent[0]; //카테고리이름
+    let value = tagContent[1]; //값(select된값)
+
+    switch(name){
+        case '활동분야' : position.splice(position.indexOf(value),1); break;
+        case '산업분야' : industry.splice(industry.indexOf(value),1); break;
+        case '테크스택' : techStack.splice(techStack.indexOf(value),1); break;
+        case '채용조건' : condition.splice(condition.indexOf(value),1); break;
+        case '연봉' : 
+                        let minSalary = value.replace('만원','').replace(/(\s*)/g, "").split('~')[0];
+                        let maxSalary = value.replace('만원','').replace(/(\s*)/g, "").split('~')[1];
+                        salary.splice(salary.indexOf(minSalary),1);
+                        salary.splice(salary.indexOf(maxSalary),1);
+                        break; //연봉은 값이 두개씩 들어있으므로 잘라서 둘 다 배열에서 삭제해준다.
+        case '지역' : address.splice(address.indexOf(value),1); break;
+        default:console.log('delete err');
+    }
+
+
 }
 
+
+//검색창에서 엔터치면 버튼클릭이벤트 발생시키기
+document.querySelector('.search-keyword').addEventListener('keydown',(e)=>{
+    if(e.keyCode==13){
+        document.querySelector('.search-btn').click();
+    }
+})
 //검색돋보기버튼 클릭시
 document.querySelector('.search-btn').addEventListener('click',()=>{
     let keyword = document.querySelector('.search-keyword').value;
-    console.log(keyword);
+
+    //선택된 셀렉트박스값들, 검색키워드를 객체에 한번에 담는다.
+    keywordList = {
+        keyword:keyword,
+        position:position,
+        industry:industry,
+        techStack:techStack,
+        condition:condition,
+        salary:salary,
+        address:address
+    };
+	
+	console.log(keywordList);
+
 })
 
-//검색창에서 엔터치면 실행될 메소드
-document.querySelector('.search-keyword').addEventListener('keydown',(e)=>{
-    if(e.keyCode==13){
-        console.log('엔터쳤다');
-    }
-})
 
 //선택된 정렬옵션 진하게해주는 메소드
 document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
@@ -187,4 +238,13 @@ document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
 })
 
 
+//각 기업별 채용정보 우상단 X버튼 클릭하면 해당 내용 지워주는 메소드
+document.querySelectorAll('.close-btn').forEach((v)=>{
+    v.addEventListener('click',()=>{
+        console.log(v.parentNode);
+        v.parentNode.parentNode.remove();//클릭된 버튼 포함된 채용정보 삭제해버린다.
+    })
+})
 
+
+//-----------------페이징 처리-----------------------

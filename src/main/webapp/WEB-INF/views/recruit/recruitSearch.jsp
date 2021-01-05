@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="resources/css/common.css" />
         <link rel="stylesheet" href="resources/css/recruit/recruitSearch.css" />
         <link rel="stylesheet" href="resources/css/recruit/rSlider.min .css" />
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script defer src="resources/js/recruit/rSlider.min.js"></script>
         <script defer src="resources/js/recruit/recruitSearch.js"></script>
     </head>
@@ -99,9 +100,9 @@
                         <div class="search-results__header">
                             <span>검색 결과</span>
                             <div class="search-results__align-options">
-                                <span class="aligning">최신순</span>
-                                <span>인기순</span>
-                                <span>연봉순</span>
+                                <span class="aligning align-new">최신순</span>
+                                <span class="align-popular">인기순</span>
+                                <span class="align-salary">연봉순</span>
                             </div>
                         </div>
                         
@@ -152,6 +153,7 @@
 		                                        <div class="recruit-summary__wrapper">
 		                                            <div class="recruit-summary">
 		                                                <div class="summary__contents">
+		                                                	<input type="hidden" value="${recruit.recruitNo }"/>
 		                                                    <div class="recruit-title">${recruit.recruitTitle }</div>
 		                                                    <span>${recruit.recruitMinSal } - ${recruit.recruitMaxSal }만원</span>
 		                                                    <span> / </span>
@@ -192,10 +194,7 @@
                         		<c:remove var="recruitList"/>
                         		<c:remove var="industries"/>
                         	</c:forEach>
-                        	
 
-                        
-                            
                             
                         </div>
                         <!--recruit-search__search-list-->
@@ -206,6 +205,76 @@
 
         <jsp:include page="../common/footer.jsp"/>
 
+	<script>
+	let currentPageNum = 2;
+	let stopLoad = false;
+	
+	//현재페이지가 마지막페이지면 그만로드시키도록 만든다.
+	
+	//리스트 추가해주는 메소드
+	/*const loadList = (list,area)=>{
+		list.forEach((v)=>{ //리스트의 각 요소 v에 대해
+
+			//유저회사 비어있는 경우 ''로 대체
+			if(v.userComp==undefined) v.userComp='';
+
+			
+			let profile = '<div class="profile-wrapper">'
+					+'<div class="content__profile">';
+					
+				//유저이미지 없으면 기본이미지 세팅해준다.
+				if(v.userAvatar==undefined){
+					profile = profile
+					+'<img'
+					+' class="circle"'
+					+' src="resources/assets/juckerbug.jpg"'
+					+' alt="img"'+'/>';
+				}else{
+					profile = profile
+					+'<img'
+					+' class="circle"'
+					+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
+					+' alt="img"'+'/>';
+				}
+				
+				profile = profile
+					+'<div class="content_introduce">'
+					+'<strong>'+v.userName+'</strong>'
+					+'<p>'+v.userComp+'</p>'
+					+'</div>'
+					+'</div>'
+					+'<span class="toProfile" onclick="location.href='+'""'+'>프로필</span>';
+				+'</div>';
+			area.insertAdjacentHTML('beforeend',profile);
+		}); 
+	};
+	*/
+	
+	//스크롤 바닥까지 내리면 리스트 추가 로드(스크롤 바닥이면 추가로드 안함)
+	window.addEventListener('scroll',()=>{
+	  if(window.pageYOffset + document.documentElement.clientHeight >
+	          document.documentElement.scrollHeight - 1 && stopLoad!=true){
+	    console.log('로드!');
+	    axios.get('loadMoreList.re', {
+	      params: {
+	        currentPage: currentPageNum++,
+	       keywordList:keywordList
+	      }
+	    })
+	    .then(function(loadedInfo){
+	    	
+	    	
+	    	
+	    	
+	    	//if(pi.currentPage==pi.maxPage) stopLoad=true;
+	    	
+		})
+		.catch(function(error){
+			console.log(error);            		  
+		});
+	  }
+	});
+	</script>
     </body>
 </html>
 

@@ -244,7 +244,7 @@ let addList = (list,area)=>{
                                 if(company.compLogo=='(null)'||company.compLogo==null){
                                     recruitInfo+='<img src="resources/assets/conn.png" alt="company-thumb"/>';
                                 }else{
-                                    recruitInfo+='<img src="resources/assets/'+company.compLogo+'" alt="company-thumb"/>';
+                                    recruitInfo+='<img src="'+company.compLogo+'" alt="company-thumb"/>';
                                 }
                 recruitInfo+='</div>'
                         +'</div>'
@@ -376,6 +376,8 @@ document.querySelector('.search-btn').addEventListener('click',()=>{
           let pi = container.data.pi;
           let recruitInfoList = container.data.recruitInfoList
           let area = document.querySelector('.recruit-search__search-list');
+        
+          area.innerHTML="";//검색결과 초기화
 
           addList(recruitInfoList,area);
 

@@ -19,8 +19,6 @@ posiListBox.addEventListener('change',()=>{
  userPosiText=text;
  userPosi=parseInt(value);
 
- console.log(userPosiText);
- console.log(userPosi);
  createETCTag(userPosiText,userPosi,posiList);
 });
 
@@ -40,8 +38,6 @@ v.addEventListener('click',(event)=>{
     	userPosiText='디자이너';
     	}	
     userPosi=parseInt(value);
-	console.log(userPosiText);
- 	console.log(userPosi);
  	createETCTag(userPosiText,userPosi,posiList);
 
 })
@@ -65,8 +61,6 @@ click();
 		skillText=text;
     	skillNo=parseInt(value);
 
-       console.log(skillText);
-       console.log(skillNo);
        createSkillTag(skillText,skillNo,skillList);
       	
       });
@@ -97,11 +91,12 @@ if(schoolName.length>0){
 createETCTag(schoolName,newId,schoolList);
 }
 schoolBox.value = "";
+/*
 console.log(typeof(posiList));
 console.log(typeof(skillList));
 console.log(schoolList);
 console.log(typeof (userName));
-
+*/
 let pList="";
 let skList="";
 let scList="";
@@ -123,23 +118,53 @@ schoolList.forEach(c=>{
  
 })
 
-/*
 
-document.querySelectorAll('.connecting_people').forEach((v)=>{
-	v.querySelectorAll('.search_result').forEach((f)=>{
-	f.remove();
+
+const ca = document.querySelectorAll('.connecting_people')[0]
+	ca.querySelectorAll('.more').forEach((btn)=>{
+	console.log(btn);
+	btn.remove();
+	})
+const caBox = ca.querySelector('.search_result')
+	caBox.querySelectorAll('.search_resultBox').forEach((b)=>{
+	console.log(b);
+	b.remove();
+	})
+
+
+const ca2 = document.querySelectorAll('.connecting_people')[1]
+const caBox2 = ca2.querySelector('.search_result2')
+	ca2.querySelectorAll('.more').forEach((btn)=>{
+	console.log("지울것들");
+	console.log(btn);
+	btn.remove();
+	})
+	caBox2.querySelectorAll('.search_resultBox').forEach((b)=>{
+	
+	console.log("지울것들");
+	console.log(b);
+	
+	b.remove();
+	})
+	
+
+	/*
 	const connPeopleBox = document.querySelectorAll('.connecting_people')[0];
-	console.log(connPeopleBox)
 	const searchResult = connPeopleBox.querySelector('.result_none');
-	console.log(searchResult)
+	console.log(searchResult);
 	const style1 = searchResult.style.display;
-	console.log(style1)
-	if(style1=='none'){
 	searchResult.style.display='block';
-	}
-})
-})
-*/
+
+
+	const connPeopleBox2 = document.querySelectorAll('.connecting_people')[1];
+	const searchResult2 = connPeopleBox2.querySelector('.result_none');
+	console.log(searchResult2);
+	const style2 = searchResult2.style.display;
+	//searchResult2.style2.display='block';
+	*/
+
+
+
 
 /* 검색내용 넘기기*/
 axios.get('search.pa', {
@@ -164,7 +189,16 @@ axios.get('search.pa', {
                   	following.push(v.userNo);
                   	})
                   	
-                  	/*연결된 사람들 중 검색결과 출력*/
+                  	/*연결된 사람없으면 */
+                  	if(res.data["ConPeople"].length<=0){
+                  	const non1= document.querySelectorAll('.result_none')[0];
+	                  	non1.style.display='block';
+                  	}
+                  	/*그외 사람없으면 */
+                  	if(res.data["ETCPeople"].length<=0){
+                  	const non1= document.querySelectorAll('.result_none')[1];
+	                  	non1.style.display='block';
+                  	}
                   	if(res.data["ConPeople"].length>0){
                   		const non1= document.querySelectorAll('.result_none')[0];
 	                  	non1.style.display='none';

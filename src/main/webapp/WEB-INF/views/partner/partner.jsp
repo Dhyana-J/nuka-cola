@@ -51,13 +51,13 @@
             <div class="connection__content">
             <input type="hidden" name="Connecting" value="${connecting}">
               <ul class="connection__info">
-                <li name="userPosi">기획자 
+                <li class="userPs" name="userPosi" value="0">기획자 
                 <div class="circle"><span>${connect.get("planner")}</span></div>
                 </li>
-                <li name="userPosi">디자이너
+                <li class="userPs" name="userPosi" value="2">디자이너
                 <div class="circle"><span>${connect.get("designer")}</span></div>
                 </li>
-                <li name="userPosi">개발자
+                <li class="userPs" name="userPosi" value="1">개발자
                 <div class="circle"><span>${connect.get("developer")}</span></div>
                 </li>
               </ul>
@@ -181,7 +181,7 @@
                     <c:forEach var="p" items="${popular}">
                     <input type="hidden" name="userNo" vlaue="${p.userNo}">
                     <div class="search_result">
-                      <div class="result__left">
+                      <div class="result__left" onclick=' location.href="profile.me?userNo=${p.userNo}"'>
                         <div class="avatar">
                           <c:choose>
                           <c:when test="${empty p.userAvatar}">
@@ -206,30 +206,40 @@
                           </c:choose>
 
 
-                          <c:if test="${p.userPosi ==0}">
+                          <c:if test="${p.userPosi eq '0'}">
                           <li>기획자</li>
                           </c:if>
-                          <c:if test="${p.userPosi ==1}">
+                          <c:if test="${p.userPosi eq '1'}">
                           <li>개발자</li>
                           </c:if>
-                          <c:if test="${p.userPosi ==2}">
+                          <c:if test="${p.userPosi eq '2'}">
                           <li>디자이너</li>
                           </c:if>
                         </ul>
                       </div>
                       <div class="result__right">
-                        <!-- ${fn:length(follower)-1} -->
-                      
-                      <c:forEach var="f" items="${follower}">
-                      <c:choose>
-                      	<c:when test="${p.userNo == f.userNo}">
-                        <button class="btn">취소</button>
-                        </c:when>
-                        <c:otherwise>
-                        	<button class="btn">팔로우</button>
-                        </c:otherwise>
-                      </c:choose>
-                      </c:forEach>                     
+                        <!-- ${fn:length(follower)-1} 
+                        
+                        <c:forEach var="f" items="${follower}">
+                         <c:choose>
+                            <c:when test="${p.userNo eq f.userNo}">
+                              <button class="btn">취소</button>
+                           </c:when>
+                           <c:otherwise>
+                              <button class="btn">팔로우</button>
+                           </c:otherwise>
+                         </c:choose>
+                      </c:forEach>  
+                        
+                        -->        
+                       <c:choose>
+                            <c:when test="${fn:contains(follower,p.userNo)}">
+                              <button class="btn" onclick ="cancelFollowing(${loginUser.userNo},${p.userNo},event.target)">취소</button>
+                           </c:when>
+                           <c:otherwise>
+                              <button class="btn btn-blue" onclick ="addFollowing(${loginUser.userNo},${p.userNo},event.target)">팔로우</button>
+                           </c:otherwise>
+                      </c:choose>                       
 
 
 
@@ -271,15 +281,15 @@
         	.then((res)=>{
         		console.log(res);
         		if(res.data.result>0){ //팔로잉 추가 성공
-        			e.target.innerText="팔로우 취소";
-        			e.target.setAttribute('onclick','cancelFollowing('+res.data.followerNo+','+res.data.followingNo+',event)');
+        			e.innerText="취소";
+        			e.className='btn'
+        			e.setAttribute('onclick','cancelFollowing('+res.data.followerNo+','+res.data.followingNo+',event.target)');
         		}else{ //팔로잉 추가 실패
         			alert('요청에 실패했습니다.');
         		}
         	})
         	.catch((err)=>{ //통신 실패
         		console.log(err);
-        		alert('요청에 실패했습니다.');
         	})
         	
         };
@@ -293,8 +303,9 @@
         	})
         	.then((res)=>{
         		if(res.data.result>0){ //팔로잉 삭제 성공
-        			e.target.innerText="팔로우";
-        			e.target.setAttribute('onclick','addFollowing('+res.data.followerNo+','+res.data.followingNo+',event)');
+        			e.innerText="팔로우";
+        			e.className='btn btn-blue'
+        			e.setAttribute('onclick','addFollowing('+res.data.followerNo+','+res.data.followingNo+',event.target)');
         		}else{ //팔로잉 삭제 실패
         			alert('요청에 실패했습니다.');
         		}

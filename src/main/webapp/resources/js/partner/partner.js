@@ -3,25 +3,52 @@ let skillList=[];// 활동분야태그 리스트
 let schoolList=[];//학교명태그 리스트
 
 
+
+
 //userPosi(select)선택
+
 const posiListBox = document.querySelector('.userPosi');
 let userPosi;
 let userPosiText=""; // userPosi변수에 선택한 옵션의 text를 저장
 
- posiListBox.addEventListener('change',()=>{
+posiListBox.addEventListener('change',()=>{
   // 업무분야 value -> controller보내기
  let value=posiListBox.options[posiListBox.selectedIndex].value;
   //업무분야 태그의 text
  let text=posiListBox.options[posiListBox.selectedIndex].innerText;
  userPosiText=text;
  userPosi=parseInt(value);
- 
- 
+
  console.log(userPosiText);
  console.log(userPosi);
  createETCTag(userPosiText,userPosi,posiList);
 });
 
+
+// 연결된 사람들 클릭시 userPosi(select)태그
+
+const click =()=>{
+const connContent = document.querySelector('.connection__content');
+connContent.querySelectorAll('.userPs').forEach((v)=>{
+v.addEventListener('click',(event)=>{
+	const value = v.value;
+	if(value==0){
+    	 userPosiText='기획자';
+    	}else if(value==1){
+    	userPosiText='개발자';
+    	}else if(value==2){
+    	userPosiText='디자이너';
+    	}	
+    userPosi=parseInt(value);
+	console.log(userPosiText);
+ 	console.log(userPosi);
+ 	createETCTag(userPosiText,userPosi,posiList);
+
+})
+})
+}
+click();    
+  
 
 
 //skillNo(select)선택
@@ -82,11 +109,7 @@ posiList.forEach(c=>{
  pList+=(c.id);
  
 })
-/*
-for(int i=0;i<skillList.lenght;i++){
-if(i=skillList.lenght)
-}
-*/
+
 skillList.forEach(function(c,i,a){
 if(a.length-1!=i){
 skList+=(c.id)+","
@@ -99,10 +122,21 @@ schoolList.forEach(c=>{
  scList+=(c.keyword);
  
 })
+
 /*
+
 document.querySelectorAll('.connecting_people').forEach((v)=>{
 	v.querySelectorAll('.search_result').forEach((f)=>{
 	f.remove();
+	const connPeopleBox = document.querySelectorAll('.connecting_people')[0];
+	console.log(connPeopleBox)
+	const searchResult = connPeopleBox.querySelector('.result_none');
+	console.log(searchResult)
+	const style1 = searchResult.style.display;
+	console.log(style1)
+	if(style1=='none'){
+	searchResult.style.display='block';
+	}
 })
 })
 */
@@ -123,11 +157,19 @@ axios.get('search.pa', {
                   	let ConPeopleCount = res.data["ConPeopleCount"]
                   	let ETCPeopleCount = res.data["ETCPeopleCount"]
                   	console.log(pList);
+                  	let f = res.data["follower"];
+                  	let following=[];
+                  	
+                  	f.forEach((v)=>{
+                  	following.push(v.userNo);
+                  	})
                   	
                   	/*연결된 사람들 중 검색결과 출력*/
                   	if(res.data["ConPeople"].length>0){
                   		const non1= document.querySelectorAll('.result_none')[0];
 	                  	non1.style.display='none';
+	                  	
+	                  	
 	                  	res.data["ConPeople"].forEach((v)=>{
 	                  	createConnResult(v);
 	                  	
@@ -153,8 +195,9 @@ axios.get('search.pa', {
                   	if(res.data["ETCPeople"].length>0){
 	                  	const non2= document.querySelectorAll('.result_none')[1];
 		                non2.style.display='none';
+		                console.log("following값을 보여주세요."+following);
 		                res.data["ETCPeople"].forEach((v)=>{
-	                  	createETCResult(v);
+	                  	createETCResult(v,following);
 
 	                  	})
 	                  	createdMore(ETCPeopleCount,1);
@@ -354,18 +397,18 @@ const createSkillTag = (text, no, list) => {
     const nameStrong = document.createElement('strong');
     	nameStrong.innerText=v.userName;
     const edu = document.createElement('li');
-    	if(v.userComp===null){
+    console.log(v.userEdu);
+    	if(v.userComp==null){
     	edu.innerText=v.userEdu;
-    	}
-    	if(v.userEdu===null){
+    	}else if(v.userEdu==null){
     	edu.innerText=v.userComp;
     	}
     const posi = document.createElement('li');
-    	if(v.userPosi ==="0"){
+    	if(v.userPosi.includes(0)){
     	posi.innerText='기획자';
-    	}else if(v.userPosi ==="1"){
+    	}else if(v.userPosi.includes(1)){
     	posi.innerText='개발자';
-    	}else if(v.userPosi ==="2"){
+    	}else if(v.userPosi.includes(2)){
     	posi.innerText='디자이너';
     	}
     const resultRight = document.createElement('div');
@@ -393,7 +436,7 @@ const createSkillTag = (text, no, list) => {
     
     
 // 그외 사람정보생성
-    const createETCResult=(v)=>{
+    const createETCResult=(v,f)=>{
 	const connPeopleBox = document.querySelectorAll('.connecting_people')[1];
 	const searchResult = connPeopleBox.querySelector('.search_result2');
 	searchResult.style.display='block';
@@ -426,19 +469,24 @@ const createSkillTag = (text, no, list) => {
     	edu.innerText=v.userComp;
     	}
     const posi = document.createElement('li');
-    	if(v.userPosi ==="0"){
+    console.log(v.userPosi+"posi");
+    	if(v.userPosi.includes(0)){
     	posi.innerText='기획자';
-    	}else if(v.userPosi ==="1"){
+    	}else if(v.userPosi.includes(1)){
     	posi.innerText='개발자';
-    	}else if(v.userPosi ==="2"){
+    	}else if(v.userPosi.includes(2)){
     	posi.innerText='디자이너';
     	}
     const resultRight = document.createElement('div');
     	resultRight.className = 'result__right';
     const btn =  document.createElement('button');
-        btn.className = 'btn';
-        btn.innerText = '팔로우';
-    
+    	if(f.includes(v.userNo)){
+	        btn.className = 'btn';
+	        btn.innerText = '취소';
+    	}else{
+	    	btn.className = 'btn btn-blue';
+	        btn.innerText = '팔로우';
+    	}
     
     
     name.appendChild(nameStrong);
@@ -543,7 +591,7 @@ const ETCLoad =(pList,skList,scList,userName)=>{
 	          res.data["ETCPeople"].forEach((v)=>{
 	          console.log(currentPageNum2);
 	        	//disabledBtn1();
-	          createETCResult(v);
+	          createETCResult(v,res.data["follower"]);
 	          });
 	
 	        }).catch(function(error){
@@ -579,4 +627,6 @@ let Connhref =()=>{
 				         	 
 			 });
 			 });
-            }                         
+            }   
+            
+             

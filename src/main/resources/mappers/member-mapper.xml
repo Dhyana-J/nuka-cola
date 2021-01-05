@@ -644,6 +644,7 @@
 	</select>
 	
 	<!-- 연결된 사람들중에서 검색한 결과 총 명수-->
+	<!-- <if test="@com.devcat.nucacola.member.model.vo.CheckEmpty@isEmpty(skList)"> -->
 	<select id="partnerSearchCount1" parameterType="PartnerSearch" resultType="_int">
 	 select count(*)   
 			from
@@ -660,13 +661,13 @@
 						    from connections
 						    where follower_no=#{userNo}
 			    ))
-			    <if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+			    <if test="(pList!=null and !pList.equals(''))|| skList.size != 0 ||
 			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
                 where 
 	                <if test="pList!=null">
 				 	user_posi =#{pList} 	
 					</if>
-					<if test="@com.devcat.nucacola.member.model.vo.CheckEmpty@isEmpty(skList)">
+					<if test="skList.size != 0">
 						<if test="pList!=null">
 					 	or
 						</if>
@@ -675,7 +676,7 @@
 						</foreach>
 					</if>
 					<if test="schoolList!=null and !schoolList.equals('')">
-						<if test="skList!=null || pList!=null">
+						<if test="skList.size != 0 || pList!=null">
 					 	or
 						</if>
 				 		user_edu like '%'||#{schoolList}||'%'
@@ -713,7 +714,7 @@
 	                <if test="pList!=null">
 				 	user_posi =#{pList}
 					</if>
-					<if test="@com.devcat.nucacola.member.model.vo.CheckEmpty@isEmpty(skList)">
+					<if test="skList.size != 0">
 						<if test="pList!=null">
 					 	or
 						</if>
@@ -722,14 +723,14 @@
 						</foreach>
 					</if>
 					<if test="schoolList!=null and !schoolList.equals('')">
-						<if test="skList!=null || pList!=null">
+						<if test="skList.size != 0 || pList!=null">
 					 	or
 						</if>
 				 		user_edu like '%'||#{schoolList}||'%'
 				 		
 					</if>
 					<if test="keyword!=null and !keyword.equals('')">
-				 		<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+				 		<if test="skList.size != 0 || pList!=null || schoolList!=null and !schoolList.equals('')">
 						 or
 						</if>
 				 		user_name like '%'||#{keyword}||'%'
@@ -756,13 +757,13 @@
 									from connections
 									where follower_no=#{userNo}
 						    ))) <!-- 연결이 되지 않은 사람들 테이블 -->
-				<if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+				<if test="(pList!=null and !pList.equals(''))|| skList.size != 0 ||
 			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
                     where 
 	                <if test="pList!=null">
 				 	 user_posi =#{pList}
 					</if>
-					<if test="@com.devcat.nucacola.member.model.vo.CheckEmpty@isEmpty(skList)">
+					<if test="skList.size != 0">
 						<if test="pList!=null">
 					 	or
 						</if>
@@ -771,17 +772,17 @@
 						</foreach>
 					</if>
 					<if test="schoolList!=null and !schoolList.equals('')">
-						<if test="skList!=null || pList!=null">
+						<if test="skList.size != 0 || pList!=null">
 					 	or
 						</if>
-				 		user_edu like '%'||#{schoolList}||'%'
+				 		user_edu like '%' || #{schoolList} || '%'
 				 		
 					</if>
 					<if test="keyword!=null and !keyword.equals('')">
-				 		<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+				 		<if test="skList.size != 0 || pList!=null || schoolList!=null and !schoolList.equals('')">
 						 or
 						</if>
-				 		user_name like '%'||#{keyword}||'%'
+				 		user_name like '%' || #{keyword} || '%'
 					</if>
                 </if>
                 order by user_name
@@ -805,13 +806,13 @@
 									from connections
 									where follower_no=#{userNo}
 						    ))) <!-- 연결이 되지 않은 사람들 테이블 -->
-				<if test="(pList!=null and !pList.equals(''))|| skList!=null ||
+				<if test="(pList!=null and !pList.equals(''))|| skList.size != 0 ||
 			    		   (schoolList!=null and !schoolList.equals(''))|| (keyword!=null and !keyword.equals(''))" >
                     where 
 	                <if test="pList!=null">
 				 	 user_posi =#{pList}
 					</if>
-					<if test="@com.devcat.nucacola.member.model.vo.CheckEmpty@isEmpty(skList)">
+					<if test="skList.size != 0">
 						<if test="pList!=null">
 					 	or
 						</if>
@@ -820,14 +821,14 @@
 						</foreach>
 					</if>
 					<if test="schoolList!=null and !schoolList.equals('')">
-						<if test="skList!=null || pList!=null">
+						<if test="skList.size != 0 || pList!=null">
 					 	or
 						</if>
 				 		user_edu like '%'||#{schoolList}||'%'
 				 		
 					</if>
 					<if test="keyword!=null and !keyword.equals('')">
-				 		<if test="skList!=null || pList!=null || schoolList!=null and !schoolList.equals('')">
+				 		<if test="skList.size != 0 || pList!=null || schoolList!=null and !schoolList.equals('')">
 						 or
 						</if>
 				 		user_name like '%'||#{keyword}||'%'

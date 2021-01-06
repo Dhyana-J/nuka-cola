@@ -39,55 +39,10 @@
         <div class="left-section__header">
           <strong>메세지</strong>
         </div>
+        <!-- 채팅 메세지하는 사람들 리스트 -->
         <div class="chat-list">
-          <div class="chat-info__wrapper">
-            <div class="img-wrapper">
-              <img src="resources/assets/elon.jpg" alt="">
-            </div>
-            <div class="chat-info">
-              <strong>홍길동</strong>
-              <span>대표님, 3억짜리 프로젝...</span>
-            </div>
-            <div class="chat-date">
-              <span>2020.11.11</span>
-            </div>
-          </div><!--chat-info__wrapper-->
-          <div class="chat-info__wrapper">
-            <div class="img-wrapper">
-              <img src="resources/assets/elon.jpg" alt="">
-            </div>
-            <div class="chat-info">
-              <strong>홍길동</strong>
-              <span>대표님, 3억짜리 프로젝...</span>
-            </div>
-            <div class="chat-date">
-              <span>2020.11.11</span>
-            </div>
-          </div><!--chat-info__wrapper-->
-          <div class="chat-info__wrapper">
-            <div class="img-wrapper">
-              <img src="resources/assets/elon.jpg" alt="">
-            </div>
-            <div class="chat-info">
-              <strong>홍길동</strong>
-              <span>대표님, 3억짜리 프로젝...</span>
-            </div>
-            <div class="chat-date">
-              <span>2020.11.11</span>
-            </div>
-          </div><!--chat-info__wrapper-->
-          <div class="chat-info__wrapper">
-            <div class="img-wrapper">
-              <img src="resources/assets/elon.jpg" alt="">
-            </div>
-            <div class="chat-info">
-              <strong>홍길동</strong>
-              <span>대표님, 3억짜리 프로젝...</span>
-            </div>
-            <div class="chat-date">
-              <span>2020.11.11</span>
-            </div>
-          </div><!--chat-info__wrapper-->
+        
+			
           
         </div>
       </div><!--chatroom-search__left-section-->
@@ -205,12 +160,12 @@
 
       <div class="chatroom-search__right-section">
         <div class="profile-thumb">
-          <img src="resources/assets/conn.png" alt="">
+          <img src=" ${loginUser.userAvatar eq null ? 'resources/assets/conn.png' : loginUser.userAvatar} " alt="">
         </div>
         <div class="profile-info">
-          <strong>Conn</strong>
-          <span>MIT DeepLearning Lab</span>
-          <span>@Nuka-cola Inc.(2020.11 ~)</span>
+          <strong>${ loginUser.userName }</strong>
+          <span>${ loginUser.compName }</span>
+          <span>${ loginUser.userComp }</span>
         </div>
       </div><!--chatroom-search__right-section-->
     </div>
@@ -218,4 +173,121 @@
 
   <jsp:include page="../common/footer.jsp"/>
 </body>
+
+
+
+<script defer>
+
+
+const selectChatRoomList = ()=>{
+	
+	axios.get("selectChatRoomList.ch", {
+		params : {
+			userNo : ${loginUser.userNo}
+		}
+	})
+	.then(function(response) {
+		
+		console.log(response.data);
+		
+		let chatList = response.data;
+		
+		for(var i in chatList) {
+			
+			
+			if(chatList[i].userAvatar == null) {
+				
+				let userAvatars = "resources/assets/conn.png";
+				
+				createMessages(chatList[i].chatroomNo,chatList[i].userTwo,userAvatars,chatList[i].userName,chatList[i].messageContent,chatList[i].messageCreate);
+				
+			}else {
+				
+				createMessages(chatList[i].chatroomNo,chatList[i].userTwo,chatList[i].userAvatar,chatList[i].userName,chatList[i].messageContent,chatList[i].messageCreate);
+				
+			}
+
+		}
+				
+	})
+	.catch(function(error){
+		console.log(error);
+		
+	})
+}
+
+selectChatRoomList();
+
+
+const createMessages = (chatroomNo,userTwo,userAvatar,userName,messageContent,messageCreate) => {
+	/* chat-info__wrapper 클래스 div생성 */
+	let chatDivW = document.createElement("div");
+	chatDivW.className = "chat-info__wrapper";
+	
+	/* 메세지 받는 사람 번호 추가 */
+	let reciverNo = document.createElement("input");
+	reciverNo.setAttribute("type", "hidden");
+	reciverNo.setAttribute("value", userTwo);
+	/* 채팅방 번호 추가 */
+	let chatNo = document.createElement("input");
+	chatNo.setAttribute("type", "hidden");
+	chatNo.setAttribute("value", chatroomNo);
+	/* 넣어주기 */
+	
+	chatDivW.appendChild(reciverNo);
+	chatDivW.appendChild(chatNo);
+	
+	
+	/* img-wrapper 클래스 div생성 */
+	let imgDiv = document.createElement("div");
+	imgDiv.className = "img-wrapper";
+	
+	/* img 만들어주고, img-wrapper div에 넣어주기*/
+	let imgThumb = document.createElement("img");
+	imgThumb.setAttribute("src", userAvatar);
+	
+	imgDiv.appendChild(imgThumb);
+	
+	
+	/* chat-info 클래스 div생성 */
+	let chatDiv = document.createElement("div");
+	chatDiv.className = "chat-info";
+	
+	/* 이름용 strong 태그 생성 및 넣어주기 */
+	let thumbName = document.createElement("strong");
+	thumbName.innerText = userName;
+	
+	/* 최신메세지 태그 생성 후 넣어주기 */
+	let lastThumbMessage = document.createElement("span");
+	lastThumbMessage.innerText = messageContent;
+	
+	chatDiv.appendChild(thumbName);
+	chatDiv.appendChild(lastThumbMessage);
+	
+	/* chat-date 클래스 div생성 */
+	let dateDiv = document.createElement("div");
+	dateDiv.className = "chat-date";
+	
+	/* 메세지 보낸시간 요소 넣어주기 */
+	let lastMessageTime = document.createElement("span");
+	lastMessageTime.innerText = messageCreate;
+	
+	dateDiv.appendChild(lastMessageTime);
+	
+	
+	/* 3div chatDivW에 넣어주기 */
+	chatDivW.appendChild(imgDiv);
+	chatDivW.appendChild(chatDiv);
+	chatDivW.appendChild(dateDiv);
+	
+	document.querySelector(".chat-list").appendChild(chatDivW);
+	
+}
+
+
+
+</script>
+
+
+
 </html>

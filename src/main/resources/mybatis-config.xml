@@ -22,7 +22,7 @@
 		<typeAlias type="com.devcat.nucacola.company.model.vo.CompIndus" alias="CompIndus"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Project" alias="Project"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Career" alias="Career"/>
-		
+		<typeAlias type="com.devcat.nucacola.common.model.vo.Chatrooms" alias="Chatrooms"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.PartnerSearch" alias="PartnerSearch"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Recruit" alias="Recruit"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Apply" alias="Apply"/>

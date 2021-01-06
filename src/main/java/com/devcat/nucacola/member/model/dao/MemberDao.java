@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.company.model.vo.Company;
@@ -362,6 +363,11 @@ public class MemberDao {
 		int offset = (pi2.getCurrentPage()-1)*pi2.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi2.getBoardLimit()); 
 		return (ArrayList)sqlSession.selectList("memberMapper.partnerETCResult", p, rowBounds);
+	}
+
+	public ArrayList<Chatrooms> selectChatRoomList(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectChatRoomList", userNo);
 	}
 
 

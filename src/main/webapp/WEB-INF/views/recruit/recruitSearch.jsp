@@ -116,7 +116,7 @@
 	                            <div class="recruit-info">
 	                            
 	                                <div class="recruit-info__icons">
-	                                    <span class="material-icons">close</span>
+	                                    <span class="material-icons" onclick="deleteInfo(event)">close</span>
 	                                </div>
 	
 	                                <div class="recruit-info__contents">
@@ -204,52 +204,8 @@
         </main>
 
         <jsp:include page="../common/footer.jsp"/>
-
-	<script>
-	//let stopLoad = false;
 	
-	//현재페이지가 마지막페이지면 그만로드시키도록 만든다.
-	
-	//리스트 추가해주는 메소드
-	/*const loadList = (list,area)=>{
-		list.forEach((v)=>{ //리스트의 각 요소 v에 대해
 
-			//유저회사 비어있는 경우 ''로 대체
-			if(v.userComp==undefined) v.userComp='';
-
-			
-			let profile = '<div class="profile-wrapper">'
-					+'<div class="content__profile">';
-					
-				//유저이미지 없으면 기본이미지 세팅해준다.
-				if(v.userAvatar==undefined){
-					profile = profile
-					+'<img'
-					+' class="circle"'
-					+' src="resources/assets/juckerbug.jpg"'
-					+' alt="img"'+'/>';
-				}else{
-					profile = profile
-					+'<img'
-					+' class="circle"'
-					+' src="${pageContext.request.contextPath}/'+v.userAvatar+'"'
-					+' alt="img"'+'/>';
-				}
-				
-				profile = profile
-					+'<div class="content_introduce">'
-					+'<strong>'+v.userName+'</strong>'
-					+'<p>'+v.userComp+'</p>'
-					+'</div>'
-					+'</div>'
-					+'<span class="toProfile" onclick="location.href='+'""'+'>프로필</span>';
-				+'</div>';
-			area.insertAdjacentHTML('beforeend',profile);
-		}); 
-	};
-	*/
-	
-	</script>
     </body>
 </html>
 

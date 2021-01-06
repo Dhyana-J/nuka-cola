@@ -224,6 +224,7 @@
     		  count(distinct comp_no)
     	  from recruits
     	  where recruit_state=0
+    	  order by created_at
     </select>
     
     <select id="selectCompCountWithKey" 
@@ -254,10 +255,10 @@
 		        	recruit_requ = #{c}
 		        </foreach>
 				<foreach collection="salary" item="sal"	index="i">
-					<if test="i==0">
+					<if test="i!=1">
 						and recruit_minsalary>=#{sal}
 					</if>
-					<if test="i==1">
+					<if test="i!=0">
 						and #{sal}>=recruit_maxsalary
 					</if>
 				</foreach>       	
@@ -267,17 +268,23 @@
     </select>
     
     <select id="selectCnoList" resultType="String">
-    	select
-    		  distinct comp_no
-    	  from recruits
-    	 where recruit_state=0
+    	select distinct comp_no
+    	  from(
+	    	select
+	    	  distinct *
+	    	  from recruits
+	    	 where recruit_state=0
+	    	 order by created_at desc
+    	 )
     </select>
     <select id="selectCnoListWithKey" 
     		parameterType="hashMap"
     		resultType="String">
-    	select
-		      distinct comp_no
-		      from recruits
+    	select distinct comp_no
+    	from(
+	    	select
+		      distinct *
+		      from recruits r
 		      left join recruit_skills using(recruit_no)
 		      left join skills using(skill_no)
 		      left join compindus using(comp_no)
@@ -300,89 +307,114 @@
 		        	recruit_requ = #{c}
 		        </foreach>
 				<foreach collection="salary" item="sal"	index="i">
-					<if test="i==0">
+					<if test="i!=1">
 						and recruit_minsalary>=#{sal}
 					</if>
-					<if test="i==1">
+					<if test="i!=0">
 						and #{sal}>=recruit_maxsalary
 					</if>
 				</foreach>       	
 		        <foreach collection="address" item="addr" open=" and (" separator=" or " close=")">
 		        	upper(comp_address) like upper('%' || #{addr} || '%')
 		        </foreach>
+		        <foreach collection="alignOption" item="option" open=" order by ">
+		        	<choose>
+		        		<when test="option.equals('최신순')">r.created_at desc</when>
+		        		<when test="option.equals('인기순')">recruit_count desc</when>
+		        		<otherwise>recruit_maxsalary desc</otherwise>
+		        	</choose>
+		        </foreach>
+	     	)
     </select>
     
     <select id="selectRecruitList"
     		parameterType="_int"
     		resultMap="RecruitResultSet">
-    	select
-    		     RECRUIT_NO
-				,RECRUIT_TITLE
-				,RECRUIT_INFO
-				,RECRUIT_STATE
-				,RECRUIT_MAIN
-				,RECURIT_POSI
-				,RECRUIT_IMG
-				,RECRUIT_MINSALARY
-				,RECRUIT_MAXSALARY
-				,RECRUIT_REQU
-				,RECRUIT_DL
-				,RECRUIT_COUNT
-				,COMP_NO
-				,TO_CHAR(CREATED_AT,'YYYY/MM/DD') CREATED_AT
-    	  from recruits
-    	 where comp_no=#{cno}
-    	   and recruit_state=0
+    	
+	    	select distinct
+	    		     RECRUIT_NO
+					,RECRUIT_TITLE
+					,RECRUIT_INFO
+					,RECRUIT_STATE
+					,RECRUIT_MAIN
+					,RECURIT_POSI
+					,RECRUIT_IMG
+					,RECRUIT_MINSALARY
+					,RECRUIT_MAXSALARY
+					,RECRUIT_REQU
+					,RECRUIT_DL
+					,RECRUIT_COUNT
+					,COMP_NO
+					,TO_CHAR(CREATED_AT,'YYYY/MM/DD') CREATED_AT
+	    	  from recruits
+	    	 where comp_no=#{cno}
+	    	   and recruit_state=0
+	    	 order by created_at desc
+    	 	
  	</select>
     <select id="selectRecruitListWithKey"
     		parameterType="hashMap"
     		resultMap="RecruitResultSet">
-    	select
-    		     RECRUIT_NO
-				,RECRUIT_TITLE
-				,RECRUIT_INFO
-				,RECRUIT_STATE
-				,RECRUIT_MAIN
-				,RECURIT_POSI
-				,RECRUIT_IMG
-				,RECRUIT_MINSALARY
-				,RECRUIT_MAXSALARY
-				,RECRUIT_REQU
-				,RECRUIT_DL
-				,RECRUIT_COUNT
-				,COMP_NO
-				,TO_CHAR(CREATED_AT,'YYYY/MM/DD') CREATED_AT
-    	  from recruits
-    	 where recruit_state=0
-   	 	<foreach collection="compNo" item="cno" separator=" ">
-	      	and comp_no=#{cno}
-        </foreach>
-        <foreach collection="keyword" item="k" separator=" ">
-	      	and upper(recruit_title) like upper('%' || #{k} || '%')
-        </foreach>
-        <foreach collection="position" item="p" open=" and (" separator=" or " close=")">
-	        recurit_posi = #{p}
-        </foreach>
-        <foreach collection="industry" item="i" open=" and (" separator=" or " close=")">
-        	upper(indus_name) like upper('%' || #{i} || '%')
-        </foreach>
-        <foreach collection="techStack" item="t" open=" and (" separator=" or " close=")">
-        	upper(skill_name) like upper('%' || #{t} || '%')
-        </foreach>
-        <foreach collection="condition" item="c" open=" and (" separator=" or " close=")">
-        	recruit_requ = #{c}
-        </foreach>
-		<foreach collection="salary" item="sal"	index="i">
-			<if test="i==0">
-				and recruit_minsalary>=#{sal}
-			</if>
-			<if test="i==1">
-				and #{sal}>=recruit_maxsalary
-			</if>
-		</foreach>       	
-        <foreach collection="address" item="addr" open=" and (" separator=" or " close=")">
-        	upper(comp_address) like upper('%' || #{addr} || '%')
-        </foreach>
+    	
+	    	select distinct
+	    		     RECRUIT_NO
+					,RECRUIT_TITLE
+					,RECRUIT_INFO
+					,RECRUIT_STATE
+					,RECRUIT_MAIN
+					,RECURIT_POSI
+					,RECRUIT_IMG
+					,RECRUIT_MINSALARY
+					,RECRUIT_MAXSALARY
+					,RECRUIT_REQU
+					,RECRUIT_DL
+					,RECRUIT_COUNT
+					,COMP_NO
+					,TO_CHAR(r.CREATED_AT,'YYYY/MM/DD') CREATED_AT
+		    	  from recruits r
+			      left join recruit_skills using(recruit_no)
+			      left join skills using(skill_no)
+			      left join compindus using(comp_no)
+			      left join industries using(indus_no)
+			      left join companys using(comp_no)
+			      where recruit_state=0
+		   	 	<foreach collection="compNo" item="cno" separator=" ">
+			      	and comp_no=#{cno}
+		        </foreach>
+		        <foreach collection="keyword" item="k" separator=" ">
+			      	and upper(recruit_title) like upper('%' || #{k} || '%')
+		        </foreach>
+		        <foreach collection="position" item="p" open=" and (" separator=" or " close=")">
+			        recurit_posi = #{p}
+		        </foreach>
+		        <foreach collection="industry" item="i" open=" and (" separator=" or " close=")">
+		        	upper(indus_name) like upper('%' || #{i} || '%')
+		        </foreach>
+		        <foreach collection="techStack" item="t" open=" and (" separator=" or " close=")">
+		        	upper(skill_name) like upper('%' || #{t} || '%')
+		        </foreach>
+		        <foreach collection="condition" item="c" open=" and (" separator=" or " close=")">
+		        	recruit_requ = #{c}
+		        </foreach>
+				<foreach collection="salary" item="sal"	index="i">
+					<if test="i!=1">
+						and recruit_minsalary>=#{sal}
+					</if>
+					<if test="i!=0">
+						and #{sal}>=recruit_maxsalary
+					</if>
+				</foreach>       	
+		        <foreach collection="address" item="addr" open=" and (" separator=" or " close=")">
+		        	upper(comp_address) like upper('%' || #{addr} || '%')
+		        </foreach>
+		        <foreach collection="alignOption" item="option" open=" order by ">
+		        	<choose>
+		        		<when test="option.equals('최신순')">created_at desc</when>
+		        		<when test="option.equals('인기순')">recruit_count desc</when>
+		        		<otherwise>recruit_maxsalary desc</otherwise>
+		        	</choose>
+		        </foreach>
+       		
  	</select>
  	
  	<select id="selectSkillList" 

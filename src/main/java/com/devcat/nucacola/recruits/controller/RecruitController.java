@@ -308,6 +308,8 @@ public class RecruitController {
 	@RequestMapping(value="loadMoreList.re",produces="application/json; charset=utf-8")
 	public HashMap<String, Object> loadSearchedList(@RequestParam(value="currentPage",defaultValue="1") int currentPage,String rawKeywordList){
 		
+		System.out.println("============controller============");
+		
 		HashMap<String,Object> container = new HashMap<>(); //뷰에 최종적으로 넘겨줄 객체(pi, keywordList 담김)
 		
 		HashMap<String, ArrayList<String>> keywordList = null;
@@ -322,23 +324,51 @@ public class RecruitController {
 			}
 		}
 		
+		System.out.println("넘어온 json 변환 전값 : ");
 		System.out.println(rawKeywordList);
+		System.out.println("변환 후값 : ");
+		System.out.println(keywordList);
 		
 		
 		//keywordList가 모두 빈 채로 검색요청 들어온 경우
 		
 		//검색어는 빈문자열로 넘어올 수 있으니 공백이나 빈문자열로 오면 clear해주자
-		if(keywordList.get("keyword").get(0).trim().equals("")) {
-			keywordList.get("keyword").clear();
+		//검색버튼 누르면 빈문자열로 넘어오지만, 정렬버튼누르면 null값이 넘어온다. null아니면서 빈문자열인 경우 처리해줘야함
+		if(keywordList!=null) {
+			
+			System.out.println("전처리 진입 및 수행");
+			
+			if(!keywordList.get("keyword").isEmpty()) {
+				
+				if(keywordList.get("keyword").get(0).trim().equals("")) {
+					System.out.println("키워드 무의미한값 clear 진행");
+					keywordList.get("keyword").clear();
+				}
+			}
+			
+			boolean isEmpty = false;
+			
+			if(keywordList.get("alignOption")!=null) { //정렬버튼 눌러서 정렬값도 넘어온 경우의 keywordList 검사수행
+				isEmpty = keywordList.get("alignOption").isEmpty()
+						&&keywordList.get("keyword").isEmpty()&&keywordList.get("position").isEmpty()
+						&&keywordList.get("industry").isEmpty()&&keywordList.get("techStack").isEmpty()
+						&&keywordList.get("condition").isEmpty()&&keywordList.get("salary").isEmpty();
+			}else {//정렬버튼 안누르면 정렬옵션은 keywordList에 안담겨온다. 그 keywordList로 검사수행
+				isEmpty =
+						keywordList.get("keyword").isEmpty()&&keywordList.get("position").isEmpty()
+						&&keywordList.get("industry").isEmpty()&&keywordList.get("techStack").isEmpty()
+						&&keywordList.get("condition").isEmpty()&&keywordList.get("salary").isEmpty();
+			}
+			
+			if(isEmpty) {
+				keywordList=null;
+			}
+			
+			System.out.println("전처리 완료후 keywordList : ");
+			System.out.println(keywordList);
 		}
 		
-		boolean isEmpty = keywordList.get("keyword").isEmpty()&&keywordList.get("position").isEmpty()
-							&&keywordList.get("industry").isEmpty()&&keywordList.get("techStack").isEmpty()
-							&&keywordList.get("condition").isEmpty()&&keywordList.get("salary").isEmpty();
 		
-		if(isEmpty) {
-			keywordList=null;
-		}
 		
 		if(keywordList!=null) {//검색관련 키워드나 태그 하나라도 있을 때 로드
 			
@@ -400,7 +430,6 @@ public class RecruitController {
 			}
 			
 			
-			System.out.println("컨트롤러 야 실행");
 			int compCount = rService.selectCompCount(keywordList);//페이징처리는 회사갯수기준으로한다.
 			System.out.println("comp : "+compCount);
 			
@@ -427,7 +456,7 @@ public class RecruitController {
 			
 			container.put("recruitInfoList",recruitInfoList); //최종적으로 넘겨줄 객체에 세팅
 			
-			System.out.println("검색어 있을 때 처리 결과 : ");
+			System.out.println("키워드 있을 때 처리 결과 : ");
 			System.out.println(recruitInfoList);
 			
 			
@@ -452,6 +481,10 @@ public class RecruitController {
 			}
 			
 			container.put("recruitInfoList",recruitInfoList); //최종적으로 넘겨줄 객체에 세팅
+			
+			System.out.println("키워드 없을 때 처리 결과 : ");
+			System.out.println(recruitInfoList);
+			
 		}
 		
 		return container;

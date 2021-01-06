@@ -85,6 +85,8 @@ if(!document.querySelector('.selected-tag')){
 }
 
 //각각의 셀렉트값들 담을 배열 (백엔드로 넘겨줄 것들)
+let alignOption = [];
+let keyword = [];
 let position = [];
 let industry = [];
 let techStack = [];
@@ -171,12 +173,12 @@ document.querySelector('.salary-btn').addEventListener('click',()=>{
 //태그 삭제버튼 클릭시 삭제
 let deleteTag = (e)=>{
 
+    e.target.parentNode.remove();//태그 삭제
+
     //태그 없을 때 나타나는 안내문구
     if(!document.querySelector('.selected-tag')){
         document.querySelector('.info-search__tags').innerHTML="<span class='tag-guide'>태그를 추가해보세요 :)</span>";
     }
-    
-    e.target.parentNode.remove();//태그 삭제
 
     //태그 삭제 후 해당값들 백엔드로 넘길 배열에서 제외시키기
     let tagContent = e.target.parentNode.firstChild.innerText.replace(/(\s*)/g, "").split(':');//카테고리,값 나눠서 배열에 저장
@@ -198,28 +200,18 @@ let deleteTag = (e)=>{
         default:console.log('delete err');
     }
 
+   
 
 }
 
 
 
-//선택된 정렬옵션 진하게해주는 메소드
-document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
-    v.addEventListener('click',()=>{
-        //클릭된 정렬옵션을 진하게해준다.
-        document.querySelector('.aligning').classList.remove('aligning');
-        v.classList.add('aligning');
-    })
-})
-
 
 //각 기업별 채용정보 우상단 X버튼 클릭하면 해당 내용 지워주는 메소드
-document.querySelectorAll('.close-btn').forEach((v)=>{
-    v.addEventListener('click',()=>{
-        console.log(v.parentNode);
-        v.parentNode.parentNode.remove();//클릭된 버튼 포함된 채용정보 삭제해버린다.
-    })
-})
+let deleteInfo = (e)=>{
+    e.target.parentNode.parentNode.remove();//해당 채용정보 삭제
+}
+
 
 
 //-----------------페이징 처리-----------------------
@@ -236,7 +228,7 @@ let addList = (list,area)=>{
         
     recruitInfo = '<div class="recruit-info">' 
                      +'<div class="recruit-info__icons">'
-                        +'<span class="material-icons">close</span>'
+                        +'<span class="material-icons" onclick="deleteInfo(event)">close</span>'
                      +'</div>'
                      +'<div class="recruit-info__contents">'
                         +'<div class="company__thumb-area">'
@@ -325,7 +317,7 @@ window.addEventListener('scroll',()=>{
 
           addList(recruitInfoList,area);
 
-          if(pi.currentPage==pi.maxPage){
+          if(pi.currentPage==pi.maxPage||pi.maxPage==0){
               stopLoad=true;
           }
 
@@ -347,11 +339,20 @@ document.querySelector('.search-keyword').addEventListener('keydown',(e)=>{
 //검색돋보기버튼 클릭시
 document.querySelector('.search-btn').addEventListener('click',()=>{
 
-    let keyword = [];
+    currentPage=2;
+
+    alignOption = [];
+    keyword = [];
+
+    alignOption.push('최신순');//초기값설정
+    document.querySelector('.aligning').classList.remove('aligning');
+    document.querySelector('.align-new').classList.add('aligning');
+
     keyword.push(document.querySelector('.search-keyword').value); //다른 keyword처럼 ArrayList로 넘기기 위해 배열에담는다.
 
     //선택된 셀렉트박스값들, 검색키워드를 객체에 한번에 담는다.
     keywordList = {
+        alignOption:alignOption,
         keyword:keyword,
         position:position,
         industry:industry,
@@ -361,6 +362,7 @@ document.querySelector('.search-btn').addEventListener('click',()=>{
         address:address
     };
 
+    console.log('검색버튼클릭!');
     console.log(keywordList);
 
     stopLoad=false; //검색결과 스크롤 추가로드를 위해 세팅
@@ -379,9 +381,12 @@ document.querySelector('.search-btn').addEventListener('click',()=>{
         
           area.innerHTML="";//검색결과 초기화
 
+          console.log('파이다');
+            console.log(pi);
+
           addList(recruitInfoList,area);
 
-          if(pi.currentPage==pi.maxPage){
+          if(pi.currentPage==pi.maxPage||pi.maxPage==0){
               stopLoad=true;
           }
 
@@ -390,4 +395,67 @@ document.querySelector('.search-btn').addEventListener('click',()=>{
           console.log(error);            		  
       });
 
+})
+
+
+//선택된 정렬옵션 진하게해주는 메소드 & 리스트 정렬해주는 메소드
+document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
+    v.addEventListener('click',()=>{
+
+        currentPage=2;
+
+        //클릭된 정렬옵션을 진하게해준다.
+        document.querySelector('.aligning').classList.remove('aligning');
+        v.classList.add('aligning');
+        
+        alignOption = [];
+
+        alignOption.push(document.querySelector('.aligning').innerText); //다른 keyword처럼 ArrayList로 넘기기 위해 배열에담는다.
+
+        //선택된 셀렉트박스값들, 검색키워드를 객체에 한번에 담는다.
+        keywordList = {
+            alignOption:alignOption,
+            keyword:keyword,
+            position:position,
+            industry:industry,
+            techStack:techStack,
+            condition:condition,
+            salary:salary,
+            address:address
+        };
+
+        console.log('정렬버튼클릭!');
+        console.log(keywordList);
+
+        stopLoad=false; //검색결과 스크롤 추가로드를 위해 세팅
+
+        axios.get('loadMoreList.re', {
+            params: {
+            currentPage:1,
+            rawKeywordList:keywordList
+            }
+        })
+        .then(function(container){
+
+            let pi = container.data.pi;
+            let recruitInfoList = container.data.recruitInfoList
+            let area = document.querySelector('.recruit-search__search-list');
+            
+            area.innerHTML="";//검색결과 초기화
+
+            addList(recruitInfoList,area);
+
+            console.log('파이다');
+            console.log(pi);
+
+            if(pi.currentPage==pi.maxPage||pi.maxPage==0){
+                stopLoad=true;
+            }
+
+        })
+        .catch(function(error){
+            console.log(error);            		  
+        });
+        
+    })
 })

@@ -73,7 +73,7 @@ public interface RecruitService {
 	int insertCounsel(Counsel cs);
 	
 	//counsel 테이블에 대화내역 전체 조회
-	ArrayList<Counsel> selectCounselList(int counselNo);
+	ArrayList<Counsel> selectCounselList(int applyNo);
 	
 	//counsel 테이블 번호 조회
 	int selectCounselNo(Counsel cs);

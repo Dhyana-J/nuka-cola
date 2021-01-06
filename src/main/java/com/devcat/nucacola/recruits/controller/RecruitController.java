@@ -32,6 +32,7 @@ import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import com.devcat.nucacola.recruits.model.vo.UserCareer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 @Controller
 public class RecruitController {
@@ -360,9 +361,45 @@ public class RecruitController {
 	
 	
 	
+	@ResponseBody
+	@RequestMapping("insertingMessage.ap")
+	public String insertMessage(Counsel cs) {
+		
+		System.out.println("보내온 메세지의 값 : " + cs);
+		
+		// insert 실시
+		int result = rService.insertCounsel(cs);
+		
+		if(result>0) {
+			
+			// counselNo 알아오기
+			int counselNo = rService.selectCounselNo(cs);
+			
+			System.out.println("counselNo : " + counselNo);
+			
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	
-
 	
+	@ResponseBody
+	@RequestMapping(value="selectMessageList.ap",produces="application/json; charset=utf-8")
+	public String selectMessageList(int applyNo) {
+		
+		System.out.println("메세지 전체 조회용 번호 "+ applyNo);
+		
+		// 전체 조회 담을 공간
+		ArrayList<Counsel> csAllList = new ArrayList();
+		
+		csAllList = rService.selectCounselList(applyNo);
+		
+		System.out.println("전체 조회해온 메세지 리스트 : " + csAllList);
+		
+		
+		return new Gson().toJson(csAllList);
+	}
 	
 	
 }

@@ -20,4 +20,7 @@ public class Counsel {
 	private int counselState;
 	private String createdAt;
 	
+	// 유저 이름
+	private String userName;
+	
 }

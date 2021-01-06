@@ -97,6 +97,7 @@
         <result column="APPLY_NO" property="applyNo"/>
         <result column="COUNSEL_STATE" property="counselState"/>
         <result column="CREATED_AT" property="createdAt"/>
+        <result column="USER_NAME" property="userName"></result>
     </resultMap>
     
     
@@ -358,18 +359,19 @@
     <select id="selectCounselList" parameterType="_int" resultMap="counselResultSet">
     	
     	
-    	select
+    	SELECT
     	      	 COUNSEL_NO
 				,COUNSEL_CONTENT
 				,COUNSEL_USER
+                ,USER_NAME
 				,APPLY_NO
 				,COUNSEL_STATE
-				,CREATED_AT
+				,TO_CHAR(C.CREATED_AT, 'HH12:MIPM') AS CREATED_AT
 				
-    	FROM    COUNSELS
-    	
-    	WHERE counsel_no = #{counselNo}
-    
+    	FROM    COUNSELS C
+    	JOIN USERS U ON (C.COUNSEL_USER = U.USER_NO)
+    	WHERE APPLY_NO = #{APPLY_NO}
+    	order by counsel_no
     
     </select>
     

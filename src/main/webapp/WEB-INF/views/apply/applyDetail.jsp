@@ -116,7 +116,7 @@
                     <c:forEach var="ci" items="${c}">
                         <div class="content__carrer-one">
                             <div class="carrer-one__img">
-                                <img src="${ci.compLogo eq null ? 'resources/assets/avatar.png' : ci.compLogo}" alt="Logo" />
+                                <img src="${ci.compLogo}" alt="Logo" />
                             </div>
                             <div class="carrer-one__companyName">
                                 <span>${ci.compName}</span>
@@ -157,45 +157,11 @@
                     <!-- end chat-header -->
 
                     <div class="chat-history">
-                        <ul>
-                            <li class="clearfix">
-                                <div class="message-data align-right">
-                                    <span class="message-data-time">10:10 AM</span>
-                                    &nbsp; &nbsp;
-                                    <span class="message-data-name">유원근</span>
-                                </div>
-                                <div class="message other-message float-right">
-                                    안녕 점심먹을래 말래
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="message-data">
-                                    <span class="message-data-name">누군가</span>
-                                    <span class="message-data-time">10:12 AM</span>
-                                </div>
-                                <div class="message my-message">몰라</div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="message-data align-right">
-                                    <span class="message-data-time">10:14 AM</span>
-                                    &nbsp; &nbsp;
-                                    <span class="message-data-name">유원근</span>
-                                </div>
-                                <div class="message other-message float-right">
-                                    그래 알겠다
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="message-data">
-                                    <span class="message-data-name">누군가</span>
-                                    <span class="message-data-time">10:20 AM</span>
-                                </div>
-                                <div class="message my-message">ㅇㅋ</div>
-                            </li>
-                        </ul>
+                    
+						<ul id="chat-all">
+						
+						</ul>
+						
                     </div>
                     <!-- end chat-history -->
 
@@ -218,7 +184,14 @@
 </main>
 </body>
 <script defer>
-
+	
+	/* 메세지 보낸 사람 */
+	let sendingUser = "";
+	/* 메세지의 상태 */
+	let stateNo = 0;
+	
+	
+	
     const onChangeProgress = (number)=>{
         console.log(number)
         location.href = 'changeprog.ap?rno=${a.applyNo}&number='+number
@@ -229,19 +202,32 @@
 	
 	// 메시지 전송
 	let sendMessage = ()=>{
-		//sock.send(document.querySelector('#message').value);
+		
 		let sendingMessage = document.querySelector("#message-to-send").value;
 		
 		if(${loginUser.userNo eq a.userNo}){
+		
+			sendingUser = ${a.userNo};
 			
-			location.href = 'sendingMessage.ap?applyNo=${a.applyNo}&counselUser=${a.userNo}&counselState=0&counselContent=' + sendingMessage;
+			insertingMessage(sendingUser, stateNo, sendingMessage);	
+			
+			
 			
 		}else if(${loginUser.userNo eq a.manager1No}) {
+		
+			sendingUser = ${a.manager1No};
 			
-			location.href = 'sendingMessage.ap?applyNo=${a.applyNo}&counselUser=${a.manager1No}&counselState=1&counselContent=' + sendingMessage;
+			stateNo = 1;
+			
+			insertingMessage(sendingUser, stateNo, sendingMessage);	
+			
 		}else if(${loginUser.userNo eq a.manager2No}) {
 			
-			location.href = 'sendingMessage.ap?applyNo=${a.applyNo}&counselUser=${a.manager2No}&counselState=1&counselContent=' + sendingMessage;
+			sendingUser = ${a.manager2No};
+			
+			stateNo = 1;
+			
+			insertingMessage(sendingUser, stateNo, sendingMessage);	
 		}
 		
 	}
@@ -263,23 +249,155 @@
 	sock.onclose = onClose;
 	
 	document.querySelector('#send-btn').addEventListener('click',()=>{
+		
 		sendMessage();
-		//document.querySelector('#message').value;
-	})
 
+	})
+	
+
+    const insertingMessage = (sendingUser, stateNo, sendingMessage) => {
+		
+		axios.get("insertingMessage.ap",{
+			params:{
+				applyNo : ${a.applyNo},
+				counselUser : sendingUser,
+				counselState : stateNo,
+				counselContent : sendingMessage
+			}
+		})
+		   .then(function(response){
+			   console.log(response);
+			   
+			   document.querySelector("#message-to-send").value = "";
+			   
+			   selectMessageList();
+		   })
+		   .catch(function(error) {
+			   console.log(error)
+		   })
+	}
+    
+    
+    const selectMessageList = () => {
+    	
+    	axios.get("selectMessageList.ap",{
+    		params : {
+    			applyNo : ${a.applyNo}
+    		}
+    	})
+    		.then(function(response){
+    			console.log(response.data);	
+    			
+    			let messageList = response.data;
+    			
+    			
+    			for(var i in messageList) {
+    				
+    				if(messageList[i].counselState == 1) {
+    					
+    					
+    					leftMessage(messageList[i].counselContent,messageList[i].createdAt,messageList[i].userName);
+    					
+    					
+    					
+    				}else {
+    					
+    					rightMessage(messageList[i].counselContent,messageList[i].createdAt,messageList[i].userName);
+    					
+    				
+    				}
+    			}
+    			
+    			
+    			
+    			
+    			
+    		})
+    		.catch(function(error){
+    			console.log(error);
+    		})
+    }
+    
+    selectMessageList();
     
     
     
+    const rightMessage = (counselContent, createdAt,userName,messagesAll) =>{
+    	/* li생성 */
+    	let rightLi = document.createElement("li");
+    	/* 클래스 이름 추가 */
+    	rightLi.className = "clearfix";
+    	
+    	/* li 자식요소가 될div1 생성 */
+    	let rightDiv1 = document.createElement("div");
+    	rightDiv1.className = "message-data align-right";
+    	
+    	/*div1의 자식요소가 될 span1 생성  */
+    	let timeSpan = document.createElement("span");
+    	timeSpan.className = "message-data-time";
+    	timeSpan.innerHTML = createdAt + "&nbsp; &nbsp;";
+    	
+    	/*div1의 자식요소가 될 span2 생성  */
+    	let nameSpan = document.createElement("span");
+    	nameSpan.className = "message-data-name";
+    	nameSpan.innerText = userName;
+	
+    	/*div1에 자식요소 span 추가  */
+    	rightDiv1.appendChild(timeSpan);
+    	rightDiv1.appendChild(nameSpan);
+
+    	/* li 자식요소가 될div2 생성 */
+    	let rightDiv2 = document.createElement("div");
+    	rightDiv2.className = "message other-message float-right";
+    	rightDiv2.innerText = counselContent;
+    	
+    	/* li요소에 div자식으로 추가 */
+    	rightLi.appendChild(rightDiv1);
+    	rightLi.appendChild(rightDiv2);
+    	
+    	
+    	document.getElementById("chat-all").appendChild(rightLi);
+    	
+    	
+    }
     
+    const leftMessage = (counselContent, createdAt,userName,messagesAll) => {
+    	
+    	/* li생성 */
+    	let leftLi = document.createElement("li");
+  	
+    	/* li 자식요소가 될div1 생성 */
+    	let leftDiv1 = document.createElement("div");
+    	leftDiv1.className = "message-data";
+    	
+    	/*div1의 자식요소가 될 span1 생성  */
+    	let timeSpan = document.createElement("span");
+    	timeSpan.className = "message-data-time";
+    	timeSpan.innerText = createdAt;
+    	
+    	/*div1의 자식요소가 될 span2 생성  */
+    	let nameSpan = document.createElement("span");
+    	nameSpan.className = "message-data-name	";
+    	nameSpan.innerText = userName;
+	
+    	/*div1에 자식요소 span 추가  */
+    	leftDiv1.appendChild(nameSpan);
+    	leftDiv1.appendChild(timeSpan);
+
+    	/* li 자식요소가 될div2 생성 */
+    	let leftDiv2 = document.createElement("div");
+    	leftDiv2.className = "message my-message";
+    	leftDiv2.innerText = counselContent;
+    	
+    	/* li요소에 div자식으로 추가 */
+    	leftLi.appendChild(leftDiv1);
+    	leftLi.appendChild(leftDiv2);
+    	
+    	document.getElementById("chat-all").appendChild(leftLi);
+    	
+    	
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 </script>
 </html>

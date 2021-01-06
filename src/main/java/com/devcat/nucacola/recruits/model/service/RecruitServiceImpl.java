@@ -1,7 +1,13 @@
 package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
-
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -155,9 +161,9 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	@Override
-	public ArrayList<Counsel> selectCounselList(int counselNo) {
+	public ArrayList<Counsel> selectCounselList(int applyNo) {
 		
-		return rDao.selectCounselList(sqlSession,counselNo);
+		return rDao.selectCounselList(sqlSession,applyNo);
 	}
 
 	@Override

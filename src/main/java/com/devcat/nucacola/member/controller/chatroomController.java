@@ -7,23 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.devcat.nucacola.member.model.service.MemberService;
 
 @Controller
-public class chatroomController {
-
+public class ChatRoomController {
+	
 	@Autowired
 	private MemberService mService;
 	
-	@RequestMapping("chatRoom.me")
-	public String profileUser() {
-			
-		return "chatRooms/chatRoomView";
+	
+	@RequestMapping("chat.ch")
+	public String chatRoomView() {
+		return "chatRooms/chatRoom";
 	}
 	
-	@RequestMapping("websocket.me")
-	public String websocket() {
-			
-		return "common/websocket";
-	}
-	
-	
-	
+
 }

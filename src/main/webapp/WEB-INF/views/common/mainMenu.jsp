@@ -56,7 +56,7 @@
           <p>어서오세요 <b>${ loginUser.userName }</b>님</p>
           <ul>
             <li>알림</li>
-            <li onClick='location.href="chatRoom.me"'>메시지</li>
+            <li onClick='location.href="chat.ch"'>메시지</li>
             <li onClick='location.href="profile.me?userNo=${loginUser.userNo}"'>PROFILE</li>
             <li onClick='location.href="logout.me"'>LOGOUT</li>
           </ul>

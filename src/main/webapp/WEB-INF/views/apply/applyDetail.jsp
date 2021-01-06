@@ -103,6 +103,7 @@
                         </c:if>
                     </c:if>
                 </div>
+                
 
                 <div class="content__wrap">
                     <strong>취업을 위한 한마디</strong>
@@ -297,9 +298,9 @@
     				}
     			}
     			
+    			document.querySelector('.chat-history').scrollTop=document.querySelector('.chat-history').scrollHeight;
     			
-    			
-    			//document.querySelector('.chat-history').scrollTop = document.querySelector('.chat-history').scrollHeight;
+    			//document.querySelector('.chat-history').scrollTo(document.querySelector('.chat-history').scrollHeight,document.querySelector('.chat-history').scrollHeight);
     			
     		})
     		.catch(function(error){

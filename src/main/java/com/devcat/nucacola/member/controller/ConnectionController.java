@@ -40,7 +40,8 @@ public class ConnectionController {
 		int userNo = m.getUserNo();
 		//연결된사람(개발자, 디자이너, 기획자)명수
 		ArrayList<Member> connecting =mService.partnerConnecting(userNo);
-		System.out.println(connecting.get(0).getUserPosi());
+		System.out.println(connecting.size());
+//		System.out.println(connecting.get(0).getUserPosi());
 		int developer=0;
 		int designer=0;
 		int planner=0;

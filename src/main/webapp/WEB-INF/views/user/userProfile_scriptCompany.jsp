@@ -33,18 +33,19 @@
         <div class="inner">
           <div class="visual__left">
             <div class="avatar">
-                <img src= "../../assets/profile.png" alt="logo">
+                <img  src=" ${pUser.userAvatar eq null ? 'resources/assets/profile.png' : pUser.userAvatar  }" alt="logo">
             </div>
             <div>
               <div class="main__info">
-                <strong>방글이</strong>
-                <span>Apple.Inc</span>
-                <span>Front-end Amazone AWS, github에 관심</span>
+                <input type="hidden" name="email" value="${pUser.email }" id="main-info-email" />
+	            <input type="hidden" name="uno" value="${pUser.userNo }" id="main-info-userno" />
+	            <strong>${ pUser.userName }</strong> <span>${ pUser.userComp }</span>
+	            <span>Front-end Amazone AWS, github에 관심</span>
               </div>
               <ul class="people__info">
-                <li>팔로잉 <strong>102</strong></li>
-                <li>팔로워 <strong>502</strong></li>
-                <li>연결 <strong>102</strong></li>
+               <li>팔로잉 <strong>${ countFollowers ne null ? countFollowers : 0 }</strong></li>
+               <li>팔로워 <strong>${ countFollowings ne null ? countFollowings : 0 }</strong></li>
+               <li>연결 <strong>${ countConnections ne null ? countConnections : 0 }</strong></li>
               </ul>
             </div>
           </div>
@@ -56,8 +57,8 @@
           <div class="inner">
               <div class="section__title">
                   <ul>
-                      <li>PROFILE</li>
-                      <li>POST</li>
+                      <li onclick=' location.href="profile.me?userNo=${pUser.userNo}" '>PROFILE</li>
+                      <li onclick=' location.href="profile.me?userNo=${pUser.userNo}" '>POST</li>
                       <li class="nav-active">LIKE</li>
                   </ul>
               </div>
@@ -67,12 +68,12 @@
                     <div class="content__wrapper">
                       <ul class="left__info">
                         <li>TOP</li>
-                        <li>팔로잉</li>
-                        <li>팔로워</li>
-                        <li onClick='location.href="list.bk?userNo=${loginUser.userNo}"'>북마크</li>
-                        <li onClick='location.href="list.sub?userNo=${loginUser.userNo}"'>구독기업</li>
-                        <li>좋아요게시물</li>
-                        <li>연결</li>
+		                <li><a href="initFollowing.us?userNo=${pUser.userNo}">팔로잉</a></li>
+		                <li><a href="initFollower.us?userNo=${ pUser.userNo }">팔로워</a></li>
+		                <li onClick='location.href="list.bk?userNo=${ pUser.userNo}"'>북마크</li>
+		                <li onClick='location.href="list.sub?userNo=${ pUser.userNo}"'>구독기업</li>
+		                <li>좋아요게시글</li>
+		                <li><a href="initConnect.us?userNo=${ pUser.userNo }">연결</a></li>
                       </ul>
                     </div>
                 </div>

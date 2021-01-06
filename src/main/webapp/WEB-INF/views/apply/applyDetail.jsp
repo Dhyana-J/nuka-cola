@@ -113,22 +113,6 @@
 
                 <div class="content__wrap">
                     <strong>경력</strong>
-                    <c:forEach var="ci" items="${c}">
-                        <div class="content__carrer-one">
-                            <div class="carrer-one__img">
-                                <img src="${ci.compLogo}" alt="Logo" />
-                            </div>
-                            <div class="carrer-one__companyName">
-                                <span>${ci.compName}</span>
-                            </div>
-                            <div class="carrer-one__detail">
-                                <span>${ci.careerPosi}</span>
-                            </div>
-                            <div class="carrer-one__date">
-                                <span>${ci.enteredAt}</span>
-                            </div>
-                        </div>
-                    </c:forEach>
                 </div>
 
                 <div class="content__wrap">
@@ -234,9 +218,10 @@
 	
 	// 서버로부터 메시지를 받았을 때
 	let onMessage = (msg)=>{
-	    //let data = msg.data
-	    //document.querySelector('#messageArea').innerHTML+=data+"<br/>";
-	    console.log("메세지 받음");
+	    let data = msg.data;
+	    //document.querySelector('#chat-history').innerHTML+=data+"<br/>";
+	    console.log(msg);
+	    console.log(msg.data);
 	}
 	
 	// 서버와 연결을 끊었을 때
@@ -271,6 +256,9 @@
 			   document.querySelector("#message-to-send").value = "";
 			   
 			   selectMessageList();
+			   
+			   sock.send(selectMessageList());
+			   
 		   })
 		   .catch(function(error) {
 			   console.log(error)

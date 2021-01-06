@@ -20,6 +20,8 @@
 
 	let sock = new SockJS("http://localhost:8888/nukacola/echo/");
 	
+	//sendMessage()->sock.onmessage=onMessage->
+	
 	// 메시지 전송
 	let sendMessage = ()=>{
 		sock.send(document.querySelector('#message').value);
@@ -27,6 +29,7 @@
 	
 	// 서버로부터 메시지를 받았을 때
 	let onMessage = (msg)=>{
+		console.log(msg);
 	    let data = msg.data
 	    document.querySelector('#messageArea').innerHTML+=data+"<br/>";
 	}
@@ -36,12 +39,13 @@
 	    document.querySelector('#messageArea').append('연결 끊김');
 	}
 	
+	//sock.onmessage : 본인 또는 상대가 보낸 메세지가 있으면 반환해주는 변수인듯
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	
 	document.querySelector('#sendBtn').addEventListener('click',()=>{
 		sendMessage();
-		document.querySelector('#message').value;
+		document.querySelector('#message').value='';
 	})
 
 	/* $("#sendBtn").click(function() {

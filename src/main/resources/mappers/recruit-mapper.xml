@@ -379,7 +379,7 @@
     <select id="selectCounselNo" parameterType="Counsel" resultType="_int">
     	
     	select
-    	       counsel_no
+    	       distinct counsel_no
     	 
     	 from COUNSELS
     	 

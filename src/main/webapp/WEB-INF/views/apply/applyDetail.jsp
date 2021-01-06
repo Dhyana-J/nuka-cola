@@ -175,7 +175,6 @@
 	let stateNo = 0;
 	
 	
-	
     const onChangeProgress = (number)=>{
         console.log(number)
         location.href = 'changeprog.ap?rno=${a.applyNo}&number='+number
@@ -220,8 +219,10 @@
 	let onMessage = (msg)=>{
 	    let data = msg.data;
 	    //document.querySelector('#chat-history').innerHTML+=data+"<br/>";
+	    console.log('받은 메세지 : ');
 	    console.log(msg);
 	    console.log(msg.data);
+	    selectMessageList();
 	}
 	
 	// 서버와 연결을 끊었을 때
@@ -253,11 +254,11 @@
 		   .then(function(response){
 			   console.log(response);
 			   
-			   document.querySelector("#message-to-send").value = "";
 			   
 			   selectMessageList();
 			   
-			   sock.send(selectMessageList());
+			   sock.send(sendingMessage);
+			   document.querySelector("#message-to-send").value="";
 			   
 		   })
 		   .catch(function(error) {
@@ -298,7 +299,7 @@
     			
     			
     			
-    			
+    			//document.querySelector('.chat-history').scrollTop = document.querySelector('.chat-history').scrollHeight;
     			
     		})
     		.catch(function(error){
@@ -306,7 +307,9 @@
     		})
     }
     
+    
     selectMessageList();
+   
     
     
     

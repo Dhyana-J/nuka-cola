@@ -373,9 +373,9 @@ public class RecruitController {
 		if(result>0) {
 			
 			// counselNo 알아오기
-			int counselNo = rService.selectCounselNo(cs);
-			
-			System.out.println("counselNo : " + counselNo);
+//			int counselNo = rService.selectCounselNo(cs);
+//			
+//			System.out.println("counselNo : " + counselNo);
 			
 			return "success";
 		}else {

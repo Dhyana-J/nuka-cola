@@ -245,12 +245,12 @@
                	<input type="hidden" name="userNo" value="${ pUser.userNo }">
                  
                  <span>프로젝트명 :</span>
-                 <input type="text" name="projectName" placeholder="예) 야후코리아 폐쇄">
+                 <input type="text" name="projectName" placeholder="10자 이내로 입력해주세요">
                  <br>
                  <br>
                 
                  <span>주요업무 : </span> 
-                 <input type="text" name="projectPosition" placeholder=" 주요업무를 입력해주세요 예) Front-end"> 
+                 <input type="text" name="projectPosition" placeholder="EX) Front-End/ Back-End"> 
                  <br>
                  <br>
                
@@ -292,14 +292,13 @@
          <div class="content__wrapper">
 	         <div class="section__content__title">
 	            <strong>경력</strong>
-	            <div onclick="careerToggle()" class="edit__field" >
-	               <i id="career-btn" class="material-icons">create</i>
-	             </div>
+
 	           </div>
 	           <span class="just__text" id="career-name">
 	           <c:forEach var="c" items="${ careerList }">
 	              <div class="user__career__div">
 	               <ul class="user__career__section">
+	               <br>
 	                 <li>${ c.compName } </li>
 	                 <li>${ c.careerPosi }</li>
 	                 <li>${ c.enteredAt } ~ ${ c.updatedAt}</li>
@@ -1089,7 +1088,7 @@
 		                applyCount.querySelector('span').innerText = applyCountNum;
 		                item.remove(); 
 		               */
-		            });
+		            });wd
 		         });
 		
 		

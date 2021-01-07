@@ -12,13 +12,13 @@ import lombok.ToString;
 @ToString
 public class Apply {
 	
-	private int applyNo;
-	private String applyComment;
-	private int applyProg;
-	private String createdAt;
-	private String updatedAt;
-	private int userNo;
-	private int recruitNo;
+	private int applyNo;		// 지원공고식별자
+	private String applyComment;// 지원자한마디
+	private int applyProg;		// 채용단계
+	private String createdAt;	// 지원일
+	private String updatedAt;	// 수정일
+	private int userNo;			// 지원한 유저 식별자
+	private int recruitNo;		// 지원한 채용의 식별자 (채용공고식별자)
 
 	//추가 - 채용공고쪽
 	private String recruitTitle;

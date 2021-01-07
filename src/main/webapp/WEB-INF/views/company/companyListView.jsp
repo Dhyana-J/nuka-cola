@@ -160,8 +160,11 @@
       const logoBox = document.createElement("div");
       logoBox.className = "logo";
       const logoImg = document.createElement("img");
-      logoImg.src = v.compLogo;
-      
+      if(v.compLogo == null) {
+    	  logoImg.src = "resources/assets/avatar.png";
+      }else{
+    	  logoImg.src = v.compLogo;
+      }
       const info = document.createElement("div");
       info.className = "comp-info";
       const strong = document.createElement("strong");
@@ -268,12 +271,6 @@
     	
     	createCountTag(htagName);
     	
-    	let headcount = document.querySelectorAll(".tag-field");
-    	let headcountList = "";
-    	headcount.forEach(s => {
-    		headcountList += s.innerText + " ";
-    	})
-    	
 	})
     //지역 선택 시 option 값 담아주기
     	document.querySelector("#local-list").addEventListener("change", function (e) {
@@ -283,13 +280,7 @@
     	let ltagName = localSelect.options[localSelect.selectedIndex].text;
     	
     	createLocalTag(ltagName);
-    	
-    	let headcount = document.querySelectorAll(".tag-field");
-    	let headcountList = "";
-    	headcount.forEach(s => {
-    		headcountList += s.innerText + " ";
-    	})
-    	
+    
     })
     // 산업분야 선택 시 option 값 담아주기
     	
@@ -300,19 +291,15 @@
     	let itagName = indusSelect.options[indusSelect.selectedIndex].text;
     	
     	createIndusTag(itagName);
-    	
-    	let headcount = document.querySelectorAll(".tag-field");
-    	let headcountList = "";
-    	headcount.forEach(s => {
-    		headcountList += s.innerText + " ";
-    	})
+    
     })
      
+   	// 자바스크립트object를 string으로 변환
     const saveTag = () => {
-			localStorage.setItem(TAG_LS, JSON.stringify(hTagList)); // 자바스크립트object를 string으로 변환
-			localStorage.setItem(TAG_LS, JSON.stringify(lTagList)); // 자바스크립트object를 string으로 변환
-			localStorage.setItem(TAG_LS, JSON.stringify(iTagList)); // 자바스크립트object를 string으로 변환
-		}
+			localStorage.setItem(TAG_LS, JSON.stringify(hTagList)); 
+			localStorage.setItem(TAG_LS, JSON.stringify(lTagList)); 
+			localStorage.setItem(TAG_LS, JSON.stringify(iTagList)); 
+	}
     
     // 태그 생성용 함수 (headcountList)
     const createCountTag = (htagName) => {

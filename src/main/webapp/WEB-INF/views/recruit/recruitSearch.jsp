@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -175,8 +176,16 @@
 				                                        	</c:choose>
 		                                                </div>
 		                                                <div class="summary__icon">
-		                                                    <!-- <span class="material-icons">turned_in_not</span> -->
-		                                                    <!-- <span class="material-icons">turned_in</span> 안채워진 북마크-->
+		                                                	<c:if test="${loginUser ne null}">
+		                                                		<c:choose>
+		                                                			<c:when test="${fn:contains(bookMarkNoList,recruit.recruitNo) }">
+					                                                    <span class="material-icons" onclick="deleteBookMark(event,${loginUser.userNo},${ recruit.recruitNo})">turned_in</span>
+		                                                			</c:when>
+		                                                			<c:otherwise>
+					                                                    <span class="material-icons" onclick="addBookMark(event,${loginUser.userNo},${ recruit.recruitNo})">turned_in_not</span>
+		                                                			</c:otherwise>
+		                                                		</c:choose>
+		                                                	</c:if>
 		                                                </div>
 		                                            </div>
 		                                            <div class="recruit-period">
@@ -207,11 +216,21 @@
                 </div>
             </div>
         </main>
-
+		
         <jsp:include page="../common/footer.jsp"/>
 	
 	
-
+	<script defer>
+		//로그인한 유저 있는 경우 북마크한 채용목록 세팅함
+		let userNo=-1;
+		let bookMarkNoList=[];
+		
+		<c:if test="${loginUser ne null}">
+			userNo = ${loginUser.userNo};
+			bookMarkNoList = ${bookMarkNoList};
+		</c:if>
+		
+	</script>
     </body>
 </html>
 

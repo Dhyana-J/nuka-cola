@@ -3,7 +3,6 @@ package com.devcat.nucacola.recruits.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +21,7 @@ import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.company.model.service.CompanyService;
 import com.devcat.nucacola.company.model.vo.Industries;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
 import com.devcat.nucacola.recruits.model.vo.Apply;
@@ -279,16 +279,23 @@ public class RecruitController {
 	@RequestMapping("list.re")
 	public String recruitSearch(@RequestParam(value="currentPage",defaultValue="1") int currentPage, Model model,HttpSession session) {
 		
-		//채용검색 시 로그인된 유저가 채용관리자거나 회사대표인 경우 채용등록버튼 표시해줘야한다.
+		//채용검색 진입시 로그인된 유저가 채용관리자거나 회사대표인 경우 채용등록버튼 표시해줘야한다.
 		//그걸 위해 변수 세팅해주자.
 		Member m = (Member)session.getAttribute("loginUser");
 		if(m!=null) {
+			
 			int isManager = rService.isManager(m.getUserNo());
 			if(isManager>0) {
 				model.addAttribute("isManager",isManager);
-				System.out.println(isManager);
 			}
+			
+			//로그인 상태로 채용검색 페이지 진입시 유저가 북마크한 채용공고 번호 리스트 추출
+			ArrayList<String> bookMarkNoList = rService.selectBookMarkNoList(m.getUserNo());
+			model.addAttribute("bookMarkNoList",bookMarkNoList);
+			
 		}
+		
+		
 		
 		
 		//***셀렉트박스 option 세팅***
@@ -594,5 +601,29 @@ public class RecruitController {
 		return new Gson().toJson(csAllList);
 	}
 	
+	
+	/*---------채용공고 북마크 추가------------*/
+	@ResponseBody
+	@RequestMapping(value="addBookMark.re",produces="application/json; charset=utf-8")
+	public int addBookMark(int userNo, int recruitNo) {
+		
+		System.out.println("북마크 추가 실행");
+		Bookmark b = new Bookmark(userNo,recruitNo);
+		
+		int result = rService.addBookMark(b);
+		System.out.println(result);
+		return result;
+	}
+	@ResponseBody
+	@RequestMapping(value="deleteBookMark.re",produces="application/json; charset=utf-8")
+	public int deleteBookMark(int userNo, int recruitNo) {
+		
+		System.out.println("북마크 삭제 실행");
+		Bookmark b = new Bookmark(userNo,recruitNo);
+		
+		int result = rService.deleteBookMark(b);
+		System.out.println(result);
+		return result;
+	}
 	
 }

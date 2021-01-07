@@ -101,7 +101,7 @@
 			 , user_comp
 			 , comp_name
 	      from users u
-	      join companys c on(u.user_no = c.user_no)	     
+	      left join companys c on(u.user_no = c.user_no)	     
           where user_status != 1
           and user_email=#{email}
 	</select>

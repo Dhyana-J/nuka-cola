@@ -44,19 +44,20 @@
           </div>
 
           <div class="connection__right">
+          <input type="hidden" class="loginUser" value="${loginUser.userNo}">
             <div class="connection__title">
               <strong>Connecting people</strong>
             </div>
             <div class="connection__content">
             <input type="hidden" name="Connecting" value="${connecting}">
               <ul class="connection__info">
-                <li name="userPosi">기획자 
+                <li class="userPs" name="userPosi" value="0">기획자 
                 <div class="circle"><span>${connect.get("planner")}</span></div>
                 </li>
-                <li name="userPosi">디자이너
+                <li class="userPs" name="userPosi" value="2">디자이너
                 <div class="circle"><span>${connect.get("designer")}</span></div>
                 </li>
-                <li name="userPosi">개발자
+                <li class="userPs" name="userPosi" value="1">개발자
                 <div class="circle"><span>${connect.get("developer")}</span></div>
                 </li>
               </ul>
@@ -114,7 +115,7 @@
                 <div class="subtitle">
                   <h2>나와 연결된 사람들</h2>
                 </div>
-                <h3>검색결과 (0)</h3>
+                <h3 class="resultCount1">검색결과 (0)</h3>
                   <!-- 연결된 사람이 없는 경우 if문-->
                   <div class="result_none">
                     <ul class="result_none_text">
@@ -123,24 +124,12 @@
                     </ul>
                   </div>
                   <!-- if문 -->
-                <!-- 나와 연결된 사람 결과 for문
+                <!-- 나와 연결된 사람 결과 for문-->
                 <div class="search_result">
 
-                  <div class="result__left">
-                    <div class="avatar">
-                      <img src="../../assets/avatar.png" alt="" />
-                    </div>
-                    <ul class="avatar__info">
-                      <li><strong>홍길동</strong></li>
-                      <li>서울대학교</li>
-                      <li>기획자</li>
-                    </ul>
-                  </div>
-                  <div class="result__right">
-                    <button class="btn">취소</button>
-                  </div>
+	                
                 </div>  
-                 -->
+                 
                 <!-- for문 
                 <div class="more">
                   <button class="btn">more</button>
@@ -153,7 +142,7 @@
                 <div class="subtitle">
                   <h2>그 외</h2>
                 </div>
-                <h3>검색결과 (30)</h3>
+                <h3 class="resultCount2">검색결과 (0)</h3>
                 <!-- 검색결과 없는경우  if문-->
                 <div class="result_none">
                   <ul class="result_none_text">
@@ -162,41 +151,12 @@
                   </ul>
                 </div> 
                 <!--if문  -->
-                <!-- 검색결과 for문 
-                <div class="search_result" style="display:none">
-                  <div class="result__left">
-                    <div class="avatar">
-                      <img src="../../assets/avatar.png" alt="" />
-                    </div>
-                    <ul class="avatar__info">
-                      <li><strong>홍길동</strong></li>
-                      <li>MicroSoft, ceo</li>
-                      <li>기획자</li>
-                    </ul>
-                  </div>
-                  
-                  <div class="result__right">
-                    <button class="btn">팔로우</button>
-                  </div>
-                </div>  
-                -->
-                <!-- for문 
+                <!-- 검색결과 for문--> 
+                <div class="search_result2">
 
-                <div class="search_result">
-                  <div class="result__left">
-                    <div class="avatar">
-                      <img src="../../assets/avatar.png" alt="" />
-                    </div>
-                    <ul class="avatar__info">
-                      <li><strong>홍길동</strong></li>
-                      <li>MicroSoft, ceo</li>
-                      <li>기획자</li>
-                    </ul>
-                  </div>
-                  <div class="result__right">
-                    <button class="btn">팔로우</button>
-                  </div>
-                </div> 
+                </div>  
+                
+                <!-- for문 
                 
                 <div class="more">
                   <button class="btn">more</button>
@@ -221,7 +181,7 @@
                     <c:forEach var="p" items="${popular}">
                     <input type="hidden" name="userNo" vlaue="${p.userNo}">
                     <div class="search_result">
-                      <div class="result__left">
+                      <div class="result__left" onclick=' location.href="profile.me?userNo=${p.userNo}"'>
                         <div class="avatar">
                           <c:choose>
                           <c:when test="${empty p.userAvatar}">
@@ -246,22 +206,49 @@
                           </c:choose>
 
 
-                          <c:if test="${p.userPosi ==0}">
+                          <c:if test="${p.userPosi eq '0'}">
                           <li>기획자</li>
                           </c:if>
-                          <c:if test="${p.userPosi ==1}">
+                          <c:if test="${p.userPosi eq '1'}">
                           <li>개발자</li>
                           </c:if>
-                          <c:if test="${p.userPosi ==2}">
+                          <c:if test="${p.userPosi eq '2'}">
                           <li>디자이너</li>
                           </c:if>
                         </ul>
                       </div>
                       <div class="result__right">
-                        <button class="btn">팔로우</button>
+                        <!-- ${fn:length(follower)-1} 
+                        
+                        <c:forEach var="f" items="${follower}">
+                         <c:choose>
+                            <c:when test="${p.userNo eq f.userNo}">
+                              <button class="btn">취소</button>
+                           </c:when>
+                           <c:otherwise>
+                              <button class="btn">팔로우</button>
+                           </c:otherwise>
+                         </c:choose>
+                      </c:forEach>  
+                        
+                        -->        
+                       <c:choose>
+                            <c:when test="${fn:contains(follower,p.userNo)}">
+                              <button class="btn" onclick ="cancelFollowing(${loginUser.userNo},${p.userNo},event.target)">취소</button>
+                           </c:when>
+                           <c:otherwise>
+                              <button class="btn btn-blue" onclick ="addFollowing(${loginUser.userNo},${p.userNo},event.target)">팔로우</button>
+                           </c:otherwise>
+                      </c:choose>                       
+
+
+
+                      
+                     
                       </div>
                     </div>  
                     </c:forEach>
+                    
                     <!-- for문 -->
                   </div>
                 </div>
@@ -294,8 +281,9 @@
         	.then((res)=>{
         		console.log(res);
         		if(res.data.result>0){ //팔로잉 추가 성공
-        			e.target.innerText="팔로우 취소";
-        			e.target.setAttribute('onclick','cancelFollowing('+res.data.followerNo+','+res.data.followingNo+',event)');
+        			e.innerText="취소";
+        			e.className='btn'
+        			e.setAttribute('onclick','cancelFollowing('+res.data.followerNo+','+res.data.followingNo+',event.target)');
         		}else{ //팔로잉 추가 실패
         			alert('요청에 실패했습니다.');
         		}
@@ -315,8 +303,9 @@
         	})
         	.then((res)=>{
         		if(res.data.result>0){ //팔로잉 삭제 성공
-        			e.target.innerText="팔로우";
-        			e.target.setAttribute('onclick','addFollowing('+res.data.followerNo+','+res.data.followingNo+',event)');
+        			e.innerText="팔로우";
+        			e.className='btn btn-blue'
+        			e.setAttribute('onclick','addFollowing('+res.data.followerNo+','+res.data.followingNo+',event.target)');
         		}else{ //팔로잉 삭제 실패
         			alert('요청에 실패했습니다.');
         		}

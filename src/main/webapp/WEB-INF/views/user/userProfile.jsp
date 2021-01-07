@@ -64,7 +64,7 @@
         </div>
         <button id="popup_open_btn"
         		class="btn visual__right"
-        		onclick='location.href="list.ap?userNo=${loginUser.userNo}"'>지원이력</button>
+        		onclick='location.href="list.ap?userNo=${pUsers.userNo}"'>지원이력</button>
       </div>
     </section>
 
@@ -72,12 +72,9 @@
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li class="nav-active">PROFILE</li>
-            <li>POST</li>
-            <!-- 
-            <li onClick='location.href="list.bk?uno=${loginUser.userNo}"'>LIKE</a></li>
-             -->
-            <li onClick='location.href="initFollowing.us?userNo=${loginUser.userNo}"'>LIKE</a></li>
+			<li onclick='location.href="profile.me?userNo=${pUser.userNo}" '>PROFILE</li>
+            <li onclick='location.href="profilePost.us?userNo=${pUser.userNo}" '>POST</li>
+            <li onClick='location.href="initFollowing.us?userNo=${pUser.userNo}"'>LIKE</li>
           </ul>
         </div>
 

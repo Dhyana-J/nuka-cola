@@ -169,6 +169,9 @@ public interface MemberService {
 	//파트너인기프로필 사람조회
 	List<Integer> partnerPopularProfile();
 	
+	//파트너팔로워
+	ArrayList<Member>partnerFollowers(int userNo);
+	
 	//파트너인기프로필 정보조회
 	ArrayList<Member> partnerPopularInfo(List<Integer> popularNo);
 	

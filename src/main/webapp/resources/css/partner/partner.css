@@ -222,9 +222,11 @@ section .connection__right{
     background:#30409f;
 } */
 
-.connecting_people, .popular_people{
-    /* border:solid #000; */
+.connecting_people{
+display:flex;
+flex-direction:column;
 }
+.popular_people{}
 .connecting_people .subtitle{
     height: 40px;
     margin:20px 0px;
@@ -236,8 +238,8 @@ h2{
     margin:0px 20px;
     color:#fff;
 }
-h3{
-    margin:0px 0px 20px 20px;
+.resultCount1, .resultCount2{
+    margin-bottom:20px;
     font-size: 14px;
     color:#707070
 }
@@ -247,6 +249,7 @@ h3{
     display: flex;
     justify-content: center;
     background:#C7C7C7;
+    opacity: 0.5;
 }
 .result_none .result_none_text{
     display:flex;
@@ -261,16 +264,63 @@ h3{
     font-size: 50px;
 }
 
-.connecting_people .search_result, .popular_people .search_result{
-    margin-bottom:5px;
+.connecting_people .search_result{
+display:none;
+
+
+}
+.connecting_people .search_result2{
+display:none;
+
+
+}
+.search_result .search_resultBox{
+	margin-bottom:5px;
     padding:10px;
     border-top:#C7C7C7 1px solid; 
     border-bottom: #C7C7C7 1px solid; 
+    justify-content: space-between;
+    display:flex;
+}
+.search_result2 .search_resultBox{
+	margin-bottom:5px;
+    padding:10px;
+    border-top:#C7C7C7 1px solid; 
+    border-bottom: #C7C7C7 1px solid; 
+    justify-content: space-between;
+    display:flex;
+}
+.search_resultBox .result__left{
+    margin-left: 20px;
+    display: flex;  
+    align-items: center;
+    gap:40px;
+    /* border: #000 solid; */
+}
+.search_resultBox .result__right{
+    margin-right: 30px;
     display: flex;
+    align-items: center;
+}
+.popular_people .search_result{
+    margin-bottom:5px;
+    padding:10px;
+    display:flex;
+    border-top:#C7C7C7 1px solid; 
+    border-bottom: #C7C7C7 1px solid; 
     justify-content: space-between;
 
 }
 .search_result .result__left{
+	flex:8;
+    margin-left: 20px;
+    display: flex;  
+    align-items: center;
+    gap:40px;
+    /* border: #000 solid; */
+}
+.search_result2 .result__left{
+	flex:8;
     margin-left: 20px;
     display: flex;  
     align-items: center;
@@ -301,6 +351,11 @@ h3{
     color:#000;
 }
 .search_result .result__right{
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+}
+.search_result2 .result__right{
     margin-right: 30px;
     display: flex;
     align-items: center;

@@ -560,6 +560,11 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Member> partnerETCResult(PartnerSearch p, PageInfo pi2) {
 		return mDao.partnerETCResult(sqlSession, p, pi2);
 	}
+
+	@Override
+	public ArrayList<Member> partnerFollowers(int userNo) {
+		return mDao.partnerFollowers(sqlSession, userNo);
+	}
 	
 	
 	

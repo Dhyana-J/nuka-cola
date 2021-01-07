@@ -23,6 +23,7 @@
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Project" alias="Project"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.Career" alias="Career"/>
 		<typeAlias type="com.devcat.nucacola.member.model.vo.PartnerSearch" alias="PartnerSearch"/>
+		<typeAlias type="com.devcat.nucacola.member.model.vo.CheckEmpty" alias="CheckEmpty"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Recruit" alias="Recruit"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.Apply" alias="Apply"/>
 		<typeAlias type="com.devcat.nucacola.recruits.model.vo.RecruitDetail" alias="RecruitDetail"/>

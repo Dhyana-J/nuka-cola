@@ -346,9 +346,10 @@ public class MemberDao {
 	
 	// 파트너 검색 - 연결된사람중 검색한 결과 총 명수
 	public int partnerSearchCount1(SqlSessionTemplate sqlSession, PartnerSearch p) {
-		 return  sqlSession.selectOne("memberMapper.partnerSearchCount1",p);
+			
+		return  sqlSession.selectOne("memberMapper.partnerSearchCount1",p);
 	}
-	// 파트너 검색 - 연결된사람중 검색한 결과 총 명수
+	// 파트너 검색 - 연결된사람중 검색한 결과 정보
 	public ArrayList<Member> partnerConnResult(SqlSessionTemplate sqlSession, PartnerSearch p, PageInfo pi1) {
 		int offset = (pi1.getCurrentPage()-1)*pi1.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi1.getBoardLimit()); 
@@ -358,10 +359,15 @@ public class MemberDao {
 	public int partnerSearchCount2(SqlSessionTemplate sqlSession, PartnerSearch p) {
 		 return  sqlSession.selectOne("memberMapper.partnerSearchCount2",p);
 	}
+	
+	//파트너 검색 - 그외 사람들중 검색한 결과 정보
 	public ArrayList<Member> partnerETCResult(SqlSessionTemplate sqlSession,PartnerSearch p, PageInfo pi2) {
 		int offset = (pi2.getCurrentPage()-1)*pi2.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi2.getBoardLimit()); 
 		return (ArrayList)sqlSession.selectList("memberMapper.partnerETCResult", p, rowBounds);
+	}
+	public ArrayList<Member> partnerFollowers(SqlSessionTemplate sqlSession,int userNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowings",userNo);
 	}
 
 

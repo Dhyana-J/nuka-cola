@@ -20,11 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
+import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.service.MemberService;
 import com.devcat.nucacola.member.model.vo.Bookmark;
+import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.CompSub;
 import com.devcat.nucacola.member.model.vo.Member;
+import com.devcat.nucacola.member.model.vo.Project;
 import com.google.gson.Gson;
 
 @Controller
@@ -46,31 +50,40 @@ public class SubscribeController {
 	@RequestMapping("/list.bk")
 	public String selectBookmark(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 								 Member m,Model model,HttpSession session) {
+			
 		int uno = m.getUserNo();
 		int blistCount = mService.countBookmark(uno);
 		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
-		System.out.println(pi);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
 		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
-			System.out.println(skills.get(i).getSkillName());
+//			System.out.println(skills.get(i).getSkillName());
 			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
 			
 			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
-//			for(int j=0;j<skillsName.length;j++) {// 자른기술명 list에 넣기
-//				skillList.add(skillsName);
-				System.out.println(i);
-				System.out.println(skillsName);
+
 				int key=skills.get(i).getRecruitNo();
 				skillMap.put(key,skillsName);
-				/*
-				for(int j=0;j<skillsName.size();j++) {
-				System.out.println(skillsName.get(j));
-				}*/ //리스트에 잇는 내용 하나씩 출력
-//			}
-			System.out.println(skillMap.get(1));
 		}
+		
+		
+		  // 유저 정보 전부 가져오기
+		Member pUser = mService.selectUserProfile(uno);
+		
+		model.addAttribute("pUser",pUser);
+		
+		//-----------------인맥정보 불러오기-------------
+		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
+		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
+		int countFollowers = mService.countFollowers(uno);
+		int countFollowings = mService.countFollowings(uno);
+		int countConnections = mService.countConnections(uno);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
 		model.addAttribute("blistCount", blistCount);
 		model.addAttribute("pi",pi);
 		model.addAttribute("skillMap",skillMap);
@@ -90,14 +103,11 @@ public class SubscribeController {
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
 		for(int i=0; i<skills.size();i++) { //조회한 업무기술문자열 뽑아서 , 기준으로 자르기
-			System.out.println(skills.get(i).getSkillName());
 			String skillStr = skills.get(i).getSkillName();// 기술명문자열 출력
 			
 			List<String> skillsName = Arrays.asList(skillStr.split(","));// 기술명 , 기준으로 자르기
 				int key=skills.get(i).getRecruitNo();
 				skillMap.put(key,skillsName);
-
-			System.out.println(skillMap.get(1));
 		}
 		
 		HashMap<String, Object> result=new HashMap<>();
@@ -118,8 +128,6 @@ public class SubscribeController {
 		
 		int result = mService.deleteBookmark(bm);
 
-//		return "redirect:list.bk?uno="+bm.getRecruitNo();
-//		return "redirect:";
 	}
 	// 기업 구독 추가	
 	@ResponseBody
@@ -152,7 +160,25 @@ public class SubscribeController {
 		model.addAttribute("csCount",cslistCount);
 		model.addAttribute("pi",pi);
 		model.addAttribute("cslist",cslist);
-		System.out.println(cslist);
+//		System.out.println(cslist);
+		
+		
+		  // 유저 정보 전부 가져오기
+		Member pUser = mService.selectUserProfile(uno);
+		
+		model.addAttribute("pUser",pUser);
+		
+		//-----------------인맥정보 불러오기-------------
+		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
+		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
+		int countFollowers = mService.countFollowers(uno);
+		int countFollowings = mService.countFollowings(uno);
+		int countConnections = mService.countConnections(uno);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
 		
 		return "/user/userProfile_scriptCompany";
 		
@@ -184,11 +210,9 @@ public class SubscribeController {
 	public void deleteSubComp(CompSub cs, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
 		cs.setUserNo(m.getUserNo());
-		System.out.println(cs);
+//		System.out.println(cs);
 		int result = mService.deleteSubComp(cs);
-		
-		
-//		return "/main";
+
 	}
 
 	//팔로잉 조회

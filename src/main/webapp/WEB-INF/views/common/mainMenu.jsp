@@ -47,7 +47,7 @@
           </form>
           <ul class="menu__nav">
             <li><a href="/views/timeline/timeline.jsp">TIME LINE</a></li>
-            <li><a href="#">PARTNERS</a></li>
+            <li><a href="list.pa">PARTNERS</a></li>
             <li><a href="list.co">COMPANIES</a></li>
             <li><a href="#">EMPLOYMENT</a></li>
           </ul>

@@ -1,7 +1,9 @@
 package com.devcat.nucacola.member.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +20,7 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
@@ -534,8 +537,57 @@ public class ProfileController {
 		
 		
 	}
+	// 프로필 내가 작성한 post
+	@RequestMapping("profilePost.us")
+	public String memberProfilePost(int userNo,Model model) {
+
+
+		Member pUser = mService.selectUserProfile(userNo);
+		
+		model.addAttribute("pUser",pUser);
+		
+		//-----------------인맥정보 불러오기-------------
+		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
+		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
+		int countFollowers = mService.countFollowers(userNo);
+		int countFollowings = mService.countFollowings(userNo);
+		int countConnections = mService.countConnections(userNo);
+		
+		model.addAttribute("countFollowers",countFollowers);
+		model.addAttribute("countFollowings",countFollowings);
+		model.addAttribute("countConnections",countConnections);
+		
+		return "/user/userProfilePost";
+		
+		
+	}
 	
 	
+	// 프로필 좋아요한 post
+		@RequestMapping("profileLikePost.us")
+		public String profileLikePost(int userNo,Model model) {
+
+
+			Member pUser = mService.selectUserProfile(userNo);
+			
+			model.addAttribute("pUser",pUser);
+			
+			//-----------------인맥정보 불러오기-------------
+			//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
+			//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
+			int countFollowers = mService.countFollowers(userNo);
+			int countFollowings = mService.countFollowings(userNo);
+			int countConnections = mService.countConnections(userNo);
+			
+			model.addAttribute("countFollowers",countFollowers);
+			model.addAttribute("countFollowings",countFollowings);
+			model.addAttribute("countConnections",countConnections);
+			
+			return "/user/profile_likePost";
+			
+			
+		}
+		
 	
 	
 }

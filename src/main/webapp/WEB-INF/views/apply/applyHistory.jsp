@@ -70,7 +70,7 @@
          
            <c:forEach var="a" items="${applyList}">
             <div class="apply-info">
-              <div class="apply-info__content">
+              <div class="apply-info__content" onclick="location.href='detail.re?rno=${a.recruitNo}'">
                 <div class="apply-info__recruit-info">
                   <span>${ a.recruitTitle }</span>
                 
@@ -129,8 +129,8 @@
                   <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo}">
                   <button type="button" class="apply-cancel__btn">지원 취소</button>
                 </form>
-                <button type="button" class="apply-detail__btn" onclick="location.href='./recruit-detail.html'">
-                  채용 정보 확인
+                <button type="button" class="apply-detail__btn" onclick="location.href='detail.re?rno=${a.recruitNo}'">
+                  		채용 정보 확인
                 </button>
               </div>
             </div><!--apply-info-->
@@ -188,6 +188,8 @@
               .then(function(){
               });
                
+               
+               
                let applyCount= document.querySelector('.apply-history__sub-title');
                 let applyCountNum = applyCount.querySelector('span').innerText;
                 applyCountNum=parseInt(applyCountNum);
@@ -199,6 +201,12 @@
 
             });
          });
+  
+  
+  
+  
+  
+  
   
   </script>
 	

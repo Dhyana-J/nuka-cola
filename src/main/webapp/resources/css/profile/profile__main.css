@@ -123,9 +123,6 @@
   border-left: 15px solid #575db4;
 }
 
-.content__wrapper .just__text {
-  line-height: 200%;
-}
 .main__section__right .content__wrapper__kinds {
   display: flex;
   width: 100%;
@@ -205,6 +202,7 @@
 }
 .content__wrapper .just__text {
   font-size: 14px;
+  line-height: 200%;
 }
 
 .section__content__text {
@@ -356,24 +354,20 @@ a#topBtn {
   transition: 0.3s;
 }
 
-.user__career__div{
-	displey:flex;
-	align-items:flex-start;
-}
+
 
 .just text > .user__career__section{
   display: flex;
   align-items: flex-start;
   margin-right: 10px;
-  gap: 5px;
+  gap: 15px;
 }
 .content__wrapper #career-name {
   display: flex;
   justify-content: space-around;
+  align-items: flex-start;
+  margin-top: 15px;
 }
-
-
-
 
 
 #position-input {

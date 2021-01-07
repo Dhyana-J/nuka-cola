@@ -678,8 +678,6 @@
 			 console.log(document.getElementById("totalAddr").value);
 		 }
 			
-		
-
   </script>
   
 </html>

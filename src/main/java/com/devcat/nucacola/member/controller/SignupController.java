@@ -49,9 +49,7 @@ public class SignupController {
 		
 		Member loginUser = mService.loginMember(m);
 		
-		System.out.println("암호화 전 비번 : " + m.getUserPwd());
-		
-		if(loginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())*/
+		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())
 				&& loginUser.getEmailAuth().equals("Y")) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/list.pos");

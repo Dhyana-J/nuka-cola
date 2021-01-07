@@ -48,7 +48,7 @@
                     <div class="content__profile" onClick='location.href="profile.me?userNo=${ u.userNo }"'>
                       <c:choose>
 						 <c:when test="${u.userAvatar eq null }">
-							<img class="circle" src="resources/assets/conn.png" alt="img">
+							<img class="circle" src="resources/assets/avatar.png" alt="img">
 						 </c:when>
 					 	 <c:otherwise>
 					 	 <img class="circle" src="${u.userAvatar}"/>
@@ -82,7 +82,7 @@
                 <c:forEach var="r" items="${ rlist }">
 	                <div class="section__result__detail">
 	                    <div class="logo">
-	                      <img src="../../assets/moomin.jpg" alt="logo" />
+	                      <img src="resources/assets/avatar.png" alt="logo" />
 	                    </div>
 	                    <div class="comp-info">
 	                      <strong>${r.compName}[${r.recruitTitle}]</strong>
@@ -107,7 +107,7 @@
 	                </div>
                 </c:forEach>
                   <div class="section__search-result-bottom">
-                    <a href="">채용 더 보기</a>
+                    <a href="list.re">채용 더 보기</a>
                   </div>
             </div>
             <div class="section__search-result">
@@ -120,7 +120,7 @@
 	                <div class="logo">
 	                  <c:choose>
 						 <c:when test="${c.compLogo eq null }">
-							<img class="circle" src="resources/assets/conn.png" alt="img">
+							<img class="circle" src="resources/assets/avatar.png" alt="img">
 						 </c:when>
 					 	 <c:otherwise>
 					 	 <img class="circle" src="${c.compLogo}"/>

@@ -52,7 +52,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             >
             <div class="input__box">
               <label for="">비밀번호</label>
-              <input type="text" name="userPwd" />
+              <input type="password" name="userPwd" />
             </div>
             <div class="login__btn__wrapper">
               <button type="button" id="find-pwd-btn" class="btn">
@@ -270,7 +270,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           }
         });
       
-      // 페이스북
+      // 페이스북 간편 로그인
       
       	 (function(d, s, id){
 		     var js, fjs = d.getElementsByTagName(s)[0];

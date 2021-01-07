@@ -68,7 +68,7 @@
           <!-- 게시글아이템 -->
           <div class="content__wrapper post__item-wrapper">
             <input type="hidden" class="user_no_input" value="${p.userNo}">
-            <div class="post__user-info">
+            <div class="post__user-info" onclick="location.href ='loadFollowingList.us?userNo=${p.userNo}&currentPage=0'">
               <div class="avatar-small">
                 <img src="../../assets/avatar.png" alt="" />
               </div>

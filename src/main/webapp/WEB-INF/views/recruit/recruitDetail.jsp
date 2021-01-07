@@ -107,10 +107,12 @@
                 <div class="recruit__btns__wrapper">
                     <div class="item1 recruit__content">
                         <c:choose>
-                            <c:when test="${info.managerNo eq loginUser.userNo}">
-                                <button type="button">채용정보 수정</button>
-                            </c:when>
+<%--                            <c:when test="${info.managerNo eq loginUser.userNo}">--%>
+<%--                                이부분이랑--%>
+<%--                                <button type="button">채용정보 수정</button>--%>
+<%--                            </c:when>--%>
                             <c:when test="${info.managerNo ne loginUser.userNo}">
+<%--                                이부분뭐임?--%>
                                 <button class="btn-blue" type="button">지원하기</button>
                             </c:when>
                         </c:choose>

@@ -18,4 +18,12 @@ public class Chatrooms {
 	private int userOne;
 	private int userTwo;
 	
+	
+	
+	//메세지를 주고받는 사람들을 간단히 볼수 있는 데이터 조회
+	private String userName;
+	private String userAvatar;
+	private String messageContent;
+	private String messageCreate;
+	
 }

@@ -89,6 +89,20 @@
         <result column="comp_name" property="compName"/>
         <result column="comp_logo" property="compLogo"/>
     </resultMap>
+    
+    <resultMap id="counselResultSet" type="Counsel">
+    	<result column="COUNSEL_NO" property="counselNo"/>
+        <result column="COUNSEL_CONTENT" property="counselContent"/>
+        <result column="COUNSEL_USER" property="counselUser"/>
+        <result column="APPLY_NO" property="applyNo"/>
+        <result column="COUNSEL_STATE" property="counselState"/>
+        <result column="CREATED_AT" property="createdAt"/>
+        <result column="USER_NAME" property="userName"></result>
+    </resultMap>
+    
+    
+    
+    
     <select id="selectRecruitDetail" parameterType="_int" resultMap="recruitDetailResultSet">
         SELECT RECRUIT_NO,
                RECRUIT_TITLE,
@@ -484,4 +498,69 @@
     	 where user_no=#{uno}
     	 	or comp_pm=#{uno}
     </select>
+    
+    <insert id="insertCounsel" parameterType="Counsel">
+    	
+    	insert into
+    	       counsels
+    	 		(
+    	 		  counsel_no
+    	 		, counsel_content
+    	 		, counsel_user
+    	 		, apply_no
+    	 		, counsel_state
+    	 		, created_at
+    	 		)
+    			values
+    			(
+    			   seq_counsel.nextval
+    			  ,#{counselContent}
+    			  ,#{counselUser}
+    			  ,#{applyNo}
+    			  ,#{counselState}
+    			  ,default
+    			
+    			)
+    
+    
+    </insert>
+    
+    
+    <select id="selectCounselList" parameterType="_int" resultMap="counselResultSet">
+    	
+    	
+    	SELECT
+    	      	 COUNSEL_NO
+				,COUNSEL_CONTENT
+				,COUNSEL_USER
+                ,USER_NAME
+				,APPLY_NO
+				,COUNSEL_STATE
+				,TO_CHAR(C.CREATED_AT, 'HH12:MIPM') AS CREATED_AT
+				
+    	FROM    COUNSELS C
+    	JOIN USERS U ON (C.COUNSEL_USER = U.USER_NO)
+    	WHERE APPLY_NO = #{APPLY_NO}
+    	order by counsel_no
+    
+    </select>
+    
+    
+    <select id="selectCounselNo" parameterType="Counsel" resultType="_int">
+    	
+    	select
+    	       distinct counsel_no
+    	 
+    	 from COUNSELS
+    	 
+    	 where apply_no = #{applyNo}
+    	   and counsel_content = #{counselContent}
+    	       
+    
+    
+    </select>
+    
+    
+    
+    
 </mapper>

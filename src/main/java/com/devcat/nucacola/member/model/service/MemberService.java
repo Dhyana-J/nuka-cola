@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.company.model.vo.Company;
@@ -185,6 +186,10 @@ public interface MemberService {
 	int partnerSearchCount2(PartnerSearch p);
 	//그외 사람들중 검색 결과 인원정보
 	ArrayList<Member> partnerETCResult(PartnerSearch p, PageInfo pi2);
+	
+	
+	// 메세지 주고받는 사람들 리스트
+	ArrayList<Chatrooms> selectChatRoomList(int userNo);
 	
 	
 

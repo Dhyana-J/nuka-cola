@@ -2,6 +2,13 @@ package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
 import java.util.Map;
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -11,13 +18,6 @@ import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.ApplyList;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitManage;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 
 @Service
@@ -178,5 +178,19 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	
+	public int insertCounsel(Counsel cs) {
+		return rDao.insertCounsel(sqlSession, cs);
+	}
+
+	@Override
+	public ArrayList<Counsel> selectCounselList(int applyNo) {
+		
+		return rDao.selectCounselList(sqlSession,applyNo);
+	}
+
+	@Override
+	public int selectCounselNo(Counsel cs) {
+		return rDao.selectCounselNo(sqlSession, cs);
+	}
 	
 }

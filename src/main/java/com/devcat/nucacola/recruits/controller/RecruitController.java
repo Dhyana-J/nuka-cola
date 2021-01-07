@@ -24,15 +24,15 @@ import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.recruits.model.service.RecruitService;
 import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Counsel;
 import com.devcat.nucacola.recruits.model.vo.Declare;
 import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import com.devcat.nucacola.recruits.model.vo.UserCareer;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 @Controller
 public class RecruitController {
@@ -79,15 +79,26 @@ public class RecruitController {
 	//지원 상세조회
 	@RequestMapping("detail.ap")
 	public String selectApplyDetail(int ano, Model model){
+		
 		System.out.println(ano);
+		
 		Apply apply = rService.selectApplyDetail(ano);
+		
 		System.out.println(apply);
+		
 		int uno = apply.getUserNo();
+		
 		ArrayList<RecruitSkill> skillList = rService.selectUserSkills(uno);
 		ArrayList<UserCareer> careerList = rService.selectCareers(uno);
+		
+		System.out.println(skillList);
+		System.out.println(careerList);
+		
+		
 		model.addAttribute("a",apply);
 		model.addAttribute("s",skillList);
 		model.addAttribute("c",careerList);
+		
 		return "/apply/applyDetail";
 	}
 
@@ -502,6 +513,48 @@ public class RecruitController {
 		
 		return container;
 		
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("insertingMessage.ap")
+	public String insertMessage(Counsel cs) {
+		
+		System.out.println("보내온 메세지의 값 : " + cs);
+		
+		// insert 실시
+		int result = rService.insertCounsel(cs);
+		
+		if(result>0) {
+			
+			// counselNo 알아오기
+//			int counselNo = rService.selectCounselNo(cs);
+//			
+//			System.out.println("counselNo : " + counselNo);
+			
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="selectMessageList.ap",produces="application/json; charset=utf-8")
+	public String selectMessageList(int applyNo) {
+		
+		System.out.println("메세지 전체 조회용 번호 "+ applyNo);
+		
+		// 전체 조회 담을 공간
+		ArrayList<Counsel> csAllList = new ArrayList();
+		
+		csAllList = rService.selectCounselList(applyNo);
+		
+		System.out.println("전체 조회해온 메세지 리스트 : " + csAllList);
+		
+		
+		return new Gson().toJson(csAllList);
 	}
 	
 	

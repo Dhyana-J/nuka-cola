@@ -21,6 +21,7 @@
 		<result column="email_auth" property="emailAuth"/>
 		<result column="user_comp" property="userComp"/>
 		<result column="comp_no" property="compNo"/>
+		<result column="comp_name" property="compName"/>
 	</resultMap>
 	
 	<resultMap id="skillResultSet" type="Skills">
@@ -63,11 +64,24 @@
 	</resultMap>
 
 	
+	<resultMap id="chatResultSet" type="Chatrooms">
+	
+		<result column="chatroom_no" property="chatroomNo"></result>
+		<result column="user_two" property="userTwo"></result>
+		<result column="user_name" property="userName"></result>
+		<result column="user_avatar" property="userAvatar"></result>
+		<result column="message_content" property="messageContent"></result>
+		<result column="created_at" property="createdAt"></result>
+		<result column="mcreated_at" property="messageCreate"></result>
+		
+	</resultMap>
+	
+	
 	<select id="loginMember"
 		    parameterType="Member"
 		    resultMap="memberResultSet">
 		select
-			   user_no
+			   u.user_no
 			 , login_type
 			 , user_email
 			 , user_pwd
@@ -85,12 +99,11 @@
 			 , certify_ans
 			 , email_auth
 			 , user_comp
-	      from users u	     
+			 , comp_name
+	      from users u
+	      join companys c on(u.user_no = c.user_no)	     
           where user_status != 1
-           and user_email=#{email}
-           <!-- 
-            and user_pwd=#{userPwd}
-            -->
+          and user_email=#{email}
 	</select>
 	
 	<insert id="insertMember"
@@ -835,5 +848,35 @@
                 </if>
                 order by user_name
 	 	</select>
+	 
+	 
+	 
+	 	<select id="selectChatRoomList" parameterType="_int" resultMap="chatResultSet">
+	 	
+	 	select
+		       c.chatroom_no
+		      ,c.user_two
+		      ,u.user_name
+		      ,u.user_avatar
+		      ,m.message_content
+		      ,m.created_at "mcreated_at"
+		
+		from chatrooms c
+		join messages m on (c.chatroom_no = m.chatroom_no)
+		join users u on (c.user_two = u.user_no)
+		
+		where c.user_one = #{userNo}
+		  and m.deliver_no = #{userNo}
+		  and m.message_content = (
+		                              select max(message_content)
+		                              from messages
+		                              where deliver_no = #{userNo} 
+		                            )
+
+	 	
+	 	</select>
+	 
+	 
+	 
 	 
 </mapper>

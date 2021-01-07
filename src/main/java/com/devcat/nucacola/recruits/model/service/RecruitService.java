@@ -2,6 +2,7 @@ package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -41,14 +42,23 @@ public interface RecruitService {
 	// 사용자의 회사 번호 알아오기
 	int selectCompNo(int userNo);
 	
-	// 채용공고 올린 회사들 수 조회
+	// 채용공고 올린 회사들 수 조회 (검색어 없을 때)
 	int selectCompCount();
+	
+	// 채용공고 올린 회사들 수 조회 (검색어 있을 때)
+	int selectCompCount(Map<String, ArrayList<String>> keywordList);
 		
 	// 채용공고 회사번호 조회
 	ArrayList<String> selectCnoList(PageInfo pi);
 	
+	// 채용공고 회사번호 조회(검색어 있을때)
+	ArrayList<String> selectCnoList(PageInfo pi,Map<String, ArrayList<String>> keywordList);
+	
 	//한 회사의 채용공고 리스트 조회
 	ArrayList<Recruit> selectRecruitList(int cno);
+	
+	//한 회사의 채용공고 리스트 조회(검색어 있을때)
+	public ArrayList<Recruit> selectRecruitList(Map<String, ArrayList<String>> keywordList);
 	
 	//전체 기술스택 리스트 조회
 	ArrayList<Skills> selectSkillList();
@@ -75,4 +85,16 @@ public interface RecruitService {
 	
 	// 채용공고 기술 등록 하기
 	int insertRecruitSkill(HashMap<String, Object> recruitMap);
+	//유저 채용관리자 여부 판별
+	int isManager(int uno);
+	
+	
+	//counsel 테이블에 insert
+	int insertCounsel(Counsel cs);
+	
+	//counsel 테이블에 대화내역 전체 조회
+	ArrayList<Counsel> selectCounselList(int applyNo);
+	
+	//counsel 테이블 번호 조회
+	int selectCounselNo(Counsel cs);
 }

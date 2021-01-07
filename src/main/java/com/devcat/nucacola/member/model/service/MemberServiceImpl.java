@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.company.model.vo.Company;
@@ -564,6 +565,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Member> partnerFollowers(int userNo) {
 		return mDao.partnerFollowers(sqlSession, userNo);
+	}
+	public ArrayList<Chatrooms> selectChatRoomList(int userNo) {
+		
+		return mDao.selectChatRoomList(sqlSession, userNo);
 	}
 	
 	

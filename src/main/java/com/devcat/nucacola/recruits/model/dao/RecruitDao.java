@@ -3,13 +3,11 @@ package com.devcat.nucacola.recruits.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.recruits.model.vo.Apply;
 import com.devcat.nucacola.recruits.model.vo.ApplyList;
 import com.devcat.nucacola.recruits.model.vo.ApplyProg;
@@ -18,7 +16,8 @@ import com.devcat.nucacola.recruits.model.vo.Recruit;
 import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
 import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
-
+import com.devcat.nucacola.common.model.vo.PageInfo;
+import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.recruits.model.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -63,15 +62,32 @@ public class RecruitDao {
 	public int selectCompCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("recruit-mapper.selectCompCount");
 	}
+	
+	public int selectCompCount(SqlSessionTemplate sqlSession, Map<String, ArrayList<String>> keywordList) {
+		return sqlSession.selectOne("recruit-mapper.selectCompCountWithKey",keywordList);
+	}
 
 	public ArrayList<String> selectCnoList(SqlSessionTemplate sqlSession,PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCnoList",null,rowBounds);
 	}
+	
+	public ArrayList<String> selectCnoList(SqlSessionTemplate sqlSession, PageInfo pi,
+			Map<String, ArrayList<String>> keywordList) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCnoListWithKey",keywordList,rowBounds);
+	}
 
 	public ArrayList<Recruit> selectRecruitList(SqlSessionTemplate sqlSession, int cno) {
 		return (ArrayList)sqlSession.selectList("recruit-mapper.selectRecruitList",cno);
+	}
+	
+	public ArrayList<Recruit> selectRecruitList(SqlSessionTemplate sqlSession,
+			Map<String, ArrayList<String>> keywordList) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectRecruitListWithKey",keywordList);
 	}
 
 	public ArrayList<Skills> selectSkillList(SqlSessionTemplate sqlSession) {
@@ -119,5 +135,28 @@ public class RecruitDao {
 	public int insertRecruitSkill(SqlSessionTemplate sqlSession, HashMap<String, Object> recruitMap) {
 		
 		return sqlSession.insert("recruit-mapper.insertRecruitSkill", recruitMap);
+
+	}
+	public int isManager(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("recruit-mapper.checkRecruitManager",uno);
+	}
+
+	
+
+	
+	public int insertCounsel(SqlSessionTemplate sqlSession, Counsel cs) {
+
+		return sqlSession.insert("recruit-mapper.insertCounsel", cs);
+	}
+
+	public ArrayList<Counsel> selectCounselList(SqlSessionTemplate sqlSession, int applyNo) {
+		
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectCounselList", applyNo);
+		
+	}
+
+	public int selectCounselNo(SqlSessionTemplate sqlSession, Counsel cs) {
+		
+		return sqlSession.selectOne("recruit-mapper.selectCounselNo", cs);
 	}
 }

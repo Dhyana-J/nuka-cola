@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="resources/css/common.css" />
         <link rel="stylesheet" href="resources/css/recruit/recruitSearch.css" />
         <link rel="stylesheet" href="resources/css/recruit/rSlider.min .css" />
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script defer src="resources/js/recruit/rSlider.min.js"></script>
         <script defer src="resources/js/recruit/recruitSearch.js"></script>
     </head>
@@ -28,7 +29,14 @@
         <main class="recruit-search__main-wrapper">
             <div class="inner">
                 <div class="recruit-search__left-area">
-                    <button class="recruit-enroll-btn"  onclick='location.href="recruitEnroll.re"'>채용 무료 등록</button>
+                	<c:choose>
+	                	<c:when test="${loginUser ne null && isManager ne null}">
+		                    <button class="recruit-enroll-btn" onclick="location.href='recruitEnroll.re'">채용 무료 등록</button>
+	                	</c:when>
+	                	<c:otherwise>
+		                	<div class="btn-hide"></div>
+	                	</c:otherwise>
+                	</c:choose>
                 </div>
                 <div class="recruit-search__right-area">
                     <div class="info-search">
@@ -99,9 +107,9 @@
                         <div class="search-results__header">
                             <span>검색 결과</span>
                             <div class="search-results__align-options">
-                                <span class="aligning">최신순</span>
-                                <span>인기순</span>
-                                <span>연봉순</span>
+                                <span class="aligning align-new">최신순</span>
+                                <span class="align-popular">인기순</span>
+                                <span class="align-salary">연봉순</span>
                             </div>
                         </div>
                         
@@ -115,7 +123,7 @@
 	                            <div class="recruit-info">
 	                            
 	                                <div class="recruit-info__icons">
-	                                    <span class="material-icons">close</span>
+	                                    <span class="material-icons" onclick="deleteInfo(event)">close</span>
 	                                </div>
 	
 	                                <div class="recruit-info__contents">
@@ -123,7 +131,7 @@
 	                                    <div class="company__thumb-area">
 	                                        <div class="company__thumbnail">
 	                                        	<c:choose>
-	                                        		<c:when test="${company.compLogo ne null }">
+	                                        		<c:when test="${company.compLogo ne '(null)' or company.compLogo ne '(null)' }">
 			                                            <img src="${pageContext.request.contextPath}/${company.compLogo}" alt="company-thumb" />
 	                                        		</c:when>
 	                                        		<c:otherwise>
@@ -133,8 +141,7 @@
 	                                        </div>
 	                                    </div>
 	                                    <div class="company__info-wrapper">
-	                                        <div class="company__info-area">
-	                                        	<input type="hidden" value='${company.compNo }' />
+	                                        <div class="company__info-area" onclick="location.href='profileMain.co?cno=${company.compNo}'">
 	                                            <div class="company-name">${company.compName }</div>
 	                                            <div class="company-desc">${company.compInfo }</div>
 	                                            <div class="company-industry">
@@ -152,7 +159,7 @@
 		                                        <div class="recruit-summary__wrapper">
 		                                            <div class="recruit-summary">
 		                                                <div class="summary__contents">
-		                                                    <div class="recruit-title">${recruit.recruitTitle }</div>
+		                                                    <div class="recruit-title" onclick="location.href='detail.re?rno=${recruit.recruitNo}'">${recruit.recruitTitle }</div>
 		                                                    <span>${recruit.recruitMinSal } - ${recruit.recruitMaxSal }만원</span>
 		                                                    <span> / </span>
 		                                                    <c:choose>
@@ -168,7 +175,7 @@
 				                                        	</c:choose>
 		                                                </div>
 		                                                <div class="summary__icon">
-		                                                    <span class="material-icons">turned_in_not</span>
+		                                                    <!-- <span class="material-icons">turned_in_not</span> -->
 		                                                    <!-- <span class="material-icons">turned_in</span> 안채워진 북마크-->
 		                                                </div>
 		                                            </div>
@@ -192,10 +199,7 @@
                         		<c:remove var="recruitList"/>
                         		<c:remove var="industries"/>
                         	</c:forEach>
-                        	
 
-                        
-                            
                             
                         </div>
                         <!--recruit-search__search-list-->
@@ -205,6 +209,8 @@
         </main>
 
         <jsp:include page="../common/footer.jsp"/>
+	
+	
 
     </body>
 </html>

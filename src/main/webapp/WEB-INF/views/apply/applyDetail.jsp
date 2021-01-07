@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/recruit/apply-detail.css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
 
@@ -101,6 +103,7 @@
                         </c:if>
                     </c:if>
                 </div>
+                
 
                 <div class="content__wrap">
                     <strong>취업을 위한 한마디</strong>
@@ -111,22 +114,6 @@
 
                 <div class="content__wrap">
                     <strong>경력</strong>
-                    <c:forEach var="ci" items="${c}">
-                        <div class="content__carrer-one">
-                            <div class="carrer-one__img">
-                                <img src="${ci.compLogo}" alt="Logo" />
-                            </div>
-                            <div class="carrer-one__companyName">
-                                <span>${ci.compName}</span>
-                            </div>
-                            <div class="carrer-one__detail">
-                                <span>${ci.careerPosi}</span>
-                            </div>
-                            <div class="carrer-one__date">
-                                <span>${ci.enteredAt}</span>
-                            </div>
-                        </div>
-                    </c:forEach>
                 </div>
 
                 <div class="content__wrap">
@@ -155,45 +142,11 @@
                     <!-- end chat-header -->
 
                     <div class="chat-history">
-                        <ul>
-                            <li class="clearfix">
-                                <div class="message-data align-right">
-                                    <span class="message-data-time">10:10 AM</span>
-                                    &nbsp; &nbsp;
-                                    <span class="message-data-name">유원근</span>
-                                </div>
-                                <div class="message other-message float-right">
-                                    안녕 점심먹을래 말래
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="message-data">
-                                    <span class="message-data-name">누군가</span>
-                                    <span class="message-data-time">10:12 AM</span>
-                                </div>
-                                <div class="message my-message">몰라</div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="message-data align-right">
-                                    <span class="message-data-time">10:14 AM</span>
-                                    &nbsp; &nbsp;
-                                    <span class="message-data-name">유원근</span>
-                                </div>
-                                <div class="message other-message float-right">
-                                    그래 알겠다
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="message-data">
-                                    <span class="message-data-name">누군가</span>
-                                    <span class="message-data-time">10:20 AM</span>
-                                </div>
-                                <div class="message my-message">ㅇㅋ</div>
-                            </li>
-                        </ul>
+                    
+						<ul id="chat-all">
+						
+						</ul>
+						
                     </div>
                     <!-- end chat-history -->
 
@@ -205,7 +158,7 @@
                         rows="3"
                 ></textarea>
 
-                        <button>Send</button>
+                        <button type="button" id="send-btn">Send</button>
                     </div>
                     <!-- end chat-message -->
                 </div>
@@ -216,10 +169,227 @@
 </main>
 </body>
 <script defer>
+	
+	/* 메세지 보낸 사람 */
+	let sendingUser = "";
+	/* 메세지의 상태 */
+	let stateNo = 0;
+	
+	
     const onChangeProgress = (number)=>{
         console.log(number)
         location.href = 'changeprog.ap?rno=${a.applyNo}&number='+number
 
     }
+    
+	let sock = new SockJS("http://localhost:8888/nukacola/echo/");
+	
+	// 메시지 전송
+	let sendMessage = ()=>{
+		
+		let sendingMessage = document.querySelector("#message-to-send").value;
+		
+		if(${loginUser.userNo eq a.userNo}){
+		
+			sendingUser = ${a.userNo};
+			
+			insertingMessage(sendingUser, stateNo, sendingMessage);	
+			
+			
+			
+		}else if(${loginUser.userNo eq a.manager1No}) {
+		
+			sendingUser = ${a.manager1No};
+			
+			stateNo = 1;
+			
+			insertingMessage(sendingUser, stateNo, sendingMessage);	
+			
+		}else if(${loginUser.userNo eq a.manager2No}) {
+			
+			sendingUser = ${a.manager2No};
+			
+			stateNo = 1;
+			
+			insertingMessage(sendingUser, stateNo, sendingMessage);	
+		}
+		
+	}
+	
+	// 서버로부터 메시지를 받았을 때
+	let onMessage = (msg)=>{
+	    let data = msg.data;
+	    //document.querySelector('#chat-history').innerHTML+=data+"<br/>";
+	    console.log('받은 메세지 : ');
+	    console.log(msg);
+	    console.log(msg.data);
+	    selectMessageList();
+	}
+	
+	// 서버와 연결을 끊었을 때
+	let onClose = (evt)=>{
+	    //document.querySelector('#messageArea').append('연결 끊김');
+	    console.log("끊어짐");
+	}
+	
+	sock.onmessage = onMessage;
+	sock.onclose = onClose;
+	
+	document.querySelector('#send-btn').addEventListener('click',()=>{
+		
+		sendMessage();
+
+	})
+	
+
+    const insertingMessage = (sendingUser, stateNo, sendingMessage) => {
+		
+		axios.get("insertingMessage.ap",{
+			params:{
+				applyNo : ${a.applyNo},
+				counselUser : sendingUser,
+				counselState : stateNo,
+				counselContent : sendingMessage
+			}
+		})
+		   .then(function(response){
+			   console.log(response);
+			   
+			   
+			   selectMessageList();
+			   
+			   sock.send(sendingMessage);
+			   document.querySelector("#message-to-send").value="";
+			   
+		   })
+		   .catch(function(error) {
+			   console.log(error)
+		   })
+	}
+    
+    
+    const selectMessageList = () => {
+    	
+    	axios.get("selectMessageList.ap",{
+    		params : {
+    			applyNo : ${a.applyNo}
+    		}
+    	})
+    		.then(function(response){
+    			console.log(response.data);	
+    			
+    			let messageList = response.data;
+    			
+    			
+    			for(var i in messageList) {
+    				
+    				if(messageList[i].counselState == 1) {
+    					
+    					
+    					leftMessage(messageList[i].counselContent,messageList[i].createdAt,messageList[i].userName);
+    					
+    					
+    					
+    				}else {
+    					
+    					rightMessage(messageList[i].counselContent,messageList[i].createdAt,messageList[i].userName);
+    					
+    				
+    				}
+    			}
+    			
+    			document.querySelector('.chat-history').scrollTop=document.querySelector('.chat-history').scrollHeight;
+    			
+    			//document.querySelector('.chat-history').scrollTo(document.querySelector('.chat-history').scrollHeight,document.querySelector('.chat-history').scrollHeight);
+    			
+    		})
+    		.catch(function(error){
+    			console.log(error);
+    		})
+    }
+    
+    
+    selectMessageList();
+   
+    
+    
+    
+    const rightMessage = (counselContent, createdAt,userName,messagesAll) =>{
+    	/* li생성 */
+    	let rightLi = document.createElement("li");
+    	/* 클래스 이름 추가 */
+    	rightLi.className = "clearfix";
+    	
+    	/* li 자식요소가 될div1 생성 */
+    	let rightDiv1 = document.createElement("div");
+    	rightDiv1.className = "message-data align-right";
+    	
+    	/*div1의 자식요소가 될 span1 생성  */
+    	let timeSpan = document.createElement("span");
+    	timeSpan.className = "message-data-time";
+    	timeSpan.innerHTML = createdAt + "&nbsp; &nbsp;";
+    	
+    	/*div1의 자식요소가 될 span2 생성  */
+    	let nameSpan = document.createElement("span");
+    	nameSpan.className = "message-data-name";
+    	nameSpan.innerText = userName;
+	
+    	/*div1에 자식요소 span 추가  */
+    	rightDiv1.appendChild(timeSpan);
+    	rightDiv1.appendChild(nameSpan);
+
+    	/* li 자식요소가 될div2 생성 */
+    	let rightDiv2 = document.createElement("div");
+    	rightDiv2.className = "message other-message float-right";
+    	rightDiv2.innerText = counselContent;
+    	
+    	/* li요소에 div자식으로 추가 */
+    	rightLi.appendChild(rightDiv1);
+    	rightLi.appendChild(rightDiv2);
+    	
+    	
+    	document.getElementById("chat-all").appendChild(rightLi);
+    	
+    	
+    }
+    
+    const leftMessage = (counselContent, createdAt,userName,messagesAll) => {
+    	
+    	/* li생성 */
+    	let leftLi = document.createElement("li");
+  	
+    	/* li 자식요소가 될div1 생성 */
+    	let leftDiv1 = document.createElement("div");
+    	leftDiv1.className = "message-data";
+    	
+    	/*div1의 자식요소가 될 span1 생성  */
+    	let timeSpan = document.createElement("span");
+    	timeSpan.className = "message-data-time";
+    	timeSpan.innerText = createdAt;
+    	
+    	/*div1의 자식요소가 될 span2 생성  */
+    	let nameSpan = document.createElement("span");
+    	nameSpan.className = "message-data-name	";
+    	nameSpan.innerText = userName;
+	
+    	/*div1에 자식요소 span 추가  */
+    	leftDiv1.appendChild(nameSpan);
+    	leftDiv1.appendChild(timeSpan);
+
+    	/* li 자식요소가 될div2 생성 */
+    	let leftDiv2 = document.createElement("div");
+    	leftDiv2.className = "message my-message";
+    	leftDiv2.innerText = counselContent;
+    	
+    	/* li요소에 div자식으로 추가 */
+    	leftLi.appendChild(leftDiv1);
+    	leftLi.appendChild(leftDiv2);
+    	
+    	document.getElementById("chat-all").appendChild(leftLi);
+    	
+    	
+    }
+    
+
 </script>
 </html>

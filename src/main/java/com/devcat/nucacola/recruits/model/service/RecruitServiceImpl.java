@@ -2,6 +2,14 @@ package com.devcat.nucacola.recruits.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 import com.devcat.nucacola.recruits.model.dao.RecruitDao;
 import com.devcat.nucacola.recruits.model.vo.*;
@@ -11,13 +19,6 @@ import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
-import com.devcat.nucacola.recruits.model.vo.Apply;
-import com.devcat.nucacola.recruits.model.vo.ApplyList;
-import com.devcat.nucacola.recruits.model.vo.Declare;
-import com.devcat.nucacola.recruits.model.vo.Recruit;
-import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
-import com.devcat.nucacola.recruits.model.vo.RecruitManage;
-import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 
 
 @Service
@@ -114,15 +115,31 @@ public class RecruitServiceImpl implements RecruitService {
 	public int selectCompCount() {
 		return rDao.selectCompCount(sqlSession);
 	}
+	
+	@Override
+	public int selectCompCount(Map<String, ArrayList<String>> keywordList) {
+		System.out.println("서비스 실행");
+		return rDao.selectCompCount(sqlSession,keywordList);
+	}
 
 	@Override
 	public ArrayList<String> selectCnoList(PageInfo pi) {
 		return rDao.selectCnoList(sqlSession,pi);
 	}
+	
+	@Override
+	public ArrayList<String> selectCnoList(PageInfo pi, Map<String, ArrayList<String>> keywordList) {
+		return rDao.selectCnoList(sqlSession,pi,keywordList);
+	}
 
 	@Override
 	public ArrayList<Recruit> selectRecruitList(int cno) {
 		return rDao.selectRecruitList(sqlSession,cno);
+	}
+	
+	@Override
+	public ArrayList<Recruit> selectRecruitList(Map<String, ArrayList<String>> keywordList) {
+		return rDao.selectRecruitList(sqlSession,keywordList);
 	}
 
 	@Override
@@ -166,6 +183,25 @@ public class RecruitServiceImpl implements RecruitService {
 	public int insertRecruitSkill(HashMap<String, Object> recruitMap) {
 		
 		return rDao.insertRecruitSkill(sqlSession,recruitMap);
+	}
+	public int isManager(int uno) {
+		return rDao.isManager(sqlSession,uno);
+	}
+
+	
+	public int insertCounsel(Counsel cs) {
+		return rDao.insertCounsel(sqlSession, cs);
+	}
+
+	@Override
+	public ArrayList<Counsel> selectCounselList(int applyNo) {
+		
+		return rDao.selectCounselList(sqlSession,applyNo);
+	}
+
+	@Override
+	public int selectCounselNo(Counsel cs) {
+		return rDao.selectCounselNo(sqlSession, cs);
 	}
 	
 }

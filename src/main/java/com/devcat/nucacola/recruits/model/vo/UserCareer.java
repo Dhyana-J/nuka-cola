@@ -5,6 +5,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
+
 public class UserCareer {
     private int compNo;
     private String careerPosi;

@@ -128,6 +128,10 @@ public class RecruitDao {
 	    return sqlSession.update("recruit-mapper.changeProgress",rp);
     }
 
+	public int isManager(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("recruit-mapper.checkRecruitManager",uno);
+	}
+
 	
 
 	

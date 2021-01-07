@@ -474,4 +474,14 @@
         SET t.APPLY_PROG = #{skillNo}
         WHERE t.APPLY_NO = #{recruitNo}
     </update>
+    
+    <select id="checkRecruitManager" 
+    		parameterType="_int"
+    		resultType="_int">
+    	select 
+    		   count(comp_no)
+    	  from companys
+    	 where user_no=#{uno}
+    	 	or comp_pm=#{uno}
+    </select>
 </mapper>

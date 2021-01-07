@@ -79,5 +79,8 @@ public interface RecruitService {
 	//지원자상태변경
 	int changeProgress(RecruitSkill rp);
 	
+	//유저 채용관리자 여부 판별
+	int isManager(int uno);
+	
 	
 }

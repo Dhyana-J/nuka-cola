@@ -29,7 +29,14 @@
         <main class="recruit-search__main-wrapper">
             <div class="inner">
                 <div class="recruit-search__left-area">
-                    <button class="recruit-enroll-btn">채용 무료 등록</button>
+                	<c:choose>
+	                	<c:when test="${loginUser ne null && isManager ne null}">
+		                    <button class="recruit-enroll-btn" onclick="location.href='recruitEnroll.re'">채용 무료 등록</button>
+	                	</c:when>
+	                	<c:otherwise>
+		                	<div class="btn-hide"></div>
+	                	</c:otherwise>
+                	</c:choose>
                 </div>
                 <div class="recruit-search__right-area">
                     <div class="info-search">
@@ -134,8 +141,7 @@
 	                                        </div>
 	                                    </div>
 	                                    <div class="company__info-wrapper">
-	                                        <div class="company__info-area">
-	                                        	<input type="hidden" value='${company.compNo }' />
+	                                        <div class="company__info-area" onclick="location.href='profileMain.co?cno=${company.compNo}'">
 	                                            <div class="company-name">${company.compName }</div>
 	                                            <div class="company-desc">${company.compInfo }</div>
 	                                            <div class="company-industry">
@@ -153,8 +159,7 @@
 		                                        <div class="recruit-summary__wrapper">
 		                                            <div class="recruit-summary">
 		                                                <div class="summary__contents">
-		                                                	<input type="hidden" value="${recruit.recruitNo }"/>
-		                                                    <div class="recruit-title">${recruit.recruitTitle }</div>
+		                                                    <div class="recruit-title" onclick="location.href='detail.re?rno=${recruit.recruitNo}'">${recruit.recruitTitle }</div>
 		                                                    <span>${recruit.recruitMinSal } - ${recruit.recruitMaxSal }만원</span>
 		                                                    <span> / </span>
 		                                                    <c:choose>
@@ -170,7 +175,7 @@
 				                                        	</c:choose>
 		                                                </div>
 		                                                <div class="summary__icon">
-		                                                    <span class="material-icons">turned_in_not</span>
+		                                                    <!-- <span class="material-icons">turned_in_not</span> -->
 		                                                    <!-- <span class="material-icons">turned_in</span> 안채워진 북마크-->
 		                                                </div>
 		                                            </div>
@@ -204,6 +209,7 @@
         </main>
 
         <jsp:include page="../common/footer.jsp"/>
+	
 	
 
     </body>

@@ -241,8 +241,7 @@ let addList = (list,area)=>{
                 recruitInfo+='</div>'
                         +'</div>'
                         +'<div class="company__info-wrapper">'
-                            +'<div class="company__info-area">'
-                                +'<input type="hidden" value="'+company.compNo+'"/>'
+                            +`<div class="company__info-area" onclick="location.href='profileMain.co?cno=${company.compNo}'">`
                                 +'<div class="company-name">'+company.compName+'</div>'
                                 +'<div class="company-desc">'+company.compInfo+'</div>'
                                 +'<div class="company-industry">';
@@ -261,8 +260,7 @@ let addList = (list,area)=>{
                 recruitInfo+='<div class="recruit-summary__wrapper">'
                                 +'<div class="recruit-summary">'
                                     +'<div class="summary__contents">'
-                                        +'<input type="hidden" value="'+recruit.recruitNo+'"/>'
-                                        +'<div class="recruit-title">'+recruit.recruitTitle+'</div>'
+                                        +`<div class="recruit-title" onclick="location.href='detail.re?rno=${recruit.recruitNo}'">`+recruit.recruitTitle+'</div>'
                                         +'<span>'+recruit.recruitMinSal+' - '+recruit.recruitMaxSal+'만원</span>'
                                         +'<span> / </span>';
                                         if(recruit.recruitRequ==0){
@@ -274,7 +272,7 @@ let addList = (list,area)=>{
                                         }
                         recruitInfo+='</div>'
                                     +'<div class="summary__icon">'
-                                        +'<span class="material-icons">turned_in_not</span>'
+                                        // +'<span class="material-icons">turned_in_not</span>'
                                         //<span class="material-icons">turned_in</span> 안채워진 북마크
                                     +'</div>'
                                 +'</div>'

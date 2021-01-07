@@ -258,7 +258,19 @@ public class RecruitController {
 	//------------- 채용검색 페이지 -------------
 	//맨 처음 보이는 채용검색 화면 
 	@RequestMapping("list.re")
-	public String recruitSearch(@RequestParam(value="currentPage",defaultValue="1") int currentPage, Model model) {
+	public String recruitSearch(@RequestParam(value="currentPage",defaultValue="1") int currentPage, Model model,HttpSession session) {
+		
+		//채용검색 시 로그인된 유저가 채용관리자거나 회사대표인 경우 채용등록버튼 표시해줘야한다.
+		//그걸 위해 변수 세팅해주자.
+		Member m = (Member)session.getAttribute("loginUser");
+		if(m!=null) {
+			int isManager = rService.isManager(m.getUserNo());
+			if(isManager>0) {
+				model.addAttribute("isManager",isManager);
+				System.out.println(isManager);
+			}
+		}
+		
 		
 		//***셀렉트박스 option 세팅***
 		//산업분야
@@ -307,6 +319,7 @@ public class RecruitController {
 	@ResponseBody
 	@RequestMapping(value="loadMoreList.re",produces="application/json; charset=utf-8")
 	public HashMap<String, Object> loadSearchedList(@RequestParam(value="currentPage",defaultValue="1") int currentPage,String rawKeywordList){
+		
 		
 		System.out.println("============controller============");
 		

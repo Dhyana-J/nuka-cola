@@ -172,6 +172,11 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.changeProgress(sqlSession,rp);
 	}
 
+	@Override
+	public int isManager(int uno) {
+		return rDao.isManager(sqlSession,uno);
+	}
+
 	
 	
 }

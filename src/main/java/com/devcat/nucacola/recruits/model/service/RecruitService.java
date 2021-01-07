@@ -97,4 +97,6 @@ public interface RecruitService {
 	
 	//counsel 테이블 번호 조회
 	int selectCounselNo(Counsel cs);
+
+    int insertApply(Apply a);
 }

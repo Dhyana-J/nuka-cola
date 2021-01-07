@@ -159,4 +159,8 @@ public class RecruitDao {
 		
 		return sqlSession.selectOne("recruit-mapper.selectCounselNo", cs);
 	}
+
+    public int insertApply(SqlSessionTemplate sqlSession, Apply a) {
+		return sqlSession.insert("recruit-mapper.insertApply",a);
+    }
 }

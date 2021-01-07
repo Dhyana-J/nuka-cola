@@ -203,5 +203,7 @@ public class RecruitServiceImpl implements RecruitService {
 	public int selectCounselNo(Counsel cs) {
 		return rDao.selectCounselNo(sqlSession, cs);
 	}
-	
+
+	@Override
+	public int insertApply(Apply a){return rDao.insertApply(sqlSession,a);}
 }

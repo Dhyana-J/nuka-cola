@@ -72,9 +72,9 @@
       <div class="inner">
         <div class="section__title">
           <ul>
-            <li class="nav-active">PROFILE</li>
-            <li onClick='location.href="initFollowing.us?userNo=${pUser.userNo}"'>POST</li>
-            <li onClick='location.href="initFollowing.us?userNo=${pUser.userNo}"'>LIKE</a></li>
+			<li onclick='location.href="profile.me?userNo=${pUser.userNo}" '>PROFILE</li>
+            <li onclick='location.href="profilePost.us?userNo=${pUser.userNo}" '>POST</li>
+            <li onClick='location.href="initFollowing.us?userNo=${pUser.userNo}"'>LIKE</li>
           </ul>
         </div>
 

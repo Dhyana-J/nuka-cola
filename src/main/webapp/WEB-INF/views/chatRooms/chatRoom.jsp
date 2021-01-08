@@ -86,7 +86,9 @@
                 <div class="chat-history">
                 
                   <ul id="chat-all">
-                  
+                    <li class="clearfix">
+                      <div class="message-data"></div>
+                    </li>
                   </ul>
         
                 </div>
@@ -130,6 +132,8 @@
 
 
 <script defer>
+const userNo = ${loginUser.userNo}
+
 /*-----------메세지 목록 불러오기 ----------*/
 
 const selectChatRoomList = ()=>{

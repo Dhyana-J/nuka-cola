@@ -10,33 +10,33 @@ const loadSearchedList = (list, area) => {
    
     list.forEach((v) => {
         
-        console.log(v.userNo);
-        console.log(v.userEdu);
-        console.log(v.userComp);
+        if(v.userNo!=userNo){//검색결과에 본인 이외의 사람들만 뜨도록한다.
 
-        let member = 
-                        `<div class="user-info__wrapper">
-                            <input type="hidden" value="${v.userNo}"/>
-                            <div class="img-wrapper">`;
-                        if(v.userAvatar==undefined){
-                        member+=`<img src="resources/assets/elon.jpg" alt="profileImg">`;
-                        }else{
-                        member+=`<img src="${v.userAvatar}" alt="profileImg">`;
-                        }
-                    member+=`</div>
-                            <div class="user-info">
-                                <strong>${v.userName}</strong>`;
-                            if(v.userEdu!=null){
-                            member+=`<span>${v.userEdu}</span>`;
+            let member = 
+                            `<div class="user-info__wrapper" onclick="letsChat(userNo,${v.userNo})">
+                                <input type="hidden" value="${v.userNo}"/>
+                                <div class="img-wrapper">`;
+                            if(v.userAvatar==undefined){
+                            member+=`<img src="resources/assets/elon.jpg" alt="profileImg">`;
+                            }else{
+                            member+=`<img src="${v.userAvatar}" alt="profileImg">`;
                             }
-                            if(v.userComp!=null){
-                            member+=`<span>${v.userComp}</span>`;
-                            }
-                    member+=`</div>
-                        </div>`;
+                        member+=`</div>
+                                <div class="user-info">
+                                    <strong>${v.userName}</strong>`;
+                                if(v.userEdu!=null){
+                                member+=`<span>${v.userEdu}</span>`;
+                                }
+                                if(v.userComp!=null){
+                                member+=`<span>${v.userComp}</span>`;
+                                }
+                        member+=`</div>
+                            </div>`;
+    
+    
+            area.insertAdjacentHTML('beforeend', member);
 
-
-        area.insertAdjacentHTML('beforeend', member);
+        }
 
         
     });
@@ -73,6 +73,11 @@ document.querySelector('#user-search').addEventListener('input',(e)=>{
 
 
 /*----------- 웹소켓 채팅 기능 ---------*/
+const letsChat=(myNo,userNo)=>{//내 회원번호ㅡ 상대회원번호 인자로 받음
+    
+
+}
+
 document.querySelector('.close-btn').addEventListener('click', ()=>{
     document.querySelector('.chatting-box').remove();
 })

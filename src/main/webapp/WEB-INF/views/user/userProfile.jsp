@@ -64,7 +64,7 @@
         </div>
         <button id="popup_open_btn"
         		class="btn visual__right"
-        		onclick='location.href="list.ap?userNo=${pUsers.userNo}"'>지원이력</button>
+        		onclick='location.href="list.ap?userNo=${pUser.userNo}"'>지원이력</button>
       </div>
     </section>
 
@@ -295,7 +295,6 @@
 	           <c:forEach var="c" items="${ careerList }">
 	              <div class="user__career__div">
 	               <ul class="user__career__section">
-	               <br>
 	                 <li>${ c.compName } </li>
 	                 <li>${ c.careerPosi }</li>
 	                 <li>${ c.enteredAt } ~ ${ c.updatedAt}</li>
@@ -1085,7 +1084,7 @@
 		                applyCount.querySelector('span').innerText = applyCountNum;
 		                item.remove(); 
 		               */
-		            });wd
+		            });
 		         });
 		
 		

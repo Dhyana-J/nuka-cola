@@ -194,6 +194,9 @@ public interface MemberService {
 	// 메세지 주고받는 사람들 리스트
 	ArrayList<Chatrooms> selectChatRoomList(int userNo);
 	
+	// 비밀번호 수정 요청
+	int updatePwd(Member m);
+	
 	
 
 }

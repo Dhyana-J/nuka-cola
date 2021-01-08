@@ -58,6 +58,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               <button type="button" id="find-pwd-btn" class="btn">
                 비밀번호 찾기
               </button>
+              
               <button
                 class="btn btn-blue"
                 onclick="javascript: form.action='login.me'"
@@ -139,14 +140,15 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <div id="find-pwd-modal" class="modal__wrapper">
       <div id="find-pwd-modal-box" class="modal__box">
         <h1 id="find-pwd-modal-title">비밀번호 찾기</h1>
+        
         <form id="find-pwd-modal-form" class="modal__form">
           <div class="input__box">
             <label for="">이메일</label>
-            <input type="text" />
+            <input type="text" id="email"/>
           </div>
           <div class="input__box">
             <label for="">생년월일</label>
-            <input type="text" />
+            <input type="text" id="userBirth"/>
           </div>
           <div class="input__box">
             <label for="">본인확인 질문</label>
@@ -158,12 +160,12 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           </div>
           <div class="input__box">
             <label for="">질문의 답</label>
-            <input type="text" />
+            <input type="text" id="answer"/>
           </div>
           <div class="login__btn__wrapper">
             <button type="button" class="btn find-pwd-close">닫기</button>
-            <button type="button" id="find-pwd-submit" class="btn btn-blue">
-              찾기
+            <button type="button" id="find-pwd-submit" class="btn btn-blue" onclick="">
+              		찾기	
             </button>
           </div>
         </form>
@@ -246,11 +248,23 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           }, 300);
         });
       });
-
+		
+      
+  
       //비밀번호 찾기
       document
-        .querySelector("#find-pwd-submit")
-        .addEventListener("click", () => {
+        .querySelector("#find-pwd-submit").addEventListener("click",() => {
+
+        	/* $.ajax({
+        		url:"findPwd.me",
+        		type:"POST",
+        		data:{
+        			email:$("#email").val()
+        		},
+        		success:function(){
+        			alert("해보고");
+        		},
+        	})  */
           //로직추가
           document.querySelector("#find-pwd-modal-title").innerText =
             "비밀번호 변경";

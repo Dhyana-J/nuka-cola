@@ -375,8 +375,11 @@ public class MemberDao {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectChatRoomList", userNo);
 	}
-
-
+	
+	// 비밀번호 요청
+	public int updatePwd(SqlSessionTemplate sqlSession,Member m) {
+		return sqlSession.update("memberMapper.updatePwd", m);
+	}
 	
 	
 	

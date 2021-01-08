@@ -571,7 +571,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectChatRoomList(sqlSession, userNo);
 	}
 	
-	
+	// 비밀번호 요청
+	@Override
+	public int updatePwd(Member m) {
+		return mDao.updatePwd(sqlSession, m);
+	}
 	
 
 

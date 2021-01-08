@@ -113,7 +113,7 @@
 <%--                            </c:when>--%>
                             <c:when test="${info.managerNo ne loginUser.userNo}">
 <%--                                이부분뭐임?--%>
-                                <button class="btn-blue" type="button">지원하기</button>
+                                <button class="btn-blue" type="button" onclick="enrollOpen()">지원하기</button>
                             </c:when>
                         </c:choose>
                         <button type="button" onClick='location.href="manageDetail.re?rno=${ info.recruitNo }"'>지원자 보기 (${appliesCount})</button>
@@ -188,6 +188,18 @@
         </form>
     </div>
 </div>
+<div class="enroll_modal-container">
+    <form class="enroll_modal-box" action="insert.ap" method="post">
+        <h1>지원하기</h1>
+        <input type="hidden" name="recruitNo" value="${info.recruitNo}">
+        <input type="hidden" name="userNo" value="${loginUser.userNo}">
+        <textarea name="applyComment" id='applyInput' placeholder="지원동기를 입력하세요"></textarea>
+        <button type="submit">지원</button>
+        <button onclick='enrollClose()' type="button">취소</button>
+    </form>
+</div>
+
+
 
 </body>
 <script defer>
@@ -240,6 +252,23 @@
         document
             .querySelector("#find-email-close")
             .addEventListener("click",closeModal);
+
+    const modalB =document.querySelector('.enroll_modal-container');
+    const modalS = document.querySelector('.enroll_modal-box')
+    const enrollOpen=()=>{
+        modalB.classList.add('enroll-active')
+        modalS.classList.add('enroll-active')
+    }
+    const enrollClose=()=>{
+        modalB.style.animation='fadeOut 0.3s ease-in-out'
+        modalS.style.animation='slideDown 0.3s ease-in-out'
+        setTimeout(() => {
+            modalB.classList.remove('enroll-active')
+            modalS.classList.remove('enroll-active')
+            modalB.style.animation='fadeIn 0.3s ease-in-out'
+            modalS.style.animation='slideUp 0.3s ease-in-out'
+        }, 300);
+    }
 
 </script>
 </html>

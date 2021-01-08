@@ -220,4 +220,5 @@ public class RecruitServiceImpl implements RecruitService {
 		return rDao.deleteBookMark(sqlSession,b);
 	}
 	
+	public int insertApply(Apply a){return rDao.insertApply(sqlSession,a);}
 }

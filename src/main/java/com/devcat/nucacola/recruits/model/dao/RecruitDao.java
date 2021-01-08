@@ -172,4 +172,7 @@ public class RecruitDao {
 	public int deleteBookMark(SqlSessionTemplate sqlSession, Bookmark b) {
 		return sqlSession.delete("recruit-mapper.deleteBookMark",b);
 	}
+    public int insertApply(SqlSessionTemplate sqlSession, Apply a) {
+		return sqlSession.insert("recruit-mapper.insertApply",a);
+    }
 }

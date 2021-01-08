@@ -111,4 +111,6 @@ public interface RecruitService {
 	//채용공고 북마크 추가,삭제
 	int addBookMark(Bookmark b);
 	int deleteBookMark(Bookmark b);
+
+    int insertApply(Apply a);
 }

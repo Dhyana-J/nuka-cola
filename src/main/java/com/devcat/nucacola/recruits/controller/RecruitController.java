@@ -600,6 +600,25 @@ public class RecruitController {
 		
 		return new Gson().toJson(csAllList);
 	}
+
+	@RequestMapping("insert.ap")
+	public String insertApply(String applyComment, int recruitNo, int userNo,HttpSession session){
+
+		Apply a = new Apply();
+		a.setApplyComment(applyComment);
+		a.setUserNo(userNo);
+		a.setRecruitNo(recruitNo);
+
+		int result = rService.insertApply(a);
+
+		if(result>0){
+			return "redirect:list.re";
+		}else{
+			session.setAttribute("alertMsg","실패!!");
+
+			return "redirect:";
+		}
+	}
 	
 	
 	/*---------채용공고 북마크 추가------------*/

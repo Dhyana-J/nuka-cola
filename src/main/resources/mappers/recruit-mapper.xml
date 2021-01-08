@@ -618,6 +618,10 @@
 	
 	
     
+    <insert id="insertApply" parameterType="Apply">
+		INSERT INTO NUKACOLA.APPLIES (APPLY_NO, APPLY_COMMENT, APPLY_PROG, CREATED_AT, UPDATED_AT, USER_NO, RECRUIT_NO)
+		VALUES (SEQ_APPLY.nextval, #{applyComment}, DEFAULT, DEFAULT, DEFAULT, #{userNo}, #{recruitNo})
+	</insert>
     
     
 </mapper>

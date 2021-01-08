@@ -49,7 +49,8 @@
               </ul>
             </div>
           </div>
-          <button id="popup_open_btn" class="btn visual__right">지원이력</button>
+          <button type="button" id="popup_open_btn" class="btn visual__right"
+          onclick='location.href="list.ap?userNo=${pUser.userNo}"'>지원이력</button>
         </div>
       </section>
 
@@ -108,7 +109,9 @@
                                 </ul>
                             </div>
                             <div class="company__box__right">
+                            <c:if test="${pUser.userNo == loginUser.userNo}">
                                 <span class="cancle-btn">삭제</span>
+                            </c:if>
                             </div>
 
                           </div>
@@ -157,9 +160,10 @@
             	const scriptItemRight = document.createElement('div');
             		scriptItemRight.className='company__box__right';
             	const cancleBtn = document.createElement('span');
+            	if(${loginUser.userNo == pUser.userNo}){
             		cancleBtn.className='cancle-btn';
             		cancleBtn.innerText='삭제';
-            		
+            	}
             	
             	imgBox.appendChild(img);	
             	li1.appendChild(compCount);

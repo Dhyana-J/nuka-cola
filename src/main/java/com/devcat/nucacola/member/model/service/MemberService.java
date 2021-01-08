@@ -205,10 +205,13 @@ public interface MemberService {
 	int updatePwd(Member m);
 	
 	
-	// 프로필 내가 작석한 post리스트 조회
+	// 프로필 내가 작성한 post리스트 조회
 	ArrayList<Post> myPostList(int userNo,PageInfo pi);
 	
 	// 프로필 내가 작석한 post 삭제
 	int myPostDelete(int postNo);
+	
+	// 프로필 내가 작성한 post 수정
+	int myPostUpdate(Post p);
 
 }

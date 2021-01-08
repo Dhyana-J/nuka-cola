@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
@@ -535,7 +536,7 @@ public class ProfileController {
 		
 	}
 	// 프로필 내가 작성한 post
-	@RequestMapping("profilePost.us")
+	@RequestMapping("/profilePost.us")
 	public String memberProfilePost(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo,Model model) {
 
 			Member pUser = mService.selectUserProfile(userNo);
@@ -562,8 +563,9 @@ public class ProfileController {
 			
 			
 		}
-	// 프로필 내가 작성한 post
-	@RequestMapping("profilePostLoad.us")
+	// 프로필 내가 작성한 post 페이징처리
+	@ResponseBody
+	@RequestMapping(value="profilePostLoad.us",produces="application/json;charset=utf-8")
 	public HashMap<String, Object> postLoad(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo,Model model) {
 		
 
@@ -582,7 +584,8 @@ public class ProfileController {
 		
 	}
 	// 프로필 내가 작성한 post 삭제
-	@RequestMapping("postCancle.us")
+	@ResponseBody
+	@RequestMapping(value="postCancle.us",produces="application/json;charset=utf-8")
 	public int PostCancle(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int postNo, Model model) {
 		
 		int result = mService.myPostDelete(postNo);
@@ -590,6 +593,27 @@ public class ProfileController {
 		
 		
 	}
+	
+	// 프로필 내가 작성한 post 수정
+		@RequestMapping("/postUpdate.us")
+//		@RequestMapping(value="postUpdate.us",produces="application/json;charset=utf-8")
+		public String postUpdate(Post p,Model model) {
+			System.out.println(p);
+			int uno = p.getUserNo();
+			int result = mService.myPostUpdate(p);
+			if(result>0) {
+				return "redirect:/profilePost.us?userNo="+uno;
+			}else {
+				
+				model.addAttribute("errorMsg","수정 실패");
+				return "common/errorPage";
+			}
+//		    System.out.println("삭제되었나요?"+result);
+//			redirectAttributes.addAttribute("userNo",p.getUserNo());			
+
+			
+			
+		}
 	
 	
 	

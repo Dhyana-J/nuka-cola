@@ -46,6 +46,7 @@
               <div class="main__info">
 	              <input type="hidden" name="email" value="${pUser.email }" id="main-info-email" />
 	              <input type="hidden" class="userNo" name="uno" value="${pUser.userNo }" id="main-info-userno" />
+	              <input type="hidden" class="loginUser" value="${loginUser.userNo}">
 	              <strong>${ pUser.userName }</strong> <span>${ pUser.userComp }</span>
 	              <span>Front-end Amazone AWS, github에 관심</span>
               </div>
@@ -76,7 +77,7 @@
 			<c:forEach var = "p" items="${plist}">
             <div class="content__wrapper">
               <div class="section__content__title">
-              <input type="hidden" class="pno" name="pno" value="${p.postNo}">
+              <input type="hidden" class="pno"  value="${p.postNo}">
               <c:choose>
                 <c:when test= "${empty p.userAvatar}">
                 <img class="circle" src="resources/assets/conn.png" alt="PROFILE">
@@ -100,17 +101,12 @@
               <div class="sysdate">${p.updatedAt}</div>
               <div class="just__text__dv">
               <!-- 수정시 보여질 form  --> 
-                      <form  style="display:none" action="insert.pos" method="post" class="post_form" enctype="multipart/form-data">
-		              <span>오늘은 무슨일이 있었나요?</span>
-		              <textarea name="postContent" id=""></textarea>
-		              <input type="hidden" name="userNo" value="${loginUser.userNo}">
+                   <form  style= "display:none" action="postUpdate.us" method="post" class="post_form">
+		              <textarea name="postContent" id="">${p.postContent}</textarea>
+		              <input type="hidden"  name="postNo" value="${p.postNo}">
+		              <input type="hidden" name="userNo" value="${pUser.userNo}">
 		              <div class="post_form-btn-wrapper">
-		                <div onclick="imgUpload()" class="image__input_box">
-		                  <input name="upfile" id="img-input" type="file" hidden />
-		                  <p>이미지</p>
-		                  <i class="material-icons"> wallpaper </i>
-		                </div>
-		                <button type="submit" class="btn btn-blue">등록</button>
+		                <button type="submit" class="btn btn-blue">수정</button>
 		              </div>
 		            </form>
                 <span class="just__text">
@@ -123,26 +119,27 @@
 			<c:choose>
 				<c:when test = "${p.isFollowing==0}">
                 <div class="section__content__right">
-                  <i class="fas fa-heart"></i>&nbsp;  ${p.isLiked}
+                  <i class="fas fa-heart"></i>&nbsp;  <span>${p.isLiked}</span>
                 </div>
                 </c:when>
                 <c:otherwise>
                 <div class="section__content__right">
-                  <i class="fas fa-heart" style="color:rgb(216, 92, 92)"></i>&nbsp;  ${p.isLiked}
+                  <i class="fas fa-heart" style="color:rgb(216, 92, 92)"></i>&nbsp;  <span>${p.isLiked}</span>
                 </div>
                 </c:otherwise>
             </c:choose>
             </div>
 			</c:forEach>
-			<script defer>
-	            const imgUpload = ()=>{
-	              document.querySelector('#img-input').click();
-	            }
-            </script>
+			
+	</div>
+	</main>
         
 
- <jsp:include page="../common/footer.jsp"/>
- <script defer src="resources/js/profile/userProfilePost.js"></script>
 
+ <script defer src="resources/js/profile/userProfilePost.js"></script>
+ <script>
+ 
+ </script>
 </body>
+
 </html>

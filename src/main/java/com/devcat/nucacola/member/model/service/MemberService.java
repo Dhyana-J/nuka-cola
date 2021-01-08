@@ -3,10 +3,12 @@ package com.devcat.nucacola.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.model.vo.messages;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Career;
@@ -210,5 +212,21 @@ public interface MemberService {
 	
 	// 프로필 내가 작석한 post 삭제
 	int myPostDelete(int postNo);
+	
+	//채팅창 메세지 리스트 조회
+	ArrayList<messages> selectMsgList(ArrayList<Integer> noList);
+	
+	ArrayList<messages> selectLatestMsg(ArrayList<Integer> noList);
+	
+	//채팅창 메세지 입력시 db에 insert
+	int sendMsg(Map<String,Object> msgInfo);
+
+	//채팅방 생성
+	int createChatroom(Map<String, Object> msgInfo);
+
+	//채팅방번호 가져오기
+	int selectChatroomNo(Map<String, Object> msgInfo);
+	
+	
 
 }

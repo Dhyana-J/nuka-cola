@@ -7,6 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CHATROOMVIEW-SEARCH</title>
+  
   <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -23,6 +24,8 @@
       />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/chatRoom/chatRoomView.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script defer src="resources/js/chatRoom/chatRoom.js"></script>
 </head>
 <body>
@@ -84,25 +87,22 @@
                 <!-- end chat-header -->
   
                 <div class="chat-history">
-                
-                  <ul id="chat-all">
-                    <li class="clearfix">
-                      <div class="message-data"></div>
-                    </li>
-                  </ul>
-        
+                    <ul id="chat-all">
+                      
+                    </ul>
                 </div>
                 <!-- end chat-history -->
   
                 <div class="chat-message clearfix">
-            <textarea
-                    name="message-to-send"
-                    id="message-to-send"
-                    placeholder="메시지를 입력해 주세요"
-                    rows="3"
-            ></textarea>
-  
+
+                    <textarea
+                            name="message-to-send"
+                            id="message-to-send"
+                            placeholder="따뜻한 말 한마디 건네 보세요 :)"
+                            rows="3"
+                    ></textarea>
                     <button type="button" id="send-btn">Send</button>
+                    
                 </div>
                 <!-- end chat-message -->
             </div>

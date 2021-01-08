@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.model.vo.messages;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.dao.MemberDao;
 import com.devcat.nucacola.member.model.vo.Bookmark;
@@ -605,6 +607,32 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePwd(Member m) {
 		return mDao.updatePwd(sqlSession, m);
 	}
+
+	@Override
+	public ArrayList<messages> selectMsgList(ArrayList<Integer> noList) {
+		return mDao.selectMsgList(sqlSession, noList);
+	}
+
+	@Override
+	public ArrayList<messages> selectLatestMsg(ArrayList<Integer> noList) {
+		return mDao.selectLatestMsg(sqlSession,noList);
+	}
+	
+	@Override
+	public int sendMsg(Map<String,Object> msgInfo) {
+		return mDao.sendMsg(sqlSession,msgInfo);
+	}
+
+	@Override
+	public int createChatroom(Map<String, Object> msgInfo) {
+		return mDao.createChatroom(sqlSession,msgInfo);
+	}
+
+	@Override
+	public int selectChatroomNo(Map<String, Object> msgInfo) {
+		return mDao.selectChatroomNo(sqlSession,msgInfo);
+	}
+
 	
 
 

@@ -22,16 +22,15 @@
 	
 	//sendMessage()->sock.onmessage=onMessage->
 	
-	// 메시지 전송
-	let sendMessage = ()=>{
-		sock.send(document.querySelector('#message').value);
+	// 서버로 메시지 전송
+	const sendMessage = ()=>{
+		sock.send();
 	}
 	
-	// 서버로부터 메시지를 받았을 때
-	let onMessage = (msg)=>{
-		console.log(msg);
-	    let data = msg.data
-	    document.querySelector('#messageArea').innerHTML+=data+"<br/>";
+	// 누군가 sendMessage전송 후 서버가 감지하고 다시 세션들에게 메세지를 뿌렸을 때 받은 메세지 감지
+	const onMessage = ()=>{
+		console.log('이야아아ㅏ');
+	    document.querySelector('#messageArea').innerHTML+="융융두기두기"+"<br/>";
 	}
 	
 	// 서버와 연결을 끊었을 때

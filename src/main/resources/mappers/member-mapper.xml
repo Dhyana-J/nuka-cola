@@ -90,6 +90,17 @@
         <result column="ISLIKED" property="isLiked"/>
 		 <result column="comp_name" property="compName"/>
 	 </resultMap>
+	 <resultMap id="messagesResultSet" type="messages">
+        <result column="message_no" property="messageNo"/>
+        <result column="message_content" property="messageContent"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="deliver_no" property="deliverNo"/>
+        <result column="reciver_no" property="reciverNo"/>
+        <result column="chatroom_no" property="chatroomNo"/>
+        <result column="deliver_name" property="deliverName"/>
+        <result column="reciver_name" property="reciverName"/>
+	 </resultMap>
+	 
 
 	
 	
@@ -958,7 +969,92 @@
 		      where l.user_no = #{uno}
 	 	</select>
 	 
-	
+		<select id="selectMsgList" parameterType="arraylist" resultMap="messagesResultSet">
+			select
+				  message_no,
+				  message_content,
+				  to_char(m.created_at,'YYYY-MM-DD HH24:MI') created_at,
+				  deliver_no,
+				  reciver_no,
+				  chatroom_no,
+				  d.user_name as deliver_name,
+                  r.user_name as reciver_name
+	  		 from messages m
+             join users d on d.user_no=m.deliver_no
+             join users r on r.user_no=m.reciver_no
+			 where deliver_no in
+			 <foreach collection="list" item="uno" separator="," open="(" close=")">
+			 	#{uno}
+			 </foreach>
+			 and reciver_no in
+			 <foreach collection="list" item="uno" separator="," open="(" close=")">
+			 	#{uno}
+			 </foreach>
+			 order by created_at
+		</select>
+		
+		
+		<insert id="insertMsg" parameterType="Map">
+			insert
+				  into messages
+				  values
+				  (
+				  	seq_message.nextval,
+				  	#{msgContent},
+				  	sysdate,
+				  	#{myNo},
+				  	#{mateNo},
+				  	#{chatroomNo}
+				  )
+		</insert>
+		
+		<select id="selectLatestMsg" parameterType="arrayList" resultMap="messagesResultSet">
+		 select
+		 		*
+		   from(
+				select
+						  message_no,
+						  message_content,
+						  to_char(m.created_at,'YYYY-MM-DD HH24:MI') created_at,
+						  deliver_no,
+						  reciver_no,
+						  chatroom_no,
+						  d.user_name as deliver_name,
+		                  r.user_name as reciver_name
+			  		 from messages m
+		             join users d on d.user_no=m.deliver_no
+		             join users r on r.user_no=m.reciver_no
+					 where deliver_no in
+					 <foreach collection="list" item="uno" separator="," open="(" close=")">
+					 	#{uno}
+					 </foreach>
+					 and reciver_no in
+					 <foreach collection="list" item="uno" separator="," open="(" close=")">
+					 	#{uno}
+					 </foreach>
+					 order by created_at desc
+		   			)
+		   	 where rownum=1
+		</select>
+		
+		<insert id="createChatroom" parameterType="Map">
+			insert
+				  into chatrooms
+			values(
+				   seq_chatroom.nextval,
+				   sysdate,
+				   #{myNo},
+				   #{mateNo}
+				   )
+		</insert>
+		
+		<select id="selectChatroomNo" parameterType="Map" resultType="_int">
+			select
+				  chatroom_no
+			  from chatrooms
+			 where user_one=#{myNo}
+			   and user_two=#{mateNo}
+		</select>
 	 
 	 
 

@@ -300,7 +300,6 @@
     			
     			document.querySelector('.chat-history').scrollTop=document.querySelector('.chat-history').scrollHeight;
     			
-    			//document.querySelector('.chat-history').scrollTo(document.querySelector('.chat-history').scrollHeight,document.querySelector('.chat-history').scrollHeight);
     			
     		})
     		.catch(function(error){

@@ -115,7 +115,10 @@
 			 , certify_ans
 			 , email_auth
 			 , user_comp
-	      from users u
+			 , comp_name
+             , comp_no
+          from users u
+          left join companys c on(u.user_no = c.user_no)  
           where user_status != 1
           and user_email=#{email}
 	</select>

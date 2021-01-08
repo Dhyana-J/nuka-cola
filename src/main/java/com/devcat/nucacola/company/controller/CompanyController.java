@@ -62,7 +62,7 @@ public class CompanyController {
 		System.out.println(uno);
 		//유저번호로 회사 번호 알아오기 by정찬복 2021014
 		int cno = m.getCompNo();
-//		int cno = cService.selectCompanyNoUn(uno);
+		//int cno = cService.selectCompanyNoUn(uno);
  		model.addAttribute("cno",cno);
 		
 		ArrayList<Company> list = cService.selectCompanyList(pi, uno);

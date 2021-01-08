@@ -905,6 +905,8 @@
 
 	 	
 	 	</select>
+	 	
+	 	<!-- 비밀번호 변경 -->
 	 
 	 <!-- 내가 작성한 post총 개수 -->
 	 <select id="myPostCount" parameterType="_int" resultType="_int">
@@ -912,6 +914,14 @@
         from Posts 
         where user_no=#{userNo}
 	 </select>
+
+	<update id="updatePwd" parameterType="Member">
+	 		update members 
+	 		   set user_pwd = #{userPwd} 
+	 		 where user_Email = #{userEmail}
+	 		   and user_no = #{userNo}
+	 		   and user_birth = #{userBirth}
+	</update>
 	 
 	 <select id="profileMyPost" parameterType="_int" resultMap="postResultSet">
 	         select P.POST_NO

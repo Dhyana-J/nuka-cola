@@ -297,7 +297,6 @@
 	           <c:forEach var="c" items="${ careerList }">
 	              <div class="user__career__div">
 	               <ul class="user__career__section">
-	               <br>
 	                 <li>${ c.compName } </li>
 	                 <li>${ c.careerPosi }</li>
 	                 <li>${ c.enteredAt } ~ ${ c.updatedAt}</li>
@@ -1087,7 +1086,7 @@
 		                applyCount.querySelector('span').innerText = applyCountNum;
 		                item.remove(); 
 		               */
-		            });wd
+		            });
 		         });
 		
 		

@@ -199,7 +199,11 @@ public interface MemberService {
 	int myPostCount(int userNo);
 	//좋아요한 게시물 조회
 	int countLikePost(int uno);
+	
 	ArrayList<Post> selectLikePost(PageInfo pi, int uno);
+	// 비밀번호 수정 요청
+	int updatePwd(Member m);
+	
 	
 	// 프로필 내가 작석한 post리스트 조회
 	ArrayList<Post> myPostList(int userNo,PageInfo pi);

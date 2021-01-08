@@ -399,7 +399,11 @@ public class MemberDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectLikePost", uno, rowBounds);
-
+	}
+	
+	// 비밀번호 요청
+	public int updatePwd(SqlSessionTemplate sqlSession,Member m) {
+		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 	
 	public int myPostDelete(SqlSessionTemplate sqlSession, int postNo) {

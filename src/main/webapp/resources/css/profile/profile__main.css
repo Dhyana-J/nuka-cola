@@ -334,7 +334,7 @@ a#topBtn {
 }
 .content__wrapper #project-name {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   
 }
 
@@ -356,19 +356,16 @@ a#topBtn {
 
 
 
-.just text > .user__career__section{
-  display: flex;
-  align-items: flex-start;
-  margin-right: 10px;
-  gap: 15px;
-}
 .content__wrapper #career-name {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
   margin-top: 15px;
 }
-
+.content__wrapper #career-name user__career__div{
+	display:flex;
+	justify-content: space-around;
+	align-itmes:flex-start;
+	
+}
 
 #position-input {
   width: 100%;

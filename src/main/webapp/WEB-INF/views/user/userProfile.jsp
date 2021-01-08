@@ -64,7 +64,7 @@
         </div>
         <button id="popup_open_btn"
         		class="btn visual__right"
-        		onclick='location.href="list.ap?userNo=${pUsers.userNo}"'>지원이력</button>
+        		onclick='location.href="list.ap?userNo=${pUser.userNo}"'>지원이력</button>
       </div>
     </section>
 
@@ -211,11 +211,11 @@
             <div class="section__content__title">
 
                <strong>프로젝트</strong>
-
+				<c:if test="${loginUser.userNo eq pUser.userNo }">
                <div onclick="projectToggle()" class="edit__field">
                   <i id="project-btn" class="material-icons">create</i>
                </div>
-<!--책갈피  -->
+<!--책갈피  -->	</c:if>
                
             </div>
             <span class="just__text" id="project-name">
@@ -268,9 +268,11 @@
          <div class="content__wrapper">
             <div class="section__content__title">
                <strong>최종학력</strong>
+               <c:if test="${loginUser.userNo eq pUser.userNo }">
                <div onclick="threeLineToggle()" class="edit__field">
                   <i id="one-line-btn" class="material-icons">create</i>
                </div>
+               </c:if>
             </div>
             
             <span class="just__text" id="three-line-edu">
@@ -912,7 +914,7 @@
       document.querySelector("#user-filed-final-btn").addEventListener("click", (e) => {
 
          loadSkills();
-         location.reload()
+         location.href = "profile.me?userNo="+ ${ loginUser.userNo};
       })
 
 

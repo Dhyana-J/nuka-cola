@@ -48,12 +48,15 @@ public class SignupController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv, HttpServletRequest request) {
 		
 		Member loginUser = mService.loginMember(m);
+			
+		//System.out.println(bcryptPasswordEncoder.encode(m.getUserPwd()));
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())
 				&& loginUser.getEmailAuth().equals("Y")) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/list.pos");
 			System.out.println("로그인");
+			
 			
 		}else if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			

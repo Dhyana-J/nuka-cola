@@ -40,8 +40,8 @@
             </div>
             <div>
               <div class="main__info">
-                <strong>방글이</strong>
-                <span>Apple.Inc</span>
+                <strong>${ loginUser.userName }</strong>
+                <span>${ loginUser.compName }</span>
                 <span>Front-end Amazone AWS, github에 관심</span>
               </div>
               <ul class="people__info">

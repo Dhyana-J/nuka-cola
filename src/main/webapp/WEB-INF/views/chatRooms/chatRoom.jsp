@@ -164,8 +164,24 @@
         </div>
         <div class="profile-info">
           <strong>${ loginUser.userName }</strong>
-          <span>${ loginUser.compName }</span>
-          <span>${ loginUser.userComp }</span>
+          
+          <c:choose>
+          
+               <c:when test="${loginUser.userPosi eq '0' }">
+                  <span>기획자</span>
+               </c:when>
+               
+               <c:when test="${loginUser.userPosi eq '1' }">
+                   <span>개발자</span>
+               </c:when>
+               
+		       <c:when test="${loginUser.userPosi eq '2' }">
+		           <span>디자이너</span>
+				</c:when>
+               
+           </c:choose>
+     
+          <span>${ loginUser.email }</span>
         </div>
       </div><!--chatroom-search__right-section-->
     </div>
@@ -228,10 +244,12 @@ const createMessages = (chatroomNo,userTwo,userAvatar,userName,messageContent,me
 	let reciverNo = document.createElement("input");
 	reciverNo.setAttribute("type", "hidden");
 	reciverNo.setAttribute("value", userTwo);
+	reciverNo.setAttribute("name", "userTwo");
 	/* 채팅방 번호 추가 */
 	let chatNo = document.createElement("input");
 	chatNo.setAttribute("type", "hidden");
 	chatNo.setAttribute("value", chatroomNo);
+	chatNo.setAttribute("name", "chatroomNo");
 	/* 넣어주기 */
 	
 	chatDivW.appendChild(reciverNo);

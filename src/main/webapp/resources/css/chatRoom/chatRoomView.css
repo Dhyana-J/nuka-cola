@@ -56,6 +56,8 @@
 .chatroom-search__left-section .chat-list {
   display: flex;
   flex-direction: column;
+  overflow-y : scroll;
+  height: 500px;
 }
 .chatroom-search__left-section .chat-info__wrapper {
   display: flex;

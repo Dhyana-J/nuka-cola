@@ -99,9 +99,9 @@
 			 , certify_ans
 			 , email_auth
 			 , user_comp
-			 , comp_name
+
 	      from users u
-	      join companys c on(u.user_no = c.user_no)	     
+
           where user_status != 1
           and user_email=#{email}
 	</select>
@@ -860,7 +860,7 @@
 		      ,u.user_name
 		      ,u.user_avatar
 		      ,m.message_content
-		      ,m.created_at "mcreated_at"
+		      ,to_char(m.created_at, 'HH12:MIPM') "mcreated_at"
 		
 		from chatrooms c
 		join messages m on (c.chatroom_no = m.chatroom_no)

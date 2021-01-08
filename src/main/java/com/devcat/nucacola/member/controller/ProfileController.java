@@ -595,12 +595,25 @@ public class ProfileController {
 	
 	// 프로필 좋아요한 post
 		@RequestMapping("profileLikePost.us")
-		public String profileLikePost(int userNo,Model model) {
-
-
-			Member pUser = mService.selectUserProfile(userNo);
+		public String profileLikePost(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+				 Member m,Model model,HttpSession session) {
 			
-			model.addAttribute("pUser",pUser);
+			int uno = m.getUserNo();
+			int plistCount = mService.countLikePost(uno);
+			
+			PageInfo pi = Pagination.getPageInfo(plistCount, currentPage,1,4);
+			
+			
+			ArrayList<Post> plist = mService.selectLikePost(pi, uno);
+			
+			model.addAttribute("pi", pi);
+			model.addAttribute("plist", plist);
+			return "/user/profile_likePost";
+			
+			
+			
+			
+			/*
 			
 			//-----------------인맥정보 불러오기-------------
 			//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
@@ -614,7 +627,7 @@ public class ProfileController {
 			model.addAttribute("countConnections",countConnections);
 			
 			return "/user/profile_likePost";
-			
+			 */
 			
 		}
 		

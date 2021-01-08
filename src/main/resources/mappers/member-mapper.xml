@@ -90,6 +90,22 @@
         <result column="ISLIKED" property="isLiked"/>
     </resultMap>
 	
+	 <resultMap id="postResultSet" type="Post">
+        <result column="post_no" property="postNo"/>
+        <result column="post_content" property="postContent"/>
+        <result column="post_img" property="postImg"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_posi" property="userPosi"/>
+        <result column="user_comp" property="userComp"/>
+        <result column="user_avatar" property="userAvatar"/>
+        <result column="ISFOLLOWING" property="isFollowing"/>
+        <result column="ISLIKED" property="isLiked"/>
+        <result column="comp_name" property="compName"/> 
+    </resultMap>
+	
 	
 	<select id="loginMember"
 		    parameterType="Member"
@@ -921,8 +937,32 @@
 	 delete 
 	 from posts 
 	 where post_no=${postNo}
-	 
 	 </delete>
+	 	<select id="selectListCount" resultType="_int">
+	 		 select
+		            count(*)
+		      from  likes
+		      where user_no = #{uno}
+	 		
+	 	</select>
+	 	
+	 	<select id="selectLikePost" parameterType="_int" resultMap="postResultSet">
+	 		  select  p.post_no
+		            , p.post_content
+		            , p.post_image
+		            , p.user_no
+		            , p.post_image
+		            , u.user_avatar
+		            , c.comp_name
+		            , u.user_name
+		       from posts p
+		  left join likes l on p.post_no = l.post_no
+		  left join users u on p.user_no = u.user_no
+		  left join companys c on c.user_no = p.user_no
+		      where l.user_no = #{uno}
+	 	</select>
+	 
+	
 	 
 	 
 

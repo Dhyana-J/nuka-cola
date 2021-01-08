@@ -197,6 +197,9 @@ public interface MemberService {
 	
 	// 프로필 내가 작성한 post 총 개수
 	int myPostCount(int userNo);
+	//좋아요한 게시물 조회
+	int countLikePost(int uno);
+	ArrayList<Post> selectLikePost(PageInfo pi, int uno);
 	
 	// 프로필 내가 작석한 post리스트 조회
 	ArrayList<Post> myPostList(int userNo,PageInfo pi);

@@ -389,6 +389,18 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.profileMyPost", userNo,rowBounds);
 	
 	}
+	// 좋아요 게시물 조회
+	public int countLikePost(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("memberMapper.selectListCount", uno);
+	}
+	
+	public ArrayList<Post> selectLikePost(SqlSessionTemplate sqlSession, PageInfo pi, int uno) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikePost", uno, rowBounds);
+
+	}
 	
 	public int myPostDelete(SqlSessionTemplate sqlSession, int postNo) {
 		

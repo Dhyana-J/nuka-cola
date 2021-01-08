@@ -571,6 +571,16 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mDao.selectChatRoomList(sqlSession, userNo);
 	}
+
+	@Override
+	public int countLikePost(int uno) {
+		return mDao.countLikePost(sqlSession, uno);
+	}
+
+	@Override
+	public ArrayList<Post> selectLikePost(PageInfo pi, int uno) {
+		return mDao.selectLikePost(sqlSession, pi, uno);
+	}
 	
 	// 프로필 내가 작석한 post총 개수
 	@Override

@@ -90,82 +90,62 @@
               </div>
               <br />
               <span class="following__much"
-                >&nbsp; <strong>3</strong> 개의 게시글
+                >&nbsp; <!-- <strong>3</strong> 개의 게시글-->
               </span>
               <div class="like__item-container">
                 <!-- 아이템 -->
-                <div class="item__box">
-                  <div class="user_profile">
-                    <div class="user__avatar">
-                      <img src="../../assets/wonbin.jpeg" alt="" />
-                    </div>
-                    <div class="user__info">
-                      <b>Bill Gates</b>
-                      <span>Applt.inc @ CEO</span>
-                    </div>
-                  </div>
-                  <div class="img__wrapper">
-                    <img src="../../assets/loginImage.jpg" alt="" />
-                  </div>
-                  <div class="content__box">
-                    <p>
-                      asdasdasda;ksdja;ksfjk;asfjkalsfj;klafsas asfkljasfklhasf
-                    </p>
-                    <span>삭제</span>
-                  </div>
-                </div>
-                <!-- 아이템하나끝 -->
-                <!-- 아이템 -->
-                <div class="item__box">
-                  <div class="user_profile">
-                    <div class="user__avatar">
-                      <img src="../../assets/wonbin.jpeg" alt="" />
-                    </div>
-                    <div class="user__info">
-                      <b>Bill Gates</b>
-                      <span>Applt.inc @ CEO</span>
-                    </div>
-                  </div>
-                  <div class="img__wrapper">
-                    <img src="../../assets/loginImage.jpg" alt="" />
-                  </div>
-                  <div class="content__box">
-                    <p>
-                      asdasdasda;ksdja;ksfjk;asfjkalsfj;klafsas asfkljasfklhasf
-                    </p>
-                    <span>삭제</span>
-                  </div>
-                </div>
-                <!-- 아이템하나끝 --><!-- 아이템 -->
-                <div class="item__box">
-                  <div class="user_profile">
-                    <div class="user__avatar">
-                      <img src="../../assets/wonbin.jpeg" alt="" />
-                    </div>
-                    <div class="user__info">
-                      <b>Bill Gates</b>
-                      <span>Applt.inc @ CEO</span>
-                    </div>
-                  </div>
-                  <div class="img__wrapper">
-                    <img src="../../assets/loginImage.jpg" alt="" />
-                  </div>
-                  <div class="content__box">
-                    <p>
-                      asdasdasda;ksdja;ksfjk;asfjkalsfj;klafsas asfkljasfklhasf
-                    </p>
-                    <span>삭제</span>
-                  </div>
-                </div>
-                <!-- 아이템하나끝 -->
+                <c:forEach var = "p" items="${plist}">
+	                <div class="item__box">
+	                  <div class="user_profile">
+	                    <div class="user__avatar">
+	                    	<c:choose>
+			                <c:when test="${p.userAvatar eq null }">
+	                      		<img src="../../assets/wonbin.jpeg" alt="" />
+			                </c:when>
+			                <c:otherwise>
+				                <img src="${p.userAvatar }" alt="">
+			                </c:otherwise>
+			             </c:choose>
+	                    </div>
+	                    <div class="user__info">
+	                      <b>${p.userName}</b>
+							<c:choose>
+								<c:when test="${p.compName eq null}">
+									<span>소속없음</span>
+								</c:when>
+								<c:otherwise>
+	                      			<span>${p.compName} @ CEO</span>
+								</c:otherwise>
+							</c:choose>                      
+	                    </div>
+	                  </div>
+	                  <div class="img__wrapper">
+	                  	 <c:choose>
+			                <c:when test="${p.postImg eq null }">
+	                    		<img src="../../assets/loginImage.jpg" alt="" />
+			                </c:when>
+			                <c:otherwise>
+				                <img src="${p.postImg }" alt="">
+			                </c:otherwise>
+			             </c:choose>
+	                  </div>
+	                  <div class="content__box">
+	                    <p>
+	                      ${p.postContent}
+	                    </p>
+	                    <span>삭제</span>
+	                  </div>
+	                </div>
+	             </c:forEach>
+                
+               
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
     </main>
-    <jsp:include page="../common/footer.jsp"/>
+    
+   	
   </body>
 </html>

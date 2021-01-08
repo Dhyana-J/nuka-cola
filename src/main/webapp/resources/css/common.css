@@ -54,6 +54,7 @@ a {
   outline: none;
   transition: all 0.2s;
 }
+
 .input__box input:focus {
   padding: 10px 0;
   width: 90%;
@@ -479,6 +480,7 @@ header .right__header {
   display: flex;
   flex-direction: column;
 }
+
 .modal__box select {
   padding: 5px 0;
   border: none;
@@ -555,8 +557,14 @@ header .right__header {
   border-bottom: 1px solid rgb(202, 202, 202);
   margin-bottom: 10px;
 }
-
-
+.send_text{
+  font-size:8px;
+  color:black;
+  	
+}
+.input__box #email-check{
+	cursor:pointer;
+}
 
 
 

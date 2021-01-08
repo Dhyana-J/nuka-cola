@@ -116,7 +116,14 @@
                                 <button class="btn-blue" type="button" onclick="enrollOpen()">지원하기</button>
                             </c:when>
                         </c:choose>
-                        <button type="button" onClick='location.href="manageDetail.re?rno=${ info.recruitNo }"'>지원자 보기 (${appliesCount})</button>
+                        <c:choose>
+                        	<c:when test="${info.managerNo eq loginUser.userNo}">
+                        		<button type="button" onClick='location.href="manageDetail.re?rno=${ info.recruitNo }"'>지원자 보기 (${appliesCount})</button>
+                        	</c:when>
+                        	<c:when test="${info.managerNo ne loginUser.userNo }">
+                        		<button type="button" onClick='location.href="manageDetail.re?rno=${ info.recruitNo }"' disabled>지원자 수 (${appliesCount})</button>
+                        	</c:when>
+                        </c:choose>
                         <span id="find-email-btn">채용 정보 신고</span>
                     </div>
                     <div class="item2 recruit__content item2">

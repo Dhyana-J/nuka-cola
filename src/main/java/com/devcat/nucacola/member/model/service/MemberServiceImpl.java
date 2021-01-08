@@ -37,6 +37,7 @@ import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.TempKey;
 import com.devcat.nucacola.member.model.vo.UserFiled;
+import com.devcat.nucacola.posts.model.vo.Post;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -571,7 +572,24 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectChatRoomList(sqlSession, userNo);
 	}
 	
-	
+	// 프로필 내가 작석한 post총 개수
+	@Override
+	public int myPostCount(int userNo) {
+		return mDao.myPostCount(sqlSession, userNo);
+	}
+
+	// 프로필 내가 작석한 post리스트 조회
+	@Override
+	public ArrayList<Post> myPostList(int userNo,PageInfo pi) {
+		return mDao.myPostList(sqlSession, userNo, pi);
+	}
+    
+	// 프로필 작성한 post삭제
+	@Override
+	public int myPostDelete(int postNo) {
+		return mDao.myPostDelete(sqlSession, postNo);
+	}
+
 	
 
 

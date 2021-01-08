@@ -70,7 +70,7 @@
          
            <c:forEach var="a" items="${applyList}">
             <div class="apply-info">
-              <div class="apply-info__content" onclick="location.href='detail.re?rno=${a.recruitNo}'">
+              <div class="apply-info__content" onclick="location.href='detail.ap?ano=${a.applyNo}'">
                 <div class="apply-info__recruit-info">
                   <span>${ a.recruitTitle }</span>
                 

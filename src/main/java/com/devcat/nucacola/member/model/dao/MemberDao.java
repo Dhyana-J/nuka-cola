@@ -300,8 +300,9 @@ public class MemberDao {
 
 
 	//기업 구성원추가 이메일로 회원찾기용
-	public ArrayList<Member> searchMemberList(SqlSessionTemplate sqlSession, String email) {
-		return (ArrayList)sqlSession.selectList("memberMapper.searchMemberList",email);
+	//대화상대 검색용
+	public ArrayList<Member> searchMemberList(SqlSessionTemplate sqlSession, String keyword) {
+		return (ArrayList)sqlSession.selectList("memberMapper.searchMemberList",keyword);
 	}
 
 	// 기업 구성원추가시 회사명 업데이트용

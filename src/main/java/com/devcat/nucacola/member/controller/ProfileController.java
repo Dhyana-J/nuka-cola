@@ -1,9 +1,7 @@
 package com.devcat.nucacola.member.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,11 +17,11 @@ import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
 import com.devcat.nucacola.common.template.Pagination;
 import com.devcat.nucacola.member.model.service.MemberService;
-import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Career;
 import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
+import com.devcat.nucacola.posts.model.vo.Post;
 import com.google.gson.Gson;
 
 @Controller
@@ -539,28 +536,61 @@ public class ProfileController {
 	}
 	// 프로필 내가 작성한 post
 	@RequestMapping("profilePost.us")
-	public String memberProfilePost(int userNo,Model model) {
+	public String memberProfilePost(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo,Model model) {
 
+			Member pUser = mService.selectUserProfile(userNo);
+			
+			model.addAttribute("pUser",pUser);
+			
+			//-----------------인맥정보 불러오기-------------
+			//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
+			//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
+			int countFollowers = mService.countFollowers(userNo);
+			int countFollowings = mService.countFollowings(userNo);
+			int countConnections = mService.countConnections(userNo);
+			
+			model.addAttribute("countFollowers",countFollowers);
+			model.addAttribute("countFollowings",countFollowings);
+			model.addAttribute("countConnections",countConnections);
+			
+			int myPostCount=mService.myPostCount(userNo);
+			PageInfo pi=Pagination.getPageInfo(myPostCount,currentPage, 10, 4);
+			ArrayList<Post> list = mService.myPostList(userNo,pi);
+			System.out.println(list);
+			model.addAttribute("plist",list);
+			return "/user/userProfilePost";
+			
+			
+		}
+	// 프로필 내가 작성한 post
+	@RequestMapping("profilePostLoad.us")
+	public HashMap<String, Object> postLoad(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo,Model model) {
+		
 
 		Member pUser = mService.selectUserProfile(userNo);
 		
 		model.addAttribute("pUser",pUser);
+ 
 		
-		//-----------------인맥정보 불러오기-------------
-		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
-		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅
-		int countFollowers = mService.countFollowers(userNo);
-		int countFollowings = mService.countFollowings(userNo);
-		int countConnections = mService.countConnections(userNo);
+		int myPostCount=mService.myPostCount(userNo);
+		PageInfo pi=Pagination.getPageInfo(myPostCount,currentPage, 1, 4);
+		ArrayList<Post> list = mService.myPostList(userNo,pi);
+
+		HashMap<String, Object> result=new HashMap<>();
+		result.put("plist",list);
+		return result;
 		
-		model.addAttribute("countFollowers",countFollowers);
-		model.addAttribute("countFollowings",countFollowings);
-		model.addAttribute("countConnections",countConnections);
+	}
+	// 프로필 내가 작성한 post 삭제
+	@RequestMapping("postCancle.us")
+	public int PostCancle(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int postNo, Model model) {
 		
-		return "/user/userProfilePost";
+		int result = mService.myPostDelete(postNo);
+		return result;
 		
 		
 	}
+	
 	
 	
 	// 프로필 좋아요한 post

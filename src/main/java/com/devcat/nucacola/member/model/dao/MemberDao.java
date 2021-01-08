@@ -1,6 +1,5 @@
 package com.devcat.nucacola.member.model.dao;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +20,7 @@ import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
+import com.devcat.nucacola.posts.model.vo.Post;
 
 @Repository
 public class MemberDao {
@@ -377,9 +377,25 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectChatRoomList", userNo);
 	}
 
+	// 프로필 내가 작석한 post 총개수
+	public int myPostCount(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("memberMapper.myPostCount", userNo);
+	}
+	
+	// 프로필 내가 작석한 post리스트 조회	
+	public ArrayList<Post> myPostList(SqlSessionTemplate sqlSession, int userNo,PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit()); 
+		return (ArrayList)sqlSession.selectList("memberMapper.profileMyPost", userNo,rowBounds);
+	
+	}
+	
+	public int myPostDelete(SqlSessionTemplate sqlSession, int postNo) {
+		
+		return sqlSession.selectOne("memberMapper.myPostDelete", postNo);
+	}
+	
 
-	
-	
 	
 	
 	

@@ -32,13 +32,20 @@
       <section class="visual__section">
         <div class="inner">
           <div class="visual__left">
-            <div class="avatar">
-                <img src= "../../assets/profile.png" alt="logo">
+            <div class="avatar"><c:choose>
+                <c:when test= "${empty pUser.userAvatar}">
+                	<img src="resources/assets/conn.png">
+                </c:when>
+                <c:otherwise>
+                	<img src= "${pUser.userAvatar }" alt="logo">
+                </c:otherwise>
+              </c:choose>
+                
             </div>
             <div>
               <div class="main__info">
 	              <input type="hidden" name="email" value="${pUser.email }" id="main-info-email" />
-	              <input type="hidden" name="uno" value="${pUser.userNo }" id="main-info-userno" />
+	              <input type="hidden" class="userNo" name="uno" value="${pUser.userNo }" id="main-info-userno" />
 	              <strong>${ pUser.userName }</strong> <span>${ pUser.userComp }</span>
 	              <span>Front-end Amazone AWS, github에 관심</span>
               </div>
@@ -51,7 +58,7 @@
           </div>
           <button id="popup_open_btn"
         		class="btn visual__right"
-        		onclick='location.href="list.ap?userNo=${pUsers.userNo}"'>지원이력</button>
+        		onclick='location.href="list.ap?userNo=${pUser.userNo}"'>지원이력</button>
         </div>
       </section>
 
@@ -66,146 +73,76 @@
                   </ul>
               </div>
             <!-- profile, post, list -->
-
+			<c:forEach var = "p" items="${plist}">
             <div class="content__wrapper">
               <div class="section__content__title">
-                <img class="circle" src="../../assets/profile.png" alt="PROFILE">
+              <input type="hidden" class="pno" name="pno" value="${p.postNo}">
+              <c:choose>
+                <c:when test= "${empty p.userAvatar}">
+                <img class="circle" src="resources/assets/conn.png" alt="PROFILE">
+                </c:when>
+                <c:otherwise>
+                <img class="circle" src="${p.userAvatar}" alt="PROFILE">
+                </c:otherwise>
+              </c:choose>
                 <div class="content__introduce">
-                  <strong>방글이</strong>
-                  <p>TESLA, SPACE X @ CEO</p>
+                  <strong>${p.userName}</strong>
+                  <p>${p.userComp }</p>
                 </div>
                     <div class="content__editandDelete">
-                      <button class="btn-green">EDIT</button>
-                      <button class="btn-red">DELETE</button>
+                      <c:if test = "${loginUser.userNo == p.userNo }">
+	                      <button class="btn-green">EDIT</button>
+	                      <button class="btn-red">DELETE</button>
+                      </c:if>
                     </div>
+                   
               </div>
-              <div class="sysdate">2020-10-20</div>
+              <div class="sysdate">${p.updatedAt}</div>
               <div class="just__text__dv">
+              <!-- 수정시 보여질 form  --> 
+                      <form  style="display:none" action="insert.pos" method="post" class="post_form" enctype="multipart/form-data">
+		              <span>오늘은 무슨일이 있었나요?</span>
+		              <textarea name="postContent" id=""></textarea>
+		              <input type="hidden" name="userNo" value="${loginUser.userNo}">
+		              <div class="post_form-btn-wrapper">
+		                <div onclick="imgUpload()" class="image__input_box">
+		                  <input name="upfile" id="img-input" type="file" hidden />
+		                  <p>이미지</p>
+		                  <i class="material-icons"> wallpaper </i>
+		                </div>
+		                <button type="submit" class="btn btn-blue">등록</button>
+		              </div>
+		            </form>
                 <span class="just__text">
-                    누구든지 체포 또는 구속을 당한 때에는 즉시 변호인의 조력을 받을 권리를 가진다.
-                     다만, 형사피고인이 스스로 변호인을 구할 수 없을 때에는 법률이 정하는 바에 의하여 
-                     국가가 변호인을 붙인다.
-                    모든 국민은 보건에 관하여 국가의 보호를 받는다. 
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                  </span>
+                 ${p.postContent}
+                </span>
                 </div>
                 <div class="content__comment">
-                  <span class="icono-comment"></span> <p>COMMENT</p>
+                  <span class="icono-comment"></span><p>COMMENT</p> 
                 </div>
-
+			<c:choose>
+				<c:when test = "${p.isFollowing==0}">
                 <div class="section__content__right">
-                  <i class="fas fa-heart"></i>&nbsp;  1
+                  <i class="fas fa-heart"></i>&nbsp;  ${p.isLiked}
                 </div>
-            </div>
-
-            <div class="content__wrapper">
-              <div class="section__content__title">
-                <img class="circle" src="../../assets/profile.png" alt="PROFILE">
-                <div class="content__introduce">
-                  <strong>방글이</strong>
-                  <p>TESLA, SPACE X @ CEO</p>
-                </div>
-                    <div class="content__editandDelete">
-                      <button class="btn-green">EDIT</button>
-                      <button class="btn-red">DELETE</button>
-                    </div>
-              </div>
-              <div class="sysdate">2020-10-20</div>
-              <div class="just__text__dv">
-                <span class="just__text">
-                    누구든지 체포 또는 구속을 당한 때에는 즉시 변호인의 조력을 받을 권리를 가진다.
-                     다만, 형사피고인이 스스로 변호인을 구할 수 없을 때에는 법률이 정하는 바에 의하여 
-                     국가가 변호인을 붙인다.
-                    모든 국민은 보건에 관하여 국가의 보호를 받는다. 
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                  </span>
-                </div>
-                <div class="content__comment">
-                  <span class="icono-comment"></span> <p>COMMENT</p>
-                </div>
-
+                </c:when>
+                <c:otherwise>
                 <div class="section__content__right">
-                  <i class="fas fa-heart"></i>&nbsp;  1
+                  <i class="fas fa-heart" style="color:rgb(216, 92, 92)"></i>&nbsp;  ${p.isLiked}
                 </div>
+                </c:otherwise>
+            </c:choose>
             </div>
-            <div class="content__wrapper">
-              <div class="section__content__title">
-                <img class="circle" src="../../assets/profile.png" alt="PROFILE">
-                <div class="content__introduce">
-                  <strong>방글이</strong>
-                  <p>TESLA, SPACE X @ CEO</p>
-                </div>
-                    <div class="content__editandDelete">
-                      <button class="btn-green">EDIT</button>
-                      <button class="btn-red">DELETE</button>
-                    </div>
-              </div>
-              <div class="sysdate">2020-10-20</div>
-              <div class="just__text__dv">
-                <span class="just__text">
-                    누구든지 체포 또는 구속을 당한 때에는 즉시 변호인의 조력을 받을 권리를 가진다.
-                     다만, 형사피고인이 스스로 변호인을 구할 수 없을 때에는 법률이 정하는 바에 의하여 
-                     국가가 변호인을 붙인다.
-                    모든 국민은 보건에 관하여 국가의 보호를 받는다. 
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                  </span>
-                </div>
-                <div class="content__comment">
-                  <span class="icono-comment"></span> <p>COMMENT</p>
-                </div>
-
-                <div class="section__content__right">
-                  <i class="fas fa-heart"></i>&nbsp;  1
-                </div>
-            </div>
-            <div class="content__wrapper">
-              <div class="section__content__title">
-                <img class="circle" src="../../assets/profile.png" alt="PROFILE">
-                <div class="content__introduce">
-                  <strong>방글이</strong>
-                  <p>TESLA, SPACE X @ CEO</p>
-                </div>
-                    <div class="content__editandDelete">
-                      <button class="btn-green">EDIT</button>
-                      <button class="btn-red">DELETE</button>
-                    </div>
-              </div>
-              <div class="sysdate">2020-10-20</div>
-              <div class="just__text__dv">
-                <span class="just__text">
-                    누구든지 체포 또는 구속을 당한 때에는 즉시 변호인의 조력을 받을 권리를 가진다.
-                     다만, 형사피고인이 스스로 변호인을 구할 수 없을 때에는 법률이 정하는 바에 의하여 
-                     국가가 변호인을 붙인다.
-                    모든 국민은 보건에 관하여 국가의 보호를 받는다. 
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                    대통령은 법률에서 구체적으로 범위를 정하여 위임받은 사항과 법률을 집행하기 
-                    위하여 필요한 사항에 관하여 대통령령을 발할 수 있다.
-                  </span>
-                </div>
-                <div class="content__comment">
-                  <span class="icono-comment"></span> <p>COMMENT</p>
-                </div>
-
-                <div class="section__content__right">
-                  <i class="fas fa-heart"></i>&nbsp;  1
-                </div>
-            </div>
-
-
-        </div>
+			</c:forEach>
+			<script defer>
+	            const imgUpload = ()=>{
+	              document.querySelector('#img-input').click();
+	            }
+            </script>
         
- <jsp:include page="../common/footer.jsp"/>
 
+ <jsp:include page="../common/footer.jsp"/>
+ <script defer src="resources/js/profile/userProfilePost.js"></script>
 
 </body>
 </html>

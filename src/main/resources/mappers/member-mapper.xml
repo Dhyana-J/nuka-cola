@@ -75,6 +75,20 @@
 		<result column="mcreated_at" property="messageCreate"></result>
 		
 	</resultMap>
+	 <resultMap id="postResultSet" type="Post">
+        <result column="post_no" property="postNo"/>
+        <result column="post_content" property="postContent"/>
+        <result column="post_img" property="postImg"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_posi" property="userPosi"/>
+        <result column="user_comp" property="userComp"/>
+        <result column="user_avatar" property="userAvatar"/>
+        <result column="ISFOLLOWING" property="isFollowing"/>
+        <result column="ISLIKED" property="isLiked"/>
+    </resultMap>
 	
 	
 	<select id="loginMember"
@@ -876,7 +890,40 @@
 	 	
 	 	</select>
 	 
+	 <!-- 내가 작성한 post총 개수 -->
+	 <select id="myPostCount" parameterType="_int" resultType="_int">
+	    select count(*)
+        from Posts 
+        where user_no=#{userNo}
+	 </select>
+	 
+	 <select id="profileMyPost" parameterType="_int" resultMap="postResultSet">
+	         select P.POST_NO
+             , POST_CONTENT
+             , POST_IMAGE
+             , to_char(P.created_at, 'YYYY-MM-DD') "created_date"
+             , to_char(P.updated_at, 'YYYY-MM-DD') "updated_at"
+             , u.user_no
+             , USER_NAME
+             , USER_POSI
+             , USER_COMP
+             , U.USER_AVATAR
+             , C3.count as isLiked <!-- 해당게시물 좋아요 총 개수     -->
+             , C4.POST_NO as isFollowing 
+        from Posts P
+                 left join USERS U on U.USER_NO = P.USER_NO
+                 left join (select POST_NO, count(*) count from LIKES group by post_no) C3 on P.POST_NO = C3.POST_NO
+                 left join (select POST_NO from LIKES where USER_NO = #{userNo}) C4 on P.POST_NO = C4.POST_NO
+        where p.user_no=#{userNo}
+        order by P.updated_at desc
+	 </select>
+	 <delete id="myPostDelete" parameterType="_int">
+	 delete 
+	 from posts 
+	 where post_no=${postNo}
+	 
+	 </delete>
 	 
 	 
-	 
+
 </mapper>

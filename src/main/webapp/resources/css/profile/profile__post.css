@@ -130,13 +130,13 @@
 }
 /* 박스크기 */
 .content__section .content__wrapper {
-  height: 350px;
+  min-height: 100px;
 }
 .content__wrapper .section__content__title {
   display: flex;
   justify-content: flex-start;
   height: 20%;
-  width: 60%;
+  width: 80%;
 }
 .section__content__title .content__introduce {
   position: relative;
@@ -151,7 +151,7 @@
 
 .content__wrapper .content__editandDelete {
   position: relative;
-  left: 105%;
+  left: 85%;
 }
 
 .content__wrapper .section__content__right {
@@ -169,10 +169,12 @@
   height: 25%;
 }
 .content__wrapper .content__comment p {
+  padding:5px 10px 0px 10px;
   color: #e2e5ff;
 }
 /* 날짜 */
 .content__wrapper .sysdate {
+  padding-bottom:5px;
   font-size: 12px;
   position: relative;
   top: 5px;

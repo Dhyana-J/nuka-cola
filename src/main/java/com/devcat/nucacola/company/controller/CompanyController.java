@@ -57,11 +57,13 @@ public class CompanyController {
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 15);
 		
 		Member m = (Member) session.getAttribute("loginUser");
-		int uno = m.getUserNo();
 		
+		int uno = m.getUserNo();
+		System.out.println(uno);
 		//유저번호로 회사 번호 알아오기 by정찬복 2021014
-		int cno = cService.selectCompanyNoUn(uno);
-		model.addAttribute("cno",cno);
+		int cno = m.getCompNo();
+//		int cno = cService.selectCompanyNoUn(uno);
+ 		model.addAttribute("cno",cno);
 		
 		ArrayList<Company> list = cService.selectCompanyList(pi, uno);
 		//System.out.println(list);

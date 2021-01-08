@@ -5,10 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
-import com.devcat.nucacola.recruits.model.vo.*;
-import org.mybatis.spring.SqlSessionTemplate;
 import com.devcat.nucacola.common.model.vo.Skills;
-import sun.security.util.Debug;
+import com.devcat.nucacola.member.model.vo.Bookmark;
+import com.devcat.nucacola.recruits.model.vo.Apply;
+import com.devcat.nucacola.recruits.model.vo.ApplyList;
+import com.devcat.nucacola.recruits.model.vo.Counsel;
+import com.devcat.nucacola.recruits.model.vo.Declare;
+import com.devcat.nucacola.recruits.model.vo.Recruit;
+import com.devcat.nucacola.recruits.model.vo.RecruitDetail;
+import com.devcat.nucacola.recruits.model.vo.RecruitManage;
+import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
+import com.devcat.nucacola.recruits.model.vo.UserCareer;
 
 
 public interface RecruitService {
@@ -97,4 +104,11 @@ public interface RecruitService {
 	
 	//counsel 테이블 번호 조회
 	int selectCounselNo(Counsel cs);
+	
+	//북마크한 채용공고 번호 리스트 조회
+	ArrayList<String> selectBookMarkNoList(int uno);
+	
+	//채용공고 북마크 추가,삭제
+	int addBookMark(Bookmark b);
+	int deleteBookMark(Bookmark b);
 }

@@ -271,11 +271,19 @@ let addList = (list,area)=>{
                                             recruitInfo+='<span>신입,경력</span>';
                                         }
                         recruitInfo+='</div>'
-                                    +'<div class="summary__icon">'
-                                        // +'<span class="material-icons">turned_in_not</span>'
-                                        //<span class="material-icons">turned_in</span> 안채워진 북마크
-                                    +'</div>'
-                                +'</div>'
+                                    +'<div class="summary__icon">';
+
+                                        //bookMarkNoList,userNo는 recruitSearch.jsp 하단에 정의되어있음
+                                        if(userNo>-1){
+                                            if(bookMarkNoList.includes(recruit.recruitNo)){
+                                                recruitInfo+=`<span class="material-icons" onclick="deleteBookMark(event,${userNo},${ recruit.recruitNo})">turned_in</span>`;
+                                            }else{
+                                                recruitInfo+=`<span class="material-icons" onclick="addBookMark(event,${userNo},${ recruit.recruitNo})">turned_in_not</span>`;
+                                            }
+                                        }
+
+                      recruitInfo+='</div>'
+                                +'</div>'//recruit-summary
                                 +'<div class="recruit-period">';
                                     if(recruit.recruitDl!=null||recruit.recruitDl!='(null)'){
                                         recruitInfo+='<span>'+recruit.recruitDl+'마감,</span>';
@@ -306,8 +314,6 @@ window.addEventListener('scroll',()=>{
         }
       })
       .then(function(container){
-          console.log(container.data.pi);
-          console.log(container.data.recruitInfoList);
 
           let pi = container.data.pi;
           let recruitInfoList = container.data.recruitInfoList
@@ -360,8 +366,6 @@ document.querySelector('.search-btn').addEventListener('click',()=>{
         address:address
     };
 
-    console.log('검색버튼클릭!');
-    console.log(keywordList);
 
     stopLoad=false; //검색결과 스크롤 추가로드를 위해 세팅
 
@@ -378,9 +382,6 @@ document.querySelector('.search-btn').addEventListener('click',()=>{
           let area = document.querySelector('.recruit-search__search-list');
         
           area.innerHTML="";//검색결과 초기화
-
-          console.log('파이다');
-            console.log(pi);
 
           addList(recruitInfoList,area);
 
@@ -422,8 +423,6 @@ document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
             address:address
         };
 
-        console.log('정렬버튼클릭!');
-        console.log(keywordList);
 
         stopLoad=false; //검색결과 스크롤 추가로드를 위해 세팅
 
@@ -443,9 +442,6 @@ document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
 
             addList(recruitInfoList,area);
 
-            console.log('파이다');
-            console.log(pi);
-
             if(pi.currentPage==pi.maxPage||pi.maxPage==0){
                 stopLoad=true;
             }
@@ -457,3 +453,56 @@ document.querySelectorAll('.search-results__align-options>span').forEach((v)=>{
         
     })
 })
+
+
+/*-----채용공고 북마크해주는 기능-----*/
+const addBookMark = (e,userNo,recruitNo)=>{
+
+    
+    axios.get('addBookMark.re', {
+        params: {
+            userNo:userNo,
+            recruitNo:recruitNo
+        }
+    })
+    .then(function(result){
+
+        console.log('통신성공 결과 : ');
+        console.log(result);
+        
+        console.log(e.target);
+
+        if(result.data>0){
+            e.target.parentNode.innerHTML=`<span class="material-icons" onclick="deleteBookMark(event,${userNo},${ recruitNo})">turned_in</span>`;
+        }
+
+    })
+    .catch(function(error){
+        console.log(error);            		  
+    });
+
+
+}
+const deleteBookMark=(e,userNo,recruitNo)=>{
+
+    
+    axios.get('deleteBookMark.re', {
+        params: {
+            userNo:userNo,
+            recruitNo:recruitNo
+        }
+    })
+    .then(function(result){
+        console.log('통신성공 결과 : ');
+        console.log(result);
+        
+        console.log(e.target);
+        if(result.data>0){
+            e.target.parentNode.innerHTML=`<span class="material-icons" onclick="addBookMark(event,${userNo},${ recruitNo})">turned_in_not</span>`;
+        }
+
+    })
+    .catch(function(error){
+        console.log(error);            		  
+    });
+}

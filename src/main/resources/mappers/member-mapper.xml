@@ -99,9 +99,7 @@
 			 , certify_ans
 			 , email_auth
 			 , user_comp
-
 	      from users u
-
           where user_status != 1
           and user_email=#{email}
 	</select>
@@ -569,14 +567,15 @@
 		 )
 	</select>
 	
-	<!-- 이메일로 회원찾기(회사 구성원추가) -->
+	<!-- 이메일/이름으로 회원찾기(회사 구성원추가/메세지 대화상대검색) -->
 	<select id="searchMemberList"
 			parameterType="String"
 			resultMap="memberResultSet">
 		select
 			  *
 		  from users
-		 where user_email like '%'||#{email}||'%'
+		 where user_email like '%'||#{keyword}||'%'
+		 	or user_name like '%'||#{keyword}||'%'
 	</select>
 	
 		

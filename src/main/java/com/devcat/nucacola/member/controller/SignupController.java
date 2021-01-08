@@ -51,8 +51,12 @@ public class SignupController {
 			
 		//System.out.println(bcryptPasswordEncoder.encode(m.getUserPwd()));
 		
-		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())
-				&& loginUser.getEmailAuth().equals("Y")) {
+		
+		
+		if (loginUser != null /*
+								 * && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd()) &&
+								 * loginUser.getEmailAuth().equals("Y")
+								 */) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/list.pos");
 			System.out.println("로그인");

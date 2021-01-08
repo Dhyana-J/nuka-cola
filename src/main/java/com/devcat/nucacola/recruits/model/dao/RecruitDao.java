@@ -18,6 +18,7 @@ import com.devcat.nucacola.recruits.model.vo.RecruitManage;
 import com.devcat.nucacola.recruits.model.vo.RecruitSkill;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.recruits.model.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -158,5 +159,17 @@ public class RecruitDao {
 	public int selectCounselNo(SqlSessionTemplate sqlSession, Counsel cs) {
 		
 		return sqlSession.selectOne("recruit-mapper.selectCounselNo", cs);
+	}
+
+	public ArrayList<String> selectBookMarkNoList(SqlSessionTemplate sqlSession, int uno) {
+		return (ArrayList)sqlSession.selectList("recruit-mapper.selectBookMarkNoList",uno);
+	}
+
+	public int addBookMark(SqlSessionTemplate sqlSession, Bookmark b) {
+		return sqlSession.insert("recruit-mapper.addBookMark",b);
+	}
+
+	public int deleteBookMark(SqlSessionTemplate sqlSession, Bookmark b) {
+		return sqlSession.delete("recruit-mapper.deleteBookMark",b);
 	}
 }

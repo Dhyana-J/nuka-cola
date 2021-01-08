@@ -23,6 +23,7 @@
       />
     <link rel="stylesheet" href="resources/css/common.css" />
     <link rel="stylesheet" href="resources/css/chatRoom/chatRoomView.css">
+    <script defer src="resources/js/chatRoom/chatRoom.js"></script>
 </head>
 <body>
   <!-- 메뉴바 -->
@@ -50,73 +51,25 @@
       <div class="chatroom-search__mid-section">
 
 
-        <div class="searching-box hidden-box">
+        <div class="searching-box">
 
           <div class="mid-section__header">
             <strong>대화 상대 검색</strong>
             <div class="search-bar__wrapper">
               <span class="material-icons">search</span>
-              <input type="text">
+              <input type="text" id="user-search">
             </div>
           </div>
           <div class="search-list">
-            <div class="user-info__wrapper">
-              <div class="img-wrapper">
-                <img src="resources/assets/elon.jpg" alt="">
-              </div>
-              <div class="user-info">
-                <strong>홍길동</strong>
-                <span>MIT DeepLearning Lab</span>
-                <span>@Tesla Inc.</span>
-              </div>
-            </div>
-            <div class="user-info__wrapper">
-              <div class="img-wrapper">
-                <img src="resources/assets/elon.jpg" alt="">
-              </div>
-              <div class="user-info">
-                <strong>홍길동</strong>
-                <span>MIT DeepLearning Lab</span>
-                <span>@Tesla Inc.</span>
-              </div>
-            </div>
-            <div class="user-info__wrapper">
-              <div class="img-wrapper">
-                <img src="resources/assets/elon.jpg" alt="">
-              </div>
-              <div class="user-info">
-                <strong>홍길동</strong>
-                <span>MIT DeepLearning Lab</span>
-                <span>@Tesla Inc.</span>
-              </div>
-            </div>
-            <div class="user-info__wrapper">
-              <div class="img-wrapper">
-                <img src="resources/assets/elon.jpg" alt="">
-              </div>
-              <div class="user-info">
-                <strong>홍길동</strong>
-                <span>MIT DeepLearning Lab</span>
-                <span>@Tesla Inc.</span>
-              </div>
-            </div>
-            <div class="user-info__wrapper">
-              <div class="img-wrapper">
-                <img src="resources/assets/elon.jpg" alt="">
-              </div>
-              <div class="user-info">
-                <strong>홍길동</strong>
-                <span>MIT DeepLearning Lab</span>
-                <span>@Tesla Inc.</span>
-              </div>
-            </div>
+            
+            
           </div><!--search-list-->
 
         </div><!--searching-box-->
 
 
 
-        <div class="chatting-box ">
+        <div class="chatting-box hidden-box">
 
           <div class="main__section__left">
             <div class="chat">
@@ -125,7 +78,7 @@
                         <div class="chat-with">대화</div>
                     </div>
                     <div class="search-btn">
-                      <span class="material-icons">close</span>
+                       <span class="material-icons close-btn">close</span>
                     </div>
                 </div>
                 <!-- end chat-header -->
@@ -133,7 +86,9 @@
                 <div class="chat-history">
                 
                   <ul id="chat-all">
-                  
+                    <li class="clearfix">
+                      <div class="message-data"></div>
+                    </li>
                   </ul>
         
                 </div>
@@ -193,7 +148,9 @@
 
 
 <script defer>
+const userNo = ${loginUser.userNo}
 
+/*-----------메세지 목록 불러오기 ----------*/
 
 const selectChatRoomList = ()=>{
 	
@@ -301,6 +258,8 @@ const createMessages = (chatroomNo,userTwo,userAvatar,userName,messageContent,me
 	document.querySelector(".chat-list").appendChild(chatDivW);
 	
 }
+
+
 
 
 

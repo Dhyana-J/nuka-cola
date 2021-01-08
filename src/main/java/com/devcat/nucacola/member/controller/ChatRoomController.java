@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.member.model.service.MemberService;
+import com.devcat.nucacola.member.model.vo.Member;
 import com.google.gson.Gson;
 
 @Controller
@@ -34,6 +35,15 @@ public class ChatRoomController {
 		
 		return new Gson().toJson(chatList);
 		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "searchMemberList.ch", produces="application/json; charset=utf-8")
+	public ArrayList<Member> searchMemberList(String keyword) {
+		
+		ArrayList<Member> searchedList = mService.searchMemberList(keyword);
+		
+		return searchedList;
 	}
 
 }

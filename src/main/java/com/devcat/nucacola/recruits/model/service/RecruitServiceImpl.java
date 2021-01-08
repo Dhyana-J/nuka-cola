@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.member.model.vo.Bookmark;
 
 
 @Service
@@ -202,6 +203,21 @@ public class RecruitServiceImpl implements RecruitService {
 	@Override
 	public int selectCounselNo(Counsel cs) {
 		return rDao.selectCounselNo(sqlSession, cs);
+	}
+
+	@Override
+	public ArrayList<String> selectBookMarkNoList(int uno) {
+		return rDao.selectBookMarkNoList(sqlSession,uno);
+	}
+
+	@Override
+	public int addBookMark(Bookmark b) {
+		return rDao.addBookMark(sqlSession,b);
+	}
+
+	@Override
+	public int deleteBookMark(Bookmark b) {
+		return rDao.deleteBookMark(sqlSession,b);
 	}
 	
 }

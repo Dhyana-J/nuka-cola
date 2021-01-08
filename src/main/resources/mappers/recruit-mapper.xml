@@ -590,10 +590,33 @@
     	 where apply_no = #{applyNo}
     	   and counsel_content = #{counselContent}
     	       
-    
-    
     </select>
     
+	<select id="selectBookMarkNoList" parameterType="_int" resultType="String">
+		select
+			   recruit_no
+		  from bookmarks
+		 where user_no=#{uno}
+	</select>    
+	
+	<insert id="addBookMark" parameterType="Bookmark">
+		insert
+			  into bookmarks
+			  values(
+			  	#{userNo},
+			  	#{recruitNo},
+			  	sysdate
+			  )
+	</insert>
+	
+	<delete id="deleteBookMark" parameterType="Bookmark">
+		delete
+		  from bookmarks
+		 where user_no=#{userNo}
+		   and recruit_no=#{recruitNo}
+	</delete>
+	
+	
     
     
     

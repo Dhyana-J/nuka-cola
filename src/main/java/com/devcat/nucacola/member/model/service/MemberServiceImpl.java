@@ -37,6 +37,7 @@ import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.TempKey;
 import com.devcat.nucacola.member.model.vo.UserFiled;
+import com.devcat.nucacola.posts.model.vo.Post;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -569,6 +570,16 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Chatrooms> selectChatRoomList(int userNo) {
 		
 		return mDao.selectChatRoomList(sqlSession, userNo);
+	}
+
+	@Override
+	public int countLikePost(int uno) {
+		return mDao.countLikePost(sqlSession, uno);
+	}
+
+	@Override
+	public ArrayList<Post> selectLikePost(PageInfo pi, int uno) {
+		return mDao.selectLikePost(sqlSession, pi, uno);
 	}
 	
 	

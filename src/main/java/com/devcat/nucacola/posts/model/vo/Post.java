@@ -36,4 +36,5 @@ public class Post {
 	private int isFollowing;
 	private int isLiked;
 	
+	private String compName;
 }

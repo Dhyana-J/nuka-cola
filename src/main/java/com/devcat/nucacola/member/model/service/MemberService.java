@@ -16,6 +16,7 @@ import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
+import com.devcat.nucacola.posts.model.vo.Post;
 
 public interface MemberService {
 	
@@ -194,6 +195,9 @@ public interface MemberService {
 	// 메세지 주고받는 사람들 리스트
 	ArrayList<Chatrooms> selectChatRoomList(int userNo);
 	
+	//좋아요한 게시물 조회
+	int countLikePost(int uno);
+	ArrayList<Post> selectLikePost(PageInfo pi, int uno);
 	
 
 }

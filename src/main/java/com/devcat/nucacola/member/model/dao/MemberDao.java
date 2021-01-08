@@ -21,6 +21,7 @@ import com.devcat.nucacola.member.model.vo.Member;
 import com.devcat.nucacola.member.model.vo.PartnerSearch;
 import com.devcat.nucacola.member.model.vo.Project;
 import com.devcat.nucacola.member.model.vo.UserFiled;
+import com.devcat.nucacola.posts.model.vo.Post;
 
 @Repository
 public class MemberDao {
@@ -377,7 +378,18 @@ public class MemberDao {
 	}
 
 
+	// 좋아요 게시물 조회
+	public int countLikePost(SqlSessionTemplate sqlSession, int uno) {
+		return sqlSession.selectOne("memberMapper.selectListCount", uno);
+	}
 	
+	public ArrayList<Post> selectLikePost(SqlSessionTemplate sqlSession, PageInfo pi, int uno) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikePost", uno, rowBounds);
+
+	}
 	
 	
 	

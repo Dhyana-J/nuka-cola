@@ -959,7 +959,31 @@
 	 	</select>
 	 
 	
-	 
+	 	<insert id="insertKakoUser" parameterType="Member">
+	 		insert into
+	 		       users
+	 		       (
+	 		       	  user_no
+	 		       	, login_type
+	 		       	, user_email
+	 		       	, user_name
+	 		       	, created_at
+	 		       	, updated_at
+	 		       	, email_auth
+	 		       
+	 		       )
+	 		       values
+	 		       (
+	 		       	   seq_user.nextval
+	 		       	 , #{loginType}
+	 		       	 , #{email}
+	 		    	 , #{userName}
+	 		    	 , default
+	 		    	 , default
+	 		    	 , #{emailAuth}
+	 		       )
+
+	 	</insert>
 	 
 
 </mapper>

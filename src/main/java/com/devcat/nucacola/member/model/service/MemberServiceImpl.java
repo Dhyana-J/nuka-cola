@@ -605,6 +605,11 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePwd(Member m) {
 		return mDao.updatePwd(sqlSession, m);
 	}
+
+	@Override
+	public int insertKakaoUser(Member m) {
+		return mDao.insertKakaoUser(sqlSession, m);
+	}
 	
 
 

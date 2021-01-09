@@ -210,5 +210,9 @@ public interface MemberService {
 	
 	// 프로필 내가 작석한 post 삭제
 	int myPostDelete(int postNo);
+	
+	
+	// 카카오 유저 회원가입
+	int insertKakaoUser(Member m);
 
 }

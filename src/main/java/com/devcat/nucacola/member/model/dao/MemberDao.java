@@ -410,6 +410,11 @@ public class MemberDao {
 		
 		return sqlSession.selectOne("memberMapper.myPostDelete", postNo);
 	}
+
+	public int insertKakaoUser(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.insert("memberMapper.insertKakoUser", m);
+	}
 	
 
 	

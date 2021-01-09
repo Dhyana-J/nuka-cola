@@ -109,6 +109,7 @@ main .inner .section__banner {
 #alert_check_email {
   display: none;
   color: red;
+  font-size:50%;
 }
 #alert_dupcheck_email {
   display: none;

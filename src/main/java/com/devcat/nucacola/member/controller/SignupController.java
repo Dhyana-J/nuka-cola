@@ -2,25 +2,20 @@ package com.devcat.nucacola.member.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
@@ -42,7 +37,7 @@ public class SignupController {
 	
 	@Autowired
 	private MemberServiceImpl mailsender;//이메일인증전용
-	
+
 	// 로그인 폼 화면 띄우기
 	@RequestMapping("loginForm.me")
 	public String loginForm() {
@@ -251,31 +246,20 @@ public class SignupController {
 	      
 	   }
 	
-	
-	
-
-	
 		/*
-		 * public void SendEmail(Email email) {
+		 * // 비밀번호 찾는 구문
 		 * 
-		 * MimeMessage msg = mailsender.createMessage();
+		 * @RequestMapping(value="findPass.me") public String findPass(Member m,
+		 * RedirectAttributes redirectattr, Model model) {
 		 * 
-		 * System.out.println("****메일센더 ??");
+		 * // 전달받는 이메일값 저장 String email = m.getEmail(); // 전달한 회원의 식별자 int result =
+		 * mService.findPass(email);
 		 * 
-		 * try { msg.setSubject(email.getSubject()); msg.setText(email.getContent());
-		 * msg.setRecipients(MimeMessage.RecipientType.TO,
-		 * InternetAddress.parse(email.getReceiver())); } catch (MessagingException e) {
-		 * System.out.println("MessagingException"); e.printStackTrace(); } try {
-		 * mailsender.send(msg); } catch (MailException e) {
-		 * System.out.println("MailException발생"); e.printStackTrace();
 		 * 
-		 * }
 		 * 
-		 * }
+		 * return ""; }
 		 */
 	
 	
-	
-	
-	
 }
+

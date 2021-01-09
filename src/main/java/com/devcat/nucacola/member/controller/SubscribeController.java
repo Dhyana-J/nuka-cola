@@ -53,7 +53,7 @@ public class SubscribeController {
 			
 		int uno = m.getUserNo();
 		int blistCount = mService.countBookmark(uno);
-		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
+		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,10,4);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
@@ -98,7 +98,7 @@ public class SubscribeController {
 			 						Member m,Model model,HttpSession session) {
 		int uno = m.getUserNo();
 		int blistCount = mService.countBookmark(uno);
-		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,1,4);
+		PageInfo pi = Pagination.getPageInfo(blistCount, currentPage,10,4);
 		HashMap<Integer, List<String>>skillMap =new HashMap<>();
 		ArrayList<Bookmark>blist = mService.selectBookmark(uno,pi);// 채용공고정보
 		ArrayList<Bookmark>skills = mService.selectRecruitSkills(uno);// 채용공고 관련업무기술정보
@@ -114,7 +114,7 @@ public class SubscribeController {
 		result.put("skillMap",skillMap);
 		result.put("blist",blist);
 		
-		System.out.println(result);
+		System.out.println("blist"+blist);
 		return result;
 	}
 	

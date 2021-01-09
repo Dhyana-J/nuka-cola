@@ -91,7 +91,7 @@
                 	<input class='recruit-no' type="hidden" name="recruitNo" value='${b.recruitNo}'>
 	                	<div class="bookmark__item__box__right">
 		                    <span class="just__text__title">${b.compName}</span>
-		                    <span class="just__text__content"><span>${b.recruitTitle}</span></span>
+		                    <span class="just__text__content"><strong>${b.recruitTitle}</strong></span>
 		                    
 		                    <c:if test="${b.recruitRequ eq '0'}">
 		                    	<span class="just__text__recruit">신입</span>
@@ -158,12 +158,16 @@
             		}
             	const skillBox = document.createElement("div");
             		  skillBox.className = "section__content__box";
-            		  i.forEach((v) => {
+            		  if(i==null){
+            			  
+            		  }else{
+            		  i.forEach((f) => {
             		    const skill = document.createElement("span");
             		    skill.className = "compindus__box";
-            		    skill.innerText = "" + v;
+            		    skill.innerText = "" + f;
             		    skillBox.appendChild(skill);
             		  });
+            		  }
 
             	const date = document.createElement('div');
             		date.className='date';
@@ -205,11 +209,11 @@
                 console.log('로드!')
                 axios.get('load.bk', {
                   params: {
-                	userNo:${loginUser.userNo},
+                	userNo:${pUser.userNo },
                 	currentPage: ++currentPageNum
                   }
                 }) .then((result)=>{
-
+					console.log(result.data["blist"]);
                     result.data["blist"].forEach((v) => {
                     createBookmarkItem(v, result.data["skillMap"][v.recruitNo]);
                     
@@ -238,7 +242,7 @@
 			              
 			              axios.get('delete.bk',{
 			         		 params:{
-			         			userNo:${loginUser.userNo},
+			         			userNo:${pUser.userNo },
 			         			recruitNo:rno
 			         		 }
 			         	 })

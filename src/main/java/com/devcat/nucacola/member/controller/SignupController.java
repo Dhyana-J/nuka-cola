@@ -65,7 +65,7 @@ public class SignupController {
 		}else if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			
 			mailsender.mailSendWithUserKey(loginUser,request);
-			session.setAttribute("alertMsg", "작성해주신 이메일로 회원가입 인증메일을 보냈습니다.\n인증을 완료해주세요!");
+			session.setAttribute("alertMsg", "작성해주신 이메일로 회원가입 인증메일을 보냈습니다. 인증을 완료해주세요!");
 			mv.setViewName("redirect:/");
 			
 		}else {
@@ -113,9 +113,9 @@ public class SignupController {
 		if(result>0) {//회원가입 성공
 			
 			//인증메일 보내기 메소드
-			mailsender.mailSendWithUserKey(m,request);//직전에 insert한 회원 userNo 조회해 가져와서 추가로 넘겨주자 일단은 그냥함
+			mailsender.mailSendWithUserKey(m,request);
 			
-			session.setAttribute("alertMsg", "작성해주신 이메일로 회원가입 인증메일을 보냈습니다.\n인증을 완료해주세요!");
+			session.setAttribute("alertMsg", "작성해주신 이메일로 회원가입 인증메일을 보냈습니다. 인증을 완료해주세요!");
 			return "redirect:/";
 			
 		}else {//회원가입 실패
@@ -140,12 +140,14 @@ public class SignupController {
 	@RequestMapping("confirmEmail.me")
 	public String confirmEmail(Member m,Model model, HttpSession session) {
 		
+		System.out.println("컨펌이메일 실행");
+		
 		//DB에 auth값을 Y로 변경해주자
 		
 		int result = mailsender.confirmEmail(m);
 		
 		if(result>0) {
-			session.setAttribute("alertMsg", "이메일 인증이 완료되었습니다! 환영합니다 :)");
+			session.setAttribute("alertMsg", "인증이 완료되었습니다! 로그인해주세요 환영합니다 :)");
 			return "redirect:/";
 		}else {
 			model.addAttribute("errorMsg","이메일인증 실패");

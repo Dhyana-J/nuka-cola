@@ -99,7 +99,7 @@
 		                      
 		                         <c:choose>
 			                      	<c:when test="${userInfo.userAvatar eq null }">
-				                        <img class="circle" src="resources/assets/conn.png" alt="img">
+				                        <img class="circle" src="resources/assets/standard.png" alt="img">
 			                      	</c:when>
 			                      	<c:otherwise>
 				                        <img class="circle" src="${pageContext.request.contextPath}/${userInfo.userAvatar} " alt="img">
@@ -111,8 +111,10 @@
 		                            <p>${userInfo.userComp}</p>
 		                        </div>
 		                   	  </div><!-- content__profile -->
-		                        <span class="toProfile" onclick="location.href=''">프로필</span> &nbsp;
-		                        <span class="toProfile" onclick="cancelFollowing(event.target,${loginUser.userNo},${userInfo.userNo });">취소</span>
+		                        <span class="toProfile" onclick="location.href='profile.me?currentPage=1&userNo=${userInfo.userNo}'">프로필</span> &nbsp;
+		                        <c:if test="${loginUser.userNo eq profileUserNo }">
+			                        <span class="toProfile" onclick="cancelFollowing(event.target,${loginUser.userNo},${userInfo.userNo });">취소</span>
+		                        </c:if>
 		                        
 	                	</div>     
                         
@@ -157,7 +159,7 @@
 					profile = profile
 					+'<img'
 					+' class="circle"'
-					+' src="resources/assets/conn.png"'
+					+' src="resources/assets/standard.png"'
 					+' alt="img"'+'/>';
 				}else{
 					profile = profile

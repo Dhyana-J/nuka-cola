@@ -16,7 +16,7 @@ const loadSearchedList = (list, area) => {
                         if(v.userAvatar==undefined){
                             member = member
                             +'<div class="member__avatar">'
-                                +'<img src="resources/assets/avatar.png" alt="" />'
+                                +'<img src="resources/assets/basic.png" alt="" />'
                             +'</div>';
                         }else{
                             member = member

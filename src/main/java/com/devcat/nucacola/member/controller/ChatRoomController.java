@@ -99,7 +99,14 @@ public class ChatRoomController {
 		
 		//채팅방번호 있으면 채팅 전송 결과값 리턴한다.
 		int result = mService.sendMsg(msgInfo);
-		resultMap.put("result",Integer.toString(result));
+		
+		
+		if(result>0) {
+			resultMap.put("result","1");
+		}else {
+			resultMap.put("result","0");
+		}
+		
 		
 		return resultMap;
 	}
@@ -112,7 +119,14 @@ public class ChatRoomController {
 		noList.add(myNo);//로그인된 회원번호
 		noList.add(mateNo);//채팅 상대방 회원번호
 		
-		return mService.selectLatestMsg(noList);
+		ArrayList<messages> result = mService.selectLatestMsg(noList);
+		System.out.println("**************selectLatestMsg.ch 실행됨");
+		System.out.println(result);
+		for(messages e:result) {
+			System.out.println(e);
+		}
+		
+		return result;
 	}
 	
 	

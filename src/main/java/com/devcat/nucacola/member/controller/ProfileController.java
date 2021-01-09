@@ -382,6 +382,8 @@ public class ProfileController {
 		//뷰에서 쓰일 페이지객체 세팅
 		model.addAttribute("fgPi",fgPi);
 		
+		model.addAttribute("profileUserNo",userNo);
+		
 		
 		return "user/profile_following";
 	}

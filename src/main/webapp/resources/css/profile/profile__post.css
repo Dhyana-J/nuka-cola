@@ -86,7 +86,7 @@
   color: #707070;
 }
 
-.content__wrapper .circle {
+.content__wrapper .circle, .avatar-small img{
   background-color: gray;
   width: 50px;
   height: 50px;
@@ -170,7 +170,7 @@
 }
 .content__wrapper .content__comment p {
   padding:5px 10px 0px 10px;
-  color: #e2e5ff;
+  color: rgb(226, 229, 255);
 }
 /* 날짜 */
 .content__wrapper .sysdate {
@@ -283,4 +283,179 @@ a#topBtn {
 }
 #logoDesign {
   transform: scale(0.5);
+}
+
+
+
+
+.post_form-btn {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 45px;
+  height: 45px;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  background: #30409f;
+  cursor: pointer;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+ .just__text__dv .post_form {
+  padding: 1px;
+  height: 100%;
+  width: 118%;
+}
+.post_form span {
+  display: block;
+  margin-bottom: 10px;
+}
+.post_form textarea {
+  padding: 5px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  width: 100%;
+  height: 60%;
+  resize: none;
+  border: solid 1px #c7c7c7;
+}
+.post_form .post_form-btn-wrapper {
+  display: flex;
+  flex-direction:row-reverse;
+  justify-content: space-between;
+}
+.post_form-btn-wrapper .btn {
+  width: 60px;
+  height: 27px;
+}
+.image__input_box {
+  cursor: pointer;
+  height: 27px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: #a5a5a5;
+}
+.image__input_box:hover {
+  color: #6d6d6d;
+}
+.image__input_box p {
+  font-size: 14px;
+}
+.image__input_box i {
+  font-size: 20px;
+}
+/*포스트*/
+.post__comment_box{
+margin-top:30px;	
+	
+}
+.post__user-info {
+  display: flex;
+  align-items: center;
+}
+.post__user-info .user__summary {
+  flex: 1;
+  margin-left: 10px;
+  padding: 5px;
+}
+.user__summary strong {
+  display: block;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 3px;
+}
+.post__user-info .follow__btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #30409f;
+  cursor: pointer;
+}
+.follow__btn:hover {
+  color: #10163b;
+}
+.follow__btn i {
+  font-size: 20px;
+  padding-bottom: 2px;
+}
+.follow__btn p {
+  font-size: 14px;
+}
+.post__comment_box article {
+  margin-top: 10px;
+  color: #353535;
+  line-height: 1.5;
+}
+.post__comment_box .post__date {
+  display: block;
+  font-size: 13px;
+  margin: 5px 0 10px 0;
+  color: #8f8f8f;
+}
+.post__comment_box .post__btn__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #30409f;
+  cursor: pointer;
+}
+.like_btn:hover {
+  color: #151c44;
+}
+.post__btn__wrapper i {
+  font-size: 20px;
+  padding-bottom: 3px;
+  margin-right: 3px;
+}
+.post__btn__wrapper .like_btn {
+  display: flex;
+  align-items: center;
+}
+.comment_btn_active {
+  color: #777;
+}
+/* 댓글 */
+.post__comment_list {
+  height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s;
+}
+.comment_list_active {
+  height: auto;
+  margin-top: 20px;
+  border-top: 2px solid #000;
+  padding-top: 20px;
+}
+.post__comment_box li + li {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgb(209, 209, 209);
+}
+.post__comment_box .comment_content {
+  font-size: 15px;
+  padding: 10px 0;
+  color: rgb(65, 65, 65);
+}
+.comment__btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+.comment__btn-wrapper span {
+  font-size: 15px;
+  cursor: pointer;
+}
+.comment__btn-wrapper span:hover {
+  color: #30409f;
+  text-decoration: underline;
 }

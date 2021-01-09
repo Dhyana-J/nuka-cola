@@ -403,7 +403,12 @@ public class MemberDao {
 	
 	public int myPostDelete(SqlSessionTemplate sqlSession, int postNo) {
 		
-		return sqlSession.selectOne("memberMapper.myPostDelete", postNo);
+		return sqlSession.delete("memberMapper.myPostDelete", postNo);
+	}
+	
+	public int myPostUpdate(SqlSessionTemplate sqlSession, Post p) {
+		
+		return sqlSession.update("memberMapper.myPostUpdate", p);
 	}
 
 	

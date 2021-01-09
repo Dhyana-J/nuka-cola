@@ -49,7 +49,8 @@
               </ul>
             </div>
           </div>
-          <button id="popup_open_btn" class="btn visual__right">지원이력</button>
+          <button type="button" id="popup_open_btn" class="btn visual__right"
+          onclick='location.href="list.ap?userNo=${pUser.userNo}"'>지원이력</button>
         </div>
       </section>
 
@@ -67,12 +68,12 @@
                 <div class="main__section__left">
                     <div class="content__wrapper">
                       <ul class="left__info">
-                        <li>TOP</li>
-		                <li><a href="initFollowing.us?userNo=${pUser.userNo}">팔로잉</a></li>
+		                <li>TOP</li>
+ 						<li><a href="initFollowing.us?userNo=${pUser.userNo}">팔로잉</a></li>
 		                <li><a href="initFollower.us?userNo=${ pUser.userNo }">팔로워</a></li>
 		                <li onClick='location.href="list.bk?userNo=${ pUser.userNo}"'>북마크</li>
 		                <li onClick='location.href="list.sub?userNo=${ pUser.userNo}"'>구독기업</li>
-		                <li>좋아요게시글</li>
+			            <li><a href="profileLikePost.us?userNo=${ pUser.userNo}">좋아요게시물</a></li>
 		                <li><a href="initConnect.us?userNo=${ pUser.userNo }">연결</a></li>
                       </ul>
                     </div>
@@ -108,7 +109,9 @@
                                 </ul>
                             </div>
                             <div class="company__box__right">
+                            <c:if test="${pUser.userNo == loginUser.userNo}">
                                 <span class="cancle-btn">삭제</span>
+                            </c:if>
                             </div>
 
                           </div>
@@ -157,9 +160,10 @@
             	const scriptItemRight = document.createElement('div');
             		scriptItemRight.className='company__box__right';
             	const cancleBtn = document.createElement('span');
+            	if(${loginUser.userNo == pUser.userNo}){
             		cancleBtn.className='cancle-btn';
             		cancleBtn.innerText='삭제';
-            		
+            	}
             	
             	imgBox.appendChild(img);	
             	li1.appendChild(compCount);

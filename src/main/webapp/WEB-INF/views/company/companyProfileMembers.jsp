@@ -59,7 +59,7 @@
         <div class="section__title">
           <ul>
             <li onclick='location.href="profileMain.co?cno=${c.compNo}"'>ABOUT</li>
-            <li onclick='location.href="recruit.co?compNo=${c.compNo}"'>채용</li>
+            <li  onclick='location.href="recruit.co?cno=${c.compNo}"'>채용</li>
             <li class="nav-active"><a href="profileMember.co?currentPage=1&cno=${c.compNo }">구성원</a></li>
           </ul>
         </div>

@@ -202,11 +202,18 @@ public interface MemberService {
 	
 	ArrayList<Post> selectLikePost(PageInfo pi, int uno);
 
-	// 프로필 내가 작석한 post리스트 조회
+	// 비밀번호 수정 요청
+	int updatePwd(Member m);
+	
+	
+	// 프로필 내가 작성한 post리스트 조회
 	ArrayList<Post> myPostList(int userNo,PageInfo pi);
 	
 	// 프로필 내가 작석한 post 삭제
 	int myPostDelete(int postNo);
+	
+	// 프로필 내가 작성한 post 수정
+	int myPostUpdate(Post p);
 
 	//ArrayList<Member> findPass(String email, int uno);
 	

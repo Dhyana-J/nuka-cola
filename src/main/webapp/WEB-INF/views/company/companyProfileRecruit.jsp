@@ -27,14 +27,14 @@
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="../../assets/moomin.jpg" alt="logo" />
+            <img src="resources/assets/avatar.png" alt="logo" />
           </div>
           <div>
             <div class="main__info">
-              <strong>RIDI BOOKS</strong>
-              <span>Since 2017</span>
-              <span>1003 명의 구성원</span>
-              <span>Bookstore@gmail.com</span>
+              <strong>${ c.compName }</strong>
+              <span>Since ${ c.compBirth }</span>
+              <span>${ c.headCount }</span>
+              <span>${ c.compEmail }</span>
             </div>
             <ul class="people__info">
               <li>팔로우 <strong>102</strong></li>
@@ -63,7 +63,7 @@
                     <li><a href="#employ__box__end">모집완료</a></li>
                   </ul>
                 </div>
-                <div class="btn-blue recruit-employee" onclick='location.href=""'>채용등록하기</div><!-- 채용등록페이지 -->
+                <div class="btn-blue recruit-employee" onclick="location.href='recruitEnroll.re'">채용등록하기</div><!-- 채용등록페이지 -->
                 
             </div>
           <div id ="employ__box__ing" class="main__section__right">
@@ -99,9 +99,9 @@
 		                </div>
 		          </div>
 		           <div class="content__right">
-				   
+				   <c:if test="${loginUser.compNo==c.compNo}">
 		           <div class="deadlineBtn">공고마감</div>
-				   
+				   </c:if>
 		           </div>
               </div>
 			  </c:forEach>

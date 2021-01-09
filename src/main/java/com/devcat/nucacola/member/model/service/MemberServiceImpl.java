@@ -599,7 +599,20 @@ public class MemberServiceImpl implements MemberService {
 	public int myPostDelete(int postNo) {
 		return mDao.myPostDelete(sqlSession, postNo);
 	}
+	
 
+	// 비밀번호 요청
+	@Override
+	public int updatePwd(Member m) {
+		return mDao.updatePwd(sqlSession, m);
+	}
+	
+	// 내가쓴 post 수정
+	@Override
+	public int myPostUpdate(Post p) {
+		return mDao.myPostUpdate(sqlSession, p);
+	}
+	
 
 	/*
 	 * // 비밀번호 수정요청

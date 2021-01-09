@@ -932,11 +932,19 @@
         where p.user_no=#{userNo}
         order by P.updated_at desc
 	 </select>
-	 <delete id="myPostDelete" parameterType="_int">
-	 delete 
-	 from posts 
-	 where post_no=${postNo}
+	 
+	 <delete id="myPostDelete">
+		 delete 
+		 from posts 
+		 where post_no=#{postNo}
 	 </delete>
+	 <update id="myPostUpdate" parameterType="Post">
+		 update posts 
+		 set post_content=#{postContent}
+		 , updated_at=sysdate 
+		 where post_no=#{postNo}
+	 </update>
+	 
 	 	<select id="selectListCount" resultType="_int">
 	 		 select
 		            count(*)

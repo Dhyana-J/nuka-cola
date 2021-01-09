@@ -161,8 +161,6 @@ const selectChatRoomList = ()=>{
 	})
 	.then(function(response) {
 		
-		console.log(response.data);
-		
 		let chatList = response.data;
 		
 		for(var i in chatList) {

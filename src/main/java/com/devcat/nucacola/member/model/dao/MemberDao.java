@@ -429,7 +429,7 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.createChatroom",msgInfo);
 	}
 
-	public int selectChatroomNo(SqlSessionTemplate sqlSession, Map<String, Object> msgInfo) {
+	public String selectChatroomNo(SqlSessionTemplate sqlSession, Map<String, Object> msgInfo) {
 		return sqlSession.selectOne("memberMapper.selectChatroomNo",msgInfo);
 	}
 

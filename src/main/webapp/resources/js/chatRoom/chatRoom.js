@@ -5,6 +5,7 @@
 //area에 구성원 정보 추가해주는 메소드
 const loadSearchedList = (list, area) => {
 
+    latestMsg = list[list.length - 1];
    
     list.forEach((v) => {
         
@@ -75,6 +76,7 @@ document.querySelector('#user-search').addEventListener('input',(e)=>{
 let deliverNo; //내 회원번호
 let reciverNo; //상대방 회원번호
 let chatroomNo; //채팅방 식별자
+let latestMsg; //onMessage() 실행될 때 불러온 메세지와 최근메세지 대조해서 같으면 재요청하기위함 (채팅내용 insert 했는데도 DB 업데이트가 느려서 같은내용 계속 불러오는 경우 때문에 설정했다.)
 
 //웹소켓 설정
 let sock = new SockJS("http://localhost:8888/nukacola/echo/");
@@ -90,6 +92,8 @@ let onClose = (evt)=>{
 //채팅창에 메세지 추가해주는 메소드
 const loadMsgList = (list,area)=>{
 
+    latestMsg = list[list.length - 1];
+    
     list.forEach((v)=>{
         
         let msgList = 
@@ -144,6 +148,9 @@ const letsChat=(myNo,mateNo)=>{//내 회원번호ㅡ 상대회원번호 인자�
         let list = msgList.data;
         let area = document.querySelector('#chat-all');//리스트 추가해줄 요소
 
+        console.log('selectMsgList.ch실행');
+        console.log(list);
+
         if(msgList.data.length!=0){ //대화내역 있으면
             loadMsgList(list,area); //area에 list 추가
             chatroomNo=list[0].chatroomNo;//채팅방식별자 초기화
@@ -161,9 +168,9 @@ const letsChat=(myNo,mateNo)=>{//내 회원번호ㅡ 상대회원번호 인자�
 
 //메세지 전송버튼 누르면 실행될 메소드
 document.querySelector('#send-btn').addEventListener('click', ()=>{
-    let msg = document.querySelector('#message-to-send').value;
-    if(msg!=''){
-        sendMessage(msg);
+    let msgContent = document.querySelector('#message-to-send').value;
+    if(msgContent!=''){
+        sendMessage(msgContent);
         document.querySelector('#message-to-send').value='';
     }
 })
@@ -184,17 +191,13 @@ const sendMessage = (msgContent)=>{
         if(response.data.result>0){//DB에 채팅내용 추가 완료한 경우
 
             console.log(response.data);
-            if(response.data.chatroomNo!=undefined){ //기존에 채팅방번호 없었다면 세팅해준다.
+            if(response.data.chatroomNo!=undefined){ //기존에 상대유저와 생성된 채팅방이 없었다면 컨트롤러에서 채팅방번호 리턴된다. 그 값으로 채팅방번호 세팅해준다.
                 chatroomNo=response.data.chatroomNo;
             }
 
-            //DB 성능때문인지 insert후 바로 최근 메세지 조회가 안되는 경우가 있어
-            //sock.send()할 때까지 딜레이 만들었다.
-            setTimeout(()=>{
-                sock.send();//메세지 보냈다는걸 알리는 용도
-                //sock.send()가 이루어지면 바로 onMessage() 실행됨
+            sock.send();//메세지 보냈다는걸 알리는 용도
+            //sock.send()가 이루어지면 바로 onMessage() 실행됨
 
-            },1000);
         }else{
             alert('문제가 발생했습니다. 다시 시도해주세요');
         }
@@ -205,6 +208,8 @@ const sendMessage = (msgContent)=>{
     })
 
 }
+
+
 
 //보내거나 받은거 있으면 채팅창에 바로 추가해주기 sock.onMessage = 자바스크립트추가구문
 const onMessage= ()=>{
@@ -217,15 +222,27 @@ const onMessage= ()=>{
     })
     .then((msgList)=>{
 
-        console.log('onmessage실행 조회해와서 채팅창에 추가할 가장 최근 메세지')
-        console.log(msgList.data[0].messageContent);
-
         let list = msgList.data;
         let area = document.querySelector('#chat-all');//리스트 추가해줄 요소
-        
-        if(msgList.data.length!=0){ //불러온 대화내역 있으면
+
+        if(latestMsg!=list[0]){//불러온 데이터가 가장 최근메세지 데이터와 다르면 
+            
+            console.log('새로운 데이터다! 추가한다');
+            console.log('최근채팅창메세지 : ')
+            console.log(latestMsg);
+            console.log('불러온메세지 :')
+            console.log(list[0]);
+            
             loadMsgList(list,area); //area에 list 추가
+        }else{//같으면
+            console.log('DB에 아직 insert가 안되었나봐요 다시 불러올게요');
+            console.log('최근채팅창메세지 : ')
+            console.log(latestMsg);
+            console.log('불러온메세지 :')
+            console.log(list[0]);
+            onMessage();//다시 DB에 요청해서 최신 데이터 불러온다.
         }
+
 
         document.querySelector('.chat-history').scrollTop=document.querySelector('.chat-history').scrollHeight;//스크롤 가장 아래로(최근대화로)
 
@@ -246,6 +263,7 @@ document.querySelector('.close-btn').addEventListener('click', ()=>{
     deliverNo=null;
     reciverNo=null;
     chatroomNo=null;
+    latestMsg=null;
 })
 
 //sock.onmessage : 본인 또는 상대가 보낸 메세지가 있으면 그 메세지객체 반환함

@@ -68,28 +68,38 @@ public class ChatRoomController {
 	
 	@ResponseBody
 	@RequestMapping(value = "sendMsg.ch", produces="application/json; charset=utf-8")
-	public HashMap<String,Integer> sendMsg(@RequestBody Map<String,Object> msgInfo) {
+	public HashMap<String,String> sendMsg(@RequestBody Map<String,Object> msgInfo) {
 		
-		HashMap<String,Integer> resultMap = new HashMap<>();
+		HashMap<String,String> resultMap = new HashMap<>();
 		
-		//채팅방 번호 없는 경우(아직 채팅방 생성 안된 경우)
-		//채팅방 생성 후, 채팅방 번호 세팅
-		if (msgInfo.get("chatroomNo")==null) {
-			int result = mService.createChatroom(msgInfo);
+		if (msgInfo.get("chatroomNo")==null) {//채팅방 번호 안넘어온 경우(기존에 상대와 대화내역이 없는 경우&& 상대와 동시에 채팅창 켠 경우)
+			//대화내역이 없는 상대와 동시에 채팅창 켠 경우 애초에 chatroomNo가 안넘어온다. 그래서 따로 검색해보고 채팅방 없으면 채팅방만들고 채팅방번호설정하고,
+			//채팅방 있으면 채팅방번호만 설정해준다.
 			
-			if(result>0) {//채팅방 생성 성공했으면 채팅방번호 가져와서 리턴할 맵에 세팅해준다.
-				int chatroomNo = mService.selectChatroomNo(msgInfo);
+			if(mService.selectChatroomNo(msgInfo)==null) {//채팅방이 DB에 없는 경우
+				
+				int result = mService.createChatroom(msgInfo);//채팅방 만들어준다.
+				
+				if(result>0) {//채팅방 생성 성공했으면 채팅방번호 가져와서 리턴할 맵에 세팅해준다.
+					String chatroomNo = mService.selectChatroomNo(msgInfo);
+					resultMap.put("chatroomNo",chatroomNo);
+					msgInfo.put("chatroomNo",chatroomNo);
+				}else {//방 생성 실패하면 실패코드 리턴
+					resultMap.put("result","0");
+					return resultMap;
+				}
+				
+			}else {//채팅방이 DB에 있는 경우
+				String chatroomNo = mService.selectChatroomNo(msgInfo);
 				resultMap.put("chatroomNo",chatroomNo);
 				msgInfo.put("chatroomNo",chatroomNo);
-			}else {//방 생성 실패하면 실패코드 리턴
-				resultMap.put("result",0);
-				return resultMap;
 			}
+			
 		}
 		
-		//기존에 채팅방번호 있었다면 그냥 채팅 전송 결과값만 리턴한다.
+		//채팅방번호 있으면 채팅 전송 결과값 리턴한다.
 		int result = mService.sendMsg(msgInfo);
-		resultMap.put("result",result);
+		resultMap.put("result",Integer.toString(result));
 		
 		return resultMap;
 	}

@@ -225,7 +225,7 @@ public interface MemberService {
 	int createChatroom(Map<String, Object> msgInfo);
 
 	//채팅방번호 가져오기
-	int selectChatroomNo(Map<String, Object> msgInfo);
+	String selectChatroomNo(Map<String, Object> msgInfo);
 	
 	
 

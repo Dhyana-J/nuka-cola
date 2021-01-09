@@ -1048,12 +1048,12 @@
 				   )
 		</insert>
 		
-		<select id="selectChatroomNo" parameterType="Map" resultType="_int">
+		<select id="selectChatroomNo" parameterType="Map" resultType="String">
 			select
 				  chatroom_no
 			  from chatrooms
-			 where user_one=#{myNo}
-			   and user_two=#{mateNo}
+			 where user_one in(#{myNo},#{mateNo})
+			   and user_two in(#{myNo},#{mateNo})
 		</select>
 	 
 	 

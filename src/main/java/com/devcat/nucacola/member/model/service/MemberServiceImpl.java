@@ -629,7 +629,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int selectChatroomNo(Map<String, Object> msgInfo) {
+	public String selectChatroomNo(Map<String, Object> msgInfo) {
 		return mDao.selectChatroomNo(sqlSession,msgInfo);
 	}
 

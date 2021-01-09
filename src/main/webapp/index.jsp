@@ -8,11 +8,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+   
    <jsp:forward page="WEB-INF/views/user/login.jsp"/>
+   
 </body>
 </html>
 
-<li>
+<!-- <li>
    <div class="post__user-info">
       <div class="avatar-small">
          <img src="resources/assets/avatar.png" alt="" />
@@ -27,9 +29,9 @@
       Lorem Ipsum is simply dummy text of the printing and
       typesetting industry.
    </p>
-   <!-- <div class="comment__btn-wrapper">
+   <div class="comment__btn-wrapper">
                <span>수정</span>
                <span>삭제</span>
-             </div> -->
+             </div>
 </li>
-</ul>
+</ul> -->

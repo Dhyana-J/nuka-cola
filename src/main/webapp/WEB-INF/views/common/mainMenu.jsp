@@ -16,13 +16,12 @@
     <title>Document</title>
   </head>
   <body>
-  
-  	<c:if test="${!empty alertMsg }">
-		<script>
-			alert('${alertMsg}');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
+		  	<c:if test="${alertMsg ne null }">
+	  			<script>
+						alert('${alertMsg}');
+				</script>
+			</c:if>
+			<c:remove var="alertMsg" scope="session"/>
   
     <header>
       <div class="inner">

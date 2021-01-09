@@ -8,6 +8,7 @@ const loadSearchedList = (list, area) => {
 
     list.forEach((v) => {
         
+        console.log(v);
         if(v.userNo!=userNo){//검색결과에 본인 이외의 사람들만 뜨도록한다.
 
             let member = 
@@ -15,15 +16,15 @@ const loadSearchedList = (list, area) => {
                                 <input type="hidden" value="${v.userNo}"/>
                                 <div class="img-wrapper">`;
                             if(v.userAvatar==undefined){
-                            member+=`<img src="resources/assets/elon.jpg" alt="profileImg">`;
+                            member+=`<img src="resources/assets/standard.png" alt="profileImg">`;
                             }else{
                             member+=`<img src="${v.userAvatar}" alt="profileImg">`;
                             }
                         member+=`</div>
                                 <div class="user-info">
                                     <strong>${v.userName}</strong>`;
-                                if(v.userEdu!=null){
-                                member+=`<span>${v.userEdu}</span>`;
+                                if(v.email!=null){
+                                member+=`<span>${v.email}</span>`;
                                 }
                                 if(v.userComp!=null){
                                 member+=`<span>${v.userComp}</span>`;

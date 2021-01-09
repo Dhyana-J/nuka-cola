@@ -604,8 +604,9 @@
 		select
 			  *
 		  from users
-		 where user_email like '%'||#{keyword}||'%'
-		 	or user_name like '%'||#{keyword}||'%'
+		 where upper(user_email) like '%'||upper(#{keyword})||'%'
+		    or upper(user_name) like '%'||upper(#{keyword})||'%'
+		    or upper(user_comp) like '%'||upper(#{keyword})||'%'
 	</select>
 	
 		

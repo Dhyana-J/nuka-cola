@@ -83,7 +83,7 @@
                       <div class="member__avatar">
 	                        <c:choose>
 	                      		<c:when test="${head.userAvatar eq null}">
-			                        <img src="resources/assets/avatar.png" alt="profile" />
+			                        <img src="resources/assets/standard.png" alt="profile" />
 	                      		</c:when>
 	                      		<c:otherwise>
 			                        <img src="${pageContext.request.contextPath}/${head.userAvatar}" alt="profile" />
@@ -104,7 +104,7 @@
                     <div class="member__avatar">
                       	<c:choose>
                       		<c:when test="${head.userAvatar eq null}">
-		                        <img src="resources/assets/avatar.png" alt="profile" />
+		                        <img src="resources/assets/standard.png" alt="profile" />
                       		</c:when>
                       		<c:otherwise>
 		                        <img src="${pageContext.request.contextPath}/${head.userAvatar}" alt="profile" />
@@ -133,7 +133,7 @@
 	                      <div class="member__avatar">
 	                      	<c:choose>
 	                      		<c:when test="${member.userAvatar eq null}">
-			                        <img src="resources/assets/avatar.png" alt="profile" />
+			                        <img src="resources/assets/standard.png" alt="profile" />
 	                      		</c:when>
 	                      		<c:otherwise>
 			                        <img src="${pageContext.request.contextPath}/${member.userAvatar}" alt="profile" />

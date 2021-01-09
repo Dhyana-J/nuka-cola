@@ -100,7 +100,7 @@
 	                    <div class="user__avatar">
 	                    	<c:choose>
 			                <c:when test="${p.userAvatar eq null }">
-	                      		<img src="../../assets/wonbin.jpeg" alt="" />
+	                      		<img src="resources/assets/wonbin.jpeg" alt="" />
 			                </c:when>
 			                <c:otherwise>
 				                <img src="${p.userAvatar }" alt="">
@@ -122,7 +122,7 @@
 	                  <div class="img__wrapper">
 	                  	 <c:choose>
 			                <c:when test="${p.postImg eq null }">
-	                    		<img src="../../assets/loginImage.jpg" alt="" />
+	                    		<img src="resources/assets/loginImage.jpg" alt="" />
 			                </c:when>
 			                <c:otherwise>
 				                <img src="${p.postImg }" alt="">
@@ -133,7 +133,6 @@
 	                    <p>
 	                      ${p.postContent}
 	                    </p>
-	                    <span>삭제</span>
 	                  </div>
 	                </div>
 	             </c:forEach>

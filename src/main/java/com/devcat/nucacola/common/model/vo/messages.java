@@ -20,5 +20,8 @@ public class messages {
 	private int reciverNo;
 	private int chatroomNo;
 	
+	//채팅방 유저이름 나타내기 위해 추가함
+	private String deliverName;
+	private String reciverName;
 	
 }

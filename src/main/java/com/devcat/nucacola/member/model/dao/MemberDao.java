@@ -3,6 +3,7 @@ package com.devcat.nucacola.member.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.devcat.nucacola.common.model.vo.Chatrooms;
 import com.devcat.nucacola.common.model.vo.PageInfo;
 import com.devcat.nucacola.common.model.vo.Skills;
+import com.devcat.nucacola.common.model.vo.messages;
 import com.devcat.nucacola.company.model.vo.Company;
 import com.devcat.nucacola.member.model.vo.Bookmark;
 import com.devcat.nucacola.member.model.vo.Career;
@@ -415,6 +417,27 @@ public class MemberDao {
 		
 		return sqlSession.insert("memberMapper.insertKakoUser", m);
 	}
+
+	public ArrayList<messages> selectMsgList(SqlSessionTemplate sqlSession, ArrayList<Integer> noList) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMsgList",noList);
+	}
+
+	public ArrayList<messages> selectLatestMsg(SqlSessionTemplate sqlSession, ArrayList<Integer> noList) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLatestMsg",noList);
+	}
+	
+	public int sendMsg(SqlSessionTemplate sqlSession, Map<String,Object> msgInfo) {
+		return sqlSession.insert("memberMapper.insertMsg",msgInfo);
+	}
+
+	public int createChatroom(SqlSessionTemplate sqlSession, Map<String, Object> msgInfo) {
+		return sqlSession.insert("memberMapper.createChatroom",msgInfo);
+	}
+
+	public String selectChatroomNo(SqlSessionTemplate sqlSession, Map<String, Object> msgInfo) {
+		return sqlSession.selectOne("memberMapper.selectChatroomNo",msgInfo);
+	}
+
 	
 //	 비밀번호 수정요청
 //	public int findPass(SqlSessionTemplate sqlSession, String email) {

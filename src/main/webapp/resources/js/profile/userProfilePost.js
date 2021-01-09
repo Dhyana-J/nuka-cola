@@ -240,19 +240,19 @@ let likeView =()=>{
 	 let pno = document.querySelectorAll('.pno')[i].value;
 	 const likeBtn = v.querySelector('.fa-heart');
 	 
-
+	 console.log('userNo:'+loginUno);
+	 console.log('postNo:'+pno);
 	 likeBtn.addEventListener('click',(event)=>{
 	 let color = event.target.style.color;
 	 console.log(color);    
 	 	      //좋아요 추가
 	 	      if(color=="rgb(216, 92, 92)"){
-	 	      	const islike = parseInt(1);
 	 	      	console.log("마이너스");
 	 	      	 axios.get('like.pos', {
 				        params: {
 				          	postNo:pno,
 				          	userNo: loginUno,
-				          	islike:islike				     
+				          	islike:1				     
 				        }
 				      }) .then((result)=>{
 				      console.log(result);
@@ -261,7 +261,7 @@ let likeView =()=>{
 				      console.log(tar);
 				   	  let span = parseInt(tar.querySelector('span').innerText);
 				   	  console.log(span);
-					  //tar.querySelector('span').innerText = --span;
+					  return tar.querySelector('span').innerText = --span;
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
@@ -281,7 +281,7 @@ let likeView =()=>{
 				      likeBtn.style.color='rgb(216, 92, 92)';
 				   	  let span = parseInt(v.querySelector('span').innerText);
 					  console.log(span);
-					  v.querySelector('span').innerText= span+1;
+					  return v.querySelector('span').innerText= span+1;
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
@@ -304,8 +304,10 @@ let commentView =()=>{
 
 	 v.addEventListener('click',(event)=>{
 	 let tar = event.target;
-	 console.log(tar);
+	 
 	if(tar.style.color=="rgb(226, 229, 255)"){
+	console.log(tar);
+	console.log(tar.style.color);
 	let pno = document.querySelectorAll('.pno')[i].value;
     pno = parseInt(pno);
               	 
@@ -315,27 +317,28 @@ let commentView =()=>{
 				        }
 				      }) .then((res)=>{
 				      console.log(res.data);
-				      tar.style.color='rgb(0, 0, 0)';
+				      
 				       res.data.forEach(e=>{
 		                createCommentItem(e,i);
 		              })
+		              tar.style.color='rgb(0, 0, 0)';
 				   	
 				
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
 				      
-				}else if(tar.style.color=="rgb(0, 0, 0)"){
-				    console.log(tar);
-				    let item = tar.parentNode.parentNode.parentNode;
-					const ListContainer = item.querySelector(".post__comment_box")
-					while(ListContainer.firstChild){
-						ListContainer.removeChild(ListContainer.firstChild);
-					}
-					//tar.style.color='rgb(226, 229, 255)';
-					console.log(tar.style.color);
+	}else if(tar.style.color=="rgb(0, 0, 0)"){
+			console.log(tar);
+			tar.style.color='rgb(226, 229, 255)';
+			let item = tar.parentNode.parentNode.parentNode;
+			const ListContainer = item.querySelector(".post__comment_box")
+			while(ListContainer.firstChild){
+				ListContainer.removeChild(ListContainer.firstChild);
+			}
+
 				
-				}
+	}
 				
 			})
               	 

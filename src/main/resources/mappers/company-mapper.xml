@@ -249,7 +249,9 @@
 	select count(*)
 		from recruits
 		where comp_no=#{compNo} and
+		<![CDATA[
 		to_date(RECRUIT_DL,'MM/DD/YYYY')>=to_char(sysdate,'YYYY-MM-DD')
+		 ]]>
 	</select>
 	
 	<!-- 진행중인 채용공고리스트 -->

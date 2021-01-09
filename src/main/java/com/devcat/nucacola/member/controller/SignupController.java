@@ -226,7 +226,7 @@ public class SignupController {
 	
 	   //카카오 로그인 
 	@RequestMapping(value="kakaologin.me")
-	public String login(@RequestParam("code") String code, HttpSession session) {
+	public String login(@RequestParam("code") String code, HttpSession session, Model model) {
 		  System.out.println("code : " + code);
 	      String access_Token = mService.getAccessToken(code);
 	      
@@ -237,13 +237,32 @@ public class SignupController {
 	      if (userInfo.get("email") != null) {
 	    	  
 	    	  session.setAttribute("kakoId", userInfo.get("email"));
-	    	  session.setAttribute("access_Token", access_Token);
-	    	  session.setAttribute("alertMsg", "카카오 로그인 성공!");
+	    	  //session.setAttribute("access_Token", access_Token);
+	    	  //session.setAttribute("alertMsg", "카카오 로그인 성공!");
+	    	  
+	    	  Member m = new Member();
+	    	  
+	    	  m.setEmail((String)userInfo.get("email"));
+	    	  m.setUserName((String)userInfo.get("nickname"));
+	    	  m.setLoginType("kakao");
+	    	  m.setEmailAuth("Y");
+	    	  
+	    	  int result = mService.insertKakaoUser(m);
+	    	  
+	    	  if(result>0) {
+	    		  session.setAttribute("alertMsg", "카카오 로그인이 완료되었습니다! 환영합니다 :)");
+	    		  return "redirect:/";
+	    	  }else {
+	    		  
+	    		model.addAttribute("errorMsg","로그인 실패");
+	  			return "common/errorPage";
+	    	  }
+	    	  
 	      }
 	      
-	      
-	      return "redirect:/";
-	      
+	      model.addAttribute("errorMsg","로그인 실패");
+			return "common/errorPage";
+     
 	   }
 	
 		/*

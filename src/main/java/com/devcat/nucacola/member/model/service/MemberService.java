@@ -219,5 +219,8 @@ public interface MemberService {
 	
 	// 비밀번호 수정요청(마무리못함)
 	//int findPass(String email);
+	
+	// 카카오 유저 회원가입
+	int insertKakaoUser(Member m);
 
 }

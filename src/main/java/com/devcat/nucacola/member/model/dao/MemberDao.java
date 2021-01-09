@@ -411,6 +411,10 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.myPostUpdate", p);
 	}
 
+	public int insertKakaoUser(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.insert("memberMapper.insertKakoUser", m);
+	}
 	
 //	 비밀번호 수정요청
 //	public int findPass(SqlSessionTemplate sqlSession, String email) {

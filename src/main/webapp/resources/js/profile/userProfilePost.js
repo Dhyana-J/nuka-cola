@@ -194,10 +194,10 @@ const createCommentItem = (v,i,c=0)=>{
 	 }
 //삭제
  let cancleBtnFunction =()=>{
-	 const itemBox = document.querySelectorAll('.content__wrapper').forEach((v)=>{
+	 const itemBox = document.querySelectorAll('.content__wrapper').forEach((v,i)=>{
 	 const cancleBox = v.querySelector('.content__editandDelete');
 	 let pno = v.querySelector('.pno').value;
-	 const cancleBtn = cancleBox.querySelector('.btn-red');
+	 const cancleBtn = document.querySelectorAll('.btn-red')[i];
 	 
 
 	 cancleBtn.addEventListener('click',()=>{
@@ -215,10 +215,7 @@ const createCommentItem = (v,i,c=0)=>{
 				      		if(result.data>0){
 				      		alert("삭제되었습니다.");
 				      		v.remove();
-				          }else{
-				          	alert("마감처리 실패!");
 				          }
-				
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
@@ -299,7 +296,7 @@ let likeView =()=>{
 
 
 // 댓글 보기
-let commentView =()=>{
+ let commentView =()=>{
 	 const commentBox = document.querySelectorAll('.content__comment').forEach((v,i)=>{
 
 	 v.addEventListener('click',(event)=>{
@@ -332,21 +329,19 @@ let commentView =()=>{
 			console.log(tar);
 			tar.style.color='rgb(226, 229, 255)';
 			let item = tar.parentNode.parentNode.parentNode;
-			const ListContainer = item.querySelector(".post__comment_box")
-			while(ListContainer.firstChild){
-				ListContainer.removeChild(ListContainer.firstChild);
-			}
-
-				
-	}
-				
+			const ListContainer = document.querySelectorAll(".post__comment_box")[i]
+			ListContainer.querySelectorAll("li").forEach((l)=>{
+			console.log(l);
+				l.remove();
+			
 			})
-              	 
-      })
+				
+	}          	 
+    })
 	 
-	 }
+	 })
 
-
+ }
 
 let currentPageNum = 2;
  window.addEventListener('scroll',()=>{

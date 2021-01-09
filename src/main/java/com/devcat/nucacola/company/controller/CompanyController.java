@@ -552,8 +552,9 @@ public class CompanyController {
 	@RequestMapping("recruit.co")
 	public String profileRecruit(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 								 int cno, Model model) {
-		Company c = new Company();
-		c.setCompNo(cno);
+
+		Company c = cService.selectCompany(cno);
+
 		int INGcount = cService.INGcount(c);
 		PageInfo pi = Pagination.getPageInfo(INGcount, currentPage,1,4);
 		ArrayList<Recruit> rlist1 = cService.selectCompanyRecruitING(c,pi);

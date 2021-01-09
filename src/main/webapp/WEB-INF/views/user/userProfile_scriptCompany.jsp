@@ -68,12 +68,12 @@
                 <div class="main__section__left">
                     <div class="content__wrapper">
                       <ul class="left__info">
-                        <li>TOP</li>
-		                <li><a href="initFollowing.us?userNo=${pUser.userNo}">팔로잉</a></li>
+		                <li>TOP</li>
+ 						<li><a href="initFollowing.us?userNo=${pUser.userNo}">팔로잉</a></li>
 		                <li><a href="initFollower.us?userNo=${ pUser.userNo }">팔로워</a></li>
 		                <li onClick='location.href="list.bk?userNo=${ pUser.userNo}"'>북마크</li>
 		                <li onClick='location.href="list.sub?userNo=${ pUser.userNo}"'>구독기업</li>
-		                <li>좋아요게시글</li>
+			            <li><a href="profileLikePost.us?userNo=${ pUser.userNo}">좋아요게시물</a></li>
 		                <li><a href="initConnect.us?userNo=${ pUser.userNo }">연결</a></li>
                       </ul>
                     </div>

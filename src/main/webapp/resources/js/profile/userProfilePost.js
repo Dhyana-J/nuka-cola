@@ -1,4 +1,4 @@
-//post
+
 let loginUno = document.querySelector('.loginUser').value;
 
 loginUno = parseInt(loginUno);
@@ -6,6 +6,7 @@ const uno = document.querySelector('.userNo').value;
 console.log(uno);
 const write =document.querySelector('.content__section');
 const inner = write.querySelector('.inner');
+
 
 
 //post
@@ -84,6 +85,7 @@ const createPostItem = (v) =>{
       	commentSpan.className = 'icono-comment';
       const commentP = document.createElement('p');
       	commentP.innerText = 'COMMENT';
+      	commentP.style.color = 'rgb(226, 229, 255)';
       const likeBox =  document.createElement('div');
         likeBox.className = 'section__content__right';
       const likeI = document.createElement('i');
@@ -126,8 +128,51 @@ const createPostItem = (v) =>{
 }
 
 //댓글
+const createCommentItem = (v,i,c=0)=>{
+      const ListContainer = document.querySelectorAll(".post__comment_box")[i]
+      const commentBox = document.createElement('li')
+      const userBox=document.createElement('div')
+      userBox.className='post__user-info'
+      const avatarBox=document.createElement('div')
+      avatarBox.className='avatar-small'
+      const userAvatar = document.createElement('img')
+      if(v.userAvatar==null){
+      		  userAvatar.src = "resources/assets/conn.png";
+      }else{
+              userAvatar.src = v.userAvatar;
+            }
+      avatarBox.appendChild(userAvatar);
+      const userSummary = document.createElement('div');
+            userSummary.className='user__summary'
+      const userName = document.createElement('strong')
+            userName.innerText = v.userName;
+      const userComp = document.createElement('small');
+            userComp.innerText = v.userComp;
+      const postDate = document.createElement('span')
+            postDate.className='post__date'
+            postDate.innerText = v.createdAt;
+      const commentContent = document.createElement('p');
+            commentContent.className='comment_content';
+            commentContent.innerText=v.commentContent;
+      const userNo = document.createElement('input');
+            userNo.type='hidden';
+            userNo.value=v.userNo;
+            userNo.className = 'comment-user-no';
+      userSummary.appendChild(userName);
+      userSummary.appendChild(userComp);
+      userBox.appendChild(avatarBox);
+      userBox.appendChild(userSummary);
+      userBox.appendChild(postDate);
+      commentBox.appendChild(userBox);
+      commentBox.appendChild(commentContent);
+      commentBox.appendChild(userNo);
+      if(c!==0){
+        ListContainer.prepend(commentBox);
+      }else{
+        ListContainer.appendChild(commentBox);
+      }
 
-
+    }
 
 // 수정 
  let updateBtnFunction=()=>{
@@ -191,15 +236,14 @@ const createPostItem = (v) =>{
 		 
 // 좋아요 누르기 
 let likeView =()=>{
-	 const itemBox = document.querySelectorAll('.content__wrapper').forEach((v)=>{
-	 const likeBox = v.querySelector('.section__content__right');
-	 let pno = v.querySelector('.pno').value;
-	 const likeBtn = likeBox.querySelector('.fa-heart');
+	 const likeBox = document.querySelectorAll('.section__content__right').forEach((v,i)=>{
+	 let pno = document.querySelectorAll('.pno')[i].value;
+	 const likeBtn = v.querySelector('.fa-heart');
 	 
 
-	 likeBtn.addEventListener('click',()=>{
-	 let color = likeBtn.style.color;
-	 	      
+	 likeBtn.addEventListener('click',(event)=>{
+	 let color = event.target.style.color;
+	 console.log(color);    
 	 	      //좋아요 추가
 	 	      if(color=="rgb(216, 92, 92)"){
 	 	      	const islike = parseInt(1);
@@ -213,15 +257,18 @@ let likeView =()=>{
 				      }) .then((result)=>{
 				      console.log(result);
 				      likeBtn.style.color='#e2e5ff';
-				   	  let span = parseInt(likeBox.querySelector('span').innerText);
+				      let tar=event.target.parentNode;
+				      console.log(tar);
+				   	  let span = parseInt(tar.querySelector('span').innerText);
 				   	  console.log(span);
-					  likeBox.querySelector('span').innerText = span-1;
+					  //tar.querySelector('span').innerText = --span;
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
 	 	      }else{
 	 	      	//좋아요 취소
 	 	      	const islike = parseInt(0);
+	 	      	console.log(islike)
 	 	      	console.log("플러스");
 	 	      	 axios.get('like.pos', {
 				        params: {
@@ -232,37 +279,15 @@ let likeView =()=>{
 				      }) .then((result)=>{
 				      console.log(result);
 				      likeBtn.style.color='rgb(216, 92, 92)';
-				   	  const span = parseInt(likeBox.querySelector('span').innerText);
+				   	  let span = parseInt(v.querySelector('span').innerText);
 					  console.log(span);
-					  likeBox.querySelector('span').innerText=span+1;
+					  v.querySelector('span').innerText= span+1;
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
 	 	      }
-              pno = parseInt(pno);
-              console.log(v);
-              console.log(pno);
-              /*
-              	  if(confirm("게시물을 삭제하시겠습니까?")==true){
-              	  	 axios.get('load.com', {
-				        params: {
-				          	pno:pno					     
-				        }
-				      }) .then((result)=>{
-				      console.log(result);
-				   
-				
-				        }).catch(function(error){
-				      	  console.log(error);
-				        })
-			        
-				      }else{
-		              	  return;
-				      }
-				      
-				      
-				      })
-			*/	      
+
+     
               	 
       })
 	 
@@ -275,32 +300,44 @@ let likeView =()=>{
 
 // 댓글 보기
 let commentView =()=>{
-	 const itemBox = document.querySelectorAll('.content__wrapper').forEach((v)=>{
-	 const commentBox = v.querySelector('.content__comment');
-	 let pno = v.querySelector('.pno').value;
-	 const commentBtn = commentBox.querySelector('p');
-	 
+	 const commentBox = document.querySelectorAll('.content__comment').forEach((v,i)=>{
 
-	 commentBtn.addEventListener('click',()=>{
-	 	      console.log(commentBox);
-              pno = parseInt(pno);
-              console.log(v);
-              console.log(pno);
+	 v.addEventListener('click',(event)=>{
+	 let tar = event.target;
+	 console.log(tar);
+	if(tar.style.color=="rgb(226, 229, 255)"){
+	let pno = document.querySelectorAll('.pno')[i].value;
+    pno = parseInt(pno);
               	 
               	  	 axios.get('load.com', {
 				        params: {
 				          	pno:pno					     
 				        }
-				      }) .then((result)=>{
-				      console.log(result);
-				   
+				      }) .then((res)=>{
+				      console.log(res.data);
+				      tar.style.color='rgb(0, 0, 0)';
+				       res.data.forEach(e=>{
+		                createCommentItem(e,i);
+		              })
+				   	
 				
 				        }).catch(function(error){
 				      	  console.log(error);
 				        })
 				      
-				      
-				      })
+				}else if(tar.style.color=="rgb(0, 0, 0)"){
+				    console.log(tar);
+				    let item = tar.parentNode.parentNode.parentNode;
+					const ListContainer = item.querySelector(".post__comment_box")
+					while(ListContainer.firstChild){
+						ListContainer.removeChild(ListContainer.firstChild);
+					}
+					//tar.style.color='rgb(226, 229, 255)';
+					console.log(tar.style.color);
+				
+				}
+				
+			})
               	 
       })
 	 

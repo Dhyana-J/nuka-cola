@@ -8,7 +8,9 @@
     padding-top: 100px;
     background: #f7fbff;
   }
-
+	.visual__section .inner button {
+	  margin-top: 100px;
+	}
   .section__title ul {
     margin: 0 20px;
     display: flex;

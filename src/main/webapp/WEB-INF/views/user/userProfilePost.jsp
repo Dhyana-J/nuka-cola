@@ -34,7 +34,7 @@
           <div class="visual__left">
             <div class="avatar"><c:choose>
                 <c:when test= "${empty pUser.userAvatar}">
-                	<img src="resources/assets/conn.png">
+                	<img src="resources/assets/profile.png">
                 </c:when>
                 <c:otherwise>
                 	<img src= "${pUser.userAvatar }" alt="logo">
@@ -114,7 +114,7 @@
                 </span>
                 </div>
                 <div class="content__comment">
-                  <span class="icono-comment"></span><p>COMMENT</p> 
+                  <span class="icono-comment" ></span><p style="color:rgb(226, 229, 255)">COMMENT</p> 
                 </div>
 			<c:choose>
 				<c:when test = "${p.isFollowing==0}">
@@ -128,8 +128,13 @@
                 </div>
                 </c:otherwise>
             </c:choose>
+            <ul class="post__comment_box">
+
+            </ul>
             </div>
+
 			</c:forEach>
+			
 			
 	</div>
 	</main>

@@ -1047,12 +1047,19 @@
 		
 		<select id="selectLatestMsg" parameterType="arrayList" resultMap="messagesResultSet">
 		 select
-		 		*
+		 		  message_no,
+				  message_content,
+				  to_char(created_at,'YYYY-MM-DD HH24:MI') created_at,
+				  deliver_no,
+				  reciver_no,
+				  chatroom_no,
+				  deliver_name,
+				  reciver_name
 		   from(
 				select
 						  message_no,
 						  message_content,
-						  to_char(m.created_at,'YYYY-MM-DD HH24:MI') created_at,
+						  m.created_at,
 						  deliver_no,
 						  reciver_no,
 						  chatroom_no,

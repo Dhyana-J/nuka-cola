@@ -153,6 +153,7 @@ const userNo = ${loginUser.userNo}
 /*-----------메세지 목록 불러오기 ----------*/
 
 const selectChatRoomList = ()=>{
+	console.log('셀렉트쳇룸 실행');
 	
 	axios.get("selectChatRoomList.ch", {
 		params : {
@@ -189,8 +190,11 @@ const selectChatRoomList = ()=>{
 
 selectChatRoomList();
 
+let chatListener = setInterval(selectChatRoomList,10000); // 10초마다 온 채팅방 목록 업데이트, 준호추가
+
 
 const createMessages = (chatroomNo,userTwo,userAvatar,userName,messageContent,messageCreate) => {
+	
 	/* chat-info__wrapper 클래스 div생성 */
 	let chatDivW = document.createElement("div");
 	chatDivW.className = "chat-info__wrapper";
@@ -253,6 +257,7 @@ const createMessages = (chatroomNo,userTwo,userAvatar,userName,messageContent,me
 	chatDivW.appendChild(chatDiv);
 	chatDivW.appendChild(dateDiv);
 	
+	document.querySelector(".chat-list").innerHTML='';//준호 추가
 	document.querySelector(".chat-list").appendChild(chatDivW);
 	
 }

@@ -54,8 +54,8 @@ public class SignupController {
 		
 		
 		if (loginUser != null 
-								 && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd()) &&
-								 loginUser.getEmailAuth().equals("Y")
+//								 && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd()) &&
+//								 loginUser.getEmailAuth().equals("Y")
 								 ) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/list.pos");

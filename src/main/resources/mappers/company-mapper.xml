@@ -237,7 +237,7 @@
 				#{career.compNo},
 				#{career.careerPosi},
 				0,
-				null,
+				sysdate,
 				sysdate,
 				sysdate
 			  )

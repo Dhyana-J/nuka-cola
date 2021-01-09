@@ -40,8 +40,8 @@
             </div>
             <div>
               <div class="main__info">
-                <strong>${ loginUser.userName }</strong>
-                <span>${ loginUser.compName }</span>
+                <strong>${ pUser.userName }</strong>
+                <span>${ pUser.compName }</span>
                 <span>Front-end Amazone AWS, github에 관심</span>
               </div>
               <ul class="people__info">

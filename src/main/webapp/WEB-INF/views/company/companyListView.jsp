@@ -39,6 +39,8 @@
         <div class="main__main__section">
           <div class="main__section__aside">
             <span>홈/ 기업</span>
+            
+             <c:if test = "${cno eq null}">
             <button
               type="button"
               class="aside__btn-enrollcomp"
@@ -46,6 +48,8 @@
             >
                                기업 정보 등록
             </button>
+            </c:if>
+            
             <c:if test = "${cno!=0}">
             <button 
                class="aside__btn-compinfo"

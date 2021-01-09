@@ -162,32 +162,32 @@
             <ul>
               <li>
                 <div class="comp_avatar">
-                  <img src="resources/assets/loginImage.jpg" alt="" />
+                  <img src="resources/assets/Kakaologo.png" alt="" />
                 </div>
                 <div class="comp_summary">
-                  <b>Rocket Punch</b>
+                  <b>Kakao</b>
                   <span>Social Network</span>
-                  <span>200명의 구성원</span>
+                  <span>5000명의 구성원</span>
                 </div>
               </li>
               <li>
                 <div class="comp_avatar">
-                  <img src="../../assets/loginImage.jpg" alt="" />
+                  <img src="resources/assets/daumlogo.png" alt="" />
                 </div>
                 <div class="comp_summary">
-                  <b>Rocket Punch</b>
+                  <b>Daum</b>
                   <span>Social Network</span>
-                  <span>200명의 구성원</span>
+                  <span>5000명의 구성원</span>
                 </div>
               </li>
               <li>
                 <div class="comp_avatar">
-                  <img src="../../assets/loginImage.jpg" alt="" />
+                  <img src="resources/assets/pubgelogo.png" alt="" />
                 </div>
                 <div class="comp_summary">
-                  <b>Rocket Punch</b>
+                  <b>Pubge</b>
                   <span>Social Network</span>
-                  <span>200명의 구성원</span>
+                  <span>3000명의 구성원</span>
                 </div>
               </li>
             </ul>

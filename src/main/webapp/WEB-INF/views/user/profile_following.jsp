@@ -40,8 +40,8 @@
             </div>
             <div>
               <div class="main__info">
-                <strong>${ loginUser.userName }</strong>
-                <span>${ loginUser.compName }</span>
+                <strong>${ pUser.userName }</strong>
+                <span>${ pUser.compName }</span>
                 <span>Front-end Amazone AWS, github에 관심</span>
               </div>
               <ul class="people__info">
@@ -59,9 +59,9 @@
           <div class="inner">
               <div class="section__title">
                   <ul>
-                      <li>PROFILE</li>
-                      <li>POST</li>
-                      <li class="nav-active">LIKE</li>
+                    <li onclick='location.href="profile.me?userNo=${pUser.userNo}" '>PROFILE</li>
+            		<li  onclick='location.href="profilePost.us?userNo=${pUser.userNo}" '>POST</li>
+            		<li onClick='location.href="initFollowing.us?userNo=${pUser.userNo}"'>LIKE</li>
                   </ul>
               </div>
               

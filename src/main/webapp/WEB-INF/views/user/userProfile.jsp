@@ -363,7 +363,7 @@
                         <div class="content__profile">
                            <c:choose>
                               <c:when test="${follower.userAvatar eq null }">
-                                <img class="circle" src="resources/assets/moomin.jpg" alt="img">
+                                <img class="circle" src="resources/assets/standard.png" alt="img">
                               </c:when>
                               <c:otherwise>
                                 <img class="circle" src="${pageContext.request.contextPath}/${follower.userAvatar} " alt="img">
@@ -398,7 +398,7 @@
 								
 									<c:choose>
 				                      	<c:when test="${following.userAvatar eq null }">
-					                        <img class="circle" src="resources/assets/conn.png" alt="img">
+					                        <img class="circle" src="resources/assets/standard.png" alt="img">
 				                      	</c:when>
 				                      	<c:otherwise>
 					                        <img class="circle" src="${pageContext.request.contextPath}/${following.userAvatar} " alt="img">
@@ -433,7 +433,7 @@
 								
 									<c:choose>
 				                      	<c:when test="${connection.userAvatar eq null }">
-					                        <img class="circle" src="resources/assets/juckerbug.jpg" alt="img">
+					                        <img class="circle" src="resources/assets/standard.png" alt="img">
 				                      	</c:when>
 				                      	<c:otherwise>
 					                        <img class="circle" src="${pageContext.request.contextPath}/${connection.userAvatar} " alt="img">
@@ -534,7 +534,7 @@
 					profile = profile
 						+'<img'
 						+' class="circle"'
-						+' src="resources/assets/elon.jpg"'
+						+' src="resources/assets/standard.png"'
 						+' alt="img"'+'/>';
 				}else{
 					profile = profile

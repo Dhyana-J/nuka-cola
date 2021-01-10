@@ -604,8 +604,9 @@
 		select
 			  *
 		  from users
-		 where user_email like '%'||#{keyword}||'%'
-		 	or user_name like '%'||#{keyword}||'%'
+		 where upper(user_email) like '%'||upper(#{keyword})||'%'
+		    or upper(user_name) like '%'||upper(#{keyword})||'%'
+		    or upper(user_comp) like '%'||upper(#{keyword})||'%'
 	</select>
 	
 		
@@ -1047,12 +1048,19 @@
 		
 		<select id="selectLatestMsg" parameterType="arrayList" resultMap="messagesResultSet">
 		 select
-		 		*
+		 		  message_no,
+				  message_content,
+				  to_char(created_at,'YYYY-MM-DD HH24:MI') created_at,
+				  deliver_no,
+				  reciver_no,
+				  chatroom_no,
+				  deliver_name,
+				  reciver_name
 		   from(
 				select
 						  message_no,
 						  message_content,
-						  to_char(m.created_at,'YYYY-MM-DD HH24:MI') created_at,
+						  m.created_at,
 						  deliver_no,
 						  reciver_no,
 						  chatroom_no,

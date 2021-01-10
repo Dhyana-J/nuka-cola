@@ -13,7 +13,7 @@ const loadList = (list, area) => {
                         if (v.userAvatar == undefined) {
                             member = member 
                             + '<div class="member__avatar">'
-                                + '<img src="resources/assets/avatar.png" alt="profile"/>'
+                                + '<img src="resources/assets/standard.png.png" alt="profile"/>'
                             + '</div>';//member__avatar
                         } else {
                             member = member 

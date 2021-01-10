@@ -225,9 +225,11 @@
                   <input class="user-no" type="hidden" name="loginUser" value="${loginUser.userNo}" id="main-user-no">
                	  <input class="project-id" type="hidden" name="projectId" value="${p.projectId}" id="main-project-id">
                <ul class="user__project__section">
+               <c:if test="${loginUser.userNo eq pUser.userNo }">
                  <li onclick="deleteProject()" class="project_edit__field">
                  	<i id="deleteProject-btn" class="material-icons">clear</i>
                  </li>
+                 </c:if>
                  <li>${p.projectName }</li>
                  <li>${p.projectPosition }</li>
                  <li>${p.projectStart } ~ ${p.projectEnd }</li>

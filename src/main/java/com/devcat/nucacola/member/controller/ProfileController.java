@@ -245,7 +245,7 @@ public class ProfileController {
 	}
 	
 	// 최종학력 입력
-	@RequestMapping("/delete.edu.us")
+	@RequestMapping("/update.edu.us")
 	public String updateUserEdu(Member m, HttpSession session, Model model) {
 		
 		

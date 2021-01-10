@@ -70,7 +70,7 @@
             <input type="hidden" class="user_no_input" value="${p.userNo}">
             <div class="post__user-info" onclick="location.href ='loadFollowingList.us?userNo=${p.userNo}&currentPage=0'">
               <div class="avatar-small">
-                <img src="../../assets/avatar.png" alt="" />
+                <img src="resources/assets/avatar.png" alt="" />
               </div>
               <div class="user__summary">
                 <strong>${p.userName}</strong>
@@ -140,7 +140,7 @@
           <div class="content__wrapper profile__content">
             <div class="user__profile">
               <div class="avatar-mid">
-                <img src="../../assets/avatar.png" alt="" />
+                <img src="${loginUser.userAvatar eq null ? 'resources/assets/avatar.png' : loginUser.userAvatar  }" alt="" />
               </div>
               <ul>
                 <li><span>팔로워</span> <b>${Followers}</b></li>

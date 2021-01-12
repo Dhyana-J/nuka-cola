@@ -223,7 +223,7 @@
 	    console.log('받은 메세지 : ');
 	    console.log(msg);
 	    console.log(msg.data);
-	    selectMessageList();
+    	selectMessageList();
 	}
 	
 	// 서버와 연결을 끊었을 때
@@ -256,7 +256,7 @@
 			   console.log(response);
 			   
 			   
-			   selectMessageList();
+			  selectMessageList();
 			   
 			   sock.send(sendingMessage);
 			   document.querySelector("#message-to-send").value="";

@@ -270,6 +270,7 @@ public class RecruitController {
 		model.addAttribute("failState",failState);
 		model.addAttribute("appliesCount",appliesCount);
 		model.addAttribute("manageList",manageList);
+		model.addAttribute("rno",rno);
 		return "/recruit/recruitManageDetail";
 	}
 	

@@ -36,7 +36,7 @@
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="resources/assets/avatar.png" alt="logo" />
+            <img src="${ c.compLogo }" alt="logo" />
           </div>
           <div>
             <div class="main__info">
@@ -46,8 +46,8 @@
               <span>${ c.compEmail }</span>
             </div>
             <ul class="people__info">
-              <li>팔로우 <strong>102</strong></li>
-              <li>채용중인글 <strong>3</strong></li>
+              <li>팔로우 <strong>0</strong></li>
+              <li>채용중인글 <strong>0</strong></li>
             </ul>
           </div>
         </div>

@@ -211,7 +211,7 @@
 	                  <span>마감일</span>
 	                </div>
                </label>
-              <button class="btn" type="submit">기업등록</button>
+              <button class="btn" type="submit">채용 등록</button>
               
             </div>
           </div>

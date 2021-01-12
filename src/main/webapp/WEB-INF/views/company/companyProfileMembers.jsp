@@ -33,7 +33,7 @@
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="resources/assets/avatar.png" alt="logo" />
+            <img src="${ c.compLogo }" alt="logo" />
           </div>
           <div>
             <div class="main__info">

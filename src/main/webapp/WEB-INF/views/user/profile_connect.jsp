@@ -85,7 +85,7 @@
                   <div class="content__wrapper connection-list">
                   
                     <div class="section__content__title">
-                        <strong>FOLLOWING</strong>
+                        <strong>Connection</strong>
                     </div><br>
                           <span class="following__much">&nbsp;
                             <strong>${count}</strong> 명의 연결된 사람

@@ -384,6 +384,8 @@ public class ProfileController {
 		
 		model.addAttribute("profileUserNo",userNo);
 		
+		Member pUser = mService.selectUserProfile(userNo);
+		model.addAttribute("pUser",pUser);
 		
 		return "user/profile_following";
 	}
@@ -439,6 +441,8 @@ public class ProfileController {
 		//뷰에서 쓰일 페이지객체 세팅
 		model.addAttribute("frPi",frPi);
 		
+		Member pUser = mService.selectUserProfile(userNo);
+		model.addAttribute("pUser",pUser);
 		
 
 		return "user/profile_follower";
@@ -491,6 +495,9 @@ public class ProfileController {
 		
 		//뷰에서 쓰일 페이지객체 세팅
 		model.addAttribute("cnPi",cnPi);
+		
+		Member pUser = mService.selectUserProfile(userNo);
+		model.addAttribute("pUser",pUser);
 		
 		
 		return "user/profile_connect";
@@ -631,6 +638,9 @@ public class ProfileController {
 			
 			
 			ArrayList<Post> plist = mService.selectLikePost(pi, uno);
+			
+			Member pUser = mService.selectUserProfile(uno);
+			model.addAttribute("pUser",pUser);
 			
 			model.addAttribute("pi", pi);
 			model.addAttribute("plist", plist);

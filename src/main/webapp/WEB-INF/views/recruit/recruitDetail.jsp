@@ -139,7 +139,7 @@
                     </div>
                     <div class="recruit__manager__profile">
                         <div class="manager__img">
-                            <img src="../../assets/avatar.png" alt="프사">
+                            <img src="resources/assets/avatar.png" alt="프사">
                         </div>
                         <ul class="recruit__manager__info">
                             <li>${info.managerName}</li>

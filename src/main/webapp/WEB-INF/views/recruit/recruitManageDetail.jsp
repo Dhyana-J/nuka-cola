@@ -73,7 +73,7 @@
             </div>
             <div class="recruit__applier-list"><!--flex column-->
             <c:forEach var="r" items="${ manageList }">
-              <div class="recruit__applier-info"><!--flex row-->
+              <div class="recruit__applier-info" onClick='location.href="detail.ap?ano=${ rno }"'><!--flex row-->
                 <div class="recruit__applier-profile">
                   <div class="applier-img">
                     <img src="resources/assets/juckerbug.jpg" alt="image">
@@ -133,7 +133,7 @@
     <footer class="common__footer">
       <div class="footer__left-area">
         <div class="footer__logo">
-            <img src="../../assets/footer-logo.PNG" alt="logo">
+            <img src="resources/assets/footer-logo.PNG" alt="logo">
         </div>
         <div class="footer__inc-info">
           <span>상호명 : 누카콜라</span>
@@ -153,4 +153,17 @@
     </footer>
 	
 </body>
+
+<script>
+
+/* 	document.querySelector(".recruit__applier-info").addEventListener("click", ()=> {
+		
+
+		location.href = "detail.ap?ano=" + ${rno};
+	})
+ */
+
+</script>
+
+
 </html>

@@ -37,7 +37,7 @@
       <div class="inner">
         <div class="visual__left">
           <div class="avatar">
-            <img src="../../assets/profile.png" alt="logo" />
+            <img src="resources/assets/profile.png" alt="logo" />
           </div>
           <div>
             <div class="main__info">

@@ -230,18 +230,22 @@ public class SignupController {
 	@RequestMapping(value="kakaologin.me")
 	public String login(@RequestParam("code") String code, HttpSession session, Model model) {
 		  System.out.println("code : " + code);
+		  
+		  //2020.12.15 정찬복 카카로 로그인 토큰값 얻어오기
 	      String access_Token = mService.getAccessToken(code);
 	      
+	      //2020.12.15 정찬복 토큰값으로 아이디용 이메일과 이름 얻어오기
 	      HashMap<String, Object> userInfo = mService.getUserInfo(access_Token);
 	      
 	      System.out.println("login Controller : " +  userInfo);
-
+	      
+	      //2020.12.15 정찬복 유효성 검사, email을 잘 얻어오는지 확인
 	      if (userInfo.get("email") != null) {
 	    	  
 	    	  session.setAttribute("kakoId", userInfo.get("email"));
-	    	  //session.setAttribute("access_Token", access_Token);
-	    	  //session.setAttribute("alertMsg", "카카오 로그인 성공!");
+
 	    	  
+	    	  //2020.12.15 Member 객체에 담아서 DB에 저장할 예정
 	    	  Member m = new Member();
 	    	  
 	    	  m.setEmail((String)userInfo.get("email"));
@@ -250,10 +254,12 @@ public class SignupController {
 	    	  m.setEmailAuth("Y");
 	    	  
 	    	  int result = mService.insertKakaoUser(m);
-	    	  
+	    	  //2020.12.15 잘 insert 되었는지 확인 및 알림
 	    	  if(result>0) {
 	    		  session.setAttribute("alertMsg", "카카오 로그인이 완료되었습니다! 환영합니다 :)");
 	    		  return "redirect:/";
+	    		  
+	    		  
 	    	  }else {
 	    		  
 	    		model.addAttribute("errorMsg","로그인 실패");

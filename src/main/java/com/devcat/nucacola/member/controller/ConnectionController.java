@@ -238,7 +238,7 @@ public class ConnectionController {
 					
 			}
 	
-	
+	//준호 작성
 	@ResponseBody
 	@RequestMapping("addFollowing.conn")
 	public HashMap<String,Integer> addFollowing(int userNo, int followingNo) {
@@ -261,6 +261,7 @@ public class ConnectionController {
 		
 	}
 	
+	//준호 작성
 	@ResponseBody
 	@RequestMapping("cancelFollowing.conn")
 	public HashMap<String,Integer> cancelFollowing(int userNo, int followingNo) {

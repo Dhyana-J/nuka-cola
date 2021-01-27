@@ -302,7 +302,7 @@ public class ProfileController {
 	 */
 	
 	
-	
+	//준호작성
 	//프로필 인맥 More버튼 클릭 시 실행될 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="loadConnection.us",produces="application/json;charset=utf-8")
@@ -352,6 +352,7 @@ public class ProfileController {
 	
 	//----팔로잉 리스트 페이지
 	
+	//준호작성
 	//처음 페이지 로드 시 실행되는 컨트롤러
 	@RequestMapping("initFollowing.us")
 	public String initFollowing(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
@@ -390,6 +391,7 @@ public class ProfileController {
 		return "user/profile_following";
 	}
 	
+	//준호작성
 	//스크롤 내렸을 때 실행되는 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="loadFollowingList.us",produces="application/json;charset=utf-8")
@@ -410,6 +412,7 @@ public class ProfileController {
 	}
 	
 	//----팔로워 리스트 
+	//준호작성
 	@RequestMapping("initFollower.us")
 	public String initFollower(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
 		
@@ -447,7 +450,9 @@ public class ProfileController {
 
 		return "user/profile_follower";
 	}
+	
 	//스크롤 내렸을 때 실행되는 컨트롤러
+	//준호작성
 	@ResponseBody
 	@RequestMapping(value="loadFollowerList.us",produces="application/json;charset=utf-8")
 	public HashMap<String, ArrayList<?extends Object>> loadFollowerList(int userNo,int currentPage ){
@@ -467,6 +472,7 @@ public class ProfileController {
 	}
 	
 	//----연결된 사람 리스트
+	//준호작성
 	@RequestMapping("initConnect.us")
 	public String initConnection(@RequestParam(value="currentPage",defaultValue="1") int currentPage,int userNo, Model model) {
 		
@@ -503,6 +509,7 @@ public class ProfileController {
 		return "user/profile_connect";
 	}
 	//스크롤 내렸을 때 실행되는 컨트롤러
+	//준호작성
 	@ResponseBody
 	@RequestMapping(value="loadConnectionList.us",produces="application/json;charset=utf-8")
 	public HashMap<String, ArrayList<?extends Object>> loadConnectionList(int userNo,int currentPage ){

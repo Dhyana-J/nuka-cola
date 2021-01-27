@@ -154,6 +154,8 @@
             .querySelector(".form__container")
             .classList.toggle("form_move");
         });
+      
+      /*--- 이하 준호 작성 ---*/
       // 비밀번호확인 체크
       document
         .querySelector("#password-check")

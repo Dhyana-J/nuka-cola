@@ -275,6 +275,7 @@ public class RecruitController {
 	}
 	
 
+	//준호 작성
 	//------------- 채용검색 페이지 -------------
 	//맨 처음 보이는 채용검색 화면 
 	@RequestMapping("list.re")
@@ -370,8 +371,8 @@ public class RecruitController {
 		return ts;
 	}
 
-	
-	//스크롤 내렸을 때 실행되는 컨트롤러
+	//준호 작성
+	//채용검색 -> 검색 돋보기버튼 누르거나 스크롤 내렸을 때 실행되는 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="loadMoreList.re",produces="application/json; charset=utf-8")
 	public HashMap<String, Object> loadSearchedList(@RequestParam(value="currentPage",defaultValue="1") int currentPage,String rawKeywordList){
@@ -381,7 +382,7 @@ public class RecruitController {
 		
 		HashMap<String,Object> container = new HashMap<>(); //뷰에 최종적으로 넘겨줄 객체(pi, keywordList 담김)
 		
-		HashMap<String, ArrayList<String>> keywordList = null;
+		HashMap<String, ArrayList<String>> keywordList = null; // 넘어온 rawKeywordList 담을 HashMap
 		
 		
 		if(rawKeywordList!=null) { //넘어온 키워드값이 있으면 Map객체로 변환해준다.
@@ -622,6 +623,7 @@ public class RecruitController {
 	}
 	
 	
+	//준호 작성
 	/*---------채용공고 북마크 추가------------*/
 	@ResponseBody
 	@RequestMapping(value="addBookMark.re",produces="application/json; charset=utf-8")
@@ -634,6 +636,7 @@ public class RecruitController {
 		System.out.println(result);
 		return result;
 	}
+	//준호 작성
 	@ResponseBody
 	@RequestMapping(value="deleteBookMark.re",produces="application/json; charset=utf-8")
 	public int deleteBookMark(int userNo, int recruitNo) {

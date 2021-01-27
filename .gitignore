@@ -102,3 +102,4 @@ target/
 .classpath
 .settings
 Servers/
+src/main/webapp/resources/js/.vs/

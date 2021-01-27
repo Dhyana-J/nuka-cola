@@ -302,7 +302,7 @@ let addList = (list,area)=>{
     });
 };
 
-//스크롤 바닥까지 내리면 리스트 추가 로드(스크롤 바닥이면 추가로드 안함)
+//스크롤 바닥까지 내리면 리스트 추가 로드(더이상 없으면 추가로드 안함)
 window.addEventListener('scroll',()=>{
     if(window.pageYOffset + document.documentElement.clientHeight >
             document.documentElement.scrollHeight - 1 && stopLoad!=true){

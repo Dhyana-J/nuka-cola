@@ -46,6 +46,7 @@ public class ChatRoomController {
 		
 	}
 	
+	//준호작성
 	@ResponseBody
 	@RequestMapping(value = "searchMemberList.ch", produces="application/json; charset=utf-8")
 	public ArrayList<Member> searchMemberList(String keyword) {
@@ -55,6 +56,7 @@ public class ChatRoomController {
 		return searchedList;
 	}
 	
+	//준호작성
 	@ResponseBody
 	@RequestMapping(value = "selectMsgList.ch", produces="application/json; charset=utf-8")
 	public ArrayList<messages> selectMsgList(int myNo, int mateNo) {
@@ -66,6 +68,7 @@ public class ChatRoomController {
 		return mService.selectMsgList(noList);
 	}
 	
+	//준호작성
 	@ResponseBody
 	@RequestMapping(value = "sendMsg.ch", produces="application/json; charset=utf-8")
 	public HashMap<String,String> sendMsg(@RequestBody Map<String,Object> msgInfo) {
@@ -111,6 +114,7 @@ public class ChatRoomController {
 		return resultMap;
 	}
 	
+	//준호작성
 	@ResponseBody
 	@RequestMapping(value = "selectLatestMsg.ch", produces="application/json; charset=utf-8")
 	public ArrayList<messages> selectLatestMsg(int myNo, int mateNo) {

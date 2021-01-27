@@ -44,18 +44,15 @@ public class SignupController {
 		return "user/login";
 	}
 	
+	// 준호 작성
 	@RequestMapping("login.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv, HttpServletRequest request) {
 		
 		Member loginUser = mService.loginMember(m);
 			
-		//System.out.println(bcryptPasswordEncoder.encode(m.getUserPwd()));
-		
-		
-		
 		if (loginUser != null 
-								 && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd()) &&
-								 loginUser.getEmailAuth().equals("Y")
+								 && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd()) 
+								 &&loginUser.getEmailAuth().equals("Y")
 								 ) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/list.pos");
@@ -97,6 +94,7 @@ public class SignupController {
 	}
 	
 	
+	// 준호 작성
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model, HttpSession session, HttpServletRequest request) {
 		
@@ -127,6 +125,7 @@ public class SignupController {
 		
 	}
 	
+	//준호 작성
 	@ResponseBody
 	@RequestMapping("checkEmail.me")
 	public String checkEmail(String email, HttpServletResponse response) {
@@ -136,6 +135,7 @@ public class SignupController {
 	}
 	
 	
+	//준호 작성
 	//인증메일 받고 인증 링크 누르면 실행되는 메소드 
 	@RequestMapping("confirmEmail.me")
 	public String confirmEmail(Member m,Model model, HttpSession session) {
@@ -170,22 +170,14 @@ public class SignupController {
 		
 		//유저경력을 가져오는  select문
 		ArrayList<Career> careerList = mService.selectCareerList(userNo);
-		//기업식별자를 알아오는 select문 
-		//Company compNo = mService.selectComNo(userNo);
-		
-		
-		// 팔로잉 수 알아오기
-		//int followingCount = mService.countFollowing(userNo);
-		// 팔로워 수 알아오기
-		//int followerCount = mService.countFollower(userNo);
-		// 연결 수 알아오기
-		//int connectionCount = mService.countConnection(userNo);
 		
 		model.addAttribute("pUser",pUser);
 		model.addAttribute("skillList",skillList);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("careerList",careerList);
 		
+		
+		/* --- 이하 준호 작성 --- */
 		//-----------------인맥정보 불러오기-------------
 		//팔로워, 팔로잉, 연결 리스트들의 count를 가져온다.
 		//뷰에서 쓰일 팔로워,팔로잉,연결에 대한 페이지인포객체 세팅

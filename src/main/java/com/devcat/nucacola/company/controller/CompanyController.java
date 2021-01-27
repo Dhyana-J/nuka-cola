@@ -361,6 +361,7 @@ public class CompanyController {
 		
 	}
 	
+	//준호작성
 	//기업 프로필 - 구성원 화면
 	@RequestMapping("profileMember.co")
 	public String profileMember(int cno, int currentPage, Model model, HttpSession session){
@@ -405,6 +406,7 @@ public class CompanyController {
 		
 	}
 	
+	//준호작성
 	//기업 구성원 more버튼 클릭 시 실행될 컨트롤러
 	@ResponseBody
 	@RequestMapping("loadMoreMember.co")
@@ -427,7 +429,8 @@ public class CompanyController {
 		
 	}
 	
-	//기업 구성원 모달 이메일검색 시 실행될 컨트롤러
+	//준호작성
+	//기업 구성원 추가 모달 이메일검색 시 실행될 컨트롤러
 	@ResponseBody
 	@RequestMapping("searchMemberList.co")
 	public ArrayList<Member> searchMemberList(String email){
@@ -438,7 +441,7 @@ public class CompanyController {
 		
 	}
 	
-	
+	//준호작성
 	//기업구성원 추가 시 실행될 컨트롤러
 	@RequestMapping("addMember.co")
 	public String addMember(int[] uno, int cno, String position, HttpSession session, Model model) {
